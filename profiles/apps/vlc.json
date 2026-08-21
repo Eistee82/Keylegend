@@ -1,0 +1,83 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "vlc",
+  "name": "VLC media player",
+  "kind": "app",
+
+  "match": {
+    "processes": ["vlc"],
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_Space": { "colour": "#22CC66", "label": "Play / pause" },
+    "Keyboard_S": { "colour": "#22CC66", "label": "Stop" },
+
+    "Keyboard_N": { "colour": "#00C8FF", "label": "Next item" },
+    "Keyboard_P": { "colour": "#00C8FF", "label": "Previous item" },
+    "Keyboard_E": { "colour": "#00C8FF", "label": "Next frame" },
+    "Keyboard_ArrowLeft": { "colour": "#00C8FF", "label": "Jump backward" },
+    "Keyboard_ArrowRight": { "colour": "#00C8FF", "label": "Jump forward" },
+
+    "Keyboard_M": { "colour": "#FF8C00", "label": "Mute" },
+    "Keyboard_ArrowUp": { "colour": "#FF8C00", "label": "Volume up" },
+    "Keyboard_ArrowDown": { "colour": "#FF8C00", "label": "Volume down" },
+
+    "Keyboard_F": { "colour": "#B4B4B4", "label": "Toggle fullscreen" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Leave fullscreen" },
+    "Keyboard_T": { "colour": "#B4B4B4", "label": "Show elapsed and remaining time" }
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "o": { "group": "File", "label": "Open file" },
+        "f": { "group": "File", "label": "Open folder" },
+        "d": { "group": "File", "label": "Open disc" },
+        "n": { "group": "File", "label": "Open network stream" },
+        "c": { "group": "File", "label": "Open capture device" },
+        "v": { "group": "File", "label": "Open location from clipboard" },
+        "y": { "group": "File", "label": "Save playlist to file" },
+        "r": { "group": "File", "label": "Convert / save" },
+        "s": { "group": "File", "label": "Stream" },
+        "q": { "group": "File", "label": "Quit" },
+        "l": { "group": "View", "label": "Toggle playlist" },
+        "h": { "group": "View", "label": "Toggle minimal interface" },
+        "e": { "group": "Tools", "label": "Effects and filters" },
+        "i": { "group": "Tools", "label": "Media information" },
+        "j": { "group": "Tools", "label": "Codec information" },
+        "m": { "group": "Tools", "label": "Messages" },
+        "t": { "group": "Navigation", "label": "Go to specific time" },
+        "b": { "group": "Navigation", "label": "Bookmarks" },
+        "p": { "group": "System", "label": "Preferences" }
+      },
+      "keys": {
+        "Keyboard_ArrowLeft": { "group": "Navigation", "label": "Jump backward one minute" },
+        "Keyboard_ArrowRight": { "group": "Navigation", "label": "Jump forward one minute" },
+        "Keyboard_ArrowUp": { "group": "Tools", "label": "Volume up" },
+        "Keyboard_ArrowDown": { "group": "Tools", "label": "Volume down" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "o": { "group": "File", "label": "Advanced open file" }
+      }
+    },
+
+    "Ctrl+Alt": {
+      "keys": {
+        "Keyboard_ArrowLeft": { "group": "Navigation", "label": "Jump backward five minutes" },
+        "Keyboard_ArrowRight": { "group": "Navigation", "label": "Jump forward five minutes" }
+      }
+    },
+
+    "Alt": {
+      "keys": {
+        "Keyboard_ArrowLeft": { "group": "Navigation", "label": "Jump backward ten seconds" },
+        "Keyboard_ArrowRight": { "group": "Navigation", "label": "Jump forward ten seconds" }
+      }
+    }
+  }
+}

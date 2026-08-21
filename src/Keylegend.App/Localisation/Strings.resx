@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    Interface texts, English. This is the fallback: anything missing from a translation falls
+    back to the entry here, so a half-finished translation costs the untranslated lines rather
+    than leaving blank labels.
+
+    Key naming: <Tab or area><What it is>, e.g. SettingsIdleHeading, ProfilesAddButton.
+    Keys are referenced from XAML as {loc:Text SettingsIdleHeading} and from code as
+    Texts.Get("SettingsIdleHeading"), so renaming one means changing both.
+  -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- Tabs -->
+  <data name="TabKeyboard" xml:space="preserve">
+    <value>Keyboard</value>
+  </data>
+  <data name="TabColours" xml:space="preserve">
+    <value>Colours</value>
+  </data>
+  <data name="TabProfiles" xml:space="preserve">
+    <value>Profiles</value>
+  </data>
+  <data name="TabShortcuts" xml:space="preserve">
+    <value>Shortcuts</value>
+  </data>
+  <data name="TabSettings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+
+  <!-- Header and status line -->
+  <data name="StatusDeviceVerified" xml:space="preserve">
+    <value>{0} · {1} keys · mapping verified on hardware</value>
+  </data>
+  <data name="StatusDeviceNotVerified" xml:space="preserve">
+    <value>{0} · {1} keys · mapping not yet verified</value>
+  </data>
+  <data name="StatusProfileLabel" xml:space="preserve">
+    <value>profile: {0}</value>
+  </data>
+  <data name="StatusPainting" xml:space="preserve">
+    <value>painting</value>
+  </data>
+  <data name="StatusIdle" xml:space="preserve">
+    <value>idle · Chroma Studio</value>
+  </data>
+  <data name="StatusPaused" xml:space="preserve">
+    <value>paused</value>
+  </data>
+  <data name="StatusActiveTooltip" xml:space="preserve">
+    <value>Keylegend is driving the keyboard lighting.</value>
+  </data>
+  <data name="StatusIdleTooltip" xml:space="preserve">
+    <value>Released — your Chroma Studio effect is running. Press a key to take over.</value>
+  </data>
+  <data name="StatusPausedTooltip" xml:space="preserve">
+    <value>Paused. The lighting stays with Chroma Studio until you resume.</value>
+  </data>
+  <data name="StatusPauseButton" xml:space="preserve">
+    <value>Pause</value>
+  </data>
+  <data name="StatusResumeButton" xml:space="preserve">
+    <value>Resume</value>
+  </data>
+  <data name="StatusFollowing" xml:space="preserve">
+    <value>Following the keyboard.</value>
+  </data>
+  <data name="StatusShowingLayer" xml:space="preserve">
+    <value>Showing a chosen layer — press “Follow my keyboard” to return.</value>
+  </data>
+  <data name="StatusColoursRestored" xml:space="preserve">
+    <value>Default colours restored.</value>
+  </data>
+  <data name="StatusProfileDeleted" xml:space="preserve">
+    <value>Deleted “{0}”.</value>
+  </data>
+  <data name="StatusProfileShown" xml:space="preserve">
+    <value>“{0}” is in use again.</value>
+  </data>
+  <data name="StatusProfileHidden" xml:space="preserve">
+    <value>“{0}” is hidden. Select it and press Show to bring it back.</value>
+  </data>
+  <data name="StatusSectionReset" xml:space="preserve">
+    <value>{0} of “{1}” follows the shipped profile again.</value>
+  </data>
+  <data name="StatusProfileReset" xml:space="preserve">
+    <value>“{0}” follows the shipped profile again.</value>
+  </data>
+  <data name="StatusSelectProfileFirst" xml:space="preserve">
+    <value>Select or add a profile first.</value>
+  </data>
+  <data name="StatusProfileLayerCleared" xml:space="preserve">
+    <value>“{0}” no longer replaces the {1} layer.</value>
+  </data>
+  <data name="StatusLayerCleared" xml:space="preserve">
+    <value>Cleared the {0} layer.</value>
+  </data>
+  <data name="StatusShortcutsRestored" xml:space="preserve">
+    <value>Default shortcuts restored.</value>
+  </data>
+  <data name="StatusIdleTimeoutSet" xml:space="preserve">
+    <value>Idle timeout set to {0} s.</value>
+  </data>
+  <data name="StatusHandBackOn" xml:space="preserve">
+    <value>The lighting is handed back after {0} s of quiet.</value>
+  </data>
+  <data name="StatusHandBackOff" xml:space="preserve">
+    <value>The lighting is kept until you pause or close Keylegend.</value>
+  </data>
+  <data name="StatusIdleTimeoutInvalid" xml:space="preserve">
+    <value>The idle timeout must be a positive number of seconds.</value>
+  </data>
+  <data name="StatusAutostartUnknownPath" xml:space="preserve">
+    <value>The application path could not be determined; autostart unchanged.</value>
+  </data>
+  <data name="StatusAutostartOn" xml:space="preserve">
+    <value>Keylegend will start with Windows, minimised to the notification area.</value>
+  </data>
+  <data name="StatusAutostartOff" xml:space="preserve">
+    <value>Keylegend will no longer start with Windows.</value>
+  </data>
+  <data name="StatusSaved" xml:space="preserve">
+    <value>Saved to {0}</value>
+  </data>
+
+  <!--
+    Keyboard tab. The modifier names on the layer buttons are deliberately absent: the same
+    names are produced by ModifierCombination.Format for the layer lists, which sits outside
+    this file, and half a translation reads worse than none.
+  -->
+  <data name="KeyboardLayerHeading" xml:space="preserve">
+    <value>Show a layer</value>
+  </data>
+  <data name="KeyboardLayerNote" xml:space="preserve">
+    <value>Engage a modifier here to inspect its layer without holding the key down. Nothing is sent to your applications.</value>
+  </data>
+  <data name="KeyboardFollowButton" xml:space="preserve">
+    <value>Follow my keyboard</value>
+  </data>
+  <data name="KeyboardNoProfile" xml:space="preserve">
+    <value>No device profile loaded</value>
+  </data>
+
+  <!-- Colours tab -->
+  <data name="ColoursCategoriesHeading" xml:space="preserve">
+    <value>Key categories</value>
+  </data>
+  <data name="ColoursCategoriesNote" xml:space="preserve">
+    <value>What a key types decides its colour. Click a swatch to change it — the keyboard follows immediately.</value>
+  </data>
+  <data name="ColoursCategoryDigit" xml:space="preserve">
+    <value>Digits</value>
+  </data>
+  <data name="ColoursCategoryLowercase" xml:space="preserve">
+    <value>Lowercase letters</value>
+  </data>
+  <data name="ColoursCategoryUppercase" xml:space="preserve">
+    <value>Uppercase letters</value>
+  </data>
+  <data name="ColoursCategorySymbol" xml:space="preserve">
+    <value>Symbols</value>
+  </data>
+  <data name="ColoursCategoryControl" xml:space="preserve">
+    <value>Control keys</value>
+  </data>
+  <data name="ColoursCategoryDeadKey" xml:space="preserve">
+    <value>Dead keys</value>
+  </data>
+  <data name="ColoursCategoryFunctionKey" xml:space="preserve">
+    <value>Function keys</value>
+  </data>
+  <data name="ColoursExampleDigit" xml:space="preserve">
+    <value>1 7 · number pad with Num Lock on</value>
+  </data>
+  <data name="ColoursExampleLowercase" xml:space="preserve">
+    <value>a ö</value>
+  </data>
+  <data name="ColoursExampleUppercase" xml:space="preserve">
+    <value>A Ö · with Shift or Caps Lock</value>
+  </data>
+  <data name="ColoursExampleSymbol" xml:space="preserve">
+    <value>+ # € |</value>
+  </data>
+  <data name="ColoursExampleControl" xml:space="preserve">
+    <value>Esc Tab ⏎ arrows</value>
+  </data>
+  <data name="ColoursExampleDeadKey" xml:space="preserve">
+    <value>^ ´ ` · need a second keystroke</value>
+  </data>
+  <data name="ColoursExampleFunctionKey" xml:space="preserve">
+    <value>F1 – F12</value>
+  </data>
+  <data name="ColoursLocksHeading" xml:space="preserve">
+    <value>Lock keys</value>
+  </data>
+  <data name="ColoursLocksNote" xml:space="preserve">
+    <value>Two colours each: on and off. These always win over everything else, so the state stays readable.</value>
+  </data>
+  <data name="ColoursLockNumOn" xml:space="preserve">
+    <value>Num Lock on</value>
+  </data>
+  <data name="ColoursLockNumOff" xml:space="preserve">
+    <value>Num Lock off</value>
+  </data>
+  <data name="ColoursLockCapsOn" xml:space="preserve">
+    <value>Caps Lock on</value>
+  </data>
+  <data name="ColoursLockCapsOff" xml:space="preserve">
+    <value>Caps Lock off</value>
+  </data>
+  <data name="ColoursLockScrollOn" xml:space="preserve">
+    <value>Scroll Lock on</value>
+  </data>
+  <data name="ColoursLockScrollOff" xml:space="preserve">
+    <value>Scroll Lock off</value>
+  </data>
+  <data name="ColoursGroupsHeading" xml:space="preserve">
+    <value>Shortcut groups</value>
+  </data>
+  <data name="ColoursGroupsNote" xml:space="preserve">
+    <value>Shown while Windows, Ctrl or Alt is held. Related commands share a colour so they read as a block.</value>
+  </data>
+  <data name="ColoursResetButton" xml:space="preserve">
+    <value>Restore default colours</value>
+  </data>
+
+  <!-- Profiles tab -->
+  <data name="ProfilesHeading" xml:space="preserve">
+    <value>Profiles</value>
+  </data>
+  <data name="ProfilesSearchHint" xml:space="preserve">
+    <value>Search name or program</value>
+  </data>
+  <data name="ProfilesAddButton" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="ProfilesHideButton" xml:space="preserve">
+    <value>Hide</value>
+  </data>
+  <data name="ProfilesShowButton" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="ProfilesDeleteButton" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="ProfilesHideTooltip" xml:space="preserve">
+    <value>Stop using this shipped profile. It stays in the list and can be shown again.</value>
+  </data>
+  <data name="ProfilesShowTooltip" xml:space="preserve">
+    <value>Put this shipped profile back into use.</value>
+  </data>
+  <data name="ProfilesDeleteTooltip" xml:space="preserve">
+    <value>Delete this profile. It is yours, so there is nothing to fall back to.</value>
+  </data>
+  <data name="ProfilesGroupApps" xml:space="preserve">
+    <value>Applications</value>
+  </data>
+  <data name="ProfilesGroupGames" xml:space="preserve">
+    <value>Games</value>
+  </data>
+  <data name="ProfilesOriginUser" xml:space="preserve">
+    <value>your own profile</value>
+  </data>
+  <data name="ProfilesOriginShipped" xml:space="preserve">
+    <value>shipped</value>
+  </data>
+  <data name="ProfilesOriginShippedEdited" xml:space="preserve">
+    <value>shipped · edited</value>
+  </data>
+  <data name="ProfilesOriginHidden" xml:space="preserve">
+    <value>{0} · hidden</value>
+  </data>
+  <data name="ProfilesNoSelection" xml:space="preserve">
+    <value>No profile selected</value>
+  </data>
+  <data name="ProfilesNewName" xml:space="preserve">
+    <value>New profile</value>
+  </data>
+  <data name="ProfilesResetAllButton" xml:space="preserve">
+    <value>Reset whole profile</value>
+  </data>
+  <data name="ProfilesResetAllTooltip" xml:space="preserve">
+    <value>Give every section, and the name, back to the shipped version.</value>
+  </data>
+  <data name="ProfilesResetSectionTooltip" xml:space="preserve">
+    <value>Give this section back to the shipped version.</value>
+  </data>
+  <data name="ProfilesSectionMatch" xml:space="preserve">
+    <value>Match</value>
+  </data>
+  <data name="ProfilesSectionMatchTooltip" xml:space="preserve">
+    <value>Name, programs, the game switch and the priority.</value>
+  </data>
+  <data name="ProfilesSectionHighlights" xml:space="preserve">
+    <value>Highlights</value>
+  </data>
+  <data name="ProfilesSectionHighlightsTooltip" xml:space="preserve">
+    <value>The keys pinned to a fixed colour.</value>
+  </data>
+  <data name="ProfilesSectionShortcuts" xml:space="preserve">
+    <value>Shortcuts</value>
+  </data>
+  <data name="ProfilesSectionShortcutsTooltip" xml:space="preserve">
+    <value>The modifier layers this profile replaces.</value>
+  </data>
+  <data name="ProfilesSectionYours" xml:space="preserve">
+    <value>yours</value>
+  </data>
+  <data name="ProfilesSectionEdited" xml:space="preserve">
+    <value>edited by you</value>
+  </data>
+  <data name="ProfilesSectionShipped" xml:space="preserve">
+    <value>shipped</value>
+  </data>
+  <data name="ProfilesNameLabel" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="ProfilesPriorityLabel" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="ProfilesPriorityTooltip" xml:space="preserve">
+    <value>Higher wins where several profiles match. Only breaks ties — naming the program already outranks the general game profile.</value>
+  </data>
+  <data name="ProfilesProgramsLabel" xml:space="preserve">
+    <value>Programs</value>
+  </data>
+  <data name="ProfilesProgramsTooltip" xml:space="preserve">
+    <value>Executable names without .exe, separated by commas — for example: notepad, devenv</value>
+  </data>
+  <data name="ProfilesGamesCheckbox" xml:space="preserve">
+    <value>Apply to any detected game</value>
+  </data>
+  <data name="ProfilesGamesTooltip" xml:space="preserve">
+    <value>Detected via Windows' own full-screen signal plus a check for windows covering a whole monitor, so it also catches borderless-windowed games.</value>
+  </data>
+  <data name="ProfilesHighlightModeButton" xml:space="preserve">
+    <value>Highlighted keys</value>
+  </data>
+  <data name="ProfilesShortcutModeButton" xml:space="preserve">
+    <value>Shortcuts</value>
+  </data>
+  <data name="ProfilesHighlightNote" xml:space="preserve">
+    <value>Click a key to give it a fixed colour, right-click to clear it. Highlights outrank the typing colours, but never the lock keys or a modifier layer.</value>
+  </data>
+  <data name="ProfilesHighlightColourLabel" xml:space="preserve">
+    <value>Colour for clicked keys</value>
+  </data>
+  <data name="ProfilesHighlightChooseButton" xml:space="preserve">
+    <value>Choose…</value>
+  </data>
+  <data name="ProfilesClearHighlightsButton" xml:space="preserve">
+    <value>Clear all highlights</value>
+  </data>
+  <data name="ProfilesShortcutNote" xml:space="preserve">
+    <value>Pick a layer and a group, then click keys to assign them; right-click removes one. A layer this profile defines replaces the general one while the program is in front.</value>
+  </data>
+  <data name="ProfilesClearLayerButton" xml:space="preserve">
+    <value>Clear this layer</value>
+  </data>
+  <data name="ProfilesHighlightCountOne" xml:space="preserve">
+    <value>1 key highlighted</value>
+  </data>
+  <data name="ProfilesHighlightCount" xml:space="preserve">
+    <value>{0} keys highlighted</value>
+  </data>
+  <data name="ProfilesLayerUndefined" xml:space="preserve">
+    <value>{0}: not defined here, so the general layer applies. Assigning a key makes this profile replace it.</value>
+  </data>
+  <data name="ProfilesLayerCountOne" xml:space="preserve">
+    <value>{0}: 1 key, replacing the general layer.</value>
+  </data>
+  <data name="ProfilesLayerCount" xml:space="preserve">
+    <value>{0}: {1} keys, replacing the general layer.</value>
+  </data>
+
+  <!-- Shortcuts tab -->
+  <data name="ShortcutsLayerHeading" xml:space="preserve">
+    <value>Layer</value>
+  </data>
+  <data name="ShortcutsLayerNote" xml:space="preserve">
+    <value>Which modifier combination you are editing.</value>
+  </data>
+  <data name="ShortcutsAssignHeading" xml:space="preserve">
+    <value>Assign keys to a group</value>
+  </data>
+  <data name="ShortcutsAssignNote" xml:space="preserve">
+    <value>Pick a group, then click keys below to add them. Right-click removes a key. Related commands share a colour so a layer reads as blocks rather than as scattered lights.</value>
+  </data>
+  <data name="ShortcutsClearLayerButton" xml:space="preserve">
+    <value>Clear this layer</value>
+  </data>
+  <data name="ShortcutsResetButton" xml:space="preserve">
+    <value>Restore default shortcuts</value>
+  </data>
+  <data name="ShortcutsCountOne" xml:space="preserve">
+    <value>1 key assigned on this layer</value>
+  </data>
+  <data name="ShortcutsCount" xml:space="preserve">
+    <value>{0} keys assigned on this layer</value>
+  </data>
+
+  <!-- Settings tab -->
+  <data name="SettingsIdleHeading" xml:space="preserve">
+    <value>Handing the lighting back</value>
+  </data>
+  <data name="SettingsIdleNote" xml:space="preserve">
+    <value>After this long without typing, Keylegend releases the keyboard so your Chroma Studio effect resumes. Reclaiming it afterwards takes one to two seconds — a short timeout makes that a frequent interruption, which is why sixty seconds is the default rather than ten.</value>
+  </data>
+  <data name="SettingsIdleSeconds" xml:space="preserve">
+    <value>seconds</value>
+  </data>
+  <data name="SettingsHandBackCheckbox" xml:space="preserve">
+    <value>Hand the lighting back when idle</value>
+  </data>
+  <data name="SettingsHandBackNote" xml:space="preserve">
+    <value>Switched off, Keylegend keeps the keyboard until you pause it or close it, and your Chroma Studio effect stays off in the meantime.</value>
+  </data>
+  <data name="SettingsBrightnessHeading" xml:space="preserve">
+    <value>Brightness</value>
+  </data>
+  <data name="SettingsBehaviourHeading" xml:space="preserve">
+    <value>Behaviour</value>
+  </data>
+  <data name="SettingsProfilesCheckbox" xml:space="preserve">
+    <value>Use application profiles</value>
+  </data>
+  <data name="SettingsAutostartCheckbox" xml:space="preserve">
+    <value>Start with Windows (minimised to the notification area)</value>
+  </data>
+  <data name="SettingsFileHeading" xml:space="preserve">
+    <value>Settings file</value>
+  </data>
+  <data name="SettingsSaveButton" xml:space="preserve">
+    <value>Save now</value>
+  </data>
+  <data name="SettingsOpenFolderButton" xml:space="preserve">
+    <value>Open folder</value>
+  </data>
+
+  <!-- Language -->
+  <data name="SettingsLanguageHeading" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="SettingsLanguageAutomatic" xml:space="preserve">
+    <value>Follow Windows</value>
+  </data>
+  <data name="SettingsLanguageNote" xml:space="preserve">
+    <value>Key legends are not affected: they come from the device profile, so they always match the keyboard in front of you rather than the language of these menus.</value>
+  </data>
+
+  <!-- Notification area -->
+  <data name="TrayShow" xml:space="preserve">
+    <value>Show Keylegend</value>
+  </data>
+  <data name="TrayPause" xml:space="preserve">
+    <value>Pause</value>
+  </data>
+  <data name="TrayResume" xml:space="preserve">
+    <value>Resume</value>
+  </data>
+  <data name="TrayQuit" xml:space="preserve">
+    <value>Quit</value>
+  </data>
+  <data name="TrayTooltipActive" xml:space="preserve">
+    <value>Keylegend — painting</value>
+  </data>
+  <data name="TrayTooltipIdle" xml:space="preserve">
+    <value>Keylegend — idle</value>
+  </data>
+  <data name="TrayTooltipPaused" xml:space="preserve">
+    <value>Keylegend — paused</value>
+  </data>
+  <data name="TrayBalloonText" xml:space="preserve">
+    <value>Still running in the notification area.</value>
+  </data>
+
+  <!-- Shared by more than one area -->
+  <data name="CommonReset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+
+  <!-- Donation -->
+  <data name="DonatePrompt" xml:space="preserve">
+    <value>If you enjoy Keylegend, I would be glad about a small donation.</value>
+  </data>
+  <data name="DonateKofiTooltip" xml:space="preserve">
+    <value>Opens ko-fi.com/eistee in your browser</value>
+  </data>
+  <data name="DonateTooltip" xml:space="preserve">
+    <value>Opens paypal.me/eistee in your browser</value>
+  </data>
+  <data name="DonateBrowserFailed" xml:space="preserve">
+    <value>Could not open a browser. The address is {0}</value>
+  </data>
+</root>

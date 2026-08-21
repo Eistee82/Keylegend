@@ -1,0 +1,61 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "factorio",
+  "name": "Factorio",
+  "kind": "game",
+
+  "match": {
+    "processes": ["factorio"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Up" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Left" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Down" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Right" },
+
+    "Keyboard_F": { "colour": "#FF8C00", "label": "Pick up items" },
+    "Keyboard_Z": { "colour": "#FF8C00", "label": "Drop item" },
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Shoot nearest enemy" },
+    "Keyboard_C": { "colour": "#FF8C00", "label": "Next weapon" },
+
+    "Keyboard_R": { "colour": "#64FF96", "label": "Rotate building" },
+    "Keyboard_Q": { "colour": "#64FF96", "label": "Pick building into cursor" },
+    "Keyboard_H": { "colour": "#64FF96", "label": "Flip blueprint horizontally" },
+    "Keyboard_V": { "colour": "#64FF96", "label": "Flip blueprint vertically" },
+
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Quickbar slot 1" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Quickbar slot 2" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Quickbar slot 3" },
+    "Keyboard_4": { "colour": "#00C8FF", "label": "Quickbar slot 4" },
+    "Keyboard_5": { "colour": "#00C8FF", "label": "Quickbar slot 5" },
+    "Keyboard_6": { "colour": "#00C8FF", "label": "Quickbar slot 6" },
+    "Keyboard_7": { "colour": "#00C8FF", "label": "Quickbar slot 7" },
+    "Keyboard_8": { "colour": "#00C8FF", "label": "Quickbar slot 8" },
+    "Keyboard_9": { "colour": "#00C8FF", "label": "Quickbar slot 9" },
+    "Keyboard_0": { "colour": "#00C8FF", "label": "Quickbar slot 10" },
+
+    "Keyboard_E": { "colour": "#B4B4B4", "label": "Open inventory" },
+    "Keyboard_T": { "colour": "#B4B4B4", "label": "Technology screen" },
+    "Keyboard_P": { "colour": "#B4B4B4", "label": "Production statistics" },
+    "Keyboard_L": { "colour": "#B4B4B4", "label": "Logistic networks" },
+    "Keyboard_Tab": { "colour": "#B4B4B4", "label": "Toggle world map" },
+    "Keyboard_M": { "colour": "#B4B4B4", "label": "Toggle world map" },
+    "Keyboard_LeftAlt": { "colour": "#B4B4B4", "label": "Show item icons on machines" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Menu" }
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "z": { "group": "Edit", "label": "Undo" },
+        "c": { "group": "Edit", "label": "Copy selection to blueprint" },
+        "x": { "group": "Edit", "label": "Cut selection to blueprint" },
+        "v": { "group": "Edit", "label": "Paste blueprint" }
+      }
+    }
+  }
+}

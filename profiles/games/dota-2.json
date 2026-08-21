@@ -1,0 +1,45 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "dota-2",
+  "name": "Dota 2",
+  "kind": "game",
+
+  "match": {
+    "processes": ["dota2"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_Q": { "colour": "#FF0000", "label": "Ability 1" },
+    "Keyboard_W": { "colour": "#FF0000", "label": "Ability 2" },
+    "Keyboard_E": { "colour": "#FF0000", "label": "Ability 3" },
+    "Keyboard_R": { "colour": "#FF0000", "label": "Ultimate ability" },
+    "Keyboard_D": { "colour": "#C864FF", "label": "Ability 5" },
+    "Keyboard_F": { "colour": "#C864FF", "label": "Ability 6" },
+
+    "Keyboard_X": { "colour": "#00C8FF", "label": "Item slot 2" },
+    "Keyboard_C": { "colour": "#00C8FF", "label": "Item slot 3" },
+    "Keyboard_V": { "colour": "#00C8FF", "label": "Item slot 4" },
+    "Keyboard_B": { "colour": "#00C8FF", "label": "Item slot 5" },
+    "Keyboard_N": { "colour": "#00C8FF", "label": "Item slot 6" },
+
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Control group 1" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Control group 2" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Control group 3" },
+    "Keyboard_4": { "colour": "#00C8FF", "label": "Control group 4" },
+    "Keyboard_5": { "colour": "#00C8FF", "label": "Control group 5" },
+    "Keyboard_6": { "colour": "#00C8FF", "label": "Control group 6" },
+    "Keyboard_7": { "colour": "#00C8FF", "label": "Control group 7" },
+    "Keyboard_8": { "colour": "#00C8FF", "label": "Control group 8" },
+    "Keyboard_9": { "colour": "#00C8FF", "label": "Control group 9" },
+
+    "Keyboard_A": { "colour": "#FF8C00", "label": "Attack" },
+    "Keyboard_S": { "colour": "#FF8C00", "label": "Stop" },
+    "Keyboard_H": { "colour": "#FF8C00", "label": "Hold position" },
+
+    "Keyboard_GraveAccentAndTilde": { "colour": "#B4B4B4", "label": "Scoreboard" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Menu" }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "mpc-hc",
+  "name": "Media Player Classic",
+  "kind": "app",
+
+  "match": {
+    "processes": ["mpc-hc64", "mpc-hc"],
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_Space": { "colour": "#22CC66", "label": "Play / pause" },
+
+    "Keyboard_ArrowLeft": { "colour": "#00C8FF", "label": "Jump backward" },
+    "Keyboard_ArrowRight": { "colour": "#00C8FF", "label": "Jump forward" },
+
+    "Keyboard_ArrowUp": { "colour": "#FF8C00", "label": "Volume up" },
+    "Keyboard_ArrowDown": { "colour": "#FF8C00", "label": "Volume down" },
+
+    "Keyboard_S": { "colour": "#C864FF", "label": "Next subtitle track" },
+    "Keyboard_W": { "colour": "#C864FF", "label": "Toggle subtitles" },
+    "Keyboard_D": { "colour": "#C864FF", "label": "Download subtitles" },
+
+    "Keyboard_1": { "colour": "#B4B4B4", "label": "Minimal view" },
+    "Keyboard_2": { "colour": "#B4B4B4", "label": "Compact view" },
+    "Keyboard_3": { "colour": "#B4B4B4", "label": "Normal view" }
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "o": { "group": "File", "label": "Open file" },
+        "q": { "group": "File", "label": "Quick open file" },
+        "d": { "group": "File", "label": "Open DVD or Blu-ray" },
+        "l": { "group": "File", "label": "Load subtitle" },
+        "g": { "group": "Navigation", "label": "Go to specific time" },
+        "m": { "group": "Tools", "label": "Mute" }
+      },
+      "keys": {
+        "Keyboard_ArrowLeft": { "group": "Navigation", "label": "Step one frame back" },
+        "Keyboard_ArrowRight": { "group": "Navigation", "label": "Step one frame forward" }
+      }
+    },
+
+    "Alt": {
+      "characters": {
+        "x": { "group": "File", "label": "Exit" }
+      },
+      "keys": {
+        "Keyboard_Enter": { "group": "View", "label": "Toggle fullscreen" }
+      }
+    }
+  }
+}

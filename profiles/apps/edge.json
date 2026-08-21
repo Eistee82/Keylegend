@@ -1,0 +1,94 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "edge",
+  "name": "Microsoft Edge",
+  "kind": "app",
+
+  "match": {
+    "processes": ["msedge"],
+    "priority": 10
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "t": { "group": "Window", "label": "New tab" },
+        "w": { "group": "Window", "label": "Close tab" },
+        "n": { "group": "Window", "label": "New window" },
+        "l": { "group": "Navigation", "label": "Focus address bar" },
+        "e": { "group": "Search", "label": "Search from address bar" },
+        "k": { "group": "Search", "label": "Search from address bar" },
+        "r": { "group": "Navigation", "label": "Reload page" },
+        "f": { "group": "Search", "label": "Find on page" },
+        "g": { "group": "Search", "label": "Find next match" },
+        "d": { "group": "File", "label": "Add page to favorites" },
+        "j": { "group": "Tools", "label": "Downloads" },
+        "h": { "group": "Tools", "label": "History" },
+        "u": { "group": "Tools", "label": "View page source" },
+        "m": { "group": "Tools", "label": "Mute tab" },
+        "p": { "group": "File", "label": "Print" },
+        "s": { "group": "File", "label": "Save page" },
+        "o": { "group": "File", "label": "Open file" },
+        "+": { "group": "View", "label": "Zoom in" },
+        "-": { "group": "View", "label": "Zoom out" },
+        "0": { "group": "View", "label": "Reset zoom" },
+        "1": { "group": "Window", "label": "Go to tab 1" },
+        "2": { "group": "Window", "label": "Go to tab 2" },
+        "3": { "group": "Window", "label": "Go to tab 3" },
+        "4": { "group": "Window", "label": "Go to tab 4" },
+        "5": { "group": "Window", "label": "Go to tab 5" },
+        "6": { "group": "Window", "label": "Go to tab 6" },
+        "7": { "group": "Window", "label": "Go to tab 7" },
+        "8": { "group": "Window", "label": "Go to tab 8" },
+        "9": { "group": "Window", "label": "Go to last tab" }
+      },
+      "keys": {
+        "Keyboard_Tab": { "group": "Window", "label": "Next tab" },
+        "Keyboard_PageDown": { "group": "Window", "label": "Next tab" },
+        "Keyboard_PageUp": { "group": "Window", "label": "Previous tab" },
+        "Keyboard_F4": { "group": "Window", "label": "Close tab" },
+        "Keyboard_Enter": { "group": "Navigation", "label": "Complete address with www. and .com" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "t": { "group": "Window", "label": "Reopen closed tab" },
+        "n": { "group": "Window", "label": "New InPrivate window" },
+        "w": { "group": "Window", "label": "Close window" },
+        "k": { "group": "Window", "label": "Duplicate tab" },
+        "b": { "group": "View", "label": "Show or hide favorites bar" },
+        "o": { "group": "Tools", "label": "Open favorites" },
+        "y": { "group": "Tools", "label": "Open collections" },
+        "i": { "group": "Tools", "label": "Developer tools" },
+        "u": { "group": "Tools", "label": "Start or stop Read Aloud" },
+        "e": { "group": "Search", "label": "Open search in sidebar" },
+        "g": { "group": "Search", "label": "Find previous match" },
+        "r": { "group": "Navigation", "label": "Reload ignoring cached content" },
+        "d": { "group": "File", "label": "Save all tabs as favorites" },
+        "p": { "group": "File", "label": "Print using system dialog" },
+        "v": { "group": "Edit", "label": "Paste without formatting" },
+        "l": { "group": "Navigation", "label": "Paste and go" },
+        "m": { "group": "System", "label": "Switch user profile" }
+      },
+      "keys": {
+        "Keyboard_Tab": { "group": "Window", "label": "Previous tab" },
+        "Keyboard_Delete": { "group": "System", "label": "Clear browsing data" }
+      }
+    },
+
+    "Alt": {
+      "characters": {
+        "d": { "group": "Navigation", "label": "Focus address bar" },
+        "f": { "group": "System", "label": "Open Settings and more menu" },
+        "e": { "group": "System", "label": "Open Settings and more menu" }
+      },
+      "keys": {
+        "Keyboard_ArrowLeft": { "group": "Navigation", "label": "Back" },
+        "Keyboard_ArrowRight": { "group": "Navigation", "label": "Forward" },
+        "Keyboard_Home": { "group": "Navigation", "label": "Open home page" }
+      }
+    }
+  }
+}

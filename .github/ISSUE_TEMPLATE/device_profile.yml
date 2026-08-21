@@ -1,0 +1,52 @@
+name: Device profile
+description: Add a keyboard, or correct one whose mapping is wrong.
+labels: [device-profile]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Device support is data, not code. A pull request is more useful than an issue here — see
+        [adding-a-keyboard.md](https://github.com/Eistee82/Keylegend/blob/main/docs/en/adding-a-keyboard.md).
+        Open an issue if you have the keyboard but would rather someone else did the file.
+
+  - type: input
+    id: keyboard
+    attributes:
+      label: Keyboard
+      placeholder: Razer BlackWidow V4
+    validations:
+      required: true
+
+  - type: input
+    id: layout
+    attributes:
+      label: Physical layout
+      placeholder: ISO-DE, ANSI-US, JIS-JP ...
+    validations:
+      required: true
+
+  - type: input
+    id: usb
+    attributes:
+      label: USB ids
+      description: 'From: Get-PnpDevice -Class Keyboard | Select-Object FriendlyName, InstanceId'
+      placeholder: VID_1532 PID_0295
+
+  - type: dropdown
+    id: calibrated
+    attributes:
+      label: Have you run the calibration?
+      description: keylegend --profile <path> --calibrate
+      options:
+        - Yes, every key confirmed
+        - Partly
+        - No, not yet
+    validations:
+      required: true
+
+  - type: textarea
+    id: findings
+    attributes:
+      label: What the calibration found
+      description: Paste calibration-findings.txt, or describe which keys lit the wrong cell.
+      render: text

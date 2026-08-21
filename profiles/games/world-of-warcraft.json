@@ -1,0 +1,53 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "world-of-warcraft",
+  "name": "World of Warcraft",
+  "kind": "game",
+
+  "match": {
+    "processes": ["wow", "wowclassic", "wow-64"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Move forward" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Move backward" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Turn left" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Turn right" },
+    "Keyboard_Q": { "colour": "#FF0000", "label": "Strafe left" },
+    "Keyboard_E": { "colour": "#FF0000", "label": "Strafe right" },
+
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Jump" },
+    "Keyboard_X": { "colour": "#FF8C00", "label": "Sit or stand" },
+    "Keyboard_NumLock": { "colour": "#FF8C00", "label": "Auto-run" },
+    "Keyboard_Tab": { "colour": "#FF8C00", "label": "Target nearest enemy" },
+
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Action bar slot 1" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Action bar slot 2" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Action bar slot 3" },
+    "Keyboard_4": { "colour": "#00C8FF", "label": "Action bar slot 4" },
+    "Keyboard_5": { "colour": "#00C8FF", "label": "Action bar slot 5" },
+    "Keyboard_6": { "colour": "#00C8FF", "label": "Action bar slot 6" },
+    "Keyboard_7": { "colour": "#00C8FF", "label": "Action bar slot 7" },
+    "Keyboard_8": { "colour": "#00C8FF", "label": "Action bar slot 8" },
+    "Keyboard_9": { "colour": "#00C8FF", "label": "Action bar slot 9" },
+    "Keyboard_0": { "colour": "#00C8FF", "label": "Action bar slot 10" },
+    "Keyboard_MinusAndUnderscore": { "colour": "#00C8FF", "label": "Action bar slot 11" },
+    "Keyboard_EqualsAndPlus": { "colour": "#00C8FF", "label": "Action bar slot 12" },
+
+    "Keyboard_C": { "colour": "#B4B4B4", "label": "Character sheet" },
+    "Keyboard_B": { "colour": "#B4B4B4", "label": "Open all bags" },
+    "Keyboard_P": { "colour": "#B4B4B4", "label": "Spellbook" },
+    "Keyboard_N": { "colour": "#B4B4B4", "label": "Talents" },
+    "Keyboard_M": { "colour": "#B4B4B4", "label": "World map" },
+    "Keyboard_I": { "colour": "#B4B4B4", "label": "Group finder" },
+    "Keyboard_L": { "colour": "#B4B4B4", "label": "Quest log" },
+    "Keyboard_J": { "colour": "#B4B4B4", "label": "Guild and communities" },
+    "Keyboard_O": { "colour": "#B4B4B4", "label": "Social panel" },
+    "Keyboard_K": { "colour": "#B4B4B4", "label": "Professions" },
+    "Keyboard_Enter": { "colour": "#B4B4B4", "label": "Chat" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Menu" }
+  }
+}

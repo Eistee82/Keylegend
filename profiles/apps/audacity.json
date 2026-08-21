@@ -1,0 +1,63 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "audacity",
+  "name": "Audacity",
+  "kind": "app",
+
+  "match": {
+    "processes": ["audacity"],
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_Space": { "colour": "#22CC66", "label": "Play / stop" },
+    "Keyboard_P": { "colour": "#22CC66", "label": "Pause" },
+    "Keyboard_X": { "colour": "#22CC66", "label": "Play / stop and set cursor" },
+    "Keyboard_R": { "colour": "#FF3232", "label": "Record" },
+    "Keyboard_L": { "colour": "#00C8FF", "label": "Toggle looping" }
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "n": { "group": "File", "label": "New project" },
+        "o": { "group": "File", "label": "Open file" },
+        "s": { "group": "File", "label": "Save project" },
+        "w": { "group": "File", "label": "Close project" },
+        "q": { "group": "File", "label": "Exit Audacity" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "y": { "group": "Edit", "label": "Redo" },
+        "x": { "group": "Edit", "label": "Cut" },
+        "c": { "group": "Edit", "label": "Copy" },
+        "v": { "group": "Edit", "label": "Paste" },
+        "a": { "group": "Edit", "label": "Select all" },
+        "k": { "group": "Edit", "label": "Delete selection" },
+        "d": { "group": "Edit", "label": "Duplicate selection to new track" },
+        "l": { "group": "Edit", "label": "Silence selection" },
+        "t": { "group": "Edit", "label": "Trim to selection" },
+        "i": { "group": "Edit", "label": "Split clip" },
+        "j": { "group": "Edit", "label": "Join clips" },
+        "1": { "group": "View", "label": "Zoom in" },
+        "2": { "group": "View", "label": "Zoom to normal" },
+        "3": { "group": "View", "label": "Zoom out" },
+        "e": { "group": "View", "label": "Zoom to selection" },
+        "f": { "group": "View", "label": "Fit project to width" },
+        "r": { "group": "Tools", "label": "Repeat last effect" },
+        "b": { "group": "Tools", "label": "Add label at selection" },
+        "m": { "group": "Tools", "label": "Add label at playback position" },
+        "p": { "group": "System", "label": "Preferences" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "e": { "group": "File", "label": "Export audio" },
+        "i": { "group": "File", "label": "Import audio" },
+        "a": { "group": "Edit", "label": "Deselect all" },
+        "f": { "group": "View", "label": "Fit project to height" },
+        "m": { "group": "Tools", "label": "Mix and render to new track" }
+      }
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "explorer",
+  "name": "Windows Explorer",
+  "kind": "app",
+
+  "match": {
+    "processes": ["explorer"],
+    "priority": 10
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "n": { "group": "Window", "label": "New window" },
+        "t": { "group": "Window", "label": "New tab" },
+        "w": { "group": "Window", "label": "Close tab" },
+        "f": { "group": "Search", "label": "Search current folder" },
+        "e": { "group": "Search", "label": "Select the search box" },
+        "l": { "group": "Navigation", "label": "Select the address bar" },
+        "c": { "group": "Edit", "label": "Copy" },
+        "x": { "group": "Edit", "label": "Cut" },
+        "v": { "group": "Edit", "label": "Paste" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "y": { "group": "Edit", "label": "Redo" },
+        "a": { "group": "Edit", "label": "Select all" },
+        "d": { "group": "Edit", "label": "Move to recycle bin" },
+        "r": { "group": "View", "label": "Refresh" }
+      },
+      "keys": {
+        "Keyboard_Tab": { "group": "Window", "label": "Next tab" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "n": { "group": "File", "label": "Create new folder" },
+        "e": { "group": "View", "label": "Expand navigation pane to current folder" }
+      },
+      "keys": {
+        "Keyboard_Tab": { "group": "Window", "label": "Previous tab" }
+      }
+    },
+
+    "Alt": {
+      "characters": {
+        "d": { "group": "Navigation", "label": "Select the address bar" },
+        "p": { "group": "View", "label": "Toggle preview pane" }
+      },
+      "keys": {
+        "Keyboard_ArrowLeft": { "group": "Navigation", "label": "Back to previous folder" },
+        "Keyboard_ArrowRight": { "group": "Navigation", "label": "Forward to next folder" },
+        "Keyboard_ArrowUp": { "group": "Navigation", "label": "Up to parent folder" },
+        "Keyboard_Enter": { "group": "File", "label": "Show properties" }
+      }
+    }
+  }
+}

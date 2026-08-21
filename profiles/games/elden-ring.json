@@ -1,0 +1,37 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "elden-ring",
+  "name": "Elden Ring",
+  "kind": "game",
+
+  "match": {
+    "processes": ["eldenring", "start_protected_game"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Forward" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Left" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Back" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Right" },
+
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Dodge roll / sprint" },
+    "Keyboard_F": { "colour": "#FF8C00", "label": "Jump" },
+    "Keyboard_X": { "colour": "#FF8C00", "label": "Crouch" },
+    "Keyboard_E": { "colour": "#FF8C00", "label": "Interact" },
+    "Keyboard_R": { "colour": "#FF8C00", "label": "Use item" },
+    "Keyboard_Q": { "colour": "#FF8C00", "label": "Lock on / reset camera" },
+    "Keyboard_LeftShift": { "colour": "#FF8C00", "label": "Strong attack / skill modifier" },
+    "Keyboard_LeftAlt": { "colour": "#FF8C00", "label": "Walk" },
+
+    "Keyboard_ArrowUp": { "colour": "#00C8FF", "label": "Switch spell" },
+    "Keyboard_ArrowDown": { "colour": "#00C8FF", "label": "Switch item" },
+    "Keyboard_ArrowLeft": { "colour": "#00C8FF", "label": "Switch left-hand armament" },
+    "Keyboard_ArrowRight": { "colour": "#00C8FF", "label": "Switch right-hand armament" },
+
+    "Keyboard_G": { "colour": "#B4B4B4", "label": "Open map" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Menu" }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "destiny-2",
+  "name": "Destiny 2",
+  "kind": "game",
+
+  "match": {
+    "processes": ["destiny2"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Forward" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Left" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Back" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Right" },
+
+    "Keyboard_E": { "colour": "#FF8C00", "label": "Interact" },
+    "Keyboard_R": { "colour": "#FF8C00", "label": "Reload" },
+    "Keyboard_LeftShift": { "colour": "#FF8C00", "label": "Sprint" },
+    "Keyboard_LeftCtrl": { "colour": "#FF8C00", "label": "Crouch" },
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Jump" },
+    "Keyboard_Tab": { "colour": "#FF8C00", "label": "Deploy Ghost" },
+
+    "Keyboard_Q": { "colour": "#C864FF", "label": "Grenade" },
+    "Keyboard_C": { "colour": "#C864FF", "label": "Melee" },
+    "Keyboard_F": { "colour": "#C864FF", "label": "Super" },
+    "Keyboard_V": { "colour": "#C864FF", "label": "Class ability" },
+
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Kinetic weapon" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Energy weapon" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Power weapon" },
+
+    "Keyboard_ArrowUp": { "colour": "#B4B4B4", "label": "Emote 1" },
+    "Keyboard_ArrowDown": { "colour": "#B4B4B4", "label": "Emote 2" },
+    "Keyboard_ArrowLeft": { "colour": "#B4B4B4", "label": "Emote 3" },
+    "Keyboard_ArrowRight": { "colour": "#B4B4B4", "label": "Emote 4" },
+    "Keyboard_M": { "colour": "#B4B4B4", "label": "Director" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Menu" }
+  }
+}

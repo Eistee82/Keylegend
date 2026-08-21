@@ -1,0 +1,74 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "ssms",
+  "name": "SQL Server Management Studio",
+  "kind": "app",
+
+  "match": {
+    "processes": ["ssms"],
+    "priority": 10
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "n": { "group": "File", "label": "New query with current connection" },
+        "o": { "group": "File", "label": "Open file" },
+        "s": { "group": "File", "label": "Save" },
+        "p": { "group": "File", "label": "Print" },
+        "f": { "group": "Search", "label": "Find" },
+        "h": { "group": "Search", "label": "Replace" },
+        "g": { "group": "Navigation", "label": "Go to line" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "y": { "group": "Edit", "label": "Redo" },
+        "x": { "group": "Edit", "label": "Cut" },
+        "c": { "group": "Edit", "label": "Copy" },
+        "v": { "group": "Edit", "label": "Paste" },
+        "a": { "group": "Edit", "label": "Select all" },
+        "e": { "group": "Tools", "label": "Execute query" },
+        "l": { "group": "Tools", "label": "Display estimated execution plan" },
+        "m": { "group": "Tools", "label": "Include actual execution plan" },
+        "r": { "group": "View", "label": "Show or hide results pane" },
+        "t": { "group": "View", "label": "Output results as text" },
+        "d": { "group": "View", "label": "Output results in a grid" }
+      },
+      "keys": {
+        "Keyboard_F5": { "group": "Tools", "label": "Parse query" },
+        "Keyboard_F4": { "group": "Window", "label": "Close document" },
+        "Keyboard_Tab": { "group": "Window", "label": "Next document window" },
+        "Keyboard_Home": { "group": "Navigation", "label": "Go to start of file" },
+        "Keyboard_End": { "group": "Navigation", "label": "Go to end of file" },
+        "Keyboard_ArrowLeft": { "group": "Navigation", "label": "Word left" },
+        "Keyboard_ArrowRight": { "group": "Navigation", "label": "Word right" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "n": { "group": "File", "label": "New project" },
+        "s": { "group": "File", "label": "Save all" },
+        "f": { "group": "View", "label": "Output results to a file" },
+        "r": { "group": "Tools", "label": "Refresh IntelliSense local cache" },
+        "m": { "group": "Edit", "label": "Specify values for template parameters" }
+      },
+      "keys": {
+        "Keyboard_Tab": { "group": "Window", "label": "Previous document window" }
+      }
+    },
+
+    "Ctrl+Alt": {
+      "characters": {
+        "g": { "group": "View", "label": "Registered Servers" },
+        "t": { "group": "View", "label": "Template Explorer" }
+      }
+    },
+
+    "Alt": {
+      "keys": {
+        "Keyboard_F1": { "group": "Tools", "label": "Run sp_help on the selected object" },
+        "Keyboard_PauseBreak": { "group": "Tools", "label": "Cancel the executing query" }
+      }
+    }
+  }
+}

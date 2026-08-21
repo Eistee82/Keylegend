@@ -1,0 +1,150 @@
+# Configuração
+
+As definições residem em `%APPDATA%\Keylegend\` e editam-se pela interface. No primeiro arranque é
+escrita uma configuração predefinida completa.
+
+## Cores
+
+Uma cor por categoria:
+
+| Categoria | Aplica-se a |
+|---|---|
+| Algarismo | `1`, `7`, e o teclado numérico enquanto o Num Lock está ligado |
+| Minúscula | `a`, `ã` |
+| Maiúscula | `A`, `Ã` |
+| Símbolo | `+`, `#`, `€`, `\|`, e os operadores do teclado numérico |
+| Tecla de controlo | Esc, Tab, Enter, Backspace, modificadores, setas, bloco de navegação, e o teclado numérico enquanto o Num Lock está desligado |
+| Tecla de função | F1 a F12 |
+| Tecla morta | `^`, `´`, `` ` `` — teclas que precisam de uma segunda pressão para produzir um caráter |
+| Sem atribuição | teclas sem significado no contexto atual; apagadas por omissão. A tecla central do teclado numérico com o Num Lock desligado é o exemplo mais claro |
+
+As teclas de bloqueio têm duas cores cada uma — uma para ligada, outra para desligada.
+
+## Conjuntos de atalhos
+
+Um conjunto de atalhos associa teclas a **grupos de funções** e é escolhido conforme os
+modificadores mantidos premidos. Conjuntos incluídos: `Win`, `Win+Shift`, `Win+Ctrl`, `Alt`,
+`Ctrl`, `Ctrl+Shift`, `Ctrl+Alt`.
+
+Cada grupo tem a sua cor, de modo que comandos relacionados se leem como um bloco — por exemplo a
+edição (`X`/`C`/`V`/`Z`/`Y`/`A`) numa cor e as operações com ficheiros (`N`/`O`/`S`/`P`/`W`)
+noutra.
+
+Os atalhos do Windows estão fixados a nível de sistema e são por isso sempre exatos. Os atalhos de
+Ctrl variam entre programas; o conjunto incluído cobre as convenções habituais do Windows.
+
+## Perfis de aplicação
+
+Um perfil descreve o que o teclado deve mostrar enquanto um determinado programa está à frente.
+Vêm cerca de noventa com a aplicação — programas como o Photoshop, o Visual Studio Code ou o Excel,
+e jogos como o Elden Ring ou o Counter-Strike 2. Aplicam-se sozinhos: assim que a janela
+correspondente tem o foco o perfil entra em vigor, e quando o foco passa adiante voltam os
+conjuntos predefinidos. Onde nenhum perfil corresponde, nada muda.
+
+O reconhecimento é pelo nome do executável. Quando corresponde mais do que um perfil, ganha o que
+nomeia o programa — um jogo com perfil próprio mantém-no portanto mesmo que a deteção de jogos
+também dispare. A prioridade só desempata o que sobra.
+
+Um perfil substitui apenas as camadas de modificadores que ele próprio nomeia. O Photoshop
+substitui a camada Ctrl, porque ali Ctrl significa outros comandos; `Win+E` continua a abrir o
+Explorador, porque o Windows atribui essa combinação a nível de sistema e ela vale seja o que for
+que esteja à frente.
+
+### O que um perfil contém
+
+| Secção | Conteúdo |
+|---|---|
+| Correspondência | A que programas o perfil se aplica: nomes de executáveis, se cobre os jogos detetados em geral, e a prioridade |
+| Destaques | Teclas fixadas numa cor independentemente do caráter que produzem — WASD num jogo, as teclas de ferramenta de um editor de imagem |
+| Atalhos | Substituições de camadas de modificadores individuais: que tecla leva que comando sob `Ctrl`, colorida por grupo de funções |
+
+Destaques e atalhos trazem também uma etiqueta que diz o que o comando faz — «Duplicar camada»,
+«Saltar». Nada disso é visível no teclado; os LED só mostram cor. A etiqueta aparece na
+pré-visualização dentro da aplicação, e a noventa perfis é a única maneira de verificar se uma
+entrada está sequer certa.
+
+### Editar e repor
+
+As três secções são substituídas separadamente. Edita os destaques de um perfil incluído e a partir
+daí os destaques são teus: ficam congelados e deixam de seguir a versão incluída. A correspondência
+e os atalhos continuam a segui-la e apanham as melhorias que uma nova versão traz.
+
+Só a secção que mudaste é guardada, sob o identificador do perfil — nunca uma cópia do perfil
+inteiro. É precisamente por isso que a reposição existe, e por isso que uma atualização ainda pode
+melhorar um perfil que editaste em parte.
+
+A reposição funciona portanto também por secção: devolver os atalhos mantendo os teus próprios
+destaques é possível. Repor o perfil inteiro recupera todas as secções, mais um nome alterado e um
+estado oculto.
+
+Os perfis incluídos podem ser **ocultados mas não eliminados**. Vivem dentro do ficheiro do
+programa; eliminar um duraria apenas até ao arranque seguinte. Um perfil oculto é saltado quando se
+escolhe um perfil, mas mantém-se na lista e pode voltar a ser mostrado.
+
+### Os teus próprios perfis
+
+Um perfil que crias tu é guardado por inteiro em `settings.json`, porque não há nada com que o
+comparar. Por isso não pode ser reposto, apenas eliminado. De resto comporta-se como um incluído:
+as mesmas três secções, a mesma regra de escolha.
+
+Se um perfil devesse valer para toda a gente e não só para ti, o lugar dele é no projeto, como
+ficheiro — ver [Adicionar um perfil](adding-a-profile.md).
+
+### Formato do ficheiro de definições
+
+`settings.json` traz `formatVersion` 2. Ficheiros mais antigos são migrados ao carregar: a versão 1
+não conhecia identificadores nem a proveniência de um perfil, e por isso não pode dizer quais das
+suas entradas foram outrora incluídas. Todas passam a perfis de utilizador. Nada se perde, mas os
+perfis incluídos aparecem ao lado, portanto pode haver ao início duas entradas para o mesmo
+programa; a que sobra pode ser eliminada ou ocultada.
+
+## Comportamento
+
+| Definição | Significado |
+|---|---|
+| Devolver a iluminação quando inativo | Se é devolvida sequer. Desligado, o Keylegend mantém o teclado até o pausares ou fechares — e toma-o no arranque em vez de esperar por uma tecla. |
+| Período de inatividade | Segundos sem atividade de teclado antes da devolução. 60 por omissão — recuperá-la custa um a dois segundos, portanto um período curto transforma isso numa interrupção constante. O valor é mantido enquanto a devolução está desligada. |
+| Brilho | Fator global de 0 a 100 %, aplicado a cada cor enquanto o fotograma é composto. |
+| Usar perfis de aplicação | Se os perfis são sequer consultados. Desligado, os conjuntos predefinidos valem em todo o lado, esteja o que estiver à frente. |
+| Arrancar com o Windows | Regista a aplicação na chave `Run`, com a opção `--minimized`. Arrancado assim, o Keylegend aparece na área de notificação: sem janela, sem balão. Arrancado à mão mostra sempre a janela. Uma entrada escrita por uma versão anterior é atualizada no arranque seguinte. |
+
+## Idioma
+
+A interface segue o idioma de visualização do Windows e está disponível em onze: inglês, alemão,
+espanhol, francês, italiano, neerlandês, polaco, português, russo, ucraniano e chinês
+simplificado. **Definições → Idioma** substitui isso; a mudança tem efeito imediato, sem
+reiniciar.
+
+Cada idioma nomeia-se a si próprio nessa lista em vez de ser traduzido. Traduzi-la significaria que
+cada um dos onze levasse dez nomes para os outros, e quem encontrasse a interface num idioma que
+não sabe ler teria de procurar o seu num idioma que também não sabe ler.
+
+A escolha é guardada em `settings.json` sob `language` como `Automatic`, `English`, `German`,
+`Spanish`, `French`, `Italian`, `Dutch`, `Polish`, `Portuguese`, `Russian`, `Ukrainian` ou
+`ChineseSimplified`. Um valor desconhecido recai em `Automatic` em vez de recusar arrancar, que é o
+que um ficheiro editado à mão com toda a probabilidade quer.
+
+O que está traduzido são os menus e as explicações. Duas coisas **não** estão, ambas de propósito:
+
+- **As legendas das teclas** no teclado representado. Vêm do perfil de dispositivo e têm de
+  corresponder ao teclado à tua frente, não ao idioma dos menus — um teclado ISO alemão mostra
+  `strg` e `entf`, esteja a interface em inglês ou não.
+- **Os nomes dos modificadores** (Shift, Ctrl, Alt, Alt Gr, Num Lock …). Esses mesmos nomes são
+  produzidos pela maquinaria dos atalhos para as listas de camadas, que fica fora da tradução; meia
+  tradução leria-se pior do que nenhuma.
+
+Tudo o que não tem tradução recai no inglês, portanto um ficheiro de idioma por acabar custa as
+linhas que lhe faltam e não a interface inteira.
+
+## Calibração
+
+A calibração é um modo de linha de comandos, não uma página de definições:
+
+```bash
+keylegend-cli --profile devices/<pasta>/device.json --calibrate
+```
+
+Acende uma tecla de cada vez e nomeia-a, para que um perfil de dispositivo possa ser verificado
+contra hardware real. Os achados são escritos à medida em `calibration-findings.txt`, e
+`tools/apply-calibration.ps1` escreve-os de volta no perfil. Ver
+[Adicionar ou corrigir um teclado](adding-a-keyboard.md).

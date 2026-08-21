@@ -1,0 +1,57 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "acrobat",
+  "name": "Adobe Acrobat",
+  "kind": "app",
+
+  "match": {
+    "processes": ["acrobat", "acrord32", "acrord64"],
+    "priority": 10
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "o": { "group": "File", "label": "Open document" },
+        "w": { "group": "File", "label": "Close document" },
+        "s": { "group": "File", "label": "Save" },
+        "p": { "group": "File", "label": "Print" },
+        "d": { "group": "File", "label": "Document properties" },
+        "k": { "group": "System", "label": "Preferences" },
+        "f": { "group": "Search", "label": "Find in document" },
+        "c": { "group": "Edit", "label": "Copy" },
+        "a": { "group": "Edit", "label": "Select all" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "l": { "group": "View", "label": "Full screen mode" },
+        "h": { "group": "View", "label": "Read mode" },
+        "0": { "group": "View", "label": "Fit page" },
+        "1": { "group": "View", "label": "Actual size" },
+        "2": { "group": "View", "label": "Fit width" },
+        "3": { "group": "View", "label": "Fit visible" },
+        "+": { "group": "View", "label": "Zoom in" },
+        "-": { "group": "View", "label": "Zoom out" }
+      },
+      "keys": {
+        "Keyboard_Home": { "group": "Navigation", "label": "Go to first page" },
+        "Keyboard_End": { "group": "Navigation", "label": "Go to last page" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "s": { "group": "File", "label": "Save as" },
+        "f": { "group": "Search", "label": "Search across documents" },
+        "n": { "group": "Navigation", "label": "Go to page number" },
+        "a": { "group": "Edit", "label": "Deselect all" }
+      }
+    },
+
+    "Alt": {
+      "keys": {
+        "Keyboard_ArrowLeft": { "group": "Navigation", "label": "Previous view" },
+        "Keyboard_ArrowRight": { "group": "Navigation", "label": "Next view" }
+      }
+    }
+  }
+}

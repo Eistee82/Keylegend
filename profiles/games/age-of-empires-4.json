@@ -1,0 +1,49 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "age-of-empires-4",
+  "name": "Age of Empires IV",
+  "kind": "game",
+
+  "match": {
+    "processes": ["reliccardinal"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_Q": { "colour": "#64FF96", "label": "Command grid 1" },
+    "Keyboard_W": { "colour": "#64FF96", "label": "Command grid 2" },
+    "Keyboard_E": { "colour": "#64FF96", "label": "Command grid 3" },
+    "Keyboard_R": { "colour": "#64FF96", "label": "Command grid 4" },
+    "Keyboard_A": { "colour": "#64FF96", "label": "Command grid 5" },
+    "Keyboard_S": { "colour": "#64FF96", "label": "Command grid 6" },
+    "Keyboard_D": { "colour": "#64FF96", "label": "Command grid 7" },
+    "Keyboard_F": { "colour": "#64FF96", "label": "Command grid 8" },
+    "Keyboard_X": { "colour": "#64FF96", "label": "Command grid 10" },
+    "Keyboard_C": { "colour": "#64FF96", "label": "Command grid 11" },
+    "Keyboard_V": { "colour": "#64FF96", "label": "Command grid 12" },
+
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Control group 1" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Control group 2" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Control group 3" },
+    "Keyboard_4": { "colour": "#00C8FF", "label": "Control group 4" },
+    "Keyboard_5": { "colour": "#00C8FF", "label": "Control group 5" },
+    "Keyboard_6": { "colour": "#00C8FF", "label": "Control group 6" },
+    "Keyboard_7": { "colour": "#00C8FF", "label": "Control group 7" },
+    "Keyboard_8": { "colour": "#00C8FF", "label": "Control group 8" },
+    "Keyboard_9": { "colour": "#00C8FF", "label": "Control group 9" },
+    "Keyboard_0": { "colour": "#00C8FF", "label": "Control group 10" },
+
+    "Keyboard_H": { "colour": "#B4B4B4", "label": "Cycle town centres" },
+    "Keyboard_PeriodAndBiggerThan": { "colour": "#B4B4B4", "label": "Cycle idle villagers" },
+    "Keyboard_CommaAndLessThan": { "colour": "#B4B4B4", "label": "Cycle idle military" },
+    "Keyboard_F1": { "colour": "#B4B4B4", "label": "Select military buildings" },
+    "Keyboard_F2": { "colour": "#B4B4B4", "label": "Select economic buildings" },
+    "Keyboard_F5": { "colour": "#B4B4B4", "label": "Focus on selected unit" },
+    "Keyboard_Home": { "colour": "#B4B4B4", "label": "Follow selected unit" },
+    "Keyboard_Delete": { "colour": "#B4B4B4", "label": "Delete unit or building" },
+    "Keyboard_F10": { "colour": "#B4B4B4", "label": "Game menu" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Cancel" }
+  }
+}

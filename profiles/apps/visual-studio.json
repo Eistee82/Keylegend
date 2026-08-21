@@ -1,0 +1,87 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "visual-studio",
+  "name": "Visual Studio",
+  "kind": "app",
+
+  "match": {
+    "processes": ["devenv"],
+    "priority": 10
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "n": { "group": "File", "label": "New file" },
+        "o": { "group": "File", "label": "Open file" },
+        "s": { "group": "File", "label": "Save" },
+        "p": { "group": "File", "label": "Print" },
+        "f": { "group": "Search", "label": "Find" },
+        "h": { "group": "Search", "label": "Replace" },
+        "g": { "group": "Navigation", "label": "Go to line" },
+        "q": { "group": "Search", "label": "Search Visual Studio" },
+        ",": { "group": "Search", "label": "Go to all" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "y": { "group": "Edit", "label": "Redo" },
+        "x": { "group": "Edit", "label": "Cut" },
+        "c": { "group": "Edit", "label": "Copy" },
+        "v": { "group": "Edit", "label": "Paste" },
+        "a": { "group": "Edit", "label": "Select all" },
+        "d": { "group": "Edit", "label": "Duplicate selection" },
+        ".": { "group": "Edit", "label": "Quick actions and refactorings" },
+        "-": { "group": "Navigation", "label": "Navigate backward" }
+      },
+      "keys": {
+        "Keyboard_F5": { "group": "Tools", "label": "Start without debugging" },
+        "Keyboard_F12": { "group": "Navigation", "label": "Go to implementation" },
+        "Keyboard_F4": { "group": "Window", "label": "Close document" },
+        "Keyboard_Tab": { "group": "Window", "label": "Next document window" },
+        "Keyboard_Enter": { "group": "Edit", "label": "Insert line above" },
+        "Keyboard_Home": { "group": "Navigation", "label": "Go to start of file" },
+        "Keyboard_End": { "group": "Navigation", "label": "Go to end of file" },
+        "Keyboard_ArrowLeft": { "group": "Navigation", "label": "Word left" },
+        "Keyboard_ArrowRight": { "group": "Navigation", "label": "Word right" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "n": { "group": "File", "label": "New project" },
+        "o": { "group": "File", "label": "Open project or solution" },
+        "s": { "group": "File", "label": "Save all" },
+        "a": { "group": "File", "label": "Add new item" },
+        "b": { "group": "Tools", "label": "Build solution" },
+        "f": { "group": "Search", "label": "Find in files" },
+        "h": { "group": "Search", "label": "Replace in files" },
+        "v": { "group": "Edit", "label": "Paste from clipboard ring" },
+        "-": { "group": "Navigation", "label": "Navigate forward" }
+      },
+      "keys": {
+        "Keyboard_F5": { "group": "Tools", "label": "Restart debugging" },
+        "Keyboard_F9": { "group": "Tools", "label": "Delete all breakpoints" },
+        "Keyboard_Tab": { "group": "Window", "label": "Previous document window" }
+      }
+    },
+
+    "Ctrl+Alt": {
+      "characters": {
+        "l": { "group": "View", "label": "Solution Explorer" },
+        "o": { "group": "View", "label": "Output window" },
+        "x": { "group": "View", "label": "Toolbox" },
+        "i": { "group": "View", "label": "Immediate window" },
+        "e": { "group": "Tools", "label": "Exception settings" },
+        "p": { "group": "Tools", "label": "Attach to process" }
+      }
+    },
+
+    "Alt": {
+      "keys": {
+        "Keyboard_Enter": { "group": "View", "label": "Properties window" },
+        "Keyboard_F12": { "group": "Navigation", "label": "Peek definition" },
+        "Keyboard_ArrowUp": { "group": "Edit", "label": "Move line up" },
+        "Keyboard_ArrowDown": { "group": "Edit", "label": "Move line down" }
+      }
+    }
+  }
+}

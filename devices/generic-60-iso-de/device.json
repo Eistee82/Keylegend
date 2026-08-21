@@ -1,0 +1,601 @@
+{
+  "$schema": "../device-profile.schema.json",
+  "formatVersion": 1,
+  "name": "60 % keyboard (German)",
+  "vendor": "Generic",
+  "model": "60 %",
+  "physicalLayout": "ISO-DE",
+  "canvas": {
+    "width": 297.0,
+    "height": 107.0
+  },
+  "matrix": {
+    "rows": 6,
+    "columns": 22
+  },
+  "verified": false,
+  "keys": [
+    {
+      "id": "Keyboard_GraveAccentAndTilde",
+      "x": 6.0,
+      "y": 6.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 1,
+      "column": 1
+    },
+    {
+      "id": "Keyboard_1",
+      "x": 25.0,
+      "y": 6.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 1,
+      "column": 2
+    },
+    {
+      "id": "Keyboard_2",
+      "x": 44.0,
+      "y": 6.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 1,
+      "column": 3
+    },
+    {
+      "id": "Keyboard_3",
+      "x": 63.0,
+      "y": 6.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 1,
+      "column": 4
+    },
+    {
+      "id": "Keyboard_4",
+      "x": 82.0,
+      "y": 6.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 1,
+      "column": 5
+    },
+    {
+      "id": "Keyboard_5",
+      "x": 101.0,
+      "y": 6.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 1,
+      "column": 6
+    },
+    {
+      "id": "Keyboard_6",
+      "x": 120.0,
+      "y": 6.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 1,
+      "column": 7
+    },
+    {
+      "id": "Keyboard_7",
+      "x": 139.0,
+      "y": 6.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 1,
+      "column": 8
+    },
+    {
+      "id": "Keyboard_8",
+      "x": 158.0,
+      "y": 6.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 1,
+      "column": 9
+    },
+    {
+      "id": "Keyboard_9",
+      "x": 177.0,
+      "y": 6.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 1,
+      "column": 10
+    },
+    {
+      "id": "Keyboard_0",
+      "x": 196.0,
+      "y": 6.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 1,
+      "column": 11
+    },
+    {
+      "id": "Keyboard_MinusAndUnderscore",
+      "x": 215.0,
+      "y": 6.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 1,
+      "column": 12
+    },
+    {
+      "id": "Keyboard_EqualsAndPlus",
+      "x": 234.0,
+      "y": 6.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 1,
+      "column": 13
+    },
+    {
+      "id": "Keyboard_Backspace",
+      "x": 253.0,
+      "y": 6.0,
+      "width": 38.0,
+      "height": 19.0,
+      "row": 1,
+      "column": 14,
+      "label": "←"
+    },
+    {
+      "id": "Keyboard_Tab",
+      "x": 6.0,
+      "y": 25.0,
+      "width": 28.5,
+      "height": 19.0,
+      "row": 2,
+      "column": 1,
+      "label": "←⇥"
+    },
+    {
+      "id": "Keyboard_Q",
+      "x": 34.5,
+      "y": 25.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 2,
+      "column": 2
+    },
+    {
+      "id": "Keyboard_W",
+      "x": 53.5,
+      "y": 25.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 2,
+      "column": 3
+    },
+    {
+      "id": "Keyboard_E",
+      "x": 72.5,
+      "y": 25.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 2,
+      "column": 4
+    },
+    {
+      "id": "Keyboard_R",
+      "x": 91.5,
+      "y": 25.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 2,
+      "column": 5
+    },
+    {
+      "id": "Keyboard_T",
+      "x": 110.5,
+      "y": 25.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 2,
+      "column": 6
+    },
+    {
+      "id": "Keyboard_Y",
+      "x": 129.5,
+      "y": 25.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 2,
+      "column": 7
+    },
+    {
+      "id": "Keyboard_U",
+      "x": 148.5,
+      "y": 25.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 2,
+      "column": 8
+    },
+    {
+      "id": "Keyboard_I",
+      "x": 167.5,
+      "y": 25.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 2,
+      "column": 9
+    },
+    {
+      "id": "Keyboard_O",
+      "x": 186.5,
+      "y": 25.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 2,
+      "column": 10
+    },
+    {
+      "id": "Keyboard_P",
+      "x": 205.5,
+      "y": 25.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 2,
+      "column": 11
+    },
+    {
+      "id": "Keyboard_BracketLeft",
+      "x": 224.5,
+      "y": 25.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 2,
+      "column": 12
+    },
+    {
+      "id": "Keyboard_BracketRight",
+      "x": 243.5,
+      "y": 25.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 2,
+      "column": 13
+    },
+    {
+      "id": "Keyboard_CapsLock",
+      "x": 6.0,
+      "y": 44.0,
+      "width": 33.25,
+      "height": 19.0,
+      "row": 3,
+      "column": 1,
+      "label": "⇩"
+    },
+    {
+      "id": "Keyboard_A",
+      "x": 39.25,
+      "y": 44.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 3,
+      "column": 2
+    },
+    {
+      "id": "Keyboard_S",
+      "x": 58.25,
+      "y": 44.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 3,
+      "column": 3
+    },
+    {
+      "id": "Keyboard_D",
+      "x": 77.25,
+      "y": 44.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 3,
+      "column": 4
+    },
+    {
+      "id": "Keyboard_F",
+      "x": 96.25,
+      "y": 44.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 3,
+      "column": 5
+    },
+    {
+      "id": "Keyboard_G",
+      "x": 115.25,
+      "y": 44.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 3,
+      "column": 6
+    },
+    {
+      "id": "Keyboard_H",
+      "x": 134.25,
+      "y": 44.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 3,
+      "column": 7
+    },
+    {
+      "id": "Keyboard_J",
+      "x": 153.25,
+      "y": 44.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 3,
+      "column": 8
+    },
+    {
+      "id": "Keyboard_K",
+      "x": 172.25,
+      "y": 44.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 3,
+      "column": 9
+    },
+    {
+      "id": "Keyboard_L",
+      "x": 191.25,
+      "y": 44.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 3,
+      "column": 10
+    },
+    {
+      "id": "Keyboard_SemicolonAndColon",
+      "x": 210.25,
+      "y": 44.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 3,
+      "column": 11
+    },
+    {
+      "id": "Keyboard_ApostropheAndDoubleQuote",
+      "x": 229.25,
+      "y": 44.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 3,
+      "column": 12
+    },
+    {
+      "id": "Keyboard_NonUsTilde",
+      "x": 248.25,
+      "y": 44.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 3,
+      "column": 13
+    },
+    {
+      "id": "Keyboard_Enter",
+      "x": 267.25,
+      "y": 44.0,
+      "width": 23.75,
+      "height": 19.0,
+      "row": 3,
+      "column": 14,
+      "label": "enter",
+      "parts": [
+        {
+          "x": 262.5,
+          "y": 25.0,
+          "width": 28.5,
+          "height": 19.0
+        }
+      ],
+      "scanCode": 28
+    },
+    {
+      "id": "Keyboard_LeftShift",
+      "x": 6.0,
+      "y": 63.0,
+      "width": 23.75,
+      "height": 19.0,
+      "row": 4,
+      "column": 1,
+      "label": "⇧"
+    },
+    {
+      "id": "Keyboard_NonUsBackslash",
+      "x": 29.75,
+      "y": 63.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 4,
+      "column": 2
+    },
+    {
+      "id": "Keyboard_Z",
+      "x": 48.75,
+      "y": 63.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 4,
+      "column": 3
+    },
+    {
+      "id": "Keyboard_X",
+      "x": 67.75,
+      "y": 63.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 4,
+      "column": 4
+    },
+    {
+      "id": "Keyboard_C",
+      "x": 86.75,
+      "y": 63.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 4,
+      "column": 5
+    },
+    {
+      "id": "Keyboard_V",
+      "x": 105.75,
+      "y": 63.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 4,
+      "column": 6
+    },
+    {
+      "id": "Keyboard_B",
+      "x": 124.75,
+      "y": 63.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 4,
+      "column": 7
+    },
+    {
+      "id": "Keyboard_N",
+      "x": 143.75,
+      "y": 63.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 4,
+      "column": 8
+    },
+    {
+      "id": "Keyboard_M",
+      "x": 162.75,
+      "y": 63.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 4,
+      "column": 9
+    },
+    {
+      "id": "Keyboard_CommaAndLessThan",
+      "x": 181.75,
+      "y": 63.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 4,
+      "column": 10
+    },
+    {
+      "id": "Keyboard_PeriodAndBiggerThan",
+      "x": 200.75,
+      "y": 63.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 4,
+      "column": 11
+    },
+    {
+      "id": "Keyboard_SlashAndQuestionMark",
+      "x": 219.75,
+      "y": 63.0,
+      "width": 19.0,
+      "height": 19.0,
+      "row": 4,
+      "column": 12
+    },
+    {
+      "id": "Keyboard_RightShift",
+      "x": 238.75,
+      "y": 63.0,
+      "width": 52.25,
+      "height": 19.0,
+      "row": 4,
+      "column": 14,
+      "label": "⇧"
+    },
+    {
+      "id": "Keyboard_LeftCtrl",
+      "x": 6.0,
+      "y": 82.0,
+      "width": 23.75,
+      "height": 19.0,
+      "row": 5,
+      "column": 1,
+      "label": "strg"
+    },
+    {
+      "id": "Keyboard_LeftGui",
+      "x": 29.75,
+      "y": 82.0,
+      "width": 23.75,
+      "height": 19.0,
+      "row": 5,
+      "column": 2,
+      "label": "⊞"
+    },
+    {
+      "id": "Keyboard_LeftAlt",
+      "x": 53.5,
+      "y": 82.0,
+      "width": 23.75,
+      "height": 19.0,
+      "row": 5,
+      "column": 3,
+      "label": "alt"
+    },
+    {
+      "id": "Keyboard_Space",
+      "x": 77.25,
+      "y": 82.0,
+      "width": 118.75,
+      "height": 19.0,
+      "row": 5,
+      "column": 7,
+      "label": ""
+    },
+    {
+      "id": "Keyboard_RightAlt",
+      "x": 196.0,
+      "y": 82.0,
+      "width": 23.75,
+      "height": 19.0,
+      "row": 5,
+      "column": 11,
+      "label": "alt"
+    },
+    {
+      "id": "Keyboard_RightGui",
+      "x": 219.75,
+      "y": 82.0,
+      "width": 23.75,
+      "height": 19.0,
+      "row": 5,
+      "column": 12,
+      "label": "⊞"
+    },
+    {
+      "id": "Keyboard_Application",
+      "x": 243.5,
+      "y": 82.0,
+      "width": 23.75,
+      "height": 19.0,
+      "row": 5,
+      "column": 13,
+      "label": "≡"
+    },
+    {
+      "id": "Keyboard_RightCtrl",
+      "x": 267.25,
+      "y": 82.0,
+      "width": 23.75,
+      "height": 19.0,
+      "row": 5,
+      "column": 14,
+      "label": "strg"
+    }
+  ],
+  "note": "Generated from the standard layout dimensions and not yet checked against hardware. Run the calibration and correct row/column where they disagree."
+}

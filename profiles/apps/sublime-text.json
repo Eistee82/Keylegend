@@ -1,0 +1,98 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "sublime-text",
+  "name": "Sublime Text",
+  "kind": "app",
+
+  "match": {
+    "processes": ["sublime_text"],
+    "priority": 10
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "n": { "group": "File", "label": "New file" },
+        "o": { "group": "File", "label": "Open file" },
+        "s": { "group": "File", "label": "Save" },
+        "w": { "group": "Window", "label": "Close tab" },
+        "p": { "group": "Search", "label": "Go to anything" },
+        "f": { "group": "Search", "label": "Find" },
+        "h": { "group": "Search", "label": "Replace" },
+        "g": { "group": "Navigation", "label": "Go to line" },
+        "r": { "group": "Search", "label": "Go to symbol in file" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "y": { "group": "Edit", "label": "Redo" },
+        "x": { "group": "Edit", "label": "Cut" },
+        "c": { "group": "Edit", "label": "Copy" },
+        "v": { "group": "Edit", "label": "Paste" },
+        "a": { "group": "Edit", "label": "Select all" },
+        "d": { "group": "Edit", "label": "Add next occurrence to selection" },
+        "l": { "group": "Edit", "label": "Expand selection to line" },
+        "j": { "group": "Edit", "label": "Join lines" },
+        "m": { "group": "Navigation", "label": "Jump to matching bracket" },
+        "/": { "group": "Edit", "label": "Toggle comment" },
+        "b": { "group": "Tools", "label": "Build" },
+        "`": { "group": "View", "label": "Toggle console" },
+        "+": { "group": "View", "label": "Increase font size" },
+        "-": { "group": "View", "label": "Decrease font size" }
+      },
+      "keys": {
+        "Keyboard_F2": { "group": "Navigation", "label": "Toggle bookmark" },
+        "Keyboard_Tab": { "group": "Window", "label": "Next tab" },
+        "Keyboard_Enter": { "group": "Edit", "label": "Insert line below" },
+        "Keyboard_Home": { "group": "Navigation", "label": "Go to start of file" },
+        "Keyboard_End": { "group": "Navigation", "label": "Go to end of file" },
+        "Keyboard_ArrowLeft": { "group": "Navigation", "label": "Word left" },
+        "Keyboard_ArrowRight": { "group": "Navigation", "label": "Word right" },
+        "Keyboard_ArrowUp": { "group": "Navigation", "label": "Scroll line up" },
+        "Keyboard_ArrowDown": { "group": "Navigation", "label": "Scroll line down" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "p": { "group": "Search", "label": "Command palette" },
+        "f": { "group": "Search", "label": "Find in files" },
+        "r": { "group": "Search", "label": "Go to symbol in project" },
+        "n": { "group": "Window", "label": "New window" },
+        "w": { "group": "Window", "label": "Close window" },
+        "t": { "group": "File", "label": "Reopen closed tab" },
+        "s": { "group": "File", "label": "Save as" },
+        "d": { "group": "Edit", "label": "Duplicate line" },
+        "k": { "group": "Edit", "label": "Delete line" },
+        "l": { "group": "Edit", "label": "Split selection into lines" },
+        "v": { "group": "Edit", "label": "Paste and indent" },
+        "m": { "group": "Edit", "label": "Expand selection to brackets" },
+        "a": { "group": "Edit", "label": "Expand selection to tag" },
+        "/": { "group": "Edit", "label": "Toggle block comment" }
+      },
+      "keys": {
+        "Keyboard_Tab": { "group": "Window", "label": "Previous tab" },
+        "Keyboard_Enter": { "group": "Edit", "label": "Insert line above" },
+        "Keyboard_ArrowUp": { "group": "Edit", "label": "Move line up" },
+        "Keyboard_ArrowDown": { "group": "Edit", "label": "Move line down" }
+      }
+    },
+
+    "Ctrl+Alt": {
+      "characters": {
+        "p": { "group": "File", "label": "Switch project" }
+      },
+      "keys": {
+        "Keyboard_ArrowUp": { "group": "Edit", "label": "Add cursor above" },
+        "Keyboard_ArrowDown": { "group": "Edit", "label": "Add cursor below" }
+      }
+    },
+
+    "Alt": {
+      "characters": {
+        ".": { "group": "Edit", "label": "Close tag" }
+      },
+      "keys": {
+        "Keyboard_F3": { "group": "Search", "label": "Select all occurrences of word" }
+      }
+    }
+  }
+}

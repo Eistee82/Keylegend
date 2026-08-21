@@ -1,0 +1,36 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "diablo-4",
+  "name": "Diablo IV",
+  "kind": "game",
+
+  "match": {
+    "processes": ["diablo iv", "diablo iv launcher"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Skill slot 1" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Skill slot 2" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Skill slot 3" },
+    "Keyboard_4": { "colour": "#00C8FF", "label": "Skill slot 4" },
+
+    "Keyboard_Q": { "colour": "#FF8C00", "label": "Drink healing potion" },
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Evade" },
+    "Keyboard_T": { "colour": "#FF8C00", "label": "Town portal" },
+    "Keyboard_E": { "colour": "#FF8C00", "label": "Action wheel" },
+    "Keyboard_F": { "colour": "#FF8C00", "label": "Force interact" },
+    "Keyboard_LeftShift": { "colour": "#FF8C00", "label": "Hold position" },
+
+    "Keyboard_Tab": { "colour": "#B4B4B4", "label": "Map overlay" },
+    "Keyboard_M": { "colour": "#B4B4B4", "label": "Open map" },
+    "Keyboard_C": { "colour": "#B4B4B4", "label": "Character panel" },
+    "Keyboard_I": { "colour": "#B4B4B4", "label": "Inventory" },
+    "Keyboard_J": { "colour": "#B4B4B4", "label": "Journal" },
+    "Keyboard_P": { "colour": "#B4B4B4", "label": "Shop" },
+    "Keyboard_O": { "colour": "#B4B4B4", "label": "Social menu" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Menu" }
+  }
+}

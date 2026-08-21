@@ -1,0 +1,58 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "powerpoint",
+  "name": "Microsoft PowerPoint",
+  "kind": "app",
+
+  "match": {
+    "processes": ["powerpnt"],
+    "priority": 10
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "n": { "group": "File", "label": "New presentation" },
+        "o": { "group": "File", "label": "Open presentation" },
+        "s": { "group": "File", "label": "Save" },
+        "p": { "group": "File", "label": "Print" },
+        "w": { "group": "File", "label": "Close presentation" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "y": { "group": "Edit", "label": "Redo" },
+        "x": { "group": "Edit", "label": "Cut" },
+        "c": { "group": "Edit", "label": "Copy" },
+        "v": { "group": "Edit", "label": "Paste" },
+        "a": { "group": "Edit", "label": "Select all" },
+        "f": { "group": "Search", "label": "Find" },
+        "h": { "group": "Search", "label": "Replace" },
+        "b": { "group": "Edit", "label": "Bold" },
+        "i": { "group": "Edit", "label": "Italic" },
+        "u": { "group": "Edit", "label": "Underline" },
+        "t": { "group": "Edit", "label": "Font dialog" },
+        "k": { "group": "Edit", "label": "Insert hyperlink" },
+        "m": { "group": "Edit", "label": "New slide" },
+        "d": { "group": "Edit", "label": "Duplicate selection" },
+        "g": { "group": "Edit", "label": "Group selected objects" },
+        "e": { "group": "Edit", "label": "Center text" },
+        "l": { "group": "Edit", "label": "Align text left" },
+        "r": { "group": "Edit", "label": "Align text right" },
+        "j": { "group": "Edit", "label": "Justify text" }
+      },
+      "keys": {
+        "Keyboard_Home": { "group": "Navigation", "label": "Go to first slide" },
+        "Keyboard_End": { "group": "Navigation", "label": "Go to last slide" },
+        "Keyboard_Enter": { "group": "Navigation", "label": "Go to next placeholder" },
+        "Keyboard_F1": { "group": "View", "label": "Collapse or expand ribbon" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "g": { "group": "Edit", "label": "Ungroup selected objects" },
+        "c": { "group": "Edit", "label": "Copy formatting" },
+        "v": { "group": "Edit", "label": "Paste formatting" }
+      }
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "notepad",
+  "name": "Notepad",
+  "kind": "app",
+
+  "match": {
+    "processes": ["notepad"],
+    "priority": 10
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "n": { "group": "File", "label": "New tab" },
+        "o": { "group": "File", "label": "Open file" },
+        "s": { "group": "File", "label": "Save" },
+        "p": { "group": "File", "label": "Print" },
+        "w": { "group": "Window", "label": "Close tab" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "y": { "group": "Edit", "label": "Redo" },
+        "x": { "group": "Edit", "label": "Cut" },
+        "c": { "group": "Edit", "label": "Copy" },
+        "v": { "group": "Edit", "label": "Paste" },
+        "a": { "group": "Edit", "label": "Select all" },
+        "f": { "group": "Search", "label": "Find" },
+        "h": { "group": "Search", "label": "Replace" },
+        "g": { "group": "Search", "label": "Go to line" },
+        "+": { "group": "View", "label": "Zoom in" },
+        "-": { "group": "View", "label": "Zoom out" },
+        "0": { "group": "View", "label": "Reset zoom" }
+      },
+      "keys": {
+        "Keyboard_Tab": { "group": "Window", "label": "Next tab" },
+        "Keyboard_Home": { "group": "Navigation", "label": "Go to start of file" },
+        "Keyboard_End": { "group": "Navigation", "label": "Go to end of file" },
+        "Keyboard_ArrowLeft": { "group": "Navigation", "label": "Word left" },
+        "Keyboard_ArrowRight": { "group": "Navigation", "label": "Word right" },
+        "Keyboard_Backspace": { "group": "Edit", "label": "Delete word to the left" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "n": { "group": "Window", "label": "New window" },
+        "s": { "group": "File", "label": "Save as" },
+        "w": { "group": "Window", "label": "Close window" }
+      },
+      "keys": {
+        "Keyboard_Tab": { "group": "Window", "label": "Previous tab" },
+        "Keyboard_Home": { "group": "Edit", "label": "Select to start of file" },
+        "Keyboard_End": { "group": "Edit", "label": "Select to end of file" },
+        "Keyboard_ArrowLeft": { "group": "Edit", "label": "Select word left" },
+        "Keyboard_ArrowRight": { "group": "Edit", "label": "Select word right" }
+      }
+    }
+  }
+}

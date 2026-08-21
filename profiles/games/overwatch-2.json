@@ -1,0 +1,37 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "overwatch-2",
+  "name": "Overwatch 2",
+  "kind": "game",
+
+  "match": {
+    "processes": ["overwatch"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Forward" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Left" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Back" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Right" },
+
+    "Keyboard_LeftShift": { "colour": "#C864FF", "label": "Ability 1" },
+    "Keyboard_E": { "colour": "#C864FF", "label": "Ability 2" },
+    "Keyboard_Q": { "colour": "#C864FF", "label": "Ultimate" },
+
+    "Keyboard_F": { "colour": "#FF8C00", "label": "Interact" },
+    "Keyboard_R": { "colour": "#FF8C00", "label": "Reload" },
+    "Keyboard_V": { "colour": "#FF8C00", "label": "Quick melee" },
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Jump" },
+    "Keyboard_LeftCtrl": { "colour": "#FF8C00", "label": "Crouch" },
+    "Keyboard_Tab": { "colour": "#FF8C00", "label": "Scoreboard" },
+
+    "Keyboard_C": { "colour": "#B4B4B4", "label": "Communication menu" },
+    "Keyboard_X": { "colour": "#B4B4B4", "label": "Need healing" },
+    "Keyboard_O": { "colour": "#B4B4B4", "label": "Social menu" },
+    "Keyboard_M": { "colour": "#B4B4B4", "label": "Toggle microphone" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Menu" }
+  }
+}

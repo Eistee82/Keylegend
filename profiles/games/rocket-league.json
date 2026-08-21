@@ -1,0 +1,29 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "rocket-league",
+  "name": "Rocket League",
+  "kind": "game",
+
+  "match": {
+    "processes": ["rocketleague"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Accelerate" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Reverse" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Steer left" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Steer right" },
+    "Keyboard_LeftShift": { "colour": "#FF0000", "label": "Powerslide and air roll" },
+
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Ball camera" },
+
+    "Keyboard_1": { "colour": "#B4B4B4", "label": "Quick chat 1" },
+    "Keyboard_2": { "colour": "#B4B4B4", "label": "Quick chat 2" },
+    "Keyboard_3": { "colour": "#B4B4B4", "label": "Quick chat 3" },
+    "Keyboard_4": { "colour": "#B4B4B4", "label": "Quick chat 4" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Menu" }
+  }
+}

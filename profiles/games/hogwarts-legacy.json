@@ -1,0 +1,48 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "hogwarts-legacy",
+  "name": "Hogwarts Legacy",
+  "kind": "game",
+
+  "match": {
+    "processes": ["hogwartslegacy", "hogwartslegacy-win64-shipping"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Forward" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Left" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Back" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Right" },
+
+    "Keyboard_LeftShift": { "colour": "#FF8C00", "label": "Sprint" },
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Jump" },
+    "Keyboard_LeftCtrl": { "colour": "#FF8C00", "label": "Dodge" },
+    "Keyboard_C": { "colour": "#FF8C00", "label": "Walk" },
+    "Keyboard_F": { "colour": "#FF8C00", "label": "Interact / equip" },
+    "Keyboard_G": { "colour": "#FF8C00", "label": "Drink Wiggenweld potion" },
+    "Keyboard_V": { "colour": "#FF8C00", "label": "Show path to objective" },
+    "Keyboard_CapsLock": { "colour": "#FF8C00", "label": "Lock on" },
+
+    "Keyboard_R": { "colour": "#C864FF", "label": "Cast Revelio" },
+    "Keyboard_Q": { "colour": "#C864FF", "label": "Cast Protego" },
+    "Keyboard_X": { "colour": "#C864FF", "label": "Ancient magic" },
+
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Cast spell 1" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Cast spell 2" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Cast spell 3" },
+    "Keyboard_4": { "colour": "#00C8FF", "label": "Cast spell 4" },
+    "Keyboard_5": { "colour": "#00C8FF", "label": "Spell set 1" },
+    "Keyboard_6": { "colour": "#00C8FF", "label": "Spell set 2" },
+    "Keyboard_7": { "colour": "#00C8FF", "label": "Spell set 3" },
+    "Keyboard_8": { "colour": "#00C8FF", "label": "Spell set 4" },
+    "Keyboard_F1": { "colour": "#00C8FF", "label": "Spell set 1" },
+    "Keyboard_F2": { "colour": "#00C8FF", "label": "Spell set 2" },
+    "Keyboard_F3": { "colour": "#00C8FF", "label": "Spell set 3" },
+    "Keyboard_F4": { "colour": "#00C8FF", "label": "Spell set 4" },
+
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Field guide / menu" }
+  }
+}

@@ -1,0 +1,718 @@
+<Window x:Class="Keylegend.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:views="clr-namespace:Keylegend.App.Views"
+        xmlns:loc="clr-namespace:Keylegend.App.Localisation"
+        Title="Keylegend" Icon="keylegend.ico" Height="720" Width="1140"
+        MinHeight="560" MinWidth="900"
+        Background="#141418" Foreground="#E8E8EE"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#E8E8EE" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+        </Style>
+        <Style x:Key="Heading" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#E8E8EE" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="0,0,0,6" />
+        </Style>
+        <Style x:Key="Muted" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#9A9AA8" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+        <Style TargetType="ToggleButton">
+            <Setter Property="Background" Value="#24242C" />
+            <Setter Property="Foreground" Value="#E8E8EE" />
+            <Setter Property="BorderBrush" Value="#3A3A46" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="10,5" />
+            <Setter Property="Margin" Value="0,0,6,6" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border x:Name="Chrome" CornerRadius="4"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <!-- Hover first, checked second, for the reason given on TabItem. -->
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Chrome" Property="BorderBrush" Value="#5A5A6C" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Chrome" Property="Background" Value="#2D6CDF" />
+                                <Setter TargetName="Chrome" Property="BorderBrush" Value="#4D8CFF" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#24242C" />
+            <Setter Property="Foreground" Value="#E8E8EE" />
+            <Setter Property="BorderBrush" Value="#3A3A46" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="12,6" />
+            <Setter Property="Margin" Value="0,0,6,0" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Chrome" CornerRadius="4"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Chrome" Property="Background" Value="#2E2E38" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Chrome" Property="Opacity" Value="0.5" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--
+            The donation button carries PayPal's own image, so the template adds no chrome of its
+            own - a border or hover fill would sit on top of the artwork and only make it look
+            broken. Kept a Button rather than a bare Image so it stays reachable by keyboard.
+        -->
+        <Style x:Key="DonateButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Chrome" Background="Transparent">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Chrome" Property="Opacity" Value="0.85" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Chrome" Property="Opacity" Value="0.7" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="#24242C" />
+            <Setter Property="Foreground" Value="#E8E8EE" />
+            <Setter Property="BorderBrush" Value="#3A3A46" />
+            <Setter Property="Padding" Value="5,4" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="CaretBrush" Value="#E8E8EE" />
+        </Style>
+
+        <Style TargetType="CheckBox">
+            <Setter Property="Foreground" Value="#E8E8EE" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="Margin" Value="0,0,0,8" />
+        </Style>
+
+        <Style TargetType="ListBox">
+            <Setter Property="Background" Value="#0F0F13" />
+            <Setter Property="Foreground" Value="#E8E8EE" />
+            <Setter Property="BorderBrush" Value="#2A2A34" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+        </Style>
+
+        <!--
+            The default item template paints the system highlight, which is a bright blue block
+            in the middle of a dark window. The accent stripe also survives the greyed-out
+            rendering of a hidden profile, where a background alone would not.
+        -->
+        <Style TargetType="ListBoxItem">
+            <Setter Property="Foreground" Value="#E8E8EE" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="Padding" Value="8,3" />
+            <Setter Property="Margin" Value="0,0,2,1" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="Chrome" CornerRadius="3" Background="Transparent"
+                                BorderBrush="Transparent" BorderThickness="2,0,0,0"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Chrome" Property="Background" Value="#1E1E26" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Chrome" Property="Background" Value="#243048" />
+                                <Setter TargetName="Chrome" Property="BorderBrush" Value="#4D8CFF" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="ToolTip">
+            <Setter Property="Background" Value="#24242C" />
+            <Setter Property="Foreground" Value="#E8E8EE" />
+            <Setter Property="BorderBrush" Value="#3A3A46" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="8,4" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+        </Style>
+
+        <Style TargetType="TabItem">
+            <Setter Property="Background" Value="#1C1C22" />
+            <Setter Property="Foreground" Value="#B8B8C6" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border x:Name="Chrome" Padding="16,8" Margin="0,0,2,0"
+                                CornerRadius="4,4,0,0" Background="{TemplateBinding Background}">
+                            <ContentPresenter ContentSource="Header" />
+                        </Border>
+                        <!--
+                            Hover first, selection second. Where both apply, the later trigger
+                            wins - so the other order let the hover colour paint over the
+                            selected tab, making the active tab look inactive whenever the
+                            pointer crossed it.
+                        -->
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Chrome" Property="Background" Value="#26262E" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Chrome" Property="Background" Value="#0F0F13" />
+                                <Setter Property="Foreground" Value="#FFFFFF" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="14">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <TextBlock x:Name="DeviceName" FontSize="16" FontWeight="SemiBold" Text="Keylegend" />
+                <TextBlock x:Name="DeviceDetail" Style="{StaticResource Muted}" />
+            </StackPanel>
+            <!--
+                Trimmed and capped on purpose. These labels have no line breaks, so without a
+                limit a long status text sets the window's minimum width - which pushed the
+                number pad off the right-hand edge of the keyboard below.
+            -->
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock x:Name="ProfileLabel" VerticalAlignment="Center" Margin="0,0,14,0"
+                           MaxWidth="160" TextTrimming="CharacterEllipsis"
+                           Style="{StaticResource Muted}" />
+                <TextBlock x:Name="StateLabel" VerticalAlignment="Center" Margin="0,0,12,0"
+                           MaxWidth="220" TextTrimming="CharacterEllipsis"
+                           Style="{StaticResource Muted}" />
+                <Button x:Name="PauseButton" Content="{loc:Text StatusPauseButton}"
+                        Click="OnPauseClicked" />
+            </StackPanel>
+        </Grid>
+
+        <!--
+            The tab content must never be able to widen the window. Without this, a wide row of
+            buttons or a long unwrapped label sets the minimum width, the window cannot shrink
+            below it, and the keyboard drawing - which fills whatever it is given - spilled past
+            the right edge with the number pad outside the window.
+        -->
+        <TabControl Grid.Row="1" Background="#0F0F13" BorderBrush="#2A2A34" BorderThickness="1"
+                    x:Name="Tabs" SelectionChanged="OnTabChanged" ClipToBounds="True">
+
+            <!-- ===== Keyboard ===== -->
+            <TabItem Header="{loc:Text TabKeyboard}">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" CornerRadius="6" Background="#0A0A0E" Padding="6">
+                        <views:KeyboardPreview x:Name="Preview" />
+                    </Border>
+
+                    <StackPanel Grid.Row="1" Margin="0,12,0,0">
+                        <TextBlock Style="{StaticResource Heading}" Text="{loc:Text KeyboardLayerHeading}" />
+                        <TextBlock Style="{StaticResource Muted}" Margin="0,0,0,8"
+                                   Text="{loc:Text KeyboardLayerNote}" />
+                        <WrapPanel>
+                            <!--
+                                Checked/Unchecked rather than Click: WPF raises Click only for a
+                                real press, while UI Automation flips the button through
+                                OnToggle. Wiring Click left the layer buttons doing nothing at
+                                all for anyone driving the window with assistive technology —
+                                the highlight moved and the keyboard did not. Checked and
+                                Unchecked fire however the state changed.
+                            -->
+                            <ToggleButton x:Name="ShiftToggle" Content="Shift"
+                                          Checked="OnLayerChanged" Unchecked="OnLayerChanged" />
+                            <ToggleButton x:Name="AltGrToggle" Content="AltGr"
+                                          Checked="OnLayerChanged" Unchecked="OnLayerChanged" />
+                            <ToggleButton x:Name="CtrlToggle" Content="Ctrl"
+                                          Checked="OnLayerChanged" Unchecked="OnLayerChanged" />
+                            <ToggleButton x:Name="AltToggle" Content="Alt"
+                                          Checked="OnLayerChanged" Unchecked="OnLayerChanged" />
+                            <ToggleButton x:Name="WinToggle" Content="Windows"
+                                          Checked="OnLayerChanged" Unchecked="OnLayerChanged" />
+                            <Border Width="14" />
+                            <ToggleButton x:Name="NumToggle" Content="Num Lock"
+                                          Checked="OnLayerChanged" Unchecked="OnLayerChanged" />
+                            <ToggleButton x:Name="CapsToggle" Content="Caps Lock"
+                                          Checked="OnLayerChanged" Unchecked="OnLayerChanged" />
+                            <ToggleButton x:Name="ScrollToggle" Content="Scroll Lock"
+                                          Checked="OnLayerChanged" Unchecked="OnLayerChanged" />
+                            <Border Width="14" />
+                            <Button x:Name="FollowButton" Content="{loc:Text KeyboardFollowButton}"
+                                    Click="OnFollowClicked" />
+                        </WrapPanel>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- ===== Colours ===== -->
+            <TabItem Header="{loc:Text TabColours}">
+                <ScrollViewer Margin="10" VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource Heading}" Text="{loc:Text ColoursCategoriesHeading}" />
+                        <TextBlock Style="{StaticResource Muted}" Margin="0,0,0,10"
+                                   Text="{loc:Text ColoursCategoriesNote}" />
+                        <ItemsControl x:Name="CategoryList" Margin="0,0,0,18" />
+
+                        <TextBlock Style="{StaticResource Heading}" Text="{loc:Text ColoursLocksHeading}" />
+                        <TextBlock Style="{StaticResource Muted}" Margin="0,0,0,10"
+                                   Text="{loc:Text ColoursLocksNote}" />
+                        <ItemsControl x:Name="LockList" Margin="0,0,0,18" />
+
+                        <TextBlock Style="{StaticResource Heading}" Text="{loc:Text ColoursGroupsHeading}" />
+                        <TextBlock Style="{StaticResource Muted}" Margin="0,0,0,10"
+                                   Text="{loc:Text ColoursGroupsNote}" />
+                        <ItemsControl x:Name="GroupList" Margin="0,0,0,10" />
+
+                        <Button Content="{loc:Text ColoursResetButton}" Click="OnResetColoursClicked"
+                                HorizontalAlignment="Left" Margin="0,8,0,0" />
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- ===== Profiles ===== -->
+            <TabItem Header="{loc:Text TabProfiles}">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="252" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Profile list -->
+                    <DockPanel Grid.Column="0" Margin="0,0,12,0">
+                        <TextBlock DockPanel.Dock="Top" Style="{StaticResource Heading}"
+                                   Text="{loc:Text ProfilesHeading}" />
+                        <!-- At eighty profiles the list is only usable with a filter above it. -->
+                        <Grid DockPanel.Dock="Top" Margin="0,0,0,6">
+                            <TextBox x:Name="ProfileSearchBox" TextChanged="OnProfileSearchChanged" />
+                            <TextBlock x:Name="ProfileSearchHint" Text="{loc:Text ProfilesSearchHint}"
+                                       IsHitTestVisible="False" Margin="7,0,0,0" FontSize="12"
+                                       VerticalAlignment="Center" Foreground="#6A6A78" />
+                        </Grid>
+                        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,8,0,0">
+                            <Button Content="{loc:Text ProfilesAddButton}" Click="OnAddProfileClicked" />
+                            <Button x:Name="RemoveProfileButton" Content="{loc:Text ProfilesHideButton}"
+                                    Click="OnRemoveProfileClicked" />
+                        </StackPanel>
+                        <ListBox x:Name="ProfileList" SelectionChanged="OnProfileSelected"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListBox.GroupStyle>
+                                <GroupStyle>
+                                    <GroupStyle.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}" Foreground="#8A8A98"
+                                                       FontSize="11" FontWeight="SemiBold"
+                                                       Margin="4,10,0,3" />
+                                        </DataTemplate>
+                                    </GroupStyle.HeaderTemplate>
+                                </GroupStyle>
+                            </ListBox.GroupStyle>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Opacity="{Binding Dim}" ToolTip="{Binding Tip}">
+                                        <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Text="{Binding Detail}" FontSize="11"
+                                                   Style="{StaticResource Muted}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DockPanel>
+
+                    <!-- Profile editor -->
+                    <Grid Grid.Column="1" x:Name="ProfileEditor" IsEnabled="False">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Where this profile came from, which decides what can be undone -->
+                        <Grid Grid.Row="0" Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock x:Name="ProfileTitle" FontSize="14" FontWeight="SemiBold"
+                                           TextTrimming="CharacterEllipsis" Text="{loc:Text ProfilesNoSelection}" />
+                                <TextBlock x:Name="ProfileOrigin" Style="{StaticResource Muted}" />
+                            </StackPanel>
+                            <Button Grid.Column="1" x:Name="ResetAllButton" Margin="8,0,0,0"
+                                    Content="{loc:Text ProfilesResetAllButton}" VerticalAlignment="Center"
+                                    Click="OnResetProfileClicked"
+                                    ToolTip="{loc:Text ProfilesResetAllTooltip}" />
+                        </Grid>
+
+                        <Border Grid.Row="1" Background="#15151B" BorderBrush="#26262E" BorderThickness="1"
+                                CornerRadius="4" Padding="10,6" Margin="0,0,0,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Text ProfilesSectionMatch}"
+                                           VerticalAlignment="Center"
+                                           ToolTip="{loc:Text ProfilesSectionMatchTooltip}" />
+                                <TextBlock Grid.Row="0" Grid.Column="1" x:Name="MatchStateLabel"
+                                           VerticalAlignment="Center" Style="{StaticResource Muted}" />
+                                <Button Grid.Row="0" Grid.Column="2" x:Name="ResetMatchButton" Tag="Match"
+                                        Content="{loc:Text CommonReset}" Padding="10,2" Margin="0,2"
+                                        IsEnabled="False" Click="OnResetSectionClicked"
+                                        ToolTip="{loc:Text ProfilesResetSectionTooltip}" />
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="{loc:Text ProfilesSectionHighlights}"
+                                           VerticalAlignment="Center"
+                                           ToolTip="{loc:Text ProfilesSectionHighlightsTooltip}" />
+                                <TextBlock Grid.Row="1" Grid.Column="1" x:Name="HighlightStateLabel"
+                                           VerticalAlignment="Center" Style="{StaticResource Muted}" />
+                                <Button Grid.Row="1" Grid.Column="2" x:Name="ResetHighlightsButton"
+                                        Tag="Highlights" Content="{loc:Text CommonReset}" Padding="10,2"
+                                        Margin="0,2" IsEnabled="False" Click="OnResetSectionClicked"
+                                        ToolTip="{loc:Text ProfilesResetSectionTooltip}" />
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Text ProfilesSectionShortcuts}"
+                                           VerticalAlignment="Center"
+                                           ToolTip="{loc:Text ProfilesSectionShortcutsTooltip}" />
+                                <TextBlock Grid.Row="2" Grid.Column="1" x:Name="ShortcutStateLabel"
+                                           VerticalAlignment="Center" Style="{StaticResource Muted}" />
+                                <Button Grid.Row="2" Grid.Column="2" x:Name="ResetShortcutsButton"
+                                        Tag="Shortcuts" Content="{loc:Text CommonReset}" Padding="10,2"
+                                        Margin="0,2" IsEnabled="False" Click="OnResetSectionClicked"
+                                        ToolTip="{loc:Text ProfilesResetSectionTooltip}" />
+                            </Grid>
+                        </Border>
+
+                        <StackPanel Grid.Row="2" Margin="0,0,0,10">
+                            <Grid Margin="0,0,0,6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{loc:Text ProfilesNameLabel}" Width="86"
+                                           VerticalAlignment="Center" Style="{StaticResource Muted}" />
+                                <TextBox Grid.Column="1" x:Name="ProfileNameBox"
+                                         LostFocus="OnProfileFieldChanged" />
+                                <TextBlock Grid.Column="2" Text="{loc:Text ProfilesPriorityLabel}"
+                                           Margin="14,0,8,0"
+                                           VerticalAlignment="Center" Style="{StaticResource Muted}" />
+                                <TextBox Grid.Column="3" x:Name="ProfilePriorityBox" Width="48"
+                                         TextAlignment="Center" LostFocus="OnProfileFieldChanged"
+                                         ToolTip="{loc:Text ProfilesPriorityTooltip}" />
+                            </Grid>
+                            <Grid Margin="0,0,0,6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{loc:Text ProfilesProgramsLabel}" Width="86"
+                                           VerticalAlignment="Center" Style="{StaticResource Muted}" />
+                                <TextBox Grid.Column="1" x:Name="ProfileProcessBox"
+                                         LostFocus="OnProfileFieldChanged"
+                                         ToolTip="{loc:Text ProfilesProgramsTooltip}" />
+                            </Grid>
+                            <CheckBox x:Name="ProfileGamesBox" Margin="0"
+                                      Checked="OnProfileFieldChanged" Unchecked="OnProfileFieldChanged"
+                                      Content="{loc:Text ProfilesGamesCheckbox}"
+                                      ToolTip="{loc:Text ProfilesGamesTooltip}" />
+                        </StackPanel>
+
+                        <Grid Grid.Row="3" Margin="0,0,0,8">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                <ToggleButton x:Name="HighlightModeButton"
+                                              Content="{loc:Text ProfilesHighlightModeButton}"
+                                              IsChecked="True" Click="OnEditModeChanged" />
+                                <ToggleButton x:Name="ShortcutModeButton"
+                                              Content="{loc:Text ProfilesShortcutModeButton}"
+                                              Click="OnEditModeChanged" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1" x:Name="HighlightPanel">
+                                <TextBlock Style="{StaticResource Muted}" Margin="0,0,0,6"
+                                           Text="{loc:Text ProfilesHighlightNote}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{loc:Text ProfilesHighlightColourLabel}"
+                                               VerticalAlignment="Center"
+                                               Margin="0,0,8,0" Style="{StaticResource Muted}" />
+                                    <Button x:Name="HighlightColourButton"
+                                            Content="{loc:Text ProfilesHighlightChooseButton}"
+                                            Click="OnHighlightColourClicked" />
+                                    <Border x:Name="HighlightSwatch" Width="28" Height="22" Margin="2,0,12,0"
+                                            CornerRadius="3" Background="Red" BorderBrush="#5A5A6C"
+                                            BorderThickness="1" />
+                                    <Button Content="{loc:Text ProfilesClearHighlightsButton}"
+                                            Click="OnClearHighlightsClicked" />
+                                </StackPanel>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1" x:Name="ShortcutPanel" Visibility="Collapsed">
+                                <TextBlock Style="{StaticResource Muted}" Margin="0,0,0,6"
+                                           Text="{loc:Text ProfilesShortcutNote}" />
+                                <ListBox x:Name="ProfileLayerList" Background="Transparent" BorderThickness="0"
+                                         SelectionChanged="OnProfileLayerSelected">
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel />
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                </ListBox>
+                                <DockPanel Margin="0,6,0,0">
+                                    <Button DockPanel.Dock="Right" Content="{loc:Text ProfilesClearLayerButton}"
+                                            Margin="8,0,0,0"
+                                            VerticalAlignment="Top" Click="OnClearProfileLayerClicked" />
+                                    <WrapPanel x:Name="ProfileGroupPicker" />
+                                </DockPanel>
+                            </StackPanel>
+                        </Grid>
+
+                        <Border Grid.Row="4" CornerRadius="6" Background="#0A0A0E" Padding="6" MinHeight="140">
+                            <views:KeyboardPreview x:Name="ProfilePreview" />
+                        </Border>
+
+                        <TextBlock Grid.Row="5" x:Name="ProfileHint" Margin="2,8,0,0"
+                                   TextTrimming="CharacterEllipsis" Style="{StaticResource Muted}" />
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <!-- ===== Shortcuts ===== -->
+            <TabItem Header="{loc:Text TabShortcuts}">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="230" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Layer list -->
+                    <DockPanel Grid.Column="0" Margin="0,0,12,0">
+                        <TextBlock DockPanel.Dock="Top" Style="{StaticResource Heading}"
+                                   Text="{loc:Text ShortcutsLayerHeading}" />
+                        <TextBlock DockPanel.Dock="Top" Style="{StaticResource Muted}" Margin="0,0,0,8"
+                                   Text="{loc:Text ShortcutsLayerNote}" />
+                        <ListBox x:Name="LayerList" SelectionChanged="OnLayerSelected" />
+                    </DockPanel>
+
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0">
+                            <TextBlock Style="{StaticResource Heading}" Text="{loc:Text ShortcutsAssignHeading}" />
+                            <TextBlock Style="{StaticResource Muted}" Margin="0,0,0,10"
+                                       Text="{loc:Text ShortcutsAssignNote}" />
+                            <WrapPanel x:Name="GroupPicker" Margin="0,0,0,10" />
+                        </StackPanel>
+
+                        <Border Grid.Row="1" CornerRadius="6" Background="#0A0A0E" Padding="6">
+                            <views:KeyboardPreview x:Name="ShortcutPreview" />
+                        </Border>
+
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,8,0,0">
+                            <TextBlock x:Name="ShortcutCountLabel" VerticalAlignment="Center"
+                                       Margin="0,0,14,0" Style="{StaticResource Muted}" />
+                            <Button Content="{loc:Text ShortcutsClearLayerButton}" Click="OnClearLayerClicked" />
+                            <Button Content="{loc:Text ShortcutsResetButton}" Click="OnResetShortcutsClicked" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <!-- ===== Settings ===== -->
+            <TabItem Header="{loc:Text TabSettings}">
+                <StackPanel Margin="14" MaxWidth="620" HorizontalAlignment="Left">
+                    <TextBlock Style="{StaticResource Heading}" Text="{loc:Text SettingsIdleHeading}" />
+                    <TextBlock Style="{StaticResource Muted}" Margin="0,0,0,8"
+                               Text="{loc:Text SettingsIdleNote}" />
+                    <!-- The switch above the period it governs, so the greyed-out box below has
+                         a visible cause rather than looking broken. -->
+                    <CheckBox x:Name="HandBackBox" IsChecked="True"
+                              Checked="OnHandBackChanged" Unchecked="OnHandBackChanged"
+                              Margin="0,0,0,4" Content="{loc:Text SettingsHandBackCheckbox}" />
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <TextBox x:Name="IdleBox" Width="60" Text="60" TextAlignment="Center"
+                                 KeyDown="OnIdleKeyDown" LostFocus="OnIdleCommitted" />
+                        <TextBlock x:Name="IdleSecondsLabel" Text="{loc:Text SettingsIdleSeconds}"
+                                   VerticalAlignment="Center" Margin="8,0,0,0"
+                                   Style="{StaticResource Muted}" />
+                    </StackPanel>
+                    <TextBlock Style="{StaticResource Muted}" Margin="0,0,0,18"
+                               Text="{loc:Text SettingsHandBackNote}" />
+
+                    <TextBlock Style="{StaticResource Heading}" Text="{loc:Text SettingsBrightnessHeading}" />
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,18">
+                        <Slider x:Name="BrightnessSlider" Width="240" Minimum="0.1" Maximum="1.0"
+                                Value="1.0" VerticalAlignment="Center"
+                                ValueChanged="OnBrightnessChanged" />
+                        <TextBlock x:Name="BrightnessLabel" VerticalAlignment="Center" Margin="10,0,0,0"
+                                   Style="{StaticResource Muted}" Text="100 %" />
+                    </StackPanel>
+
+                    <TextBlock Style="{StaticResource Heading}" Text="{loc:Text SettingsBehaviourHeading}" />
+                    <!--
+                        Checked/Unchecked rather than Click, for the same reason as the layer
+                        buttons: WPF raises Click only for a real press, so a checkbox wired that
+                        way does nothing when driven by UI Automation — the tick appears and the
+                        setting stays as it was. Assistive technology hits exactly that.
+                    -->
+                    <CheckBox x:Name="ProfilesEnabledBox" Content="{loc:Text SettingsProfilesCheckbox}"
+                              Checked="OnProfilesEnabledChanged" Unchecked="OnProfilesEnabledChanged" />
+                    <CheckBox x:Name="AutostartBox" Content="{loc:Text SettingsAutostartCheckbox}"
+                              Checked="OnAutostartChanged" Unchecked="OnAutostartChanged" />
+
+                    <TextBlock Style="{StaticResource Heading}" Text="{loc:Text SettingsLanguageHeading}"
+                               Margin="0,14,0,6" />
+                    <ComboBox x:Name="LanguageBox" Width="220" HorizontalAlignment="Left"
+                              SelectionChanged="OnLanguageChanged">
+                        <!--
+                            Every language names itself. Translating the list would mean each
+                            of the eleven carrying ten names for the others, and someone whose
+                            interface came up in a language they cannot read would have to find
+                            their own in a language they also cannot read.
+                        -->
+                        <ComboBoxItem Content="{loc:Text SettingsLanguageAutomatic}" Tag="Automatic" />
+                        <ComboBoxItem Content="Deutsch" Tag="German" />
+                        <ComboBoxItem Content="English" Tag="English" />
+                        <ComboBoxItem Content="Español" Tag="Spanish" />
+                        <ComboBoxItem Content="Français" Tag="French" />
+                        <ComboBoxItem Content="Italiano" Tag="Italian" />
+                        <ComboBoxItem Content="Nederlands" Tag="Dutch" />
+                        <ComboBoxItem Content="Polski" Tag="Polish" />
+                        <ComboBoxItem Content="Português" Tag="Portuguese" />
+                        <ComboBoxItem Content="Русский" Tag="Russian" />
+                        <ComboBoxItem Content="Українська" Tag="Ukrainian" />
+                        <ComboBoxItem Content="简体中文" Tag="ChineseSimplified" />
+                    </ComboBox>
+                    <TextBlock Style="{StaticResource Muted}" Margin="0,6,0,0"
+                               Text="{loc:Text SettingsLanguageNote}" />
+
+                    <TextBlock Style="{StaticResource Heading}" Text="{loc:Text SettingsFileHeading}"
+                               Margin="0,14,0,6" />
+                    <TextBlock x:Name="ConfigPathLabel" Style="{StaticResource Muted}" />
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Button Content="{loc:Text SettingsSaveButton}" Click="OnSaveClicked" />
+                        <Button Content="{loc:Text SettingsOpenFolderButton}" Click="OnOpenConfigFolderClicked" />
+                    </StackPanel>
+
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+
+        <!-- Footer. The donation link sits here rather than in a tab so it is reachable from
+             anywhere, and as a quiet link rather than a button so it never competes with the
+             control the user actually came for. -->
+        <Grid Grid.Row="2" Margin="2,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock x:Name="StatusLine" Grid.Column="0" Style="{StaticResource Muted}"
+                       VerticalAlignment="Center" />
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"
+                        Margin="12,0,2,0">
+                <TextBlock Style="{StaticResource Muted}" VerticalAlignment="Center"
+                           TextWrapping="NoWrap" Margin="0,0,10,0"
+                           Text="{loc:Text DonatePrompt}" />
+                <Button Style="{StaticResource DonateButton}" Click="OnDonateClicked"
+                        Margin="0,0,8,0" ToolTip="{loc:Text DonateTooltip}">
+                    <Image Source="Assets/paypal-donate.gif" Width="92" Height="26"
+                           RenderOptions.BitmapScalingMode="HighQuality" />
+                </Button>
+                <Button Style="{StaticResource DonateButton}" Click="OnKofiClicked"
+                        ToolTip="{loc:Text DonateKofiTooltip}">
+                    <Image Source="Assets/kofi-button.png" Width="103" Height="26"
+                           RenderOptions.BitmapScalingMode="HighQuality" />
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

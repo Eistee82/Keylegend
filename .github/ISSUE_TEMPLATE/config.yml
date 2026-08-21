@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Question about using Keylegend
+    url: https://github.com/Eistee82/Keylegend/discussions
+    about: For anything that is not a defect or a contribution.

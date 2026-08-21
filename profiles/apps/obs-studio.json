@@ -1,0 +1,49 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "obs-studio",
+  "name": "OBS Studio",
+  "kind": "app",
+
+  "match": {
+    "processes": ["obs64", "obs32"],
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_Delete": { "colour": "#FF3232", "label": "Remove source" },
+
+    "Keyboard_ArrowUp": { "colour": "#00C8FF", "label": "Nudge source up" },
+    "Keyboard_ArrowDown": { "colour": "#00C8FF", "label": "Nudge source down" },
+    "Keyboard_ArrowLeft": { "colour": "#00C8FF", "label": "Nudge source left" },
+    "Keyboard_ArrowRight": { "colour": "#00C8FF", "label": "Nudge source right" }
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "q": { "group": "File", "label": "Quit OBS Studio" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "c": { "group": "Edit", "label": "Copy source" },
+        "v": { "group": "Edit", "label": "Paste source" },
+        "e": { "group": "View", "label": "Edit transform" },
+        "r": { "group": "View", "label": "Reset transform" },
+        "f": { "group": "View", "label": "Fit source to screen" },
+        "s": { "group": "View", "label": "Stretch source to screen" },
+        "d": { "group": "View", "label": "Center source on screen" }
+      },
+      "keys": {
+        "Keyboard_ArrowUp": { "group": "Edit", "label": "Move source up one layer" },
+        "Keyboard_ArrowDown": { "group": "Edit", "label": "Move source down one layer" },
+        "Keyboard_Home": { "group": "Edit", "label": "Move source to top" },
+        "Keyboard_End": { "group": "Edit", "label": "Move source to bottom" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "z": { "group": "Edit", "label": "Redo" }
+      }
+    }
+  }
+}

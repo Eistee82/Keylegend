@@ -1,0 +1,53 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "satisfactory",
+  "name": "Satisfactory",
+  "kind": "game",
+
+  "match": {
+    "processes": [
+      "factorygame",
+      "factorygame-win64-shipping",
+      "factorygamesteam",
+      "factorygameegs"
+    ],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Forward" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Left" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Back" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Right" },
+
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Jump and jetpack" },
+    "Keyboard_LeftShift": { "colour": "#FF8C00", "label": "Sprint" },
+    "Keyboard_C": { "colour": "#FF8C00", "label": "Crouch" },
+    "Keyboard_E": { "colour": "#FF8C00", "label": "Interact" },
+    "Keyboard_V": { "colour": "#FF8C00", "label": "Resource scanner" },
+    "Keyboard_B": { "colour": "#FF8C00", "label": "Toggle flashlight" },
+
+    "Keyboard_Q": { "colour": "#64FF96", "label": "Build gun" },
+    "Keyboard_F": { "colour": "#64FF96", "label": "Dismantle mode" },
+
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Hotbar slot 1" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Hotbar slot 2" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Hotbar slot 3" },
+    "Keyboard_4": { "colour": "#00C8FF", "label": "Hotbar slot 4" },
+    "Keyboard_5": { "colour": "#00C8FF", "label": "Hotbar slot 5" },
+    "Keyboard_6": { "colour": "#00C8FF", "label": "Hotbar slot 6" },
+    "Keyboard_7": { "colour": "#00C8FF", "label": "Hotbar slot 7" },
+    "Keyboard_8": { "colour": "#00C8FF", "label": "Hotbar slot 8" },
+    "Keyboard_9": { "colour": "#00C8FF", "label": "Hotbar slot 9" },
+    "Keyboard_0": { "colour": "#00C8FF", "label": "Hotbar slot 10" },
+
+    "Keyboard_Tab": { "colour": "#B4B4B4", "label": "Open inventory" },
+    "Keyboard_M": { "colour": "#B4B4B4", "label": "Open map" },
+    "Keyboard_O": { "colour": "#B4B4B4", "label": "Open codex" },
+    "Keyboard_P": { "colour": "#B4B4B4", "label": "Photo mode" },
+    "Keyboard_Enter": { "colour": "#B4B4B4", "label": "Open chat" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Menu" }
+  }
+}

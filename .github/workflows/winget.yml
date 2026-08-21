@@ -1,0 +1,66 @@
+name: winget manifests
+
+# Deliberately manual, and deliberately after the fact.
+#
+# The manifest carries the SHA256 of the installer as published, and winget's validation checks
+# it against what the release actually serves. So this cannot run as part of building the
+# release: at that point the file has not been published yet, and the release starts as a draft
+# anyway. Publish first, then run this.
+#
+# It does not open the pull request to microsoft/winget-pkgs either. That submission goes in
+# front of other people's moderators under your name, and is worth a look at the files first.
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Published version, without the leading v'
+        required: true
+        default: '1.0.0'
+
+permissions:
+  contents: read
+
+jobs:
+  manifests:
+    name: Update for a published release
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      # Downloads the published installer and takes the hash from it. Fails plainly if the
+      # release is still a draft, which is the most likely reason for running this too early.
+      - name: Fill in the manifests
+        shell: pwsh
+        run: ./tools/winget-manifest.ps1 -Version ${{ inputs.version }}
+
+      - name: Show what changed
+        shell: pwsh
+        run: git --no-pager diff -- packaging/winget
+
+      - name: Upload the manifests
+        uses: actions/upload-artifact@v4
+        with:
+          name: winget-manifests-${{ inputs.version }}
+          path: packaging/winget/*.yaml
+          if-no-files-found: error
+
+      - name: How to submit
+        shell: pwsh
+        run: |
+          Write-Host @"
+
+          The manifests are attached to this run. To submit them:
+
+            winget install wingetcreate
+            wingetcreate submit --token <github-pat> packaging\winget
+
+          The token needs public_repo, and wingetcreate forks microsoft/winget-pkgs on your
+          behalf. Validation runs automatically on the pull request: it installs the package in a
+          sandbox, checks it uninstalls cleanly, and compares the hash. A moderator reviews after
+          that.
+
+          Commit the updated files here as well, so the repository and the submission agree.
+          "@

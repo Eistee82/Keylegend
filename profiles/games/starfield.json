@@ -1,0 +1,55 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "starfield",
+  "name": "Starfield",
+  "kind": "game",
+
+  "match": {
+    "processes": ["starfield"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Forward" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Left" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Back" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Right" },
+
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Jump / boost pack" },
+    "Keyboard_LeftShift": { "colour": "#FF8C00", "label": "Sprint" },
+    "Keyboard_LeftCtrl": { "colour": "#FF8C00", "label": "Sneak" },
+    "Keyboard_E": { "colour": "#FF8C00", "label": "Activate" },
+    "Keyboard_R": { "colour": "#FF8C00", "label": "Reload / sheathe weapon" },
+    "Keyboard_V": { "colour": "#FF8C00", "label": "Melee attack" },
+    "Keyboard_G": { "colour": "#FF8C00", "label": "Throw grenade" },
+    "Keyboard_F": { "colour": "#FF8C00", "label": "Hand scanner" },
+    "Keyboard_CapsLock": { "colour": "#FF8C00", "label": "Toggle always run" },
+
+    "Keyboard_Z": { "colour": "#C864FF", "label": "Use power" },
+    "Keyboard_K": { "colour": "#C864FF", "label": "Powers menu" },
+
+    "Keyboard_Q": { "colour": "#00C8FF", "label": "Quick keys wheel" },
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Quick key 1" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Quick key 2" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Quick key 3" },
+    "Keyboard_4": { "colour": "#00C8FF", "label": "Quick key 4" },
+    "Keyboard_5": { "colour": "#00C8FF", "label": "Quick key 5" },
+    "Keyboard_6": { "colour": "#00C8FF", "label": "Quick key 6" },
+    "Keyboard_7": { "colour": "#00C8FF", "label": "Quick key 7" },
+    "Keyboard_8": { "colour": "#00C8FF", "label": "Quick key 8" },
+    "Keyboard_9": { "colour": "#00C8FF", "label": "Quick key 9" },
+    "Keyboard_0": { "colour": "#00C8FF", "label": "Quick key 10" },
+
+    "Keyboard_Tab": { "colour": "#B4B4B4", "label": "Data menu" },
+    "Keyboard_I": { "colour": "#B4B4B4", "label": "Inventory" },
+    "Keyboard_L": { "colour": "#B4B4B4", "label": "Missions" },
+    "Keyboard_M": { "colour": "#B4B4B4", "label": "Open map" },
+    "Keyboard_P": { "colour": "#B4B4B4", "label": "Skills" },
+    "Keyboard_H": { "colour": "#B4B4B4", "label": "Ship menu" },
+    "Keyboard_F5": { "colour": "#B4B4B4", "label": "Quick save" },
+    "Keyboard_F9": { "colour": "#B4B4B4", "label": "Quick load" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Pause menu" }
+  }
+}

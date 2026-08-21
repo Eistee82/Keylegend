@@ -1,0 +1,81 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "premiere-pro",
+  "name": "Adobe Premiere Pro",
+  "kind": "app",
+
+  "match": {
+    "processes": ["adobe premiere pro"],
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_V": { "colour": "#FFC800", "label": "Selection" },
+    "Keyboard_A": { "colour": "#FFC800", "label": "Track select forward" },
+    "Keyboard_B": { "colour": "#FFC800", "label": "Ripple edit" },
+    "Keyboard_N": { "colour": "#FFC800", "label": "Rolling edit" },
+    "Keyboard_C": { "colour": "#FFC800", "label": "Razor" },
+    "Keyboard_Z": { "colour": "#FFC800", "label": "Slip" },
+    "Keyboard_U": { "colour": "#FFC800", "label": "Slide" },
+    "Keyboard_P": { "colour": "#FFC800", "label": "Pen" },
+    "Keyboard_R": { "colour": "#FFC800", "label": "Rate stretch" },
+    "Keyboard_T": { "colour": "#FFC800", "label": "Type" },
+
+    "Keyboard_J": { "colour": "#00C8FF", "label": "Play backwards" },
+    "Keyboard_K": { "colour": "#00C8FF", "label": "Stop" },
+    "Keyboard_L": { "colour": "#00C8FF", "label": "Play forwards" },
+    "Keyboard_Space": { "colour": "#00C8FF", "label": "Play and stop" },
+    "Keyboard_H": { "colour": "#00C8FF", "label": "Hand" },
+    "Keyboard_Y": { "colour": "#00C8FF", "label": "Zoom" },
+
+    "Keyboard_I": { "colour": "#22CC66", "label": "Mark in" },
+    "Keyboard_O": { "colour": "#22CC66", "label": "Mark out" },
+    "Keyboard_X": { "colour": "#22CC66", "label": "Mark clip" },
+    "Keyboard_M": { "colour": "#22CC66", "label": "Add marker" },
+    "Keyboard_Q": { "colour": "#22CC66", "label": "Ripple trim previous edit" },
+    "Keyboard_W": { "colour": "#22CC66", "label": "Ripple trim next edit" },
+    "Keyboard_E": { "colour": "#22CC66", "label": "Extend edit to playhead" },
+    "Keyboard_D": { "colour": "#22CC66", "label": "Select clip at playhead" },
+
+    "Keyboard_S": { "colour": "#B4B4B4", "label": "Toggle snapping" },
+    "Keyboard_F": { "colour": "#B4B4B4", "label": "Match frame" },
+    "Keyboard_G": { "colour": "#B4B4B4", "label": "Audio gain" },
+    "Keyboard_CommaAndLessThan": { "colour": "#B4B4B4", "label": "Insert" },
+    "Keyboard_PeriodAndBiggerThan": { "colour": "#B4B4B4", "label": "Overwrite" }
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "n": { "group": "File", "label": "New sequence" },
+        "o": { "group": "File", "label": "Open project" },
+        "s": { "group": "File", "label": "Save" },
+        "w": { "group": "File", "label": "Close" },
+        "i": { "group": "File", "label": "Import media" },
+        "m": { "group": "File", "label": "Export media" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "x": { "group": "Edit", "label": "Cut" },
+        "c": { "group": "Edit", "label": "Copy" },
+        "v": { "group": "Edit", "label": "Paste" },
+        "a": { "group": "Edit", "label": "Select all" },
+        "k": { "group": "Edit", "label": "Add edit at playhead" },
+        "d": { "group": "Edit", "label": "Apply video transition" },
+        "r": { "group": "Edit", "label": "Speed and duration" },
+        "g": { "group": "Edit", "label": "Group clips" },
+        "l": { "group": "Edit", "label": "Link and unlink clips" },
+        "f": { "group": "Search", "label": "Find" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "s": { "group": "File", "label": "Save as" },
+        "a": { "group": "Edit", "label": "Deselect all" },
+        "g": { "group": "Edit", "label": "Ungroup clips" },
+        "d": { "group": "Edit", "label": "Apply audio transition" },
+        "k": { "group": "Edit", "label": "Add edit to all tracks" }
+      }
+    }
+  }
+}

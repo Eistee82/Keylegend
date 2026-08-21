@@ -1,0 +1,90 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "indesign",
+  "name": "Adobe InDesign",
+  "kind": "app",
+
+  "match": {
+    "processes": ["indesign"],
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_V": { "colour": "#00C8FF", "label": "Selection" },
+    "Keyboard_A": { "colour": "#00C8FF", "label": "Direct selection" },
+    "Keyboard_F": { "colour": "#00C8FF", "label": "Rectangle frame" },
+    "Keyboard_M": { "colour": "#00C8FF", "label": "Rectangle" },
+
+    "Keyboard_P": { "colour": "#22CC66", "label": "Pen" },
+    "Keyboard_T": { "colour": "#22CC66", "label": "Type" },
+    "Keyboard_N": { "colour": "#22CC66", "label": "Pencil" },
+    "Keyboard_C": { "colour": "#22CC66", "label": "Scissors" },
+    "Keyboard_G": { "colour": "#22CC66", "label": "Gradient swatch" },
+    "Keyboard_I": { "colour": "#22CC66", "label": "Eyedropper" },
+
+    "Keyboard_R": { "colour": "#FFC800", "label": "Rotate" },
+    "Keyboard_S": { "colour": "#FFC800", "label": "Scale" },
+    "Keyboard_E": { "colour": "#FFC800", "label": "Free transform" },
+    "Keyboard_U": { "colour": "#FFC800", "label": "Gap" },
+
+    "Keyboard_H": { "colour": "#B4B4B4", "label": "Hand" },
+    "Keyboard_Y": { "colour": "#B4B4B4", "label": "Zoom" },
+    "Keyboard_W": { "colour": "#B4B4B4", "label": "Toggle preview mode" },
+    "Keyboard_D": { "colour": "#B4B4B4", "label": "Default fill and stroke" },
+    "Keyboard_X": { "colour": "#B4B4B4", "label": "Toggle fill and stroke" },
+    "Keyboard_Tab": { "colour": "#B4B4B4", "label": "Hide panels" }
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "n": { "group": "File", "label": "New document" },
+        "o": { "group": "File", "label": "Open file" },
+        "s": { "group": "File", "label": "Save" },
+        "w": { "group": "File", "label": "Close document" },
+        "p": { "group": "File", "label": "Print" },
+        "d": { "group": "File", "label": "Place file" },
+        "e": { "group": "File", "label": "Export" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "x": { "group": "Edit", "label": "Cut" },
+        "c": { "group": "Edit", "label": "Copy" },
+        "v": { "group": "Edit", "label": "Paste" },
+        "a": { "group": "Edit", "label": "Select all" },
+        "g": { "group": "Edit", "label": "Group objects" },
+        "l": { "group": "Edit", "label": "Lock selection" },
+        "b": { "group": "Tools", "label": "Text frame options" },
+        "t": { "group": "Tools", "label": "Character panel" },
+        "f": { "group": "Search", "label": "Find and change" },
+        "j": { "group": "Navigation", "label": "Go to page" },
+        "r": { "group": "View", "label": "Show rulers" },
+        "0": { "group": "View", "label": "Fit page in window" },
+        "1": { "group": "View", "label": "Zoom to 100%" },
+        "+": { "group": "View", "label": "Zoom in" },
+        "-": { "group": "View", "label": "Zoom out" },
+        "k": { "group": "System", "label": "Preferences" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "s": { "group": "File", "label": "Save as" },
+        "g": { "group": "Edit", "label": "Ungroup objects" },
+        "a": { "group": "Edit", "label": "Deselect all" },
+        "l": { "group": "Tools", "label": "Align text left" },
+        "c": { "group": "Tools", "label": "Align text centre" },
+        "r": { "group": "Tools", "label": "Align text right" },
+        "j": { "group": "Tools", "label": "Justify text" }
+      }
+    },
+
+    "Ctrl+Alt": {
+      "characters": {
+        "p": { "group": "File", "label": "Document setup" },
+        "t": { "group": "Tools", "label": "Paragraph panel" },
+        "c": { "group": "Edit", "label": "Fit frame to content" },
+        "i": { "group": "View", "label": "Show hidden characters" }
+      }
+    }
+  }
+}

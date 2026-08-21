@@ -1,0 +1,48 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "ark-survival",
+  "name": "ARK: Survival",
+  "kind": "game",
+
+  "match": {
+    "processes": ["shootergame", "arkascended"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Forward" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Left" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Back" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Right" },
+
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Jump" },
+    "Keyboard_LeftShift": { "colour": "#FF8C00", "label": "Sprint" },
+    "Keyboard_C": { "colour": "#FF8C00", "label": "Crouch" },
+    "Keyboard_X": { "colour": "#FF8C00", "label": "Go prone" },
+    "Keyboard_E": { "colour": "#FF8C00", "label": "Use" },
+    "Keyboard_F": { "colour": "#FF8C00", "label": "Open target inventory" },
+    "Keyboard_R": { "colour": "#FF8C00", "label": "Reload" },
+    "Keyboard_O": { "colour": "#FF8C00", "label": "Drop item" },
+    "Keyboard_H": { "colour": "#FF8C00", "label": "Extended information display" },
+    "Keyboard_T": { "colour": "#FF8C00", "label": "Whistle commands" },
+    "Keyboard_N": { "colour": "#FF8C00", "label": "Toggle weapon attachment" },
+
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Item slot 1" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Item slot 2" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Item slot 3" },
+    "Keyboard_4": { "colour": "#00C8FF", "label": "Item slot 4" },
+    "Keyboard_5": { "colour": "#00C8FF", "label": "Item slot 5" },
+    "Keyboard_6": { "colour": "#00C8FF", "label": "Item slot 6" },
+    "Keyboard_7": { "colour": "#00C8FF", "label": "Item slot 7" },
+    "Keyboard_8": { "colour": "#00C8FF", "label": "Item slot 8" },
+    "Keyboard_9": { "colour": "#00C8FF", "label": "Item slot 9" },
+    "Keyboard_0": { "colour": "#00C8FF", "label": "Item slot 10" },
+
+    "Keyboard_I": { "colour": "#B4B4B4", "label": "Open own inventory" },
+    "Keyboard_M": { "colour": "#B4B4B4", "label": "Open map" },
+    "Keyboard_GraveAccentAndTilde": { "colour": "#B4B4B4", "label": "Console" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Menu" }
+  }
+}

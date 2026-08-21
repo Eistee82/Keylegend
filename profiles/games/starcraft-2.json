@@ -1,0 +1,45 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "starcraft-2",
+  "name": "StarCraft II",
+  "kind": "game",
+
+  "match": {
+    "processes": ["sc2", "sc2_x64", "sc2switcher", "sc2switcher_x64"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_A": { "colour": "#FF0000", "label": "Attack" },
+    "Keyboard_M": { "colour": "#FF0000", "label": "Move" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Stop" },
+    "Keyboard_H": { "colour": "#FF0000", "label": "Hold position" },
+    "Keyboard_P": { "colour": "#FF0000", "label": "Patrol" },
+
+    "Keyboard_B": { "colour": "#64FF96", "label": "Build structure" },
+    "Keyboard_V": { "colour": "#64FF96", "label": "Build advanced structure" },
+
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Control group 1" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Control group 2" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Control group 3" },
+    "Keyboard_4": { "colour": "#00C8FF", "label": "Control group 4" },
+    "Keyboard_5": { "colour": "#00C8FF", "label": "Control group 5" },
+    "Keyboard_6": { "colour": "#00C8FF", "label": "Control group 6" },
+    "Keyboard_7": { "colour": "#00C8FF", "label": "Control group 7" },
+    "Keyboard_8": { "colour": "#00C8FF", "label": "Control group 8" },
+    "Keyboard_9": { "colour": "#00C8FF", "label": "Control group 9" },
+    "Keyboard_0": { "colour": "#00C8FF", "label": "Control group 10" },
+
+    "Keyboard_F1": { "colour": "#B4B4B4", "label": "Select idle worker" },
+    "Keyboard_F2": { "colour": "#B4B4B4", "label": "Select all army" },
+    "Keyboard_Backspace": { "colour": "#B4B4B4", "label": "Cycle bases" },
+    "Keyboard_F5": { "colour": "#B4B4B4", "label": "Camera location 1" },
+    "Keyboard_F6": { "colour": "#B4B4B4", "label": "Camera location 2" },
+    "Keyboard_F7": { "colour": "#B4B4B4", "label": "Camera location 3" },
+    "Keyboard_F8": { "colour": "#B4B4B4", "label": "Camera location 4" },
+    "Keyboard_F10": { "colour": "#B4B4B4", "label": "Game menu" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Cancel" }
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "photoshop",
+  "name": "Adobe Photoshop",
+  "kind": "app",
+
+  "match": {
+    "processes": ["photoshop"],
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_V": { "colour": "#00C8FF", "label": "Move" },
+    "Keyboard_M": { "colour": "#00C8FF", "label": "Marquee select" },
+    "Keyboard_L": { "colour": "#00C8FF", "label": "Lasso" },
+    "Keyboard_W": { "colour": "#00C8FF", "label": "Quick selection" },
+    "Keyboard_C": { "colour": "#00C8FF", "label": "Crop" },
+    "Keyboard_A": { "colour": "#00C8FF", "label": "Path selection" },
+
+    "Keyboard_B": { "colour": "#22CC66", "label": "Brush" },
+    "Keyboard_E": { "colour": "#22CC66", "label": "Eraser" },
+    "Keyboard_S": { "colour": "#22CC66", "label": "Clone stamp" },
+    "Keyboard_J": { "colour": "#22CC66", "label": "Healing brush" },
+    "Keyboard_G": { "colour": "#22CC66", "label": "Gradient" },
+    "Keyboard_O": { "colour": "#22CC66", "label": "Dodge and burn" },
+    "Keyboard_Z": { "colour": "#22CC66", "label": "History brush" },
+
+    "Keyboard_P": { "colour": "#FFC800", "label": "Pen" },
+    "Keyboard_T": { "colour": "#FFC800", "label": "Type" },
+    "Keyboard_U": { "colour": "#FFC800", "label": "Shape" },
+    "Keyboard_K": { "colour": "#FFC800", "label": "Frame" },
+
+    "Keyboard_Y": { "colour": "#B4B4B4", "label": "Zoom" },
+    "Keyboard_H": { "colour": "#B4B4B4", "label": "Hand" },
+    "Keyboard_R": { "colour": "#B4B4B4", "label": "Rotate view" },
+    "Keyboard_I": { "colour": "#B4B4B4", "label": "Eyedropper" },
+    "Keyboard_Q": { "colour": "#B4B4B4", "label": "Quick mask mode" },
+    "Keyboard_F": { "colour": "#B4B4B4", "label": "Cycle screen mode" },
+    "Keyboard_D": { "colour": "#B4B4B4", "label": "Default colours" },
+    "Keyboard_X": { "colour": "#B4B4B4", "label": "Swap foreground and background" },
+    "Keyboard_Tab": { "colour": "#B4B4B4", "label": "Hide panels" }
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "n": { "group": "File", "label": "New document" },
+        "o": { "group": "File", "label": "Open file" },
+        "s": { "group": "File", "label": "Save" },
+        "w": { "group": "File", "label": "Close document" },
+        "p": { "group": "File", "label": "Print" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "x": { "group": "Edit", "label": "Cut" },
+        "c": { "group": "Edit", "label": "Copy" },
+        "v": { "group": "Edit", "label": "Paste" },
+        "a": { "group": "Edit", "label": "Select all" },
+        "d": { "group": "Edit", "label": "Deselect" },
+        "t": { "group": "Edit", "label": "Free transform" },
+        "j": { "group": "Edit", "label": "Duplicate to new layer" },
+        "e": { "group": "Edit", "label": "Merge layer down" },
+        "g": { "group": "Edit", "label": "Group layers" },
+        "l": { "group": "Tools", "label": "Levels" },
+        "m": { "group": "Tools", "label": "Curves" },
+        "u": { "group": "Tools", "label": "Hue and saturation" },
+        "b": { "group": "Tools", "label": "Colour balance" },
+        "i": { "group": "Tools", "label": "Invert colours" },
+        "k": { "group": "System", "label": "Preferences" },
+        "y": { "group": "View", "label": "Proof colours" },
+        "r": { "group": "View", "label": "Show rulers" },
+        "h": { "group": "View", "label": "Hide extras" },
+        "0": { "group": "View", "label": "Fit on screen" },
+        "1": { "group": "View", "label": "Zoom to 100%" },
+        "+": { "group": "View", "label": "Zoom in" },
+        "-": { "group": "View", "label": "Zoom out" }
+      },
+      "keys": {
+        "Keyboard_Backspace": { "group": "Edit", "label": "Fill with background colour" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "s": { "group": "File", "label": "Save as" },
+        "n": { "group": "Edit", "label": "New layer" },
+        "z": { "group": "Edit", "label": "Redo" },
+        "i": { "group": "Edit", "label": "Invert selection" },
+        "d": { "group": "Edit", "label": "Reselect" },
+        "e": { "group": "Edit", "label": "Merge visible layers" },
+        "c": { "group": "Edit", "label": "Copy merged" },
+        "j": { "group": "Edit", "label": "Cut to new layer" },
+        "t": { "group": "Edit", "label": "Transform again" },
+        "u": { "group": "Tools", "label": "Desaturate" },
+        "a": { "group": "Tools", "label": "Camera Raw filter" },
+        "x": { "group": "Tools", "label": "Liquify" },
+        "k": { "group": "System", "label": "Colour settings" }
+      }
+    },
+
+    "Ctrl+Alt": {
+      "characters": {
+        "i": { "group": "File", "label": "Image size" },
+        "c": { "group": "File", "label": "Canvas size" },
+        "g": { "group": "Edit", "label": "Create clipping mask" },
+        "d": { "group": "Edit", "label": "Feather selection" }
+      }
+    },
+
+    "Alt": {
+      "keys": {
+        "Keyboard_Backspace": { "group": "Edit", "label": "Fill with foreground colour" }
+      }
+    }
+  }
+}

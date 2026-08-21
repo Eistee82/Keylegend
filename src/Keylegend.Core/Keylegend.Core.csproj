@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <!--
+    The shipped application profiles. Embedded rather than copied beside the executable so that
+    a single-file release carries them, and so that nothing on disk can be edited by accident -
+    "reset to shipped" only means something if the shipped copy is out of reach.
+
+    LogicalName is set explicitly because the automatic naming mangles characters that are legal
+    in a file name: 7-zip.json would arrive as _7_zip.json. ShippedProfiles matches on the
+    "keylegend.profiles." prefix, so the names have to be predictable.
+  -->
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\profiles\apps\*.json">
+      <LogicalName>keylegend.profiles.apps.%(Filename).json</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\profiles\games\*.json">
+      <LogicalName>keylegend.profiles.games.%(Filename).json</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

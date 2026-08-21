@@ -1,0 +1,56 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "7-zip",
+  "name": "7-Zip",
+  "kind": "app",
+
+  "match": {
+    "processes": ["7zfm"],
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_F2": { "colour": "#FF8C00", "label": "Rename" },
+    "Keyboard_F5": { "colour": "#FF8C00", "label": "Copy to" },
+    "Keyboard_F6": { "colour": "#FF8C00", "label": "Move to" },
+    "Keyboard_F7": { "colour": "#FF8C00", "label": "Create folder" },
+    "Keyboard_Delete": { "colour": "#FF3232", "label": "Delete" },
+
+    "Keyboard_F3": { "colour": "#B4B4B4", "label": "View file" },
+    "Keyboard_F4": { "colour": "#B4B4B4", "label": "Edit file" },
+    "Keyboard_F9": { "colour": "#B4B4B4", "label": "Toggle two panels" },
+
+    "Keyboard_Enter": { "colour": "#00C8FF", "label": "Open" },
+    "Keyboard_Backspace": { "colour": "#00C8FF", "label": "Up one level" },
+    "Keyboard_Tab": { "colour": "#00C8FF", "label": "Switch panel" }
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "1": { "group": "View", "label": "Large icons" },
+        "2": { "group": "View", "label": "Small icons" },
+        "3": { "group": "View", "label": "List" },
+        "4": { "group": "View", "label": "Details" },
+        "r": { "group": "View", "label": "Refresh" },
+        "z": { "group": "Edit", "label": "Edit archive comment" }
+      },
+      "keys": {
+        "Keyboard_PageDown": { "group": "File", "label": "Open archive in place" },
+        "Keyboard_F3": { "group": "View", "label": "Sort by name" },
+        "Keyboard_F4": { "group": "View", "label": "Sort by type" },
+        "Keyboard_F5": { "group": "View", "label": "Sort by date" },
+        "Keyboard_F6": { "group": "View", "label": "Sort by size" },
+        "Keyboard_F7": { "group": "View", "label": "Leave unsorted" }
+      }
+    },
+
+    "Alt": {
+      "keys": {
+        "Keyboard_Enter": { "group": "File", "label": "Show properties" },
+        "Keyboard_F12": { "group": "Navigation", "label": "Folder history" }
+      }
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "league-of-legends",
+  "name": "League of Legends",
+  "kind": "game",
+
+  "match": {
+    "processes": ["league of legends", "leagueclient", "leagueclientux"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_Q": { "colour": "#FF0000", "label": "Ability Q" },
+    "Keyboard_W": { "colour": "#FF0000", "label": "Ability W" },
+    "Keyboard_E": { "colour": "#FF0000", "label": "Ability E" },
+    "Keyboard_R": { "colour": "#FF0000", "label": "Ultimate ability" },
+
+    "Keyboard_D": { "colour": "#C864FF", "label": "Summoner spell 1" },
+    "Keyboard_F": { "colour": "#C864FF", "label": "Summoner spell 2" },
+
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Item slot 1" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Item slot 2" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Item slot 3" },
+    "Keyboard_4": { "colour": "#00C8FF", "label": "Item slot 4" },
+    "Keyboard_5": { "colour": "#00C8FF", "label": "Item slot 5" },
+    "Keyboard_6": { "colour": "#00C8FF", "label": "Item slot 6" },
+    "Keyboard_7": { "colour": "#00C8FF", "label": "Trinket" },
+    "Keyboard_P": { "colour": "#00C8FF", "label": "Open shop" },
+
+    "Keyboard_B": { "colour": "#FF8C00", "label": "Recall to base" },
+    "Keyboard_A": { "colour": "#FF8C00", "label": "Attack move" },
+    "Keyboard_S": { "colour": "#FF8C00", "label": "Stop" },
+
+    "Keyboard_Space": { "colour": "#B4B4B4", "label": "Centre camera on champion" },
+    "Keyboard_Tab": { "colour": "#B4B4B4", "label": "Scoreboard" },
+    "Keyboard_C": { "colour": "#B4B4B4", "label": "Champion stats panel" },
+    "Keyboard_F1": { "colour": "#B4B4B4", "label": "Centre camera on self" },
+    "Keyboard_F2": { "colour": "#B4B4B4", "label": "Centre camera on ally 1" },
+    "Keyboard_F3": { "colour": "#B4B4B4", "label": "Centre camera on ally 2" },
+    "Keyboard_F4": { "colour": "#B4B4B4", "label": "Centre camera on ally 3" },
+    "Keyboard_F5": { "colour": "#B4B4B4", "label": "Centre camera on ally 4" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Menu" }
+  }
+}

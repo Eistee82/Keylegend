@@ -1,0 +1,55 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "outlook",
+  "name": "Microsoft Outlook",
+  "kind": "app",
+
+  "match": {
+    "processes": ["outlook", "olk"],
+    "priority": 10
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "n": { "group": "File", "label": "New message" },
+        "r": { "group": "File", "label": "Reply" },
+        "f": { "group": "File", "label": "Forward message" },
+        "e": { "group": "Search", "label": "Go to search field" },
+        "d": { "group": "Edit", "label": "Delete item" },
+        "q": { "group": "Edit", "label": "Mark as read" },
+        "u": { "group": "Edit", "label": "Mark as unread" },
+        "m": { "group": "File", "label": "Send and receive all" },
+        "p": { "group": "File", "label": "Print" },
+        "1": { "group": "Navigation", "label": "Switch to Mail" },
+        "2": { "group": "Navigation", "label": "Switch to Calendar" }
+      },
+      "keys": {
+        "Keyboard_Enter": { "group": "File", "label": "Send message" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "m": { "group": "File", "label": "New message" },
+        "r": { "group": "File", "label": "Reply all" },
+        "a": { "group": "File", "label": "New appointment" },
+        "q": { "group": "File", "label": "New meeting request" },
+        "c": { "group": "File", "label": "New contact" },
+        "k": { "group": "File", "label": "New task" },
+        "n": { "group": "File", "label": "New note" },
+        "i": { "group": "Navigation", "label": "Go to Inbox" },
+        "o": { "group": "Navigation", "label": "Go to Outbox" },
+        "f": { "group": "Search", "label": "Advanced find" },
+        "p": { "group": "Search", "label": "Create a search folder" }
+      }
+    },
+
+    "Alt": {
+      "characters": {
+        "s": { "group": "File", "label": "Send message" }
+      }
+    }
+  }
+}

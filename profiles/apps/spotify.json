@@ -1,0 +1,37 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "spotify",
+  "name": "Spotify",
+  "kind": "app",
+
+  "match": {
+    "processes": ["spotify"],
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_Space": { "colour": "#22CC66", "label": "Play / pause" },
+    "Keyboard_M": { "colour": "#FF8C00", "label": "Mute / unmute" }
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "k": { "group": "Search", "label": "Open search" },
+        "l": { "group": "Search", "label": "Go to search" },
+        "f": { "group": "Search", "label": "Filter current list" },
+        "a": { "group": "Edit", "label": "Select all" },
+        "s": { "group": "Tools", "label": "Toggle shuffle" },
+        "r": { "group": "Tools", "label": "Toggle repeat" },
+        ",": { "group": "System", "label": "Settings" }
+      }
+    },
+
+    "Alt": {
+      "characters": {
+        "j": { "group": "Edit", "label": "Open context menu" }
+      }
+    }
+  }
+}

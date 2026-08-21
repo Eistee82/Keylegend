@@ -1,0 +1,65 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "total-commander",
+  "name": "Total Commander",
+  "kind": "app",
+
+  "match": {
+    "processes": ["totalcmd", "totalcmd64"],
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_F5": { "colour": "#FF8C00", "label": "Copy files" },
+    "Keyboard_F6": { "colour": "#FF8C00", "label": "Rename or move files" },
+    "Keyboard_F7": { "colour": "#FF8C00", "label": "Create directory" },
+    "Keyboard_F8": { "colour": "#FF3232", "label": "Delete files" },
+
+    "Keyboard_F2": { "colour": "#B4B4B4", "label": "Reread source panel" },
+    "Keyboard_F3": { "colour": "#B4B4B4", "label": "View file" },
+    "Keyboard_F4": { "colour": "#B4B4B4", "label": "Edit file" },
+
+    "Keyboard_Tab": { "colour": "#00C8FF", "label": "Switch panel" }
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "a": { "group": "Edit", "label": "Select all files" },
+        "c": { "group": "Edit", "label": "Copy to clipboard" },
+        "x": { "group": "Edit", "label": "Cut to clipboard" },
+        "v": { "group": "Edit", "label": "Paste from clipboard" },
+        "p": { "group": "Edit", "label": "Copy current path to command line" },
+        "b": { "group": "View", "label": "Show all files in all subdirectories" },
+        "q": { "group": "View", "label": "Toggle quick view panel" },
+        "r": { "group": "View", "label": "Reread source directory" },
+        "s": { "group": "Search", "label": "Open quick filter" },
+        "d": { "group": "Navigation", "label": "Open directory hotlist" },
+        "f": { "group": "Tools", "label": "Connect to FTP server" },
+        "n": { "group": "Tools", "label": "New FTP connection" },
+        "l": { "group": "Tools", "label": "Calculate occupied space" },
+        "m": { "group": "Tools", "label": "Multi-rename tool" },
+        "t": { "group": "Window", "label": "New tab" },
+        "u": { "group": "Window", "label": "Swap the two panels" },
+        "w": { "group": "Window", "label": "Close tab" }
+      },
+      "keys": {
+        "Keyboard_PageUp": { "group": "Navigation", "label": "Go to parent directory" },
+        "Keyboard_PageDown": { "group": "Navigation", "label": "Open directory or archive under cursor" }
+      }
+    },
+
+    "Alt": {
+      "keys": {
+        "Keyboard_F1": { "group": "Navigation", "label": "Change drive of left panel" },
+        "Keyboard_F2": { "group": "Navigation", "label": "Change drive of right panel" },
+        "Keyboard_F3": { "group": "View", "label": "View file with alternate viewer" },
+        "Keyboard_F5": { "group": "Tools", "label": "Pack selected files" },
+        "Keyboard_F7": { "group": "Search", "label": "Find files" },
+        "Keyboard_F8": { "group": "Tools", "label": "Open command line history" },
+        "Keyboard_F10": { "group": "Navigation", "label": "Open directory tree" }
+      }
+    }
+  }
+}

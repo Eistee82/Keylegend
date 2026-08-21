@@ -1,0 +1,74 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "windows-terminal",
+  "name": "Windows Terminal",
+  "kind": "app",
+
+  "match": {
+    "processes": ["windowsterminal", "wt"],
+    "priority": 10
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        ",": { "group": "System", "label": "Open settings" },
+        "+": { "group": "View", "label": "Increase font size" },
+        "-": { "group": "View", "label": "Decrease font size" },
+        "0": { "group": "View", "label": "Reset font size" }
+      },
+      "keys": {
+        "Keyboard_Tab": { "group": "Window", "label": "Next tab" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "t": { "group": "Window", "label": "New tab" },
+        "w": { "group": "Window", "label": "Close pane" },
+        "n": { "group": "Window", "label": "New window" },
+        "d": { "group": "Window", "label": "Duplicate tab" },
+        "c": { "group": "Edit", "label": "Copy" },
+        "v": { "group": "Edit", "label": "Paste" },
+        "f": { "group": "Search", "label": "Find" },
+        "p": { "group": "Search", "label": "Command palette" },
+        ",": { "group": "System", "label": "Open settings file" },
+        "1": { "group": "Window", "label": "New tab with profile 1" },
+        "2": { "group": "Window", "label": "New tab with profile 2" },
+        "3": { "group": "Window", "label": "New tab with profile 3" },
+        "4": { "group": "Window", "label": "New tab with profile 4" },
+        "5": { "group": "Window", "label": "New tab with profile 5" },
+        "6": { "group": "Window", "label": "New tab with profile 6" },
+        "7": { "group": "Window", "label": "New tab with profile 7" },
+        "8": { "group": "Window", "label": "New tab with profile 8" },
+        "9": { "group": "Window", "label": "New tab with profile 9" }
+      },
+      "keys": {
+        "Keyboard_Tab": { "group": "Window", "label": "Previous tab" },
+        "Keyboard_ArrowUp": { "group": "Navigation", "label": "Scroll up" },
+        "Keyboard_ArrowDown": { "group": "Navigation", "label": "Scroll down" },
+        "Keyboard_PageUp": { "group": "Navigation", "label": "Scroll page up" },
+        "Keyboard_PageDown": { "group": "Navigation", "label": "Scroll page down" },
+        "Keyboard_Home": { "group": "Navigation", "label": "Scroll to top" },
+        "Keyboard_End": { "group": "Navigation", "label": "Scroll to bottom" }
+      }
+    },
+
+    "Alt": {
+      "keys": {
+        "Keyboard_Enter": { "group": "View", "label": "Toggle full screen" },
+        "Keyboard_ArrowLeft": { "group": "Window", "label": "Move focus to pane on the left" },
+        "Keyboard_ArrowRight": { "group": "Window", "label": "Move focus to pane on the right" },
+        "Keyboard_ArrowUp": { "group": "Window", "label": "Move focus to pane above" },
+        "Keyboard_ArrowDown": { "group": "Window", "label": "Move focus to pane below" }
+      }
+    },
+
+    "Win": {
+      "characters": {
+        "`": { "group": "Window", "label": "Toggle quake mode window" }
+      }
+    }
+  }
+}

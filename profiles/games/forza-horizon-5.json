@@ -1,0 +1,31 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "forza-horizon-5",
+  "name": "Forza Horizon 5",
+  "kind": "game",
+
+  "match": {
+    "processes": ["forzahorizon5"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Accelerate" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Brake and reverse" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Steer left" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Steer right" },
+    "Keyboard_Space": { "colour": "#FF0000", "label": "Handbrake" },
+    "Keyboard_E": { "colour": "#FF0000", "label": "Shift up" },
+    "Keyboard_Q": { "colour": "#FF0000", "label": "Shift down" },
+    "Keyboard_LeftShift": { "colour": "#FF0000", "label": "Clutch" },
+
+    "Keyboard_R": { "colour": "#FF8C00", "label": "Rewind" },
+    "Keyboard_Tab": { "colour": "#FF8C00", "label": "Change camera" },
+    "Keyboard_H": { "colour": "#FF8C00", "label": "Horn" },
+
+    "Keyboard_M": { "colour": "#B4B4B4", "label": "Map" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Pause menu" }
+  }
+}

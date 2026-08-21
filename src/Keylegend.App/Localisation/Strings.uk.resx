@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    Тексти інтерфейсу, українська. Якщо тут немає ключа, діє англійський зі Strings.resx.
+
+    Тон як у docs/uk: по суті, пояснює причину, без рекламних зворотів. Технічні терміни
+    та ідентифікатори залишаються в первісному вигляді.
+  -->
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <data name="TabKeyboard" xml:space="preserve">
+    <value>Клавіатура</value>
+  </data>
+  <data name="TabColours" xml:space="preserve">
+    <value>Кольори</value>
+  </data>
+  <data name="TabProfiles" xml:space="preserve">
+    <value>Профілі</value>
+  </data>
+  <data name="TabShortcuts" xml:space="preserve">
+    <value>Скорочення</value>
+  </data>
+  <data name="TabSettings" xml:space="preserve">
+    <value>Налаштування</value>
+  </data>
+  <data name="StatusDeviceVerified" xml:space="preserve">
+    <value>{0} · клавіш: {1} · відповідність перевірено на пристрої</value>
+  </data>
+  <data name="StatusDeviceNotVerified" xml:space="preserve">
+    <value>{0} · клавіш: {1} · відповідність ще не перевірено</value>
+  </data>
+  <data name="StatusProfileLabel" xml:space="preserve">
+    <value>профіль: {0}</value>
+  </data>
+  <data name="StatusPainting" xml:space="preserve">
+    <value>підсвічує</value>
+  </data>
+  <data name="StatusIdle" xml:space="preserve">
+    <value>простій · Chroma Studio</value>
+  </data>
+  <data name="StatusPaused" xml:space="preserve">
+    <value>призупинено</value>
+  </data>
+  <data name="StatusActiveTooltip" xml:space="preserve">
+    <value>Keylegend керує підсвіткою клавіатури.</value>
+  </data>
+  <data name="StatusIdleTooltip" xml:space="preserve">
+    <value>Звільнено — працює ваш ефект Chroma Studio. Натисніть клавішу, щоб повернути керування.</value>
+  </data>
+  <data name="StatusPausedTooltip" xml:space="preserve">
+    <value>Призупинено. Підсвітка залишається за Chroma Studio, доки ви не продовжите.</value>
+  </data>
+  <data name="StatusPauseButton" xml:space="preserve">
+    <value>Пауза</value>
+  </data>
+  <data name="StatusResumeButton" xml:space="preserve">
+    <value>Продовжити</value>
+  </data>
+  <data name="StatusFollowing" xml:space="preserve">
+    <value>Стежить за клавіатурою.</value>
+  </data>
+  <data name="StatusShowingLayer" xml:space="preserve">
+    <value>Показано вибраний шар — натисніть «Стежити за клавіатурою», щоб повернутися.</value>
+  </data>
+  <data name="StatusColoursRestored" xml:space="preserve">
+    <value>Типові кольори відновлено.</value>
+  </data>
+  <data name="StatusProfileDeleted" xml:space="preserve">
+    <value>«{0}» видалено.</value>
+  </data>
+  <data name="StatusProfileShown" xml:space="preserve">
+    <value>«{0}» знову використовується.</value>
+  </data>
+  <data name="StatusProfileHidden" xml:space="preserve">
+    <value>«{0}» приховано. Виберіть його й натисніть «Показати», щоб повернути.</value>
+  </data>
+  <data name="StatusSectionReset" xml:space="preserve">
+    <value>{0} профілю «{1}» знову відповідає постачальному профілю.</value>
+  </data>
+  <data name="StatusProfileReset" xml:space="preserve">
+    <value>«{0}» знову відповідає постачальному профілю.</value>
+  </data>
+  <data name="StatusSelectProfileFirst" xml:space="preserve">
+    <value>Спершу виберіть або додайте профіль.</value>
+  </data>
+  <data name="StatusProfileLayerCleared" xml:space="preserve">
+    <value>«{0}» більше не замінює шар {1}.</value>
+  </data>
+  <data name="StatusLayerCleared" xml:space="preserve">
+    <value>Шар {0} очищено.</value>
+  </data>
+  <data name="StatusShortcutsRestored" xml:space="preserve">
+    <value>Типові скорочення відновлено.</value>
+  </data>
+  <data name="StatusIdleTimeoutSet" xml:space="preserve">
+    <value>Час простою встановлено: {0} с.</value>
+  </data>
+  <data name="StatusHandBackOn" xml:space="preserve">
+    <value>Підсвітка повертається після {0} с без набору.</value>
+  </data>
+  <data name="StatusHandBackOff" xml:space="preserve">
+    <value>Підсвітка утримується, доки ви не призупините або не закриєте Keylegend.</value>
+  </data>
+  <data name="StatusIdleTimeoutInvalid" xml:space="preserve">
+    <value>Час простою має бути додатним числом секунд.</value>
+  </data>
+  <data name="StatusAutostartUnknownPath" xml:space="preserve">
+    <value>Не вдалося визначити шлях до програми; автозапуск не змінено.</value>
+  </data>
+  <data name="StatusAutostartOn" xml:space="preserve">
+    <value>Keylegend запускатиметься разом із Windows, згорнутим в область сповіщень.</value>
+  </data>
+  <data name="StatusAutostartOff" xml:space="preserve">
+    <value>Keylegend більше не запускатиметься разом із Windows.</value>
+  </data>
+  <data name="StatusSaved" xml:space="preserve">
+    <value>Збережено в {0}</value>
+  </data>
+  <data name="KeyboardLayerHeading" xml:space="preserve">
+    <value>Показати шар</value>
+  </data>
+  <data name="KeyboardLayerNote" xml:space="preserve">
+    <value>Увімкніть тут модифікатор, щоб роздивитися його шар, не тримаючи клавішу. До ваших програм нічого не надсилається.</value>
+  </data>
+  <data name="KeyboardFollowButton" xml:space="preserve">
+    <value>Стежити за клавіатурою</value>
+  </data>
+  <data name="KeyboardNoProfile" xml:space="preserve">
+    <value>Профіль пристрою не завантажено</value>
+  </data>
+  <data name="ColoursCategoriesHeading" xml:space="preserve">
+    <value>Категорії клавіш</value>
+  </data>
+  <data name="ColoursCategoriesNote" xml:space="preserve">
+    <value>Колір клавіші визначає те, що вона набирає. Натисніть на зразок, щоб змінити його, — клавіатура відреагує одразу.</value>
+  </data>
+  <data name="ColoursCategoryDigit" xml:space="preserve">
+    <value>Цифри</value>
+  </data>
+  <data name="ColoursCategoryLowercase" xml:space="preserve">
+    <value>Малі літери</value>
+  </data>
+  <data name="ColoursCategoryUppercase" xml:space="preserve">
+    <value>Великі літери</value>
+  </data>
+  <data name="ColoursCategorySymbol" xml:space="preserve">
+    <value>Символи</value>
+  </data>
+  <data name="ColoursCategoryControl" xml:space="preserve">
+    <value>Керувальні клавіші</value>
+  </data>
+  <data name="ColoursCategoryDeadKey" xml:space="preserve">
+    <value>Мертві клавіші</value>
+  </data>
+  <data name="ColoursCategoryFunctionKey" xml:space="preserve">
+    <value>Функціональні клавіші</value>
+  </data>
+  <data name="ColoursExampleDigit" xml:space="preserve">
+    <value>1 7 · цифровий блок з увімкненим Num Lock</value>
+  </data>
+  <data name="ColoursExampleLowercase" xml:space="preserve">
+    <value>a я</value>
+  </data>
+  <data name="ColoursExampleUppercase" xml:space="preserve">
+    <value>A Я · із Shift або Caps Lock</value>
+  </data>
+  <data name="ColoursExampleSymbol" xml:space="preserve">
+    <value>+ # € |</value>
+  </data>
+  <data name="ColoursExampleControl" xml:space="preserve">
+    <value>Esc Tab ⏎ стрілки</value>
+  </data>
+  <data name="ColoursExampleDeadKey" xml:space="preserve">
+    <value>^ ´ ` · потребують другого натискання</value>
+  </data>
+  <data name="ColoursExampleFunctionKey" xml:space="preserve">
+    <value>F1 – F12</value>
+  </data>
+  <data name="ColoursLocksHeading" xml:space="preserve">
+    <value>Клавіші фіксації</value>
+  </data>
+  <data name="ColoursLocksNote" xml:space="preserve">
+    <value>По два кольори: увімкнено й вимкнено. Вони завжди важливіші за все інше, щоб стан лишався читабельним.</value>
+  </data>
+  <data name="ColoursLockNumOn" xml:space="preserve">
+    <value>Num Lock увімкнено</value>
+  </data>
+  <data name="ColoursLockNumOff" xml:space="preserve">
+    <value>Num Lock вимкнено</value>
+  </data>
+  <data name="ColoursLockCapsOn" xml:space="preserve">
+    <value>Caps Lock увімкнено</value>
+  </data>
+  <data name="ColoursLockCapsOff" xml:space="preserve">
+    <value>Caps Lock вимкнено</value>
+  </data>
+  <data name="ColoursLockScrollOn" xml:space="preserve">
+    <value>Scroll Lock увімкнено</value>
+  </data>
+  <data name="ColoursLockScrollOff" xml:space="preserve">
+    <value>Scroll Lock вимкнено</value>
+  </data>
+  <data name="ColoursGroupsHeading" xml:space="preserve">
+    <value>Групи скорочень</value>
+  </data>
+  <data name="ColoursGroupsNote" xml:space="preserve">
+    <value>Показуються, поки утримується Windows, Ctrl або Alt. Споріднені команди мають спільний колір і читаються як блок.</value>
+  </data>
+  <data name="ColoursResetButton" xml:space="preserve">
+    <value>Відновити типові кольори</value>
+  </data>
+  <data name="ProfilesHeading" xml:space="preserve">
+    <value>Профілі</value>
+  </data>
+  <data name="ProfilesSearchHint" xml:space="preserve">
+    <value>Пошук за назвою або програмою</value>
+  </data>
+  <data name="ProfilesAddButton" xml:space="preserve">
+    <value>Додати</value>
+  </data>
+  <data name="ProfilesHideButton" xml:space="preserve">
+    <value>Приховати</value>
+  </data>
+  <data name="ProfilesShowButton" xml:space="preserve">
+    <value>Показати</value>
+  </data>
+  <data name="ProfilesDeleteButton" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
+  <data name="ProfilesHideTooltip" xml:space="preserve">
+    <value>Припинити використання цього постачального профілю. Він лишиться в списку, і його можна знову показати.</value>
+  </data>
+  <data name="ProfilesShowTooltip" xml:space="preserve">
+    <value>Знову задіяти цей постачальний профіль.</value>
+  </data>
+  <data name="ProfilesDeleteTooltip" xml:space="preserve">
+    <value>Видалити цей профіль. Він ваш, тож повертатися не буде до чого.</value>
+  </data>
+  <data name="ProfilesGroupApps" xml:space="preserve">
+    <value>Програми</value>
+  </data>
+  <data name="ProfilesGroupGames" xml:space="preserve">
+    <value>Ігри</value>
+  </data>
+  <data name="ProfilesOriginUser" xml:space="preserve">
+    <value>ваш власний профіль</value>
+  </data>
+  <data name="ProfilesOriginShipped" xml:space="preserve">
+    <value>постачальний</value>
+  </data>
+  <data name="ProfilesOriginShippedEdited" xml:space="preserve">
+    <value>постачальний · змінений</value>
+  </data>
+  <data name="ProfilesOriginHidden" xml:space="preserve">
+    <value>{0} · приховано</value>
+  </data>
+  <data name="ProfilesNoSelection" xml:space="preserve">
+    <value>Профіль не вибрано</value>
+  </data>
+  <data name="ProfilesNewName" xml:space="preserve">
+    <value>Новий профіль</value>
+  </data>
+  <data name="ProfilesResetAllButton" xml:space="preserve">
+    <value>Скинути весь профіль</value>
+  </data>
+  <data name="ProfilesResetAllTooltip" xml:space="preserve">
+    <value>Повернути кожен розділ і назву до постачальної версії.</value>
+  </data>
+  <data name="ProfilesResetSectionTooltip" xml:space="preserve">
+    <value>Повернути цей розділ до постачальної версії.</value>
+  </data>
+  <data name="ProfilesSectionMatch" xml:space="preserve">
+    <value>Відповідність</value>
+  </data>
+  <data name="ProfilesSectionMatchTooltip" xml:space="preserve">
+    <value>Назва, програми, перемикач гри та пріоритет.</value>
+  </data>
+  <data name="ProfilesSectionHighlights" xml:space="preserve">
+    <value>Виділення</value>
+  </data>
+  <data name="ProfilesSectionHighlightsTooltip" xml:space="preserve">
+    <value>Клавіші, закріплені за сталим кольором.</value>
+  </data>
+  <data name="ProfilesSectionShortcuts" xml:space="preserve">
+    <value>Скорочення</value>
+  </data>
+  <data name="ProfilesSectionShortcutsTooltip" xml:space="preserve">
+    <value>Шари модифікаторів, які замінює цей профіль.</value>
+  </data>
+  <data name="ProfilesSectionYours" xml:space="preserve">
+    <value>ваше</value>
+  </data>
+  <data name="ProfilesSectionEdited" xml:space="preserve">
+    <value>змінено вами</value>
+  </data>
+  <data name="ProfilesSectionShipped" xml:space="preserve">
+    <value>постачальне</value>
+  </data>
+  <data name="ProfilesNameLabel" xml:space="preserve">
+    <value>Назва</value>
+  </data>
+  <data name="ProfilesPriorityLabel" xml:space="preserve">
+    <value>Пріоритет</value>
+  </data>
+  <data name="ProfilesPriorityTooltip" xml:space="preserve">
+    <value>Більше значення перемагає, коли підходить кілька профілів. Розв'язує лише нічию — зазначення програми й так важливіше за загальний ігровий профіль.</value>
+  </data>
+  <data name="ProfilesProgramsLabel" xml:space="preserve">
+    <value>Програми</value>
+  </data>
+  <data name="ProfilesProgramsTooltip" xml:space="preserve">
+    <value>Імена виконуваних файлів без .exe, через кому — наприклад: notepad, devenv</value>
+  </data>
+  <data name="ProfilesGamesCheckbox" xml:space="preserve">
+    <value>Застосовувати до будь-якої виявленої гри</value>
+  </data>
+  <data name="ProfilesGamesTooltip" xml:space="preserve">
+    <value>Визначається за власним повноекранним сигналом Windows і перевіркою вікон, що вкривають монітор цілком, — тож розпізнаються й ігри у вікні без рамки.</value>
+  </data>
+  <data name="ProfilesHighlightModeButton" xml:space="preserve">
+    <value>Виділені клавіші</value>
+  </data>
+  <data name="ProfilesShortcutModeButton" xml:space="preserve">
+    <value>Скорочення</value>
+  </data>
+  <data name="ProfilesHighlightNote" xml:space="preserve">
+    <value>Натисніть на клавішу, щоб задати їй сталий колір, правою кнопкою — щоб зняти. Виділення важливіші за кольори набору, але ніколи не важливіші за клавіші фіксації чи шар модифікатора.</value>
+  </data>
+  <data name="ProfilesHighlightColourLabel" xml:space="preserve">
+    <value>Колір для вибраних клавіш</value>
+  </data>
+  <data name="ProfilesHighlightChooseButton" xml:space="preserve">
+    <value>Вибрати…</value>
+  </data>
+  <data name="ProfilesClearHighlightsButton" xml:space="preserve">
+    <value>Зняти всі виділення</value>
+  </data>
+  <data name="ProfilesShortcutNote" xml:space="preserve">
+    <value>Виберіть шар і групу, потім натискайте клавіші, щоб призначити їх; права кнопка знімає призначення. Шар, заданий цим профілем, замінює загальний, поки програма на передньому плані.</value>
+  </data>
+  <data name="ProfilesClearLayerButton" xml:space="preserve">
+    <value>Очистити цей шар</value>
+  </data>
+  <data name="ProfilesHighlightCountOne" xml:space="preserve">
+    <value>Виділено 1 клавішу</value>
+  </data>
+  <data name="ProfilesHighlightCount" xml:space="preserve">
+    <value>Виділено клавіш: {0}</value>
+  </data>
+  <data name="ProfilesLayerUndefined" xml:space="preserve">
+    <value>{0}: тут не задано, тож діє загальний шар. Призначення клавіші змусить цей профіль замінити його.</value>
+  </data>
+  <data name="ProfilesLayerCountOne" xml:space="preserve">
+    <value>{0}: 1 клавіша, замінює загальний шар.</value>
+  </data>
+  <data name="ProfilesLayerCount" xml:space="preserve">
+    <value>{0}: клавіш {1}, замінюють загальний шар.</value>
+  </data>
+  <data name="ShortcutsLayerHeading" xml:space="preserve">
+    <value>Шар</value>
+  </data>
+  <data name="ShortcutsLayerNote" xml:space="preserve">
+    <value>Яке поєднання модифікаторів ви редагуєте.</value>
+  </data>
+  <data name="ShortcutsAssignHeading" xml:space="preserve">
+    <value>Призначити клавіші групі</value>
+  </data>
+  <data name="ShortcutsAssignNote" xml:space="preserve">
+    <value>Виберіть групу, потім натискайте клавіші нижче, щоб додати їх. Права кнопка прибирає клавішу. Споріднені команди мають спільний колір, тож шар читається блоками, а не розкиданими вогниками.</value>
+  </data>
+  <data name="ShortcutsClearLayerButton" xml:space="preserve">
+    <value>Очистити цей шар</value>
+  </data>
+  <data name="ShortcutsResetButton" xml:space="preserve">
+    <value>Відновити типові скорочення</value>
+  </data>
+  <data name="ShortcutsCountOne" xml:space="preserve">
+    <value>На цьому шарі призначено 1 клавішу</value>
+  </data>
+  <data name="ShortcutsCount" xml:space="preserve">
+    <value>Призначено клавіш на цьому шарі: {0}</value>
+  </data>
+  <data name="SettingsIdleHeading" xml:space="preserve">
+    <value>Повернення підсвітки</value>
+  </data>
+  <data name="SettingsIdleNote" xml:space="preserve">
+    <value>Після такого часу без набору Keylegend звільняє клавіатуру, щоб ваш ефект Chroma Studio продовжився. Зворотне захоплення триває секунду-дві — за короткого часу це перетворюється на часті перерви, тому типове значення шістдесят секунд, а не десять.</value>
+  </data>
+  <data name="SettingsIdleSeconds" xml:space="preserve">
+    <value>секунд</value>
+  </data>
+  <data name="SettingsHandBackCheckbox" xml:space="preserve">
+    <value>Повертати підсвітку під час простою</value>
+  </data>
+  <data name="SettingsHandBackNote" xml:space="preserve">
+    <value>Якщо вимкнено, Keylegend утримує клавіатуру, доки ви не призупините або не закриєте його, а ваш ефект Chroma Studio весь цей час не працює.</value>
+  </data>
+  <data name="SettingsBrightnessHeading" xml:space="preserve">
+    <value>Яскравість</value>
+  </data>
+  <data name="SettingsBehaviourHeading" xml:space="preserve">
+    <value>Поведінка</value>
+  </data>
+  <data name="SettingsProfilesCheckbox" xml:space="preserve">
+    <value>Використовувати профілі програм</value>
+  </data>
+  <data name="SettingsAutostartCheckbox" xml:space="preserve">
+    <value>Запускати разом із Windows (згорнутим в область сповіщень)</value>
+  </data>
+  <data name="SettingsFileHeading" xml:space="preserve">
+    <value>Файл налаштувань</value>
+  </data>
+  <data name="SettingsSaveButton" xml:space="preserve">
+    <value>Зберегти</value>
+  </data>
+  <data name="SettingsOpenFolderButton" xml:space="preserve">
+    <value>Відкрити теку</value>
+  </data>
+  <data name="SettingsLanguageHeading" xml:space="preserve">
+    <value>Мова</value>
+  </data>
+  <data name="SettingsLanguageAutomatic" xml:space="preserve">
+    <value>Як у Windows</value>
+  </data>
+  <data name="SettingsLanguageNote" xml:space="preserve">
+    <value>Написів на клавішах це не стосується: вони беруться з профілю пристрою й тому завжди відповідають клавіатурі перед вами, а не мові цих меню.</value>
+  </data>
+  <data name="TrayShow" xml:space="preserve">
+    <value>Показати Keylegend</value>
+  </data>
+  <data name="TrayPause" xml:space="preserve">
+    <value>Пауза</value>
+  </data>
+  <data name="TrayResume" xml:space="preserve">
+    <value>Продовжити</value>
+  </data>
+  <data name="TrayQuit" xml:space="preserve">
+    <value>Вихід</value>
+  </data>
+  <data name="TrayTooltipActive" xml:space="preserve">
+    <value>Keylegend — підсвічує</value>
+  </data>
+  <data name="TrayTooltipIdle" xml:space="preserve">
+    <value>Keylegend — простій</value>
+  </data>
+  <data name="TrayTooltipPaused" xml:space="preserve">
+    <value>Keylegend — призупинено</value>
+  </data>
+  <data name="TrayBalloonText" xml:space="preserve">
+    <value>Далі працює в області сповіщень.</value>
+  </data>
+  <data name="CommonReset" xml:space="preserve">
+    <value>Скинути</value>
+  </data>
+  <data name="DonatePrompt" xml:space="preserve">
+    <value>Якщо Keylegend вам до вподоби, буду радий невеликій пожертві.</value>
+  </data>
+  <data name="DonateKofiTooltip" xml:space="preserve">
+    <value>Відкриє ko-fi.com/eistee у браузері</value>
+  </data>
+  <data name="DonateTooltip" xml:space="preserve">
+    <value>Відкриє paypal.me/eistee у браузері</value>
+  </data>
+  <data name="DonateBrowserFailed" xml:space="preserve">
+    <value>Не вдалося відкрити браузер. Адреса: {0}</value>
+  </data>
+</root>

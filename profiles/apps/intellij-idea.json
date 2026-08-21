@@ -1,0 +1,123 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "intellij-idea",
+  "name": "IntelliJ IDEA",
+  "kind": "app",
+
+  "match": {
+    "processes": ["idea64"],
+    "priority": 10
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "s": { "group": "File", "label": "Save all" },
+        "f": { "group": "Search", "label": "Find" },
+        "r": { "group": "Search", "label": "Replace" },
+        "g": { "group": "Navigation", "label": "Go to line" },
+        "n": { "group": "Search", "label": "Go to class" },
+        "e": { "group": "Navigation", "label": "Recent files" },
+        "b": { "group": "Navigation", "label": "Go to declaration" },
+        "h": { "group": "View", "label": "Type hierarchy" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "x": { "group": "Edit", "label": "Cut" },
+        "c": { "group": "Edit", "label": "Copy" },
+        "v": { "group": "Edit", "label": "Paste" },
+        "a": { "group": "Edit", "label": "Select all" },
+        "y": { "group": "Edit", "label": "Delete line" },
+        "d": { "group": "Edit", "label": "Duplicate line" },
+        "w": { "group": "Edit", "label": "Extend selection" },
+        "j": { "group": "Edit", "label": "Insert live template" },
+        "/": { "group": "Edit", "label": "Toggle line comment" },
+        "o": { "group": "Edit", "label": "Override methods" },
+        "i": { "group": "Edit", "label": "Implement methods" },
+        "p": { "group": "View", "label": "Parameter info" },
+        "q": { "group": "View", "label": "Quick documentation" }
+      },
+      "keys": {
+        "Keyboard_F9": { "group": "Tools", "label": "Build project" },
+        "Keyboard_F5": { "group": "Tools", "label": "Rerun" },
+        "Keyboard_F2": { "group": "Tools", "label": "Stop" },
+        "Keyboard_F8": { "group": "Tools", "label": "Toggle breakpoint" },
+        "Keyboard_F12": { "group": "Navigation", "label": "File structure" },
+        "Keyboard_F4": { "group": "Window", "label": "Close tab" },
+        "Keyboard_Tab": { "group": "Window", "label": "Switch between tool windows" },
+        "Keyboard_Home": { "group": "Navigation", "label": "Go to start of file" },
+        "Keyboard_End": { "group": "Navigation", "label": "Go to end of file" },
+        "Keyboard_ArrowLeft": { "group": "Navigation", "label": "Word left" },
+        "Keyboard_ArrowRight": { "group": "Navigation", "label": "Word right" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "z": { "group": "Edit", "label": "Redo" },
+        "f": { "group": "Search", "label": "Find in files" },
+        "r": { "group": "Search", "label": "Replace in files" },
+        "n": { "group": "Search", "label": "Go to file" },
+        "a": { "group": "Search", "label": "Find action" },
+        "t": { "group": "Navigation", "label": "Go to test" },
+        "e": { "group": "Navigation", "label": "Recent locations" },
+        "b": { "group": "Navigation", "label": "Go to type declaration" },
+        "i": { "group": "View", "label": "Quick definition" },
+        "v": { "group": "Edit", "label": "Paste from history" },
+        "j": { "group": "Edit", "label": "Join lines" },
+        "u": { "group": "Edit", "label": "Toggle case" },
+        "/": { "group": "Edit", "label": "Toggle block comment" }
+      },
+      "keys": {
+        "Keyboard_F10": { "group": "Tools", "label": "Run context configuration" },
+        "Keyboard_F8": { "group": "Tools", "label": "View breakpoints" },
+        "Keyboard_F7": { "group": "Search", "label": "Highlight usages in file" },
+        "Keyboard_Enter": { "group": "Edit", "label": "Complete statement" },
+        "Keyboard_Backspace": { "group": "Navigation", "label": "Go to last edit location" },
+        "Keyboard_ArrowUp": { "group": "Edit", "label": "Move statement up" },
+        "Keyboard_ArrowDown": { "group": "Edit", "label": "Move statement down" }
+      }
+    },
+
+    "Ctrl+Alt": {
+      "characters": {
+        "s": { "group": "System", "label": "Settings" },
+        "l": { "group": "Edit", "label": "Reformat code" },
+        "o": { "group": "Edit", "label": "Optimize imports" },
+        "i": { "group": "Edit", "label": "Auto-indent lines" },
+        "t": { "group": "Edit", "label": "Surround with" },
+        "v": { "group": "Edit", "label": "Extract variable" },
+        "m": { "group": "Edit", "label": "Extract method" },
+        "f": { "group": "Edit", "label": "Introduce field" },
+        "c": { "group": "Edit", "label": "Introduce constant" },
+        "p": { "group": "Edit", "label": "Introduce parameter" }
+      },
+      "keys": {
+        "Keyboard_ArrowLeft": { "group": "Navigation", "label": "Go back" },
+        "Keyboard_ArrowRight": { "group": "Navigation", "label": "Go forward" }
+      }
+    },
+
+    "Alt": {
+      "characters": {
+        "1": { "group": "View", "label": "Project tool window" },
+        "4": { "group": "View", "label": "Run tool window" },
+        "5": { "group": "View", "label": "Debug tool window" },
+        "9": { "group": "View", "label": "Version control tool window" }
+      },
+      "keys": {
+        "Keyboard_Enter": { "group": "Edit", "label": "Show intention actions" },
+        "Keyboard_Insert": { "group": "Edit", "label": "Generate code" },
+        "Keyboard_Home": { "group": "Navigation", "label": "Jump to navigation bar" },
+        "Keyboard_F1": { "group": "Navigation", "label": "Select file in tool window" },
+        "Keyboard_F7": { "group": "Search", "label": "Find usages" },
+        "Keyboard_F8": { "group": "Tools", "label": "Evaluate expression" },
+        "Keyboard_F9": { "group": "Tools", "label": "Run to cursor" },
+        "Keyboard_F12": { "group": "View", "label": "Terminal" },
+        "Keyboard_ArrowLeft": { "group": "Window", "label": "Previous editor tab" },
+        "Keyboard_ArrowRight": { "group": "Window", "label": "Next editor tab" },
+        "Keyboard_ArrowUp": { "group": "Navigation", "label": "Previous method" },
+        "Keyboard_ArrowDown": { "group": "Navigation", "label": "Next method" }
+      }
+    }
+  }
+}

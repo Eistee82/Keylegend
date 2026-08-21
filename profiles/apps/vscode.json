@@ -1,0 +1,85 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "vscode",
+  "name": "Visual Studio Code",
+  "kind": "app",
+
+  "match": {
+    "processes": ["code", "code - insiders", "vscodium"],
+    "priority": 10
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "n": { "group": "File", "label": "New file" },
+        "o": { "group": "File", "label": "Open file" },
+        "s": { "group": "File", "label": "Save" },
+        "w": { "group": "Window", "label": "Close editor" },
+        "p": { "group": "Search", "label": "Go to file" },
+        "f": { "group": "Search", "label": "Find" },
+        "h": { "group": "Search", "label": "Replace" },
+        "g": { "group": "Navigation", "label": "Go to line" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "y": { "group": "Edit", "label": "Redo" },
+        "x": { "group": "Edit", "label": "Cut" },
+        "c": { "group": "Edit", "label": "Copy" },
+        "v": { "group": "Edit", "label": "Paste" },
+        "a": { "group": "Edit", "label": "Select all" },
+        "d": { "group": "Edit", "label": "Add selection to next match" },
+        "b": { "group": "View", "label": "Toggle side bar" },
+        "j": { "group": "View", "label": "Toggle panel" },
+        "+": { "group": "View", "label": "Zoom in" },
+        "-": { "group": "View", "label": "Zoom out" },
+        "`": { "group": "View", "label": "Toggle terminal" },
+        "/": { "group": "Edit", "label": "Toggle line comment" },
+        ",": { "group": "System", "label": "Settings" }
+      },
+      "keys": {
+        "Keyboard_Tab": { "group": "Window", "label": "Next editor" },
+        "Keyboard_Enter": { "group": "Edit", "label": "Insert line below" },
+        "Keyboard_Home": { "group": "Navigation", "label": "Go to start of file" },
+        "Keyboard_End": { "group": "Navigation", "label": "Go to end of file" },
+        "Keyboard_ArrowLeft": { "group": "Navigation", "label": "Word left" },
+        "Keyboard_ArrowRight": { "group": "Navigation", "label": "Word right" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "p": { "group": "Search", "label": "Command palette" },
+        "f": { "group": "Search", "label": "Search across files" },
+        "e": { "group": "View", "label": "Explorer" },
+        "g": { "group": "View", "label": "Source control" },
+        "d": { "group": "View", "label": "Run and debug" },
+        "x": { "group": "View", "label": "Extensions" },
+        "k": { "group": "Edit", "label": "Delete line" },
+        "t": { "group": "File", "label": "Reopen closed editor" },
+        "n": { "group": "Window", "label": "New window" }
+      },
+      "keys": {
+        "Keyboard_Tab": { "group": "Window", "label": "Previous editor" }
+      }
+    },
+
+    "Ctrl+Alt": {
+      "keys": {
+        "Keyboard_ArrowUp": { "group": "Edit", "label": "Add cursor above" },
+        "Keyboard_ArrowDown": { "group": "Edit", "label": "Add cursor below" }
+      }
+    },
+
+    "Alt": {
+      "characters": {
+        "z": { "group": "View", "label": "Toggle word wrap" }
+      },
+      "keys": {
+        "Keyboard_ArrowUp": { "group": "Edit", "label": "Move line up" },
+        "Keyboard_ArrowDown": { "group": "Edit", "label": "Move line down" },
+        "Keyboard_ArrowLeft": { "group": "Navigation", "label": "Go back" },
+        "Keyboard_ArrowRight": { "group": "Navigation", "label": "Go forward" }
+      }
+    }
+  }
+}

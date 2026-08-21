@@ -1,0 +1,53 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "the-witcher-3",
+  "name": "The Witcher 3: Wild Hunt",
+  "kind": "game",
+
+  "match": {
+    "processes": ["witcher3", "redprelauncher"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Forward" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Left" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Back" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Right" },
+
+    "Keyboard_LeftShift": { "colour": "#FF8C00", "label": "Sprint" },
+    "Keyboard_LeftCtrl": { "colour": "#FF8C00", "label": "Toggle walk / run" },
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Jump / roll" },
+    "Keyboard_LeftAlt": { "colour": "#FF8C00", "label": "Dodge" },
+    "Keyboard_E": { "colour": "#FF8C00", "label": "Interact / dismount" },
+    "Keyboard_R": { "colour": "#FF8C00", "label": "Consumable slot 1" },
+    "Keyboard_F": { "colour": "#FF8C00", "label": "Consumable slot 2" },
+    "Keyboard_X": { "colour": "#FF8C00", "label": "Call / stop horse" },
+    "Keyboard_C": { "colour": "#FF8C00", "label": "Dive" },
+
+    "Keyboard_Q": { "colour": "#C864FF", "label": "Cast sign" },
+    "Keyboard_3": { "colour": "#C864FF", "label": "Select Aard" },
+    "Keyboard_4": { "colour": "#C864FF", "label": "Select Yrden" },
+    "Keyboard_5": { "colour": "#C864FF", "label": "Select Igni" },
+    "Keyboard_6": { "colour": "#C864FF", "label": "Select Quen" },
+    "Keyboard_7": { "colour": "#C864FF", "label": "Select Axii" },
+
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Draw steel sword" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Draw silver sword" },
+    "Keyboard_Tab": { "colour": "#00C8FF", "label": "Quick access wheel" },
+
+    "Keyboard_I": { "colour": "#B4B4B4", "label": "Inventory" },
+    "Keyboard_M": { "colour": "#B4B4B4", "label": "Open map" },
+    "Keyboard_J": { "colour": "#B4B4B4", "label": "Quest journal" },
+    "Keyboard_K": { "colour": "#B4B4B4", "label": "Character panel" },
+    "Keyboard_N": { "colour": "#B4B4B4", "label": "Meditate" },
+    "Keyboard_L": { "colour": "#B4B4B4", "label": "Alchemy" },
+    "Keyboard_O": { "colour": "#B4B4B4", "label": "Crafting" },
+    "Keyboard_B": { "colour": "#B4B4B4", "label": "Bestiary" },
+    "Keyboard_G": { "colour": "#B4B4B4", "label": "Glossary" },
+    "Keyboard_H": { "colour": "#B4B4B4", "label": "Gwent deck" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Menu" }
+  }
+}

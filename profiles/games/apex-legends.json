@@ -1,0 +1,42 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "apex-legends",
+  "name": "Apex Legends",
+  "kind": "game",
+
+  "match": {
+    "processes": ["r5apex", "r5apex_dx12"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Forward" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Left" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Back" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Right" },
+
+    "Keyboard_E": { "colour": "#FF8C00", "label": "Interact" },
+    "Keyboard_R": { "colour": "#FF8C00", "label": "Reload" },
+    "Keyboard_V": { "colour": "#FF8C00", "label": "Melee" },
+    "Keyboard_F": { "colour": "#FF8C00", "label": "Ping enemy" },
+    "Keyboard_C": { "colour": "#FF8C00", "label": "Crouch (toggle)" },
+    "Keyboard_LeftCtrl": { "colour": "#FF8C00", "label": "Crouch (hold)" },
+    "Keyboard_LeftShift": { "colour": "#FF8C00", "label": "Sprint" },
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Jump" },
+    "Keyboard_Tab": { "colour": "#FF8C00", "label": "Inventory" },
+
+    "Keyboard_Q": { "colour": "#C864FF", "label": "Tactical ability" },
+
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Weapon 1" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Weapon 2" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Holster weapons" },
+    "Keyboard_5": { "colour": "#00C8FF", "label": "Syringe" },
+    "Keyboard_6": { "colour": "#00C8FF", "label": "Med kit" },
+    "Keyboard_7": { "colour": "#00C8FF", "label": "Shield cell" },
+
+    "Keyboard_M": { "colour": "#B4B4B4", "label": "Map" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Menu" }
+  }
+}

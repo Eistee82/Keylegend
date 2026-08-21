@@ -1,0 +1,41 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "valorant",
+  "name": "VALORANT",
+  "kind": "game",
+
+  "match": {
+    "processes": ["valorant-win64-shipping", "valorant"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Forward" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Left" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Back" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Right" },
+
+    "Keyboard_R": { "colour": "#FF8C00", "label": "Reload" },
+    "Keyboard_F": { "colour": "#FF8C00", "label": "Use object" },
+    "Keyboard_G": { "colour": "#FF8C00", "label": "Drop weapon" },
+    "Keyboard_B": { "colour": "#FF8C00", "label": "Shop" },
+    "Keyboard_LeftShift": { "colour": "#FF8C00", "label": "Walk" },
+    "Keyboard_LeftCtrl": { "colour": "#FF8C00", "label": "Crouch" },
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Jump" },
+    "Keyboard_Tab": { "colour": "#FF8C00", "label": "Scoreboard" },
+
+    "Keyboard_Q": { "colour": "#C864FF", "label": "Ability 1" },
+    "Keyboard_E": { "colour": "#C864FF", "label": "Ability 2" },
+    "Keyboard_C": { "colour": "#C864FF", "label": "Ability 3" },
+    "Keyboard_X": { "colour": "#C864FF", "label": "Ultimate" },
+
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Primary weapon" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Sidearm" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Melee" },
+    "Keyboard_4": { "colour": "#00C8FF", "label": "Spike" },
+
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Menu" }
+  }
+}

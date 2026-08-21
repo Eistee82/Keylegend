@@ -1,0 +1,47 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "gta-5",
+  "name": "Grand Theft Auto V",
+  "kind": "game",
+
+  "match": {
+    "processes": ["gta5", "gta5_enhanced", "gtav", "playgtav"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Forward / accelerate" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Left" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Back / brake" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Right" },
+
+    "Keyboard_LeftShift": { "colour": "#FF8C00", "label": "Sprint" },
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Jump / handbrake" },
+    "Keyboard_Q": { "colour": "#FF8C00", "label": "Take cover" },
+    "Keyboard_E": { "colour": "#FF8C00", "label": "Context action / horn" },
+    "Keyboard_R": { "colour": "#FF8C00", "label": "Reload" },
+    "Keyboard_F": { "colour": "#FF8C00", "label": "Enter / exit vehicle" },
+    "Keyboard_G": { "colour": "#FF8C00", "label": "Throw grenade" },
+    "Keyboard_V": { "colour": "#FF8C00", "label": "Change camera" },
+    "Keyboard_C": { "colour": "#FF8C00", "label": "Look behind" },
+    "Keyboard_LeftAlt": { "colour": "#FF8C00", "label": "Stealth mode" },
+    "Keyboard_CapsLock": { "colour": "#FF8C00", "label": "Special ability" },
+
+    "Keyboard_Tab": { "colour": "#00C8FF", "label": "Weapon wheel" },
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Weapon slot 1" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Weapon slot 2" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Weapon slot 3" },
+    "Keyboard_4": { "colour": "#00C8FF", "label": "Weapon slot 4" },
+    "Keyboard_5": { "colour": "#00C8FF", "label": "Weapon slot 5" },
+    "Keyboard_6": { "colour": "#00C8FF", "label": "Weapon slot 6" },
+    "Keyboard_7": { "colour": "#00C8FF", "label": "Weapon slot 7" },
+    "Keyboard_8": { "colour": "#00C8FF", "label": "Weapon slot 8" },
+    "Keyboard_9": { "colour": "#00C8FF", "label": "Weapon slot 9" },
+
+    "Keyboard_M": { "colour": "#B4B4B4", "label": "Interaction menu" },
+    "Keyboard_ArrowUp": { "colour": "#B4B4B4", "label": "Open phone" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Pause menu / map" }
+  }
+}

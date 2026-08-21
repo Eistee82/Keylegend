@@ -1,0 +1,37 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "cities-skylines",
+  "name": "Cities: Skylines",
+  "kind": "game",
+
+  "match": {
+    "processes": ["cities"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Move camera up" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Move camera left" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Move camera down" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Move camera right" },
+
+    "Keyboard_Q": { "colour": "#FF8C00", "label": "Rotate camera clockwise" },
+    "Keyboard_E": { "colour": "#FF8C00", "label": "Rotate camera counter-clockwise" },
+    "Keyboard_X": { "colour": "#FF8C00", "label": "Zoom out" },
+    "Keyboard_R": { "colour": "#FF8C00", "label": "Tilt camera up" },
+    "Keyboard_F": { "colour": "#FF8C00", "label": "Tilt camera down" },
+
+    "Keyboard_B": { "colour": "#64FF96", "label": "Bulldoze" },
+    "Keyboard_PageUp": { "colour": "#64FF96", "label": "Raise building elevation" },
+    "Keyboard_PageDown": { "colour": "#64FF96", "label": "Lower building elevation" },
+
+    "Keyboard_Space": { "colour": "#00C8FF", "label": "Pause simulation" },
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Normal speed" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Fast speed" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Fastest speed" },
+
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Cancel or menu" }
+  }
+}

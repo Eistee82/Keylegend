@@ -1,0 +1,32 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "foobar2000",
+  "name": "foobar2000",
+  "kind": "app",
+
+  "match": {
+    "processes": ["foobar2000"],
+    "priority": 10
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "o": { "group": "File", "label": "Open file" },
+        "n": { "group": "File", "label": "New playlist" },
+        "s": { "group": "File", "label": "Save playlist" },
+        "u": { "group": "File", "label": "Add location" },
+        "w": { "group": "File", "label": "Remove playlist" },
+        "f": { "group": "Search", "label": "Search" },
+        "p": { "group": "System", "label": "Preferences" }
+      }
+    },
+
+    "Alt": {
+      "characters": {
+        "a": { "group": "View", "label": "Toggle always on top" }
+      }
+    }
+  }
+}

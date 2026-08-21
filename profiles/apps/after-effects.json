@@ -1,0 +1,81 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "after-effects",
+  "name": "Adobe After Effects",
+  "kind": "app",
+
+  "match": {
+    "processes": ["afterfx"],
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_V": { "colour": "#00C8FF", "label": "Selection" },
+    "Keyboard_H": { "colour": "#00C8FF", "label": "Hand" },
+    "Keyboard_Y": { "colour": "#00C8FF", "label": "Zoom" },
+    "Keyboard_W": { "colour": "#00C8FF", "label": "Rotation" },
+    "Keyboard_Z": { "colour": "#00C8FF", "label": "Pan behind (anchor point)" },
+    "Keyboard_Q": { "colour": "#00C8FF", "label": "Shape" },
+    "Keyboard_G": { "colour": "#00C8FF", "label": "Pen" },
+    "Keyboard_C": { "colour": "#00C8FF", "label": "Camera tools" },
+
+    "Keyboard_A": { "colour": "#22CC66", "label": "Reveal anchor point" },
+    "Keyboard_P": { "colour": "#22CC66", "label": "Reveal position" },
+    "Keyboard_S": { "colour": "#22CC66", "label": "Reveal scale" },
+    "Keyboard_R": { "colour": "#22CC66", "label": "Reveal rotation" },
+    "Keyboard_T": { "colour": "#22CC66", "label": "Reveal opacity" },
+    "Keyboard_U": { "colour": "#22CC66", "label": "Reveal animated properties" },
+    "Keyboard_E": { "colour": "#22CC66", "label": "Reveal effects" },
+    "Keyboard_M": { "colour": "#22CC66", "label": "Reveal mask path" },
+    "Keyboard_F": { "colour": "#22CC66", "label": "Reveal mask feather" },
+    "Keyboard_L": { "colour": "#22CC66", "label": "Reveal audio levels" },
+
+    "Keyboard_I": { "colour": "#FFC800", "label": "Go to layer in point" },
+    "Keyboard_O": { "colour": "#FFC800", "label": "Go to layer out point" },
+    "Keyboard_J": { "colour": "#FFC800", "label": "Previous keyframe" },
+    "Keyboard_K": { "colour": "#FFC800", "label": "Next keyframe" },
+    "Keyboard_B": { "colour": "#FFC800", "label": "Set work area start" },
+    "Keyboard_N": { "colour": "#FFC800", "label": "Set work area end" },
+    "Keyboard_Num0": { "colour": "#FFC800", "label": "RAM preview" }
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "n": { "group": "File", "label": "New composition" },
+        "o": { "group": "File", "label": "Open project" },
+        "s": { "group": "File", "label": "Save" },
+        "i": { "group": "File", "label": "Import file" },
+        "m": { "group": "File", "label": "Add to render queue" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "x": { "group": "Edit", "label": "Cut" },
+        "c": { "group": "Edit", "label": "Copy" },
+        "v": { "group": "Edit", "label": "Paste" },
+        "a": { "group": "Edit", "label": "Select all" },
+        "d": { "group": "Edit", "label": "Duplicate layer" },
+        "y": { "group": "Edit", "label": "New solid layer" },
+        "k": { "group": "View", "label": "Composition settings" },
+        "t": { "group": "Tools", "label": "Type tool" },
+        "b": { "group": "Tools", "label": "Brush tool" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "s": { "group": "File", "label": "Save as" },
+        "a": { "group": "Edit", "label": "Deselect all" },
+        "c": { "group": "Edit", "label": "Pre-compose layers" },
+        "d": { "group": "Edit", "label": "Split layer" },
+        "e": { "group": "Edit", "label": "Remove all effects" },
+        "y": { "group": "Edit", "label": "Solid settings" }
+      }
+    },
+
+    "Ctrl+Alt": {
+      "characters": {
+        "y": { "group": "Edit", "label": "New adjustment layer" }
+      }
+    }
+  }
+}

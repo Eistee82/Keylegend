@@ -1,0 +1,127 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Build and test
+    # The application targets Windows (WPF and Windows-only APIs), so it is built there.
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Test
+        # Device profiles under devices/ are validated as part of this run, so a broken
+        # contributed profile fails the build rather than reaching users.
+        run: dotnet test --configuration Release --no-build --verbosity normal --logger "trx;LogFileName=results.trx"
+
+      - name: Publish test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: '**/TestResults/*.trx'
+          if-no-files-found: ignore
+
+  package:
+    name: Package
+    runs-on: windows-latest
+
+    # Everything the release does, on every change rather than only at a tag. Both defects this
+    # step exists for were invisible until something was actually packaged: dotnet publish left
+    # devices/ behind, so an installed copy had no keyboard to describe, and the console tool was
+    # called keylegend.exe — the same file name as the application on a case-insensitive
+    # filesystem — so publishing both into one directory shipped a release with no interface.
+    # Neither showed up in a build or a test. Finding them at a tag would mean finding them late.
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Install Inno Setup
+        run: choco install innosetup --no-progress -y
+
+      - name: Build the release
+        shell: pwsh
+        run: ./tools/build-release.ps1 -Version 0.0.0-ci
+
+      - name: Keep the artefacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: package-preview
+          path: |
+            out/*.exe
+            out/*.zip
+          retention-days: 7
+          if-no-files-found: error
+
+  manifests:
+    name: winget manifests
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Install a YAML parser
+        shell: pwsh
+        run: Install-Module powershell-yaml -Force -Scope CurrentUser -AllowClobber
+
+      # No winget on the runner is guaranteed, so this checks what can be checked without it:
+      # that the files parse, that they agree with each other, and that the version in them is
+      # the version the projects build. A manifest that disagrees with the release it describes
+      # fails validation in microsoft/winget-pkgs, which is a slow and public place to find out.
+      - name: Check the manifests
+        shell: pwsh
+        run: |
+          Import-Module powershell-yaml
+
+          $folder = 'packaging/winget'
+          $files = Get-ChildItem $folder -Filter *.yaml
+          if ($files.Count -lt 4) { throw "Expected four manifest files, found $($files.Count)." }
+
+          $version = ([xml](Get-Content Directory.Build.props)).Project.PropertyGroup.Version
+          Write-Host "Projects build version $version"
+
+          $problems = @()
+          foreach ($file in $files) {
+            $text = Get-Content $file.FullName -Raw
+
+            # Parsing is the point: a tab or a bad indent here is a rejected pull request there.
+            try { $null = ConvertFrom-Yaml $text -ErrorAction Stop }
+            catch { $problems += "$($file.Name): not valid YAML - $($_.Exception.Message)" }
+
+            if ($text -notmatch '(?m)^PackageIdentifier:\s*Eistee82\.Keylegend\s*$') {
+              $problems += "$($file.Name): PackageIdentifier is not Eistee82.Keylegend"
+            }
+            if ($text -notmatch "(?m)^PackageVersion:\s*$([regex]::Escape($version))\s*`$") {
+              $problems += "$($file.Name): PackageVersion does not match Directory.Build.props ($version)"
+            }
+          }
+
+          if ($problems) { $problems | ForEach-Object { Write-Error $_ }; exit 1 }
+          Write-Host "Manifests agree with each other and with the build."

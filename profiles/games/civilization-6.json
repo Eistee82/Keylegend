@@ -1,0 +1,43 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "civilization-6",
+  "name": "Civilization VI",
+  "kind": "game",
+
+  "match": {
+    "processes": ["civilizationvi", "civilizationvi_dx12"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_Enter": { "colour": "#FF0000", "label": "Next turn" },
+
+    "Keyboard_B": { "colour": "#64FF96", "label": "Found city" },
+    "Keyboard_F": { "colour": "#64FF96", "label": "Fortify unit" },
+    "Keyboard_A": { "colour": "#64FF96", "label": "Attack" },
+    "Keyboard_R": { "colour": "#64FF96", "label": "Ranged attack" },
+    "Keyboard_E": { "colour": "#64FF96", "label": "Auto explore" },
+    "Keyboard_M": { "colour": "#64FF96", "label": "Move to" },
+    "Keyboard_Space": { "colour": "#64FF96", "label": "Skip unit turn" },
+    "Keyboard_Delete": { "colour": "#64FF96", "label": "Delete unit" },
+
+    "Keyboard_PeriodAndBiggerThan": { "colour": "#FF8C00", "label": "Next ready unit" },
+    "Keyboard_CommaAndLessThan": { "colour": "#FF8C00", "label": "Previous ready unit" },
+
+    "Keyboard_T": { "colour": "#B4B4B4", "label": "Tech tree" },
+    "Keyboard_C": { "colour": "#B4B4B4", "label": "Civics tree" },
+    "Keyboard_L": { "colour": "#B4B4B4", "label": "Religion overview" },
+    "Keyboard_O": { "colour": "#B4B4B4", "label": "Great people" },
+    "Keyboard_W": { "colour": "#B4B4B4", "label": "Great works" },
+    "Keyboard_F1": { "colour": "#B4B4B4", "label": "Rankings" },
+    "Keyboard_F2": { "colour": "#B4B4B4", "label": "City-states" },
+    "Keyboard_F3": { "colour": "#B4B4B4", "label": "Espionage" },
+    "Keyboard_F4": { "colour": "#B4B4B4", "label": "Trade routes" },
+    "Keyboard_F7": { "colour": "#B4B4B4", "label": "Government" },
+    "Keyboard_F10": { "colour": "#B4B4B4", "label": "Governors" },
+    "Keyboard_F11": { "colour": "#B4B4B4", "label": "Timeline" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Menu" }
+  }
+}

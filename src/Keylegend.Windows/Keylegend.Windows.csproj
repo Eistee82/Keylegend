@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Keylegend.Core\Keylegend.Core.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <!-- Windows-spezifisch: Zustandsabfrage der Tastatur und Vordergrundfenster via P/Invoke -->
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

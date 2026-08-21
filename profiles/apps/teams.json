@@ -1,0 +1,69 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "teams",
+  "name": "Microsoft Teams",
+  "kind": "app",
+
+  "match": {
+    "processes": ["ms-teams", "teams"],
+    "priority": 10
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "e": { "group": "Search", "label": "Go to search" },
+        "g": { "group": "Search", "label": "Go to a specific chat or channel" },
+        "f": { "group": "Search", "label": "Find in current chat or channel" },
+        "n": { "group": "File", "label": "Start a new chat" },
+        "l": { "group": "Navigation", "label": "Move focus to chat and channel list" },
+        "m": { "group": "Navigation", "label": "Move focus to message pane" },
+        "r": { "group": "Navigation", "label": "Move focus to compose box" },
+        "j": { "group": "Navigation", "label": "Jump to newest message" },
+        ",": { "group": "System", "label": "Open settings" },
+        ".": { "group": "System", "label": "Show keyboard shortcuts" },
+        "1": { "group": "Navigation", "label": "Open app 1 in the app bar" },
+        "2": { "group": "Navigation", "label": "Open app 2 in the app bar" },
+        "3": { "group": "Navigation", "label": "Open app 3 in the app bar" },
+        "4": { "group": "Navigation", "label": "Open app 4 in the app bar" },
+        "5": { "group": "Navigation", "label": "Open app 5 in the app bar" },
+        "6": { "group": "Navigation", "label": "Open app 6 in the app bar" },
+        "7": { "group": "Navigation", "label": "Open app 7 in the app bar" },
+        "8": { "group": "Navigation", "label": "Open app 8 in the app bar" },
+        "9": { "group": "Navigation", "label": "Open app 9 in the app bar" }
+      },
+      "keys": {
+        "Keyboard_F6": { "group": "Navigation", "label": "Go to next section" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "f": { "group": "Search", "label": "Open filter" },
+        "n": { "group": "Window", "label": "Start a chat in a new window" },
+        "m": { "group": "Tools", "label": "Toggle mute" },
+        "o": { "group": "Tools", "label": "Toggle camera" },
+        "k": { "group": "Tools", "label": "Raise or lower hand" },
+        "a": { "group": "Tools", "label": "Accept video call" },
+        "s": { "group": "Tools", "label": "Accept audio call" },
+        "d": { "group": "Tools", "label": "Decline call" }
+      },
+      "keys": {
+        "Keyboard_F6": { "group": "Navigation", "label": "Go to previous section" }
+      }
+    },
+
+    "Ctrl+Alt": {
+      "characters": {
+        "r": { "group": "Edit", "label": "React to the last message" }
+      }
+    },
+
+    "Alt": {
+      "characters": {
+        "p": { "group": "View", "label": "Toggle details pane" }
+      }
+    }
+  }
+}

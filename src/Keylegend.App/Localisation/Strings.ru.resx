@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    Тексты интерфейса, русский. Если ключа здесь нет, действует английский из Strings.resx.
+
+    Тон как в docs/ru: по делу, объясняет причину, без рекламных оборотов. Технические термины
+    и идентификаторы остаются в исходном виде.
+  -->
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <data name="TabKeyboard" xml:space="preserve">
+    <value>Клавиатура</value>
+  </data>
+  <data name="TabColours" xml:space="preserve">
+    <value>Цвета</value>
+  </data>
+  <data name="TabProfiles" xml:space="preserve">
+    <value>Профили</value>
+  </data>
+  <data name="TabShortcuts" xml:space="preserve">
+    <value>Сочетания</value>
+  </data>
+  <data name="TabSettings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="StatusDeviceVerified" xml:space="preserve">
+    <value>{0} · клавиш: {1} · соответствие проверено на устройстве</value>
+  </data>
+  <data name="StatusDeviceNotVerified" xml:space="preserve">
+    <value>{0} · клавиш: {1} · соответствие ещё не проверено</value>
+  </data>
+  <data name="StatusProfileLabel" xml:space="preserve">
+    <value>профиль: {0}</value>
+  </data>
+  <data name="StatusPainting" xml:space="preserve">
+    <value>подсвечивает</value>
+  </data>
+  <data name="StatusIdle" xml:space="preserve">
+    <value>простой · Chroma Studio</value>
+  </data>
+  <data name="StatusPaused" xml:space="preserve">
+    <value>приостановлено</value>
+  </data>
+  <data name="StatusActiveTooltip" xml:space="preserve">
+    <value>Keylegend управляет подсветкой клавиатуры.</value>
+  </data>
+  <data name="StatusIdleTooltip" xml:space="preserve">
+    <value>Освобождена — работает ваш эффект Chroma Studio. Нажмите клавишу, чтобы вернуть управление.</value>
+  </data>
+  <data name="StatusPausedTooltip" xml:space="preserve">
+    <value>Приостановлено. Подсветка остаётся за Chroma Studio, пока вы не продолжите.</value>
+  </data>
+  <data name="StatusPauseButton" xml:space="preserve">
+    <value>Пауза</value>
+  </data>
+  <data name="StatusResumeButton" xml:space="preserve">
+    <value>Продолжить</value>
+  </data>
+  <data name="StatusFollowing" xml:space="preserve">
+    <value>Следует за клавиатурой.</value>
+  </data>
+  <data name="StatusShowingLayer" xml:space="preserve">
+    <value>Показан выбранный слой — нажмите «Следовать за клавиатурой», чтобы вернуться.</value>
+  </data>
+  <data name="StatusColoursRestored" xml:space="preserve">
+    <value>Цвета по умолчанию восстановлены.</value>
+  </data>
+  <data name="StatusProfileDeleted" xml:space="preserve">
+    <value>«{0}» удалён.</value>
+  </data>
+  <data name="StatusProfileShown" xml:space="preserve">
+    <value>«{0}» снова используется.</value>
+  </data>
+  <data name="StatusProfileHidden" xml:space="preserve">
+    <value>«{0}» скрыт. Выделите его и нажмите «Показать», чтобы вернуть.</value>
+  </data>
+  <data name="StatusSectionReset" xml:space="preserve">
+    <value>{0} профиля «{1}» снова следует поставляемому профилю.</value>
+  </data>
+  <data name="StatusProfileReset" xml:space="preserve">
+    <value>«{0}» снова следует поставляемому профилю.</value>
+  </data>
+  <data name="StatusSelectProfileFirst" xml:space="preserve">
+    <value>Сначала выберите или добавьте профиль.</value>
+  </data>
+  <data name="StatusProfileLayerCleared" xml:space="preserve">
+    <value>«{0}» больше не заменяет слой {1}.</value>
+  </data>
+  <data name="StatusLayerCleared" xml:space="preserve">
+    <value>Слой {0} очищен.</value>
+  </data>
+  <data name="StatusShortcutsRestored" xml:space="preserve">
+    <value>Сочетания по умолчанию восстановлены.</value>
+  </data>
+  <data name="StatusIdleTimeoutSet" xml:space="preserve">
+    <value>Время простоя задано: {0} с.</value>
+  </data>
+  <data name="StatusHandBackOn" xml:space="preserve">
+    <value>Подсветка возвращается после {0} с без ввода.</value>
+  </data>
+  <data name="StatusHandBackOff" xml:space="preserve">
+    <value>Подсветка удерживается, пока вы не приостановите или не закроете Keylegend.</value>
+  </data>
+  <data name="StatusIdleTimeoutInvalid" xml:space="preserve">
+    <value>Время простоя должно быть положительным числом секунд.</value>
+  </data>
+  <data name="StatusAutostartUnknownPath" xml:space="preserve">
+    <value>Не удалось определить путь к приложению; автозапуск не изменён.</value>
+  </data>
+  <data name="StatusAutostartOn" xml:space="preserve">
+    <value>Keylegend будет запускаться вместе с Windows, свёрнутым в область уведомлений.</value>
+  </data>
+  <data name="StatusAutostartOff" xml:space="preserve">
+    <value>Keylegend больше не будет запускаться вместе с Windows.</value>
+  </data>
+  <data name="StatusSaved" xml:space="preserve">
+    <value>Сохранено в {0}</value>
+  </data>
+  <data name="KeyboardLayerHeading" xml:space="preserve">
+    <value>Показать слой</value>
+  </data>
+  <data name="KeyboardLayerNote" xml:space="preserve">
+    <value>Включите здесь модификатор, чтобы рассмотреть его слой, не удерживая клавишу. В ваши приложения ничего не отправляется.</value>
+  </data>
+  <data name="KeyboardFollowButton" xml:space="preserve">
+    <value>Следовать за клавиатурой</value>
+  </data>
+  <data name="KeyboardNoProfile" xml:space="preserve">
+    <value>Профиль устройства не загружен</value>
+  </data>
+  <data name="ColoursCategoriesHeading" xml:space="preserve">
+    <value>Категории клавиш</value>
+  </data>
+  <data name="ColoursCategoriesNote" xml:space="preserve">
+    <value>Цвет клавиши определяется тем, что она набирает. Нажмите на образец, чтобы изменить его, — клавиатура отреагирует сразу.</value>
+  </data>
+  <data name="ColoursCategoryDigit" xml:space="preserve">
+    <value>Цифры</value>
+  </data>
+  <data name="ColoursCategoryLowercase" xml:space="preserve">
+    <value>Строчные буквы</value>
+  </data>
+  <data name="ColoursCategoryUppercase" xml:space="preserve">
+    <value>Прописные буквы</value>
+  </data>
+  <data name="ColoursCategorySymbol" xml:space="preserve">
+    <value>Символы</value>
+  </data>
+  <data name="ColoursCategoryControl" xml:space="preserve">
+    <value>Управляющие клавиши</value>
+  </data>
+  <data name="ColoursCategoryDeadKey" xml:space="preserve">
+    <value>Мёртвые клавиши</value>
+  </data>
+  <data name="ColoursCategoryFunctionKey" xml:space="preserve">
+    <value>Функциональные клавиши</value>
+  </data>
+  <data name="ColoursExampleDigit" xml:space="preserve">
+    <value>1 7 · цифровой блок при включённом Num Lock</value>
+  </data>
+  <data name="ColoursExampleLowercase" xml:space="preserve">
+    <value>a я</value>
+  </data>
+  <data name="ColoursExampleUppercase" xml:space="preserve">
+    <value>A Я · с Shift или Caps Lock</value>
+  </data>
+  <data name="ColoursExampleSymbol" xml:space="preserve">
+    <value>+ # € |</value>
+  </data>
+  <data name="ColoursExampleControl" xml:space="preserve">
+    <value>Esc Tab ⏎ стрелки</value>
+  </data>
+  <data name="ColoursExampleDeadKey" xml:space="preserve">
+    <value>^ ´ ` · требуют второго нажатия</value>
+  </data>
+  <data name="ColoursExampleFunctionKey" xml:space="preserve">
+    <value>F1 – F12</value>
+  </data>
+  <data name="ColoursLocksHeading" xml:space="preserve">
+    <value>Клавиши фиксации</value>
+  </data>
+  <data name="ColoursLocksNote" xml:space="preserve">
+    <value>По два цвета: включено и выключено. Они всегда важнее всего остального, чтобы состояние оставалось читаемым.</value>
+  </data>
+  <data name="ColoursLockNumOn" xml:space="preserve">
+    <value>Num Lock включён</value>
+  </data>
+  <data name="ColoursLockNumOff" xml:space="preserve">
+    <value>Num Lock выключен</value>
+  </data>
+  <data name="ColoursLockCapsOn" xml:space="preserve">
+    <value>Caps Lock включён</value>
+  </data>
+  <data name="ColoursLockCapsOff" xml:space="preserve">
+    <value>Caps Lock выключен</value>
+  </data>
+  <data name="ColoursLockScrollOn" xml:space="preserve">
+    <value>Scroll Lock включён</value>
+  </data>
+  <data name="ColoursLockScrollOff" xml:space="preserve">
+    <value>Scroll Lock выключен</value>
+  </data>
+  <data name="ColoursGroupsHeading" xml:space="preserve">
+    <value>Группы сочетаний</value>
+  </data>
+  <data name="ColoursGroupsNote" xml:space="preserve">
+    <value>Показываются, пока удерживается Windows, Ctrl или Alt. Родственные команды имеют общий цвет и читаются как блок.</value>
+  </data>
+  <data name="ColoursResetButton" xml:space="preserve">
+    <value>Восстановить цвета по умолчанию</value>
+  </data>
+  <data name="ProfilesHeading" xml:space="preserve">
+    <value>Профили</value>
+  </data>
+  <data name="ProfilesSearchHint" xml:space="preserve">
+    <value>Поиск по названию или программе</value>
+  </data>
+  <data name="ProfilesAddButton" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="ProfilesHideButton" xml:space="preserve">
+    <value>Скрыть</value>
+  </data>
+  <data name="ProfilesShowButton" xml:space="preserve">
+    <value>Показать</value>
+  </data>
+  <data name="ProfilesDeleteButton" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="ProfilesHideTooltip" xml:space="preserve">
+    <value>Перестать использовать этот поставляемый профиль. Он останется в списке, и его можно снова показать.</value>
+  </data>
+  <data name="ProfilesShowTooltip" xml:space="preserve">
+    <value>Снова задействовать этот поставляемый профиль.</value>
+  </data>
+  <data name="ProfilesDeleteTooltip" xml:space="preserve">
+    <value>Удалить этот профиль. Он ваш, поэтому возвращаться будет не к чему.</value>
+  </data>
+  <data name="ProfilesGroupApps" xml:space="preserve">
+    <value>Приложения</value>
+  </data>
+  <data name="ProfilesGroupGames" xml:space="preserve">
+    <value>Игры</value>
+  </data>
+  <data name="ProfilesOriginUser" xml:space="preserve">
+    <value>ваш собственный профиль</value>
+  </data>
+  <data name="ProfilesOriginShipped" xml:space="preserve">
+    <value>поставляемый</value>
+  </data>
+  <data name="ProfilesOriginShippedEdited" xml:space="preserve">
+    <value>поставляемый · изменён</value>
+  </data>
+  <data name="ProfilesOriginHidden" xml:space="preserve">
+    <value>{0} · скрыт</value>
+  </data>
+  <data name="ProfilesNoSelection" xml:space="preserve">
+    <value>Профиль не выбран</value>
+  </data>
+  <data name="ProfilesNewName" xml:space="preserve">
+    <value>Новый профиль</value>
+  </data>
+  <data name="ProfilesResetAllButton" xml:space="preserve">
+    <value>Сбросить весь профиль</value>
+  </data>
+  <data name="ProfilesResetAllTooltip" xml:space="preserve">
+    <value>Вернуть каждый раздел и название к поставляемой версии.</value>
+  </data>
+  <data name="ProfilesResetSectionTooltip" xml:space="preserve">
+    <value>Вернуть этот раздел к поставляемой версии.</value>
+  </data>
+  <data name="ProfilesSectionMatch" xml:space="preserve">
+    <value>Соответствие</value>
+  </data>
+  <data name="ProfilesSectionMatchTooltip" xml:space="preserve">
+    <value>Название, программы, переключатель игры и приоритет.</value>
+  </data>
+  <data name="ProfilesSectionHighlights" xml:space="preserve">
+    <value>Выделения</value>
+  </data>
+  <data name="ProfilesSectionHighlightsTooltip" xml:space="preserve">
+    <value>Клавиши, закреплённые за постоянным цветом.</value>
+  </data>
+  <data name="ProfilesSectionShortcuts" xml:space="preserve">
+    <value>Сочетания</value>
+  </data>
+  <data name="ProfilesSectionShortcutsTooltip" xml:space="preserve">
+    <value>Слои модификаторов, которые заменяет этот профиль.</value>
+  </data>
+  <data name="ProfilesSectionYours" xml:space="preserve">
+    <value>ваше</value>
+  </data>
+  <data name="ProfilesSectionEdited" xml:space="preserve">
+    <value>изменено вами</value>
+  </data>
+  <data name="ProfilesSectionShipped" xml:space="preserve">
+    <value>поставляемое</value>
+  </data>
+  <data name="ProfilesNameLabel" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="ProfilesPriorityLabel" xml:space="preserve">
+    <value>Приоритет</value>
+  </data>
+  <data name="ProfilesPriorityTooltip" xml:space="preserve">
+    <value>Большее значение побеждает, когда подходит несколько профилей. Разрешает только ничью — указание программы и без того важнее общего игрового профиля.</value>
+  </data>
+  <data name="ProfilesProgramsLabel" xml:space="preserve">
+    <value>Программы</value>
+  </data>
+  <data name="ProfilesProgramsTooltip" xml:space="preserve">
+    <value>Имена исполняемых файлов без .exe, через запятую — например: notepad, devenv</value>
+  </data>
+  <data name="ProfilesGamesCheckbox" xml:space="preserve">
+    <value>Применять к любой обнаруженной игре</value>
+  </data>
+  <data name="ProfilesGamesTooltip" xml:space="preserve">
+    <value>Определяется по собственному полноэкранному сигналу Windows и проверке окон, закрывающих монитор целиком, — поэтому распознаются и игры в окне без рамки.</value>
+  </data>
+  <data name="ProfilesHighlightModeButton" xml:space="preserve">
+    <value>Выделенные клавиши</value>
+  </data>
+  <data name="ProfilesShortcutModeButton" xml:space="preserve">
+    <value>Сочетания</value>
+  </data>
+  <data name="ProfilesHighlightNote" xml:space="preserve">
+    <value>Нажмите на клавишу, чтобы задать ей постоянный цвет, правой кнопкой — чтобы снять. Выделения важнее цветов набора, но никогда не важнее клавиш фиксации или слоя модификатора.</value>
+  </data>
+  <data name="ProfilesHighlightColourLabel" xml:space="preserve">
+    <value>Цвет для выбранных клавиш</value>
+  </data>
+  <data name="ProfilesHighlightChooseButton" xml:space="preserve">
+    <value>Выбрать…</value>
+  </data>
+  <data name="ProfilesClearHighlightsButton" xml:space="preserve">
+    <value>Снять все выделения</value>
+  </data>
+  <data name="ProfilesShortcutNote" xml:space="preserve">
+    <value>Выберите слой и группу, затем нажимайте на клавиши, чтобы назначить их; правая кнопка снимает назначение. Слой, заданный этим профилем, заменяет общий, пока программа находится на переднем плане.</value>
+  </data>
+  <data name="ProfilesClearLayerButton" xml:space="preserve">
+    <value>Очистить этот слой</value>
+  </data>
+  <data name="ProfilesHighlightCountOne" xml:space="preserve">
+    <value>Выделена 1 клавиша</value>
+  </data>
+  <data name="ProfilesHighlightCount" xml:space="preserve">
+    <value>Выделено клавиш: {0}</value>
+  </data>
+  <data name="ProfilesLayerUndefined" xml:space="preserve">
+    <value>{0}: здесь не задан, поэтому действует общий слой. Назначение клавиши заставит этот профиль заменить его.</value>
+  </data>
+  <data name="ProfilesLayerCountOne" xml:space="preserve">
+    <value>{0}: 1 клавиша, заменяет общий слой.</value>
+  </data>
+  <data name="ProfilesLayerCount" xml:space="preserve">
+    <value>{0}: клавиш {1}, заменяют общий слой.</value>
+  </data>
+  <data name="ShortcutsLayerHeading" xml:space="preserve">
+    <value>Слой</value>
+  </data>
+  <data name="ShortcutsLayerNote" xml:space="preserve">
+    <value>Какое сочетание модификаторов вы редактируете.</value>
+  </data>
+  <data name="ShortcutsAssignHeading" xml:space="preserve">
+    <value>Назначить клавиши группе</value>
+  </data>
+  <data name="ShortcutsAssignNote" xml:space="preserve">
+    <value>Выберите группу, затем нажимайте на клавиши ниже, чтобы добавить их. Правая кнопка убирает клавишу. Родственные команды имеют общий цвет, поэтому слой читается блоками, а не разрозненными огоньками.</value>
+  </data>
+  <data name="ShortcutsClearLayerButton" xml:space="preserve">
+    <value>Очистить этот слой</value>
+  </data>
+  <data name="ShortcutsResetButton" xml:space="preserve">
+    <value>Восстановить сочетания по умолчанию</value>
+  </data>
+  <data name="ShortcutsCountOne" xml:space="preserve">
+    <value>На этом слое назначена 1 клавиша</value>
+  </data>
+  <data name="ShortcutsCount" xml:space="preserve">
+    <value>Назначено клавиш на этом слое: {0}</value>
+  </data>
+  <data name="SettingsIdleHeading" xml:space="preserve">
+    <value>Возврат подсветки</value>
+  </data>
+  <data name="SettingsIdleNote" xml:space="preserve">
+    <value>После такого времени без ввода Keylegend освобождает клавиатуру, чтобы ваш эффект Chroma Studio продолжился. Обратный захват занимает одну-две секунды — при коротком времени это превращается в частые перерывы, поэтому по умолчанию шестьдесят секунд, а не десять.</value>
+  </data>
+  <data name="SettingsIdleSeconds" xml:space="preserve">
+    <value>секунд</value>
+  </data>
+  <data name="SettingsHandBackCheckbox" xml:space="preserve">
+    <value>Возвращать подсветку при простое</value>
+  </data>
+  <data name="SettingsHandBackNote" xml:space="preserve">
+    <value>Если выключено, Keylegend удерживает клавиатуру, пока вы не приостановите или не закроете его, а ваш эффект Chroma Studio всё это время не работает.</value>
+  </data>
+  <data name="SettingsBrightnessHeading" xml:space="preserve">
+    <value>Яркость</value>
+  </data>
+  <data name="SettingsBehaviourHeading" xml:space="preserve">
+    <value>Поведение</value>
+  </data>
+  <data name="SettingsProfilesCheckbox" xml:space="preserve">
+    <value>Использовать профили приложений</value>
+  </data>
+  <data name="SettingsAutostartCheckbox" xml:space="preserve">
+    <value>Запускать вместе с Windows (свёрнутым в область уведомлений)</value>
+  </data>
+  <data name="SettingsFileHeading" xml:space="preserve">
+    <value>Файл настроек</value>
+  </data>
+  <data name="SettingsSaveButton" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="SettingsOpenFolderButton" xml:space="preserve">
+    <value>Открыть папку</value>
+  </data>
+  <data name="SettingsLanguageHeading" xml:space="preserve">
+    <value>Язык</value>
+  </data>
+  <data name="SettingsLanguageAutomatic" xml:space="preserve">
+    <value>Как в Windows</value>
+  </data>
+  <data name="SettingsLanguageNote" xml:space="preserve">
+    <value>Надписи на клавишах это не затрагивает: они берутся из профиля устройства и потому всегда соответствуют клавиатуре перед вами, а не языку этих меню.</value>
+  </data>
+  <data name="TrayShow" xml:space="preserve">
+    <value>Показать Keylegend</value>
+  </data>
+  <data name="TrayPause" xml:space="preserve">
+    <value>Пауза</value>
+  </data>
+  <data name="TrayResume" xml:space="preserve">
+    <value>Продолжить</value>
+  </data>
+  <data name="TrayQuit" xml:space="preserve">
+    <value>Выход</value>
+  </data>
+  <data name="TrayTooltipActive" xml:space="preserve">
+    <value>Keylegend — подсвечивает</value>
+  </data>
+  <data name="TrayTooltipIdle" xml:space="preserve">
+    <value>Keylegend — простой</value>
+  </data>
+  <data name="TrayTooltipPaused" xml:space="preserve">
+    <value>Keylegend — приостановлено</value>
+  </data>
+  <data name="TrayBalloonText" xml:space="preserve">
+    <value>Продолжает работать в области уведомлений.</value>
+  </data>
+  <data name="CommonReset" xml:space="preserve">
+    <value>Сбросить</value>
+  </data>
+  <data name="DonatePrompt" xml:space="preserve">
+    <value>Если Keylegend вам нравится, буду рад небольшому пожертвованию.</value>
+  </data>
+  <data name="DonateKofiTooltip" xml:space="preserve">
+    <value>Откроет ko-fi.com/eistee в браузере</value>
+  </data>
+  <data name="DonateTooltip" xml:space="preserve">
+    <value>Откроет paypal.me/eistee в браузере</value>
+  </data>
+  <data name="DonateBrowserFailed" xml:space="preserve">
+    <value>Не удалось открыть браузер. Адрес: {0}</value>
+  </data>
+</root>

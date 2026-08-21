@@ -1,0 +1,41 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "cyberpunk-2077",
+  "name": "Cyberpunk 2077",
+  "kind": "game",
+
+  "match": {
+    "processes": ["cyberpunk2077"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Forward" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Left" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Back" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Right" },
+
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Jump" },
+    "Keyboard_LeftShift": { "colour": "#FF8C00", "label": "Sprint" },
+    "Keyboard_LeftCtrl": { "colour": "#FF8C00", "label": "Crouch" },
+    "Keyboard_C": { "colour": "#FF8C00", "label": "Crouch (toggle)" },
+    "Keyboard_R": { "colour": "#FF8C00", "label": "Reload" },
+    "Keyboard_F": { "colour": "#FF8C00", "label": "Interact / enter vehicle" },
+    "Keyboard_V": { "colour": "#FF8C00", "label": "Call vehicle" },
+    "Keyboard_LeftAlt": { "colour": "#FF8C00", "label": "Cycle weapons" },
+    "Keyboard_Tab": { "colour": "#FF8C00", "label": "Scanner" },
+    "Keyboard_CapsLock": { "colour": "#FF8C00", "label": "Scanner (toggle)" },
+
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Weapon slot 1" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Weapon slot 2" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Weapon slot 3" },
+    "Keyboard_4": { "colour": "#00C8FF", "label": "Weapon slot 4" },
+
+    "Keyboard_I": { "colour": "#B4B4B4", "label": "Open game menu" },
+    "Keyboard_O": { "colour": "#B4B4B4", "label": "Open backpack" },
+    "Keyboard_T": { "colour": "#B4B4B4", "label": "Open phone" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Menu" }
+  }
+}

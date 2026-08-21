@@ -1,0 +1,60 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "the-sims-4",
+  "name": "The Sims 4",
+  "kind": "game",
+
+  "match": {
+    "processes": ["ts4_x64", "ts4", "ts4_dx9_x64"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Pan camera up" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Pan camera left" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Pan camera down" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Pan camera right" },
+
+    "Keyboard_X": { "colour": "#FF8C00", "label": "Zoom out" },
+    "Keyboard_T": { "colour": "#FF8C00", "label": "Toggle top-down view" },
+    "Keyboard_Enter": { "colour": "#FF8C00", "label": "Centre camera on Sim" },
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Switch to next Sim" },
+    "Keyboard_N": { "colour": "#FF8C00", "label": "Switch to next Sim" },
+    "Keyboard_CommaAndLessThan": { "colour": "#FF8C00", "label": "Rotate object counter-clockwise" },
+    "Keyboard_PeriodAndBiggerThan": { "colour": "#FF8C00", "label": "Rotate object clockwise" },
+
+    "Keyboard_P": { "colour": "#00C8FF", "label": "Pause game" },
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Normal speed" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Fast speed" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Ultra speed" },
+
+    "Keyboard_H": { "colour": "#64FF96", "label": "Hand tool" },
+    "Keyboard_B": { "colour": "#64FF96", "label": "Wall tool" },
+    "Keyboard_E": { "colour": "#64FF96", "label": "Eyedropper tool" },
+    "Keyboard_K": { "colour": "#64FF96", "label": "Sledgehammer tool" },
+    "Keyboard_Delete": { "colour": "#64FF96", "label": "Sell object" },
+    "Keyboard_Backspace": { "colour": "#64FF96", "label": "Move object to inventory" },
+    "Keyboard_F5": { "colour": "#64FF96", "label": "Cycle grid snapping" },
+    "Keyboard_PageUp": { "colour": "#64FF96", "label": "Go up one floor" },
+    "Keyboard_PageDown": { "colour": "#64FF96", "label": "Go down one floor" },
+    "Keyboard_Home": { "colour": "#64FF96", "label": "Walls up" },
+    "Keyboard_End": { "colour": "#64FF96", "label": "Walls down" },
+
+    "Keyboard_F1": { "colour": "#B4B4B4", "label": "Live mode" },
+    "Keyboard_F2": { "colour": "#B4B4B4", "label": "Buy mode" },
+    "Keyboard_F3": { "colour": "#B4B4B4", "label": "Build mode" },
+    "Keyboard_F4": { "colour": "#B4B4B4", "label": "Open gallery" },
+    "Keyboard_M": { "colour": "#B4B4B4", "label": "Map view" },
+    "Keyboard_O": { "colour": "#B4B4B4", "label": "Needs panel" },
+    "Keyboard_G": { "colour": "#B4B4B4", "label": "Aspirations panel" },
+    "Keyboard_L": { "colour": "#B4B4B4", "label": "Skills panel" },
+    "Keyboard_R": { "colour": "#B4B4B4", "label": "Relationships panel" },
+    "Keyboard_J": { "colour": "#B4B4B4", "label": "Career panel" },
+    "Keyboard_I": { "colour": "#B4B4B4", "label": "Sim inventory" },
+    "Keyboard_C": { "colour": "#B4B4B4", "label": "Take screenshot" },
+    "Keyboard_V": { "colour": "#B4B4B4", "label": "Record video" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Cancel or menu" }
+  }
+}

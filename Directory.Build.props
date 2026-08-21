@@ -1,0 +1,26 @@
+<Project>
+
+  <!--
+    Version and identity in one place, so that the tag, the file version and what Explorer shows
+    cannot drift apart. The release workflow passes -p:Version from the git tag; this value is
+    what a local build stamps.
+  -->
+  <PropertyGroup>
+    <Version>1.0.0</Version>
+    <Product>Keylegend</Product>
+    <Company>Keylegend contributors</Company>
+    <Copyright>Copyright (c) 2026 Keylegend contributors</Copyright>
+    <Authors>Keylegend contributors</Authors>
+
+    <!--
+      Deliberately not "Razer Keylegend" or anything of the sort: the trademark may name the
+      hardware in prose and nowhere else. See the trademark note in the READMEs.
+    -->
+    <Description>Interactive keyboard lighting for Razer Chroma — keys are coloured by what they currently mean.</Description>
+
+    <RepositoryUrl>https://github.com/Eistee82/Keylegend</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+</Project>

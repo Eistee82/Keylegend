@@ -1,0 +1,50 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "winrar",
+  "name": "WinRAR",
+  "kind": "app",
+
+  "match": {
+    "processes": ["winrar"],
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_F2": { "colour": "#FF8C00", "label": "Rename file" },
+    "Keyboard_Delete": { "colour": "#FF3232", "label": "Delete files" },
+    "Keyboard_Enter": { "colour": "#00C8FF", "label": "Open selected item" },
+    "Keyboard_Backspace": { "colour": "#00C8FF", "label": "Up one folder" }
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "o": { "group": "File", "label": "Open archive" },
+        "w": { "group": "File", "label": "Close WinRAR" },
+        "a": { "group": "Edit", "label": "Select all files" },
+        "c": { "group": "Edit", "label": "Copy files" },
+        "v": { "group": "Edit", "label": "Paste files" },
+        "d": { "group": "Navigation", "label": "Change drive" },
+        "p": { "group": "System", "label": "Set default password" }
+      }
+    },
+
+    "Alt": {
+      "characters": {
+        "a": { "group": "Tools", "label": "Add files to archive" },
+        "e": { "group": "Tools", "label": "Extract to specified folder" },
+        "w": { "group": "Tools", "label": "Extract without confirmation" },
+        "t": { "group": "Tools", "label": "Test archived files" },
+        "m": { "group": "Tools", "label": "Add archive comment" },
+        "p": { "group": "Tools", "label": "Protect archive from damage" },
+        "l": { "group": "Tools", "label": "Lock archive" },
+        "r": { "group": "Tools", "label": "Repair archive" },
+        "q": { "group": "Tools", "label": "Convert archives" },
+        "x": { "group": "Tools", "label": "Convert archive to self-extracting" },
+        "d": { "group": "Tools", "label": "Scan archive for viruses" },
+        "v": { "group": "View", "label": "View file" }
+      }
+    }
+  }
+}

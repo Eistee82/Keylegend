@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    Interfaceteksten, Nederlands. Ontbreekt hier een sleutel, dan geldt de Engelse uit Strings.resx.
+
+    Zelfde toon als docs/nl: zakelijk, legt het waarom uit, geen reclametaal. Vaktermen en
+    identifiers blijven in hun oorspronkelijke vorm.
+  -->
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <data name="TabKeyboard" xml:space="preserve">
+    <value>Toetsenbord</value>
+  </data>
+  <data name="TabColours" xml:space="preserve">
+    <value>Kleuren</value>
+  </data>
+  <data name="TabProfiles" xml:space="preserve">
+    <value>Profielen</value>
+  </data>
+  <data name="TabShortcuts" xml:space="preserve">
+    <value>Sneltoetsen</value>
+  </data>
+  <data name="TabSettings" xml:space="preserve">
+    <value>Instellingen</value>
+  </data>
+  <data name="StatusDeviceVerified" xml:space="preserve">
+    <value>{0} · {1} toetsen · toewijzing op hardware geverifieerd</value>
+  </data>
+  <data name="StatusDeviceNotVerified" xml:space="preserve">
+    <value>{0} · {1} toetsen · toewijzing nog niet geverifieerd</value>
+  </data>
+  <data name="StatusProfileLabel" xml:space="preserve">
+    <value>profiel: {0}</value>
+  </data>
+  <data name="StatusPainting" xml:space="preserve">
+    <value>actief</value>
+  </data>
+  <data name="StatusIdle" xml:space="preserve">
+    <value>inactief · Chroma Studio</value>
+  </data>
+  <data name="StatusPaused" xml:space="preserve">
+    <value>gepauzeerd</value>
+  </data>
+  <data name="StatusActiveTooltip" xml:space="preserve">
+    <value>Keylegend stuurt de verlichting van het toetsenbord aan.</value>
+  </data>
+  <data name="StatusIdleTooltip" xml:space="preserve">
+    <value>Vrijgegeven — je Chroma Studio-effect draait. Druk op een toets om het over te nemen.</value>
+  </data>
+  <data name="StatusPausedTooltip" xml:space="preserve">
+    <value>Gepauzeerd. De verlichting blijft bij Chroma Studio totdat je hervat.</value>
+  </data>
+  <data name="StatusPauseButton" xml:space="preserve">
+    <value>Pauzeren</value>
+  </data>
+  <data name="StatusResumeButton" xml:space="preserve">
+    <value>Hervatten</value>
+  </data>
+  <data name="StatusFollowing" xml:space="preserve">
+    <value>Volgt het toetsenbord.</value>
+  </data>
+  <data name="StatusShowingLayer" xml:space="preserve">
+    <value>Toont een gekozen laag — druk op “Volg mijn toetsenbord” om terug te keren.</value>
+  </data>
+  <data name="StatusColoursRestored" xml:space="preserve">
+    <value>Standaardkleuren hersteld.</value>
+  </data>
+  <data name="StatusProfileDeleted" xml:space="preserve">
+    <value>“{0}” verwijderd.</value>
+  </data>
+  <data name="StatusProfileShown" xml:space="preserve">
+    <value>“{0}” is weer in gebruik.</value>
+  </data>
+  <data name="StatusProfileHidden" xml:space="preserve">
+    <value>“{0}” is verborgen. Selecteer het en druk op Tonen om het terug te halen.</value>
+  </data>
+  <data name="StatusSectionReset" xml:space="preserve">
+    <value>{0} van “{1}” volgt weer het meegeleverde profiel.</value>
+  </data>
+  <data name="StatusProfileReset" xml:space="preserve">
+    <value>“{0}” volgt weer het meegeleverde profiel.</value>
+  </data>
+  <data name="StatusSelectProfileFirst" xml:space="preserve">
+    <value>Selecteer of voeg eerst een profiel toe.</value>
+  </data>
+  <data name="StatusProfileLayerCleared" xml:space="preserve">
+    <value>“{0}” vervangt de laag {1} niet meer.</value>
+  </data>
+  <data name="StatusLayerCleared" xml:space="preserve">
+    <value>Laag {0} geleegd.</value>
+  </data>
+  <data name="StatusShortcutsRestored" xml:space="preserve">
+    <value>Standaardsneltoetsen hersteld.</value>
+  </data>
+  <data name="StatusIdleTimeoutSet" xml:space="preserve">
+    <value>Inactiviteitstijd ingesteld op {0} s.</value>
+  </data>
+  <data name="StatusHandBackOn" xml:space="preserve">
+    <value>De verlichting wordt na {0} s zonder typen teruggegeven.</value>
+  </data>
+  <data name="StatusHandBackOff" xml:space="preserve">
+    <value>De verlichting blijft totdat je Keylegend pauzeert of sluit.</value>
+  </data>
+  <data name="StatusIdleTimeoutInvalid" xml:space="preserve">
+    <value>De inactiviteitstijd moet een positief aantal seconden zijn.</value>
+  </data>
+  <data name="StatusAutostartUnknownPath" xml:space="preserve">
+    <value>Het pad naar de toepassing kon niet worden bepaald; automatisch starten ongewijzigd.</value>
+  </data>
+  <data name="StatusAutostartOn" xml:space="preserve">
+    <value>Keylegend start met Windows mee, geminimaliseerd naar het systeemvak.</value>
+  </data>
+  <data name="StatusAutostartOff" xml:space="preserve">
+    <value>Keylegend start niet meer met Windows mee.</value>
+  </data>
+  <data name="StatusSaved" xml:space="preserve">
+    <value>Opgeslagen in {0}</value>
+  </data>
+  <data name="KeyboardLayerHeading" xml:space="preserve">
+    <value>Een laag tonen</value>
+  </data>
+  <data name="KeyboardLayerNote" xml:space="preserve">
+    <value>Schakel hier een modificatietoets in om die laag te bekijken zonder de toets ingedrukt te houden. Er wordt niets naar je toepassingen gestuurd.</value>
+  </data>
+  <data name="KeyboardFollowButton" xml:space="preserve">
+    <value>Volg mijn toetsenbord</value>
+  </data>
+  <data name="KeyboardNoProfile" xml:space="preserve">
+    <value>Geen apparaatprofiel geladen</value>
+  </data>
+  <data name="ColoursCategoriesHeading" xml:space="preserve">
+    <value>Toetscategorieën</value>
+  </data>
+  <data name="ColoursCategoriesNote" xml:space="preserve">
+    <value>Wat een toets typt, bepaalt de kleur. Klik op een staal om die te wijzigen — het toetsenbord volgt meteen.</value>
+  </data>
+  <data name="ColoursCategoryDigit" xml:space="preserve">
+    <value>Cijfers</value>
+  </data>
+  <data name="ColoursCategoryLowercase" xml:space="preserve">
+    <value>Kleine letters</value>
+  </data>
+  <data name="ColoursCategoryUppercase" xml:space="preserve">
+    <value>Hoofdletters</value>
+  </data>
+  <data name="ColoursCategorySymbol" xml:space="preserve">
+    <value>Symbolen</value>
+  </data>
+  <data name="ColoursCategoryControl" xml:space="preserve">
+    <value>Besturingstoetsen</value>
+  </data>
+  <data name="ColoursCategoryDeadKey" xml:space="preserve">
+    <value>Dode toetsen</value>
+  </data>
+  <data name="ColoursCategoryFunctionKey" xml:space="preserve">
+    <value>Functietoetsen</value>
+  </data>
+  <data name="ColoursExampleDigit" xml:space="preserve">
+    <value>1 7 · numeriek blok met Num Lock aan</value>
+  </data>
+  <data name="ColoursExampleLowercase" xml:space="preserve">
+    <value>a ë</value>
+  </data>
+  <data name="ColoursExampleUppercase" xml:space="preserve">
+    <value>A Ë · met Shift of Caps Lock</value>
+  </data>
+  <data name="ColoursExampleSymbol" xml:space="preserve">
+    <value>+ # € |</value>
+  </data>
+  <data name="ColoursExampleControl" xml:space="preserve">
+    <value>Esc Tab ⏎ pijltjes</value>
+  </data>
+  <data name="ColoursExampleDeadKey" xml:space="preserve">
+    <value>^ ´ ` · hebben een tweede aanslag nodig</value>
+  </data>
+  <data name="ColoursExampleFunctionKey" xml:space="preserve">
+    <value>F1 – F12</value>
+  </data>
+  <data name="ColoursLocksHeading" xml:space="preserve">
+    <value>Vergrendeltoetsen</value>
+  </data>
+  <data name="ColoursLocksNote" xml:space="preserve">
+    <value>Twee kleuren elk: aan en uit. Deze winnen altijd van al het andere, zodat de toestand leesbaar blijft.</value>
+  </data>
+  <data name="ColoursLockNumOn" xml:space="preserve">
+    <value>Num Lock aan</value>
+  </data>
+  <data name="ColoursLockNumOff" xml:space="preserve">
+    <value>Num Lock uit</value>
+  </data>
+  <data name="ColoursLockCapsOn" xml:space="preserve">
+    <value>Caps Lock aan</value>
+  </data>
+  <data name="ColoursLockCapsOff" xml:space="preserve">
+    <value>Caps Lock uit</value>
+  </data>
+  <data name="ColoursLockScrollOn" xml:space="preserve">
+    <value>Scroll Lock aan</value>
+  </data>
+  <data name="ColoursLockScrollOff" xml:space="preserve">
+    <value>Scroll Lock uit</value>
+  </data>
+  <data name="ColoursGroupsHeading" xml:space="preserve">
+    <value>Sneltoetsgroepen</value>
+  </data>
+  <data name="ColoursGroupsNote" xml:space="preserve">
+    <value>Getoond zolang Windows, Ctrl of Alt ingedrukt is. Verwante opdrachten delen een kleur en lezen zo als een blok.</value>
+  </data>
+  <data name="ColoursResetButton" xml:space="preserve">
+    <value>Standaardkleuren herstellen</value>
+  </data>
+  <data name="ProfilesHeading" xml:space="preserve">
+    <value>Profielen</value>
+  </data>
+  <data name="ProfilesSearchHint" xml:space="preserve">
+    <value>Zoek op naam of programma</value>
+  </data>
+  <data name="ProfilesAddButton" xml:space="preserve">
+    <value>Toevoegen</value>
+  </data>
+  <data name="ProfilesHideButton" xml:space="preserve">
+    <value>Verbergen</value>
+  </data>
+  <data name="ProfilesShowButton" xml:space="preserve">
+    <value>Tonen</value>
+  </data>
+  <data name="ProfilesDeleteButton" xml:space="preserve">
+    <value>Verwijderen</value>
+  </data>
+  <data name="ProfilesHideTooltip" xml:space="preserve">
+    <value>Dit meegeleverde profiel niet meer gebruiken. Het blijft in de lijst staan en kan weer getoond worden.</value>
+  </data>
+  <data name="ProfilesShowTooltip" xml:space="preserve">
+    <value>Dit meegeleverde profiel weer in gebruik nemen.</value>
+  </data>
+  <data name="ProfilesDeleteTooltip" xml:space="preserve">
+    <value>Dit profiel verwijderen. Het is van jou, dus er is niets om op terug te vallen.</value>
+  </data>
+  <data name="ProfilesGroupApps" xml:space="preserve">
+    <value>Toepassingen</value>
+  </data>
+  <data name="ProfilesGroupGames" xml:space="preserve">
+    <value>Games</value>
+  </data>
+  <data name="ProfilesOriginUser" xml:space="preserve">
+    <value>je eigen profiel</value>
+  </data>
+  <data name="ProfilesOriginShipped" xml:space="preserve">
+    <value>meegeleverd</value>
+  </data>
+  <data name="ProfilesOriginShippedEdited" xml:space="preserve">
+    <value>meegeleverd · bewerkt</value>
+  </data>
+  <data name="ProfilesOriginHidden" xml:space="preserve">
+    <value>{0} · verborgen</value>
+  </data>
+  <data name="ProfilesNoSelection" xml:space="preserve">
+    <value>Geen profiel geselecteerd</value>
+  </data>
+  <data name="ProfilesNewName" xml:space="preserve">
+    <value>Nieuw profiel</value>
+  </data>
+  <data name="ProfilesResetAllButton" xml:space="preserve">
+    <value>Hele profiel herstellen</value>
+  </data>
+  <data name="ProfilesResetAllTooltip" xml:space="preserve">
+    <value>Elk onderdeel, en de naam, terugzetten naar de meegeleverde versie.</value>
+  </data>
+  <data name="ProfilesResetSectionTooltip" xml:space="preserve">
+    <value>Dit onderdeel terugzetten naar de meegeleverde versie.</value>
+  </data>
+  <data name="ProfilesSectionMatch" xml:space="preserve">
+    <value>Overeenkomst</value>
+  </data>
+  <data name="ProfilesSectionMatchTooltip" xml:space="preserve">
+    <value>De naam, de programma's, de game-optie en de prioriteit.</value>
+  </data>
+  <data name="ProfilesSectionHighlights" xml:space="preserve">
+    <value>Accenten</value>
+  </data>
+  <data name="ProfilesSectionHighlightsTooltip" xml:space="preserve">
+    <value>De toetsen die op een vaste kleur staan.</value>
+  </data>
+  <data name="ProfilesSectionShortcuts" xml:space="preserve">
+    <value>Sneltoetsen</value>
+  </data>
+  <data name="ProfilesSectionShortcutsTooltip" xml:space="preserve">
+    <value>De modificatielagen die dit profiel vervangt.</value>
+  </data>
+  <data name="ProfilesSectionYours" xml:space="preserve">
+    <value>van jou</value>
+  </data>
+  <data name="ProfilesSectionEdited" xml:space="preserve">
+    <value>door jou bewerkt</value>
+  </data>
+  <data name="ProfilesSectionShipped" xml:space="preserve">
+    <value>meegeleverd</value>
+  </data>
+  <data name="ProfilesNameLabel" xml:space="preserve">
+    <value>Naam</value>
+  </data>
+  <data name="ProfilesPriorityLabel" xml:space="preserve">
+    <value>Prioriteit</value>
+  </data>
+  <data name="ProfilesPriorityTooltip" xml:space="preserve">
+    <value>De hoogste waarde wint wanneer meerdere profielen passen. Beslist alleen bij gelijkspel — een programma noemen gaat al vóór het algemene gameprofiel.</value>
+  </data>
+  <data name="ProfilesProgramsLabel" xml:space="preserve">
+    <value>Programma's</value>
+  </data>
+  <data name="ProfilesProgramsTooltip" xml:space="preserve">
+    <value>Namen van uitvoerbare bestanden zonder .exe, gescheiden door komma's — bijvoorbeeld: notepad, devenv</value>
+  </data>
+  <data name="ProfilesGamesCheckbox" xml:space="preserve">
+    <value>Toepassen op elke gedetecteerde game</value>
+  </data>
+  <data name="ProfilesGamesTooltip" xml:space="preserve">
+    <value>Gedetecteerd via het schermvullende signaal van Windows zelf plus een controle op vensters die een heel scherm beslaan, waardoor ook games in een randloos venster worden herkend.</value>
+  </data>
+  <data name="ProfilesHighlightModeButton" xml:space="preserve">
+    <value>Geaccentueerde toetsen</value>
+  </data>
+  <data name="ProfilesShortcutModeButton" xml:space="preserve">
+    <value>Sneltoetsen</value>
+  </data>
+  <data name="ProfilesHighlightNote" xml:space="preserve">
+    <value>Klik op een toets om die een vaste kleur te geven, rechtsklik om die te wissen. Accenten gaan vóór de typekleuren, maar nooit vóór de vergrendeltoetsen of een modificatielaag.</value>
+  </data>
+  <data name="ProfilesHighlightColourLabel" xml:space="preserve">
+    <value>Kleur voor aangeklikte toetsen</value>
+  </data>
+  <data name="ProfilesHighlightChooseButton" xml:space="preserve">
+    <value>Kiezen…</value>
+  </data>
+  <data name="ProfilesClearHighlightsButton" xml:space="preserve">
+    <value>Alle accenten wissen</value>
+  </data>
+  <data name="ProfilesShortcutNote" xml:space="preserve">
+    <value>Kies een laag en een groep, klik dan op toetsen om ze toe te wijzen; rechtsklik verwijdert er een. Een laag die dit profiel definieert vervangt de algemene zolang het programma op de voorgrond staat.</value>
+  </data>
+  <data name="ProfilesClearLayerButton" xml:space="preserve">
+    <value>Deze laag legen</value>
+  </data>
+  <data name="ProfilesHighlightCountOne" xml:space="preserve">
+    <value>1 toets geaccentueerd</value>
+  </data>
+  <data name="ProfilesHighlightCount" xml:space="preserve">
+    <value>{0} toetsen geaccentueerd</value>
+  </data>
+  <data name="ProfilesLayerUndefined" xml:space="preserve">
+    <value>{0}: hier niet gedefinieerd, dus de algemene laag geldt. Een toets toewijzen laat dit profiel die vervangen.</value>
+  </data>
+  <data name="ProfilesLayerCountOne" xml:space="preserve">
+    <value>{0}: 1 toets, vervangt de algemene laag.</value>
+  </data>
+  <data name="ProfilesLayerCount" xml:space="preserve">
+    <value>{0}: {1} toetsen, vervangen de algemene laag.</value>
+  </data>
+  <data name="ShortcutsLayerHeading" xml:space="preserve">
+    <value>Laag</value>
+  </data>
+  <data name="ShortcutsLayerNote" xml:space="preserve">
+    <value>Welke combinatie van modificatietoetsen je bewerkt.</value>
+  </data>
+  <data name="ShortcutsAssignHeading" xml:space="preserve">
+    <value>Toetsen aan een groep toewijzen</value>
+  </data>
+  <data name="ShortcutsAssignNote" xml:space="preserve">
+    <value>Kies een groep en klik dan hieronder op toetsen om ze toe te voegen. Rechtsklik verwijdert een toets. Verwante opdrachten delen een kleur, zodat een laag als blokken leest in plaats van als verspreide lichtjes.</value>
+  </data>
+  <data name="ShortcutsClearLayerButton" xml:space="preserve">
+    <value>Deze laag legen</value>
+  </data>
+  <data name="ShortcutsResetButton" xml:space="preserve">
+    <value>Standaardsneltoetsen herstellen</value>
+  </data>
+  <data name="ShortcutsCountOne" xml:space="preserve">
+    <value>1 toets toegewezen op deze laag</value>
+  </data>
+  <data name="ShortcutsCount" xml:space="preserve">
+    <value>{0} toetsen toegewezen op deze laag</value>
+  </data>
+  <data name="SettingsIdleHeading" xml:space="preserve">
+    <value>De verlichting teruggeven</value>
+  </data>
+  <data name="SettingsIdleNote" xml:space="preserve">
+    <value>Na deze tijd zonder typen laat Keylegend het toetsenbord los, zodat je Chroma Studio-effect weer verdergaat. Het daarna terugnemen duurt één tot twee seconden — een korte tijd maakt daar een frequente onderbreking van, en daarom is zestig seconden de standaard en niet tien.</value>
+  </data>
+  <data name="SettingsIdleSeconds" xml:space="preserve">
+    <value>seconden</value>
+  </data>
+  <data name="SettingsHandBackCheckbox" xml:space="preserve">
+    <value>Verlichting teruggeven bij inactiviteit</value>
+  </data>
+  <data name="SettingsHandBackNote" xml:space="preserve">
+    <value>Uitgeschakeld houdt Keylegend het toetsenbord tot je het pauzeert of sluit, en blijft je Chroma Studio-effect ondertussen uit.</value>
+  </data>
+  <data name="SettingsBrightnessHeading" xml:space="preserve">
+    <value>Helderheid</value>
+  </data>
+  <data name="SettingsBehaviourHeading" xml:space="preserve">
+    <value>Gedrag</value>
+  </data>
+  <data name="SettingsProfilesCheckbox" xml:space="preserve">
+    <value>Toepassingsprofielen gebruiken</value>
+  </data>
+  <data name="SettingsAutostartCheckbox" xml:space="preserve">
+    <value>Met Windows starten (geminimaliseerd naar het systeemvak)</value>
+  </data>
+  <data name="SettingsFileHeading" xml:space="preserve">
+    <value>Instellingenbestand</value>
+  </data>
+  <data name="SettingsSaveButton" xml:space="preserve">
+    <value>Nu opslaan</value>
+  </data>
+  <data name="SettingsOpenFolderButton" xml:space="preserve">
+    <value>Map openen</value>
+  </data>
+  <data name="SettingsLanguageHeading" xml:space="preserve">
+    <value>Taal</value>
+  </data>
+  <data name="SettingsLanguageAutomatic" xml:space="preserve">
+    <value>Windows volgen</value>
+  </data>
+  <data name="SettingsLanguageNote" xml:space="preserve">
+    <value>De opschriften op de toetsen veranderen niet mee: die komen uit het apparaatprofiel en passen dus altijd bij het toetsenbord dat voor je staat, niet bij de taal van deze menu's.</value>
+  </data>
+  <data name="TrayShow" xml:space="preserve">
+    <value>Keylegend tonen</value>
+  </data>
+  <data name="TrayPause" xml:space="preserve">
+    <value>Pauzeren</value>
+  </data>
+  <data name="TrayResume" xml:space="preserve">
+    <value>Hervatten</value>
+  </data>
+  <data name="TrayQuit" xml:space="preserve">
+    <value>Afsluiten</value>
+  </data>
+  <data name="TrayTooltipActive" xml:space="preserve">
+    <value>Keylegend — actief</value>
+  </data>
+  <data name="TrayTooltipIdle" xml:space="preserve">
+    <value>Keylegend — inactief</value>
+  </data>
+  <data name="TrayTooltipPaused" xml:space="preserve">
+    <value>Keylegend — gepauzeerd</value>
+  </data>
+  <data name="TrayBalloonText" xml:space="preserve">
+    <value>Draait nog in het systeemvak.</value>
+  </data>
+  <data name="CommonReset" xml:space="preserve">
+    <value>Herstellen</value>
+  </data>
+  <data name="DonatePrompt" xml:space="preserve">
+    <value>Als Keylegend je bevalt, zou een kleine donatie me plezier doen.</value>
+  </data>
+  <data name="DonateKofiTooltip" xml:space="preserve">
+    <value>Opent ko-fi.com/eistee in je browser</value>
+  </data>
+  <data name="DonateTooltip" xml:space="preserve">
+    <value>Opent paypal.me/eistee in je browser</value>
+  </data>
+  <data name="DonateBrowserFailed" xml:space="preserve">
+    <value>Kon geen browser openen. Het adres is {0}</value>
+  </data>
+</root>

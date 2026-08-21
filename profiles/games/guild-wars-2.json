@@ -1,0 +1,55 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "guild-wars-2",
+  "name": "Guild Wars 2",
+  "kind": "game",
+
+  "match": {
+    "processes": ["gw2-64", "gw2"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Move forward" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Move backward" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Strafe left" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Strafe right" },
+    "Keyboard_Q": { "colour": "#FF0000", "label": "Turn left" },
+    "Keyboard_E": { "colour": "#FF0000", "label": "Turn right" },
+
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Jump" },
+    "Keyboard_V": { "colour": "#FF8C00", "label": "Dodge" },
+    "Keyboard_R": { "colour": "#FF8C00", "label": "Auto-run" },
+    "Keyboard_F": { "colour": "#FF8C00", "label": "Interact or revive" },
+    "Keyboard_J": { "colour": "#FF8C00", "label": "Mastery skill" },
+    "Keyboard_Tab": { "colour": "#FF8C00", "label": "Next enemy" },
+    "Keyboard_T": { "colour": "#FF8C00", "label": "Take target" },
+
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Weapon skill 1" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Weapon skill 2" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Weapon skill 3" },
+    "Keyboard_4": { "colour": "#00C8FF", "label": "Weapon skill 4" },
+    "Keyboard_5": { "colour": "#00C8FF", "label": "Weapon skill 5" },
+    "Keyboard_6": { "colour": "#00C8FF", "label": "Healing skill" },
+    "Keyboard_7": { "colour": "#00C8FF", "label": "Utility skill 1" },
+    "Keyboard_8": { "colour": "#00C8FF", "label": "Utility skill 2" },
+    "Keyboard_9": { "colour": "#00C8FF", "label": "Utility skill 3" },
+    "Keyboard_0": { "colour": "#00C8FF", "label": "Elite skill" },
+    "Keyboard_F1": { "colour": "#00C8FF", "label": "Profession skill 1" },
+    "Keyboard_F2": { "colour": "#00C8FF", "label": "Profession skill 2" },
+    "Keyboard_F3": { "colour": "#00C8FF", "label": "Profession skill 3" },
+    "Keyboard_F4": { "colour": "#00C8FF", "label": "Profession skill 4" },
+    "Keyboard_F5": { "colour": "#00C8FF", "label": "Profession skill 5" },
+
+    "Keyboard_H": { "colour": "#B4B4B4", "label": "Hero panel" },
+    "Keyboard_I": { "colour": "#B4B4B4", "label": "Inventory" },
+    "Keyboard_M": { "colour": "#B4B4B4", "label": "Map" },
+    "Keyboard_G": { "colour": "#B4B4B4", "label": "Guild panel" },
+    "Keyboard_O": { "colour": "#B4B4B4", "label": "Black Lion Trading" },
+    "Keyboard_F11": { "colour": "#B4B4B4", "label": "Options" },
+    "Keyboard_Enter": { "colour": "#B4B4B4", "label": "Chat" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Game menu" }
+  }
+}

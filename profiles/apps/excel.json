@@ -1,0 +1,79 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "excel",
+  "name": "Microsoft Excel",
+  "kind": "app",
+
+  "match": {
+    "processes": ["excel"],
+    "priority": 10
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "n": { "group": "File", "label": "New workbook" },
+        "o": { "group": "File", "label": "Open workbook" },
+        "s": { "group": "File", "label": "Save" },
+        "p": { "group": "File", "label": "Print" },
+        "w": { "group": "File", "label": "Close workbook" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "y": { "group": "Edit", "label": "Redo" },
+        "x": { "group": "Edit", "label": "Cut" },
+        "c": { "group": "Edit", "label": "Copy" },
+        "v": { "group": "Edit", "label": "Paste" },
+        "a": { "group": "Edit", "label": "Select all" },
+        "f": { "group": "Search", "label": "Find" },
+        "h": { "group": "Search", "label": "Replace" },
+        "g": { "group": "Search", "label": "Go to cell or range" },
+        "b": { "group": "Edit", "label": "Bold" },
+        "i": { "group": "Edit", "label": "Italic" },
+        "u": { "group": "Edit", "label": "Underline" },
+        "d": { "group": "Edit", "label": "Fill down from cell above" },
+        "r": { "group": "Edit", "label": "Fill right from cell to the left" },
+        "k": { "group": "Edit", "label": "Insert hyperlink" },
+        "1": { "group": "Edit", "label": "Format cells dialog" },
+        "9": { "group": "View", "label": "Hide selected rows" },
+        "0": { "group": "View", "label": "Hide selected columns" },
+        "-": { "group": "Edit", "label": "Delete cells dialog" }
+      },
+      "keys": {
+        "Keyboard_Home": { "group": "Navigation", "label": "Go to cell A1" },
+        "Keyboard_End": { "group": "Navigation", "label": "Go to last used cell" },
+        "Keyboard_ArrowUp": { "group": "Navigation", "label": "Jump to top edge of data region" },
+        "Keyboard_ArrowDown": { "group": "Navigation", "label": "Jump to bottom edge of data region" },
+        "Keyboard_ArrowLeft": { "group": "Navigation", "label": "Jump to left edge of data region" },
+        "Keyboard_ArrowRight": { "group": "Navigation", "label": "Jump to right edge of data region" },
+        "Keyboard_PageUp": { "group": "Window", "label": "Previous worksheet" },
+        "Keyboard_PageDown": { "group": "Window", "label": "Next worksheet" },
+        "Keyboard_Enter": { "group": "Edit", "label": "Fill selected range with the entry" },
+        "Keyboard_Space": { "group": "Edit", "label": "Select entire column" },
+        "Keyboard_F1": { "group": "View", "label": "Collapse or expand ribbon" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "l": { "group": "Search", "label": "Turn filter on or off" },
+        "u": { "group": "View", "label": "Expand or collapse formula bar" }
+      },
+      "keys": {
+        "Keyboard_Home": { "group": "Edit", "label": "Extend selection to cell A1" },
+        "Keyboard_End": { "group": "Edit", "label": "Extend selection to last used cell" },
+        "Keyboard_ArrowUp": { "group": "Edit", "label": "Extend selection to top edge of data" },
+        "Keyboard_ArrowDown": { "group": "Edit", "label": "Extend selection to bottom edge of data" },
+        "Keyboard_ArrowLeft": { "group": "Edit", "label": "Extend selection to left edge of data" },
+        "Keyboard_ArrowRight": { "group": "Edit", "label": "Extend selection to right edge of data" }
+      }
+    },
+
+    "Alt": {
+      "keys": {
+        "Keyboard_Enter": { "group": "Edit", "label": "Start a new line inside the cell" },
+        "Keyboard_ArrowDown": { "group": "Edit", "label": "Open the dropdown list of the cell" },
+        "Keyboard_F1": { "group": "Tools", "label": "Create chart from selected data" }
+      }
+    }
+  }
+}

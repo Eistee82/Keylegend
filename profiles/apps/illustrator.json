@@ -1,0 +1,91 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "illustrator",
+  "name": "Adobe Illustrator",
+  "kind": "app",
+
+  "match": {
+    "processes": ["illustrator"],
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_V": { "colour": "#00C8FF", "label": "Selection" },
+    "Keyboard_A": { "colour": "#00C8FF", "label": "Direct selection" },
+    "Keyboard_Z": { "colour": "#00C8FF", "label": "Magic wand" },
+    "Keyboard_Q": { "colour": "#00C8FF", "label": "Lasso" },
+
+    "Keyboard_P": { "colour": "#22CC66", "label": "Pen" },
+    "Keyboard_T": { "colour": "#22CC66", "label": "Type" },
+    "Keyboard_B": { "colour": "#22CC66", "label": "Paintbrush" },
+    "Keyboard_N": { "colour": "#22CC66", "label": "Pencil" },
+    "Keyboard_M": { "colour": "#22CC66", "label": "Rectangle" },
+    "Keyboard_L": { "colour": "#22CC66", "label": "Ellipse" },
+
+    "Keyboard_E": { "colour": "#FFC800", "label": "Free transform" },
+    "Keyboard_R": { "colour": "#FFC800", "label": "Rotate" },
+    "Keyboard_O": { "colour": "#FFC800", "label": "Reflect" },
+    "Keyboard_S": { "colour": "#FFC800", "label": "Scale" },
+    "Keyboard_W": { "colour": "#FFC800", "label": "Blend" },
+    "Keyboard_C": { "colour": "#FFC800", "label": "Scissors" },
+    "Keyboard_U": { "colour": "#FFC800", "label": "Mesh" },
+    "Keyboard_K": { "colour": "#FFC800", "label": "Live paint bucket" },
+
+    "Keyboard_G": { "colour": "#B4B4B4", "label": "Gradient" },
+    "Keyboard_I": { "colour": "#B4B4B4", "label": "Eyedropper" },
+    "Keyboard_H": { "colour": "#B4B4B4", "label": "Hand" },
+    "Keyboard_Y": { "colour": "#B4B4B4", "label": "Zoom" },
+    "Keyboard_D": { "colour": "#B4B4B4", "label": "Default fill and stroke" },
+    "Keyboard_X": { "colour": "#B4B4B4", "label": "Toggle fill and stroke" },
+    "Keyboard_F": { "colour": "#B4B4B4", "label": "Cycle screen mode" },
+    "Keyboard_Tab": { "colour": "#B4B4B4", "label": "Hide panels" }
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "n": { "group": "File", "label": "New document" },
+        "o": { "group": "File", "label": "Open file" },
+        "s": { "group": "File", "label": "Save" },
+        "w": { "group": "File", "label": "Close document" },
+        "p": { "group": "File", "label": "Print" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "x": { "group": "Edit", "label": "Cut" },
+        "c": { "group": "Edit", "label": "Copy" },
+        "v": { "group": "Edit", "label": "Paste" },
+        "f": { "group": "Edit", "label": "Paste in front" },
+        "b": { "group": "Edit", "label": "Paste behind" },
+        "a": { "group": "Edit", "label": "Select all" },
+        "d": { "group": "Edit", "label": "Transform again" },
+        "g": { "group": "Edit", "label": "Group objects" },
+        "j": { "group": "Edit", "label": "Join paths" },
+        "2": { "group": "Edit", "label": "Lock selection" },
+        "3": { "group": "Edit", "label": "Hide selection" },
+        "5": { "group": "View", "label": "Make guide" },
+        "7": { "group": "Edit", "label": "Make clipping mask" },
+        "u": { "group": "View", "label": "Smart guides" },
+        "y": { "group": "View", "label": "Outline view" },
+        "r": { "group": "View", "label": "Show rulers" },
+        "0": { "group": "View", "label": "Fit artboard in window" },
+        "+": { "group": "View", "label": "Zoom in" },
+        "-": { "group": "View", "label": "Zoom out" },
+        "k": { "group": "System", "label": "Preferences" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "s": { "group": "File", "label": "Save as" },
+        "p": { "group": "File", "label": "Place file" },
+        "g": { "group": "Edit", "label": "Ungroup objects" },
+        "a": { "group": "Edit", "label": "Deselect all" },
+        "o": { "group": "Edit", "label": "Create outlines from type" },
+        "m": { "group": "Edit", "label": "Move by exact amount" },
+        "2": { "group": "Edit", "label": "Unlock all" },
+        "3": { "group": "Edit", "label": "Show all" },
+        "b": { "group": "View", "label": "Show bounding box" }
+      }
+    }
+  }
+}

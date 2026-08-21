@@ -1,0 +1,48 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "thunderbird",
+  "name": "Mozilla Thunderbird",
+  "kind": "app",
+
+  "match": {
+    "processes": ["thunderbird"],
+    "priority": 10
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "n": { "group": "File", "label": "New message" },
+        "r": { "group": "File", "label": "Reply" },
+        "l": { "group": "File", "label": "Forward message" },
+        "s": { "group": "File", "label": "Save message as file" },
+        "p": { "group": "File", "label": "Print" },
+        "w": { "group": "Window", "label": "Close tab" },
+        "f": { "group": "Search", "label": "Find text in message" },
+        "g": { "group": "Search", "label": "Find next match" },
+        "u": { "group": "Tools", "label": "View message source" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "x": { "group": "Edit", "label": "Cut" },
+        "c": { "group": "Edit", "label": "Copy" },
+        "v": { "group": "Edit", "label": "Paste" },
+        "a": { "group": "Edit", "label": "Select all" }
+      },
+      "keys": {
+        "Keyboard_Enter": { "group": "File", "label": "Send message now" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "r": { "group": "File", "label": "Reply to all" },
+        "f": { "group": "Search", "label": "Search messages" },
+        "g": { "group": "Search", "label": "Find previous match" },
+        "z": { "group": "Edit", "label": "Redo" }
+      },
+      "keys": {
+        "Keyboard_Enter": { "group": "File", "label": "Send message later" }
+      }
+    }
+  }
+}

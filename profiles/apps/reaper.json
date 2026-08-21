@@ -1,0 +1,90 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "reaper",
+  "name": "REAPER",
+  "kind": "app",
+
+  "match": {
+    "processes": ["reaper"],
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_Space": { "colour": "#22CC66", "label": "Play / stop" },
+    "Keyboard_Enter": { "colour": "#22CC66", "label": "Play / pause" },
+
+    "Keyboard_Home": { "colour": "#00C8FF", "label": "Go to start of project" },
+    "Keyboard_End": { "colour": "#00C8FF", "label": "Go to end of project" },
+
+    "Keyboard_S": { "colour": "#FF8C00", "label": "Split items at cursor" },
+    "Keyboard_M": { "colour": "#FF8C00", "label": "Insert marker" },
+    "Keyboard_G": { "colour": "#FF8C00", "label": "Group items" },
+    "Keyboard_T": { "colour": "#FF8C00", "label": "Switch items to next take" },
+    "Keyboard_Insert": { "colour": "#FF8C00", "label": "Insert media item" },
+    "Keyboard_Delete": { "colour": "#FF3232", "label": "Delete selected items" },
+
+    "Keyboard_R": { "colour": "#B4B4B4", "label": "Toggle repeat" },
+    "Keyboard_L": { "colour": "#B4B4B4", "label": "Toggle item locking" }
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "n": { "group": "File", "label": "New project" },
+        "o": { "group": "File", "label": "Open project" },
+        "s": { "group": "File", "label": "Save project" },
+        "q": { "group": "File", "label": "Quit REAPER" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "x": { "group": "Edit", "label": "Cut selected items" },
+        "c": { "group": "Edit", "label": "Copy selected items" },
+        "v": { "group": "Edit", "label": "Paste" },
+        "a": { "group": "Edit", "label": "Select all items" },
+        "t": { "group": "Edit", "label": "Insert new track" },
+        "r": { "group": "Tools", "label": "Record" },
+        "m": { "group": "View", "label": "Toggle mixer" },
+        "j": { "group": "Navigation", "label": "Jump to time" },
+        "p": { "group": "System", "label": "Preferences" }
+      },
+      "keys": {
+        "Keyboard_ArrowLeft": { "group": "Navigation", "label": "Rewind a little" },
+        "Keyboard_ArrowRight": { "group": "Navigation", "label": "Fast forward a little" },
+        "Keyboard_ArrowUp": { "group": "Tools", "label": "Nudge track volume up" },
+        "Keyboard_ArrowDown": { "group": "Tools", "label": "Nudge track volume down" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "z": { "group": "Edit", "label": "Redo" },
+        "n": { "group": "Tools", "label": "Normalize items" }
+      }
+    },
+
+    "Ctrl+Alt": {
+      "characters": {
+        "r": { "group": "File", "label": "Render project to disk" },
+        "s": { "group": "File", "label": "Save project as" }
+      }
+    },
+
+    "Alt": {
+      "characters": {
+        "s": { "group": "Tools", "label": "Toggle snapping" },
+        "g": { "group": "View", "label": "Toggle grid lines" },
+        "m": { "group": "Tools", "label": "Toggle track mute" },
+        "x": { "group": "Tools", "label": "Toggle auto-crossfade" },
+        "p": { "group": "Tools", "label": "Cycle ripple editing modes" },
+        "c": { "group": "View", "label": "Toggle big clock" },
+        "d": { "group": "View", "label": "Toggle docker" },
+        "r": { "group": "View", "label": "Toggle routing matrix" },
+        "b": { "group": "View", "label": "Toggle virtual MIDI keyboard" }
+      },
+      "keys": {
+        "Keyboard_Enter": { "group": "System", "label": "Project settings" },
+        "Keyboard_ArrowLeft": { "group": "Navigation", "label": "Scroll view left" },
+        "Keyboard_ArrowRight": { "group": "Navigation", "label": "Scroll view right" }
+      }
+    }
+  }
+}

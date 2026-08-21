@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Eistee82/Keylegend/profiles/schema.json",
+  "title": "Keylegend application profile",
+  "type": "object",
+  "required": ["formatVersion", "id", "name", "kind", "match"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "formatVersion": { "type": "integer", "const": 1 },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Stable identifier. Must equal the file name. Never change it."
+    },
+    "name": { "type": "string", "minLength": 1 },
+    "kind": { "enum": ["app", "game"] },
+    "match": {
+      "type": "object",
+      "required": ["processes"],
+      "additionalProperties": false,
+      "properties": {
+        "processes": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[^\\\\/]+$" },
+          "description": "Executable names without .exe, lower case."
+        },
+        "appliesToGames": { "type": "boolean", "default": false },
+        "priority": { "type": "integer", "default": 0 },
+        "titleContains": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Only for programs sharing an executable name with something unrelated (LibreOffice's modules, anything running as javaw). The profile applies only if the window title contains one of these."
+        }
+      }
+    },
+    "highlights": {
+      "type": "object",
+      "propertyNames": { "pattern": "^Keyboard_[A-Za-z0-9]+$" },
+      "additionalProperties": {
+        "type": "object",
+        "required": ["colour"],
+        "additionalProperties": false,
+        "properties": {
+          "colour": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+          "label": { "type": "string" }
+        }
+      }
+    },
+    "shortcuts": {
+      "type": "object",
+      "propertyNames": {
+        "enum": ["Win", "Win+Shift", "Win+Ctrl", "Ctrl", "Ctrl+Shift", "Ctrl+Alt", "Alt", "AltGr"]
+      },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "characters": {
+            "type": "object",
+            "description": "The character the key types, lower case. Ctrl+Z is \"z\".",
+            "additionalProperties": { "$ref": "#/$defs/shortcut" }
+          },
+          "keys": {
+            "type": "object",
+            "description": "Key id, for keys that type no character.",
+            "propertyNames": { "pattern": "^Keyboard_[A-Za-z0-9]+$" },
+            "additionalProperties": { "$ref": "#/$defs/shortcut" }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "shortcut": {
+      "type": "object",
+      "required": ["group", "label"],
+      "additionalProperties": false,
+      "properties": {
+        "group": {
+          "enum": ["Edit", "File", "Search", "View", "Window", "System", "Tools", "Navigation"]
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "description": "What the command does, in English. \"Duplicate layer\", not \"Ctrl+J\"."
+        }
+      }
+    }
+  }
+}

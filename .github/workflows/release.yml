@@ -1,0 +1,117 @@
+name: Release
+
+# Tags shaped v1.0.0 publish a release. Nothing else does — a push to main builds and tests
+# through ci.yml and stops there.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to build, without the leading v'
+        required: true
+        default: '1.0.0'
+
+permissions:
+  contents: write     # needed to create the release
+
+jobs:
+  release:
+    name: Build and publish
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Work out the version
+        id: version
+        shell: pwsh
+        run: |
+          $version = if ('${{ github.event_name }}' -eq 'workflow_dispatch') {
+            '${{ inputs.version }}'
+          } else {
+            '${{ github.ref_name }}' -replace '^v', ''
+          }
+
+          # The tag is the single source of truth for the version, so a malformed one has to
+          # stop here rather than produce artefacts nobody can identify later.
+          if ($version -notmatch '^\d+\.\d+\.\d+') {
+            throw "Version '$version' is not a version number."
+          }
+
+          "version=$version" >> $env:GITHUB_OUTPUT
+          Write-Host "Building $version"
+
+      - name: Install Inno Setup
+        run: choco install innosetup --no-progress -y
+
+      # Tests, publish, staging, smoke test and packaging all live in the same script the
+      # maintainer runs locally. A release that can only be reproduced inside CI is one nobody
+      # can debug when it breaks.
+      - name: Build the release
+        shell: pwsh
+        run: ./tools/build-release.ps1 -Version ${{ steps.version.outputs.version }}
+
+      - name: Upload artefacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: keylegend-${{ steps.version.outputs.version }}
+          path: |
+            out/*.exe
+            out/*.zip
+            out/SHA256SUMS.txt
+          if-no-files-found: error
+
+      - name: Publish the release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Keylegend ${{ steps.version.outputs.version }}
+          draft: true
+          generate_release_notes: true
+          files: |
+            out/*.exe
+            out/*.zip
+            out/SHA256SUMS.txt
+          body: |
+            ## Installing
+
+            **`Keylegend-${{ steps.version.outputs.version }}-setup.exe`** installs for the
+            current user — no administrator rights needed. It adds a start menu entry, offers
+            autostart from within the application, and removes both on uninstall.
+
+            **`Keylegend-${{ steps.version.outputs.version }}-portable.zip`** is the same
+            program to unpack and run wherever you like. Keep the `devices` folder next to the
+            executable; without it Keylegend has no keyboard to describe.
+
+            ### Requirements
+
+            - Windows 10 or 11
+            - [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0/runtime?runtime=desktop)
+              — the installer checks and links it if it is missing
+            - Razer Synapse with the Chroma SDK service running
+
+            ### About the Windows warning
+
+            Both files are unsigned, so SmartScreen will call the publisher unknown. A signing
+            certificate costs a few hundred euros a year, which this project does not have.
+            Verify the download against `SHA256SUMS.txt` if you would like to check it came from
+            here intact:
+
+            ```powershell
+            Get-FileHash .\Keylegend-${{ steps.version.outputs.version }}-setup.exe -Algorithm SHA256
+            ```
+
+            ### Which keyboards work
+
+            One profile has been verified on hardware — the Razer DeathStalker V2 in the German
+            ISO layout. The other thirty-one are generated from standard key dimensions: their
+            geometry is exact, their LED mapping is an educated guess. If yours lights the wrong
+            keys, correcting it takes about ten minutes and no programming. See
+            [docs/en/adding-a-keyboard.md](https://github.com/Eistee82/Keylegend/blob/main/docs/en/adding-a-keyboard.md).

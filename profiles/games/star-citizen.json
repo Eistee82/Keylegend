@@ -1,0 +1,67 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "star-citizen",
+  "name": "Star Citizen",
+  "kind": "game",
+
+  "match": {
+    "processes": ["starcitizen"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Forward thrust" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Backward thrust" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Strafe left" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Strafe right" },
+    "Keyboard_Space": { "colour": "#FF0000", "label": "Strafe up" },
+    "Keyboard_LeftCtrl": { "colour": "#FF0000", "label": "Strafe down" },
+    "Keyboard_Q": { "colour": "#FF0000", "label": "Roll left" },
+    "Keyboard_E": { "colour": "#FF0000", "label": "Roll right" },
+
+    "Keyboard_LeftShift": { "colour": "#FF8C00", "label": "Afterburner" },
+    "Keyboard_X": { "colour": "#FF8C00", "label": "Space brake" },
+    "Keyboard_C": { "colour": "#FF8C00", "label": "Toggle decoupled mode" },
+    "Keyboard_B": { "colour": "#FF8C00", "label": "Hold: cycle flight mode (SCM / NAV)" },
+    "Keyboard_N": { "colour": "#FF8C00", "label": "Toggle landing gear, hold to autoland" },
+    "Keyboard_K": { "colour": "#FF8C00", "label": "Toggle VTOL" },
+
+    "Keyboard_T": { "colour": "#00C8FF", "label": "Cycle target in view" },
+    "Keyboard_G": { "colour": "#00C8FF", "label": "Toggle gimbal mode" },
+    "Keyboard_H": { "colour": "#00C8FF", "label": "Launch decoy countermeasure" },
+    "Keyboard_J": { "colour": "#00C8FF", "label": "Launch noise countermeasure" },
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Lock target slot 1" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Lock target slot 2" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Lock target slot 3" },
+    "Keyboard_4": { "colour": "#00C8FF", "label": "Cycle attackers" },
+    "Keyboard_5": { "colour": "#00C8FF", "label": "Cycle hostile targets" },
+    "Keyboard_6": { "colour": "#00C8FF", "label": "Cycle friendly targets" },
+    "Keyboard_7": { "colour": "#00C8FF", "label": "Cycle all targets" },
+    "Keyboard_0": { "colour": "#00C8FF", "label": "Remove all pinned targets" },
+
+    "Keyboard_F5": { "colour": "#C864FF", "label": "Power to weapons" },
+    "Keyboard_F6": { "colour": "#C864FF", "label": "Power to engines" },
+    "Keyboard_F7": { "colour": "#C864FF", "label": "Power to shields" },
+    "Keyboard_F8": { "colour": "#C864FF", "label": "Reset power distribution" },
+    "Keyboard_U": { "colour": "#C864FF", "label": "Toggle ship power" },
+    "Keyboard_I": { "colour": "#C864FF", "label": "Toggle thruster power, on foot: inventory" },
+    "Keyboard_O": { "colour": "#C864FF", "label": "Toggle shields" },
+    "Keyboard_P": { "colour": "#C864FF", "label": "Toggle weapons" },
+
+    "Keyboard_V": { "colour": "#64FF96", "label": "Toggle scanning mode" },
+    "Keyboard_Tab": { "colour": "#64FF96", "label": "Hold: radar ping" },
+    "Keyboard_M": { "colour": "#64FF96", "label": "Toggle mining / salvage mode" },
+    "Keyboard_L": { "colour": "#64FF96", "label": "Toggle ship lights" },
+    "Keyboard_Backspace": { "colour": "#64FF96", "label": "Hold: self destruct" },
+
+    "Keyboard_F": { "colour": "#B4B4B4", "label": "Interaction mode" },
+    "Keyboard_F1": { "colour": "#B4B4B4", "label": "mobiGlas" },
+    "Keyboard_F2": { "colour": "#B4B4B4", "label": "Starmap" },
+    "Keyboard_F11": { "colour": "#B4B4B4", "label": "Toggle mouse cursor" },
+    "Keyboard_F12": { "colour": "#B4B4B4", "label": "Toggle chat" },
+    "Keyboard_9": { "colour": "#B4B4B4", "label": "Hail target" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Menu" }
+  }
+}

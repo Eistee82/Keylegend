@@ -1,0 +1,63 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "sumatrapdf",
+  "name": "SumatraPDF",
+  "kind": "app",
+
+  "match": {
+    "processes": ["sumatrapdf"],
+    "priority": 10
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "o": { "group": "File", "label": "Open document" },
+        "w": { "group": "File", "label": "Close document" },
+        "s": { "group": "File", "label": "Save document as" },
+        "p": { "group": "File", "label": "Print" },
+        "d": { "group": "File", "label": "Document properties" },
+        "q": { "group": "File", "label": "Quit SumatraPDF" },
+        "n": { "group": "Window", "label": "New window" },
+        "f": { "group": "Search", "label": "Find in document" },
+        "g": { "group": "Search", "label": "Go to page" },
+        "k": { "group": "Search", "label": "Command palette" },
+        "c": { "group": "Edit", "label": "Copy selection" },
+        "a": { "group": "Edit", "label": "Select all" },
+        "b": { "group": "Edit", "label": "Add current page to favourites" },
+        "y": { "group": "View", "label": "Custom zoom level" },
+        "0": { "group": "View", "label": "Fit page" },
+        "1": { "group": "View", "label": "Actual size" },
+        "2": { "group": "View", "label": "Fit width" },
+        "3": { "group": "View", "label": "Fit content" },
+        "6": { "group": "View", "label": "Single page layout" },
+        "7": { "group": "View", "label": "Facing pages layout" },
+        "8": { "group": "View", "label": "Book layout" }
+      },
+      "keys": {
+        "Keyboard_Tab": { "group": "Window", "label": "Next tab" },
+        "Keyboard_F4": { "group": "File", "label": "Close document" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "l": { "group": "View", "label": "Toggle full screen" },
+        "n": { "group": "Window", "label": "Open document in new window" }
+      },
+      "keys": {
+        "Keyboard_Tab": { "group": "Window", "label": "Previous tab" },
+        "Keyboard_ArrowLeft": { "group": "File", "label": "Open previous document in folder" },
+        "Keyboard_ArrowRight": { "group": "File", "label": "Open next document in folder" }
+      }
+    },
+
+    "Alt": {
+      "keys": {
+        "Keyboard_ArrowLeft": { "group": "Navigation", "label": "Go back" },
+        "Keyboard_ArrowRight": { "group": "Navigation", "label": "Go forward" }
+      }
+    }
+  }
+}

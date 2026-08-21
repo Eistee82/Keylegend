@@ -1,0 +1,78 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "gimp",
+  "name": "GIMP",
+  "kind": "app",
+
+  "match": {
+    "processes": ["gimp-2.10", "gimp-3", "gimp"],
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_M": { "colour": "#00C8FF", "label": "Move" },
+    "Keyboard_R": { "colour": "#00C8FF", "label": "Rectangle select" },
+    "Keyboard_E": { "colour": "#00C8FF", "label": "Ellipse select" },
+    "Keyboard_F": { "colour": "#00C8FF", "label": "Free select" },
+    "Keyboard_U": { "colour": "#00C8FF", "label": "Fuzzy select" },
+    "Keyboard_I": { "colour": "#00C8FF", "label": "Intelligent scissors" },
+    "Keyboard_Q": { "colour": "#00C8FF", "label": "Align" },
+
+    "Keyboard_P": { "colour": "#22CC66", "label": "Paintbrush" },
+    "Keyboard_N": { "colour": "#22CC66", "label": "Pencil" },
+    "Keyboard_A": { "colour": "#22CC66", "label": "Airbrush" },
+    "Keyboard_K": { "colour": "#22CC66", "label": "Ink" },
+    "Keyboard_C": { "colour": "#22CC66", "label": "Clone" },
+    "Keyboard_S": { "colour": "#22CC66", "label": "Smudge" },
+    "Keyboard_G": { "colour": "#22CC66", "label": "Gradient" },
+
+    "Keyboard_T": { "colour": "#FFC800", "label": "Text" },
+    "Keyboard_O": { "colour": "#FFC800", "label": "Colour picker" },
+    "Keyboard_D": { "colour": "#FFC800", "label": "Default colours" },
+    "Keyboard_X": { "colour": "#FFC800", "label": "Swap colours" },
+
+    "Keyboard_Y": { "colour": "#B4B4B4", "label": "Zoom" },
+    "Keyboard_Tab": { "colour": "#B4B4B4", "label": "Hide docks" }
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "n": { "group": "File", "label": "New image" },
+        "o": { "group": "File", "label": "Open file" },
+        "s": { "group": "File", "label": "Save project" },
+        "e": { "group": "File", "label": "Export" },
+        "p": { "group": "File", "label": "Print" },
+        "w": { "group": "File", "label": "Close view" },
+        "q": { "group": "File", "label": "Quit" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "y": { "group": "Edit", "label": "Redo" },
+        "x": { "group": "Edit", "label": "Cut" },
+        "c": { "group": "Edit", "label": "Copy" },
+        "v": { "group": "Edit", "label": "Paste" },
+        "a": { "group": "Edit", "label": "Select all" },
+        "d": { "group": "Edit", "label": "Duplicate image" },
+        "m": { "group": "Edit", "label": "Merge visible layers" },
+        "i": { "group": "Tools", "label": "Invert colours" },
+        "f": { "group": "Tools", "label": "Repeat last filter" },
+        "l": { "group": "View", "label": "Layers dialogue" },
+        "1": { "group": "View", "label": "Zoom to 100%" },
+        "+": { "group": "View", "label": "Zoom in" },
+        "-": { "group": "View", "label": "Zoom out" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "e": { "group": "File", "label": "Export as" },
+        "a": { "group": "Edit", "label": "Select none" },
+        "i": { "group": "Edit", "label": "Invert selection" },
+        "n": { "group": "Edit", "label": "New layer" },
+        "c": { "group": "Edit", "label": "Copy visible" },
+        "v": { "group": "Edit", "label": "Paste as new image" },
+        "j": { "group": "View", "label": "Fit image in window" }
+      }
+    }
+  }
+}

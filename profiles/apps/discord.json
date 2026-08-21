@@ -1,0 +1,55 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "discord",
+  "name": "Discord",
+  "kind": "app",
+
+  "match": {
+    "processes": ["discord", "discordptb", "discordcanary"],
+    "priority": 10
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "k": { "group": "Search", "label": "Quick switcher" },
+        "f": { "group": "Search", "label": "Search current server" },
+        "e": { "group": "Tools", "label": "Emoji picker" },
+        "1": { "group": "Navigation", "label": "Go to server 1" },
+        "2": { "group": "Navigation", "label": "Go to server 2" },
+        "3": { "group": "Navigation", "label": "Go to server 3" },
+        "4": { "group": "Navigation", "label": "Go to server 4" },
+        "5": { "group": "Navigation", "label": "Go to server 5" },
+        "6": { "group": "Navigation", "label": "Go to server 6" },
+        "7": { "group": "Navigation", "label": "Go to server 7" },
+        "8": { "group": "Navigation", "label": "Go to server 8" },
+        "9": { "group": "Navigation", "label": "Go to server 9" }
+      },
+      "keys": {
+        "Keyboard_Enter": { "group": "Tools", "label": "Answer incoming call" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "m": { "group": "Tools", "label": "Toggle microphone mute" },
+        "d": { "group": "Tools", "label": "Toggle deafen" }
+      }
+    },
+
+    "Alt": {
+      "keys": {
+        "Keyboard_ArrowUp": { "group": "Navigation", "label": "Previous channel" },
+        "Keyboard_ArrowDown": { "group": "Navigation", "label": "Next channel" }
+      }
+    },
+
+    "Ctrl+Alt": {
+      "keys": {
+        "Keyboard_ArrowUp": { "group": "Navigation", "label": "Previous server" },
+        "Keyboard_ArrowDown": { "group": "Navigation", "label": "Next server" }
+      }
+    }
+  }
+}

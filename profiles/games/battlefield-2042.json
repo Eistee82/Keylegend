@@ -1,0 +1,42 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "battlefield-2042",
+  "name": "Battlefield 2042",
+  "kind": "game",
+
+  "match": {
+    "processes": ["bf2042", "bf2042_launcher"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Forward" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Left" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Back" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Right" },
+
+    "Keyboard_E": { "colour": "#FF8C00", "label": "Interact" },
+    "Keyboard_R": { "colour": "#FF8C00", "label": "Reload" },
+    "Keyboard_F": { "colour": "#FF8C00", "label": "Melee" },
+    "Keyboard_G": { "colour": "#FF8C00", "label": "Grenade" },
+    "Keyboard_Q": { "colour": "#FF8C00", "label": "Ping / Commo Rose" },
+    "Keyboard_B": { "colour": "#FF8C00", "label": "Call-in tablet" },
+    "Keyboard_C": { "colour": "#FF8C00", "label": "Crouch (toggle)" },
+    "Keyboard_LeftCtrl": { "colour": "#FF8C00", "label": "Crouch (hold)" },
+    "Keyboard_LeftShift": { "colour": "#FF8C00", "label": "Sprint" },
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Jump" },
+    "Keyboard_Tab": { "colour": "#FF8C00", "label": "Scoreboard" },
+
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Primary weapon" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Secondary weapon" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Specialist gadget" },
+    "Keyboard_4": { "colour": "#00C8FF", "label": "Gadget" },
+
+    "Keyboard_M": { "colour": "#B4B4B4", "label": "Full map" },
+    "Keyboard_K": { "colour": "#B4B4B4", "label": "Team chat" },
+    "Keyboard_L": { "colour": "#B4B4B4", "label": "Squad chat" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Menu" }
+  }
+}

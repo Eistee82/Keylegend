@@ -1,0 +1,68 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "krita",
+  "name": "Krita",
+  "kind": "app",
+
+  "match": {
+    "processes": ["krita"],
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_B": { "colour": "#22CC66", "label": "Freehand brush" },
+    "Keyboard_E": { "colour": "#22CC66", "label": "Toggle eraser mode" },
+    "Keyboard_F": { "colour": "#22CC66", "label": "Fill" },
+    "Keyboard_V": { "colour": "#22CC66", "label": "Line" },
+
+    "Keyboard_T": { "colour": "#00C8FF", "label": "Move" },
+    "Keyboard_Space": { "colour": "#00C8FF", "label": "Pan canvas" },
+    "Keyboard_M": { "colour": "#00C8FF", "label": "Mirror view horizontally" },
+
+    "Keyboard_I": { "colour": "#FFC800", "label": "Decrease opacity" },
+    "Keyboard_O": { "colour": "#FFC800", "label": "Increase opacity" },
+    "Keyboard_K": { "colour": "#FFC800", "label": "Make brush colour darker" },
+    "Keyboard_L": { "colour": "#FFC800", "label": "Make brush colour lighter" },
+    "Keyboard_D": { "colour": "#FFC800", "label": "Reset foreground and background" },
+    "Keyboard_X": { "colour": "#FFC800", "label": "Swap foreground and background" },
+
+    "Keyboard_F5": { "colour": "#B4B4B4", "label": "Brush editor" }
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "n": { "group": "File", "label": "New image" },
+        "o": { "group": "File", "label": "Open file" },
+        "s": { "group": "File", "label": "Save" },
+        "w": { "group": "File", "label": "Close document" },
+        "p": { "group": "File", "label": "Print" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "x": { "group": "Edit", "label": "Cut" },
+        "c": { "group": "Edit", "label": "Copy" },
+        "v": { "group": "Edit", "label": "Paste" },
+        "a": { "group": "Edit", "label": "Select all" },
+        "j": { "group": "Edit", "label": "Duplicate layer" },
+        "g": { "group": "Edit", "label": "Group layers" },
+        "e": { "group": "Edit", "label": "Merge with layer below" },
+        "t": { "group": "Tools", "label": "Transform tool" },
+        "i": { "group": "Tools", "label": "Invert colours" },
+        "l": { "group": "Tools", "label": "Levels" },
+        "u": { "group": "Tools", "label": "Adjust hue and saturation" },
+        "r": { "group": "View", "label": "Show rulers" },
+        "+": { "group": "View", "label": "Zoom in" },
+        "-": { "group": "View", "label": "Zoom out" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "s": { "group": "File", "label": "Save as" },
+        "z": { "group": "Edit", "label": "Redo" },
+        "a": { "group": "Edit", "label": "Deselect" },
+        "i": { "group": "Edit", "label": "Invert selection" }
+      }
+    }
+  }
+}

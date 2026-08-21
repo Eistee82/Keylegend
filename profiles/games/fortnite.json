@@ -1,0 +1,45 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "fortnite",
+  "name": "Fortnite",
+  "kind": "game",
+
+  "match": {
+    "processes": ["fortniteclient-win64-shipping", "fortnitelauncher"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Forward" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Left" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Back" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Right" },
+
+    "Keyboard_E": { "colour": "#FF8C00", "label": "Use" },
+    "Keyboard_R": { "colour": "#FF8C00", "label": "Reload" },
+    "Keyboard_LeftShift": { "colour": "#FF8C00", "label": "Sprint" },
+    "Keyboard_LeftCtrl": { "colour": "#FF8C00", "label": "Crouch" },
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Jump" },
+
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Harvesting tool" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Weapon slot 1" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Weapon slot 2" },
+    "Keyboard_4": { "colour": "#00C8FF", "label": "Weapon slot 3" },
+    "Keyboard_5": { "colour": "#00C8FF", "label": "Weapon slot 4" },
+    "Keyboard_6": { "colour": "#00C8FF", "label": "Weapon slot 5" },
+
+    "Keyboard_F1": { "colour": "#C864FF", "label": "Build wall" },
+    "Keyboard_F2": { "colour": "#C864FF", "label": "Build floor" },
+    "Keyboard_F3": { "colour": "#C864FF", "label": "Build stairs" },
+    "Keyboard_F4": { "colour": "#C864FF", "label": "Build roof" },
+    "Keyboard_F5": { "colour": "#C864FF", "label": "Place trap" },
+    "Keyboard_G": { "colour": "#C864FF", "label": "Edit building" },
+
+    "Keyboard_I": { "colour": "#B4B4B4", "label": "Inventory" },
+    "Keyboard_M": { "colour": "#B4B4B4", "label": "Map" },
+    "Keyboard_B": { "colour": "#B4B4B4", "label": "Emote" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Menu" }
+  }
+}

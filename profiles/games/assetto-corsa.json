@@ -1,0 +1,30 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "assetto-corsa",
+  "name": "Assetto Corsa",
+  "kind": "game",
+
+  "match": {
+    "processes": ["acs", "assettocorsa"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_ArrowUp": { "colour": "#FF0000", "label": "Throttle" },
+    "Keyboard_ArrowDown": { "colour": "#FF0000", "label": "Brake" },
+    "Keyboard_ArrowLeft": { "colour": "#FF0000", "label": "Steer left" },
+    "Keyboard_ArrowRight": { "colour": "#FF0000", "label": "Steer right" },
+
+    "Keyboard_F1": { "colour": "#FF8C00", "label": "Cycle driving views" },
+    "Keyboard_F2": { "colour": "#FF8C00", "label": "Director camera" },
+    "Keyboard_F3": { "colour": "#FF8C00", "label": "Track cameras" },
+    "Keyboard_F5": { "colour": "#FF8C00", "label": "Free camera" },
+    "Keyboard_F6": { "colour": "#FF8C00", "label": "Cycle on-board cameras" },
+    "Keyboard_F9": { "colour": "#FF8C00", "label": "Toggle timing bar" },
+    "Keyboard_F11": { "colour": "#FF8C00", "label": "Virtual rear view mirror" },
+
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Menu" }
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "blender",
+  "name": "Blender",
+  "kind": "app",
+
+  "match": {
+    "processes": ["blender"],
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_G": { "colour": "#FF8C00", "label": "Move" },
+    "Keyboard_R": { "colour": "#FF8C00", "label": "Rotate" },
+    "Keyboard_S": { "colour": "#FF8C00", "label": "Scale" },
+
+    "Keyboard_A": { "colour": "#00C8FF", "label": "Select all" },
+    "Keyboard_B": { "colour": "#00C8FF", "label": "Box select" },
+    "Keyboard_C": { "colour": "#00C8FF", "label": "Circle select" },
+    "Keyboard_L": { "colour": "#00C8FF", "label": "Select linked under cursor" },
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Vertex select mode" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Edge select mode" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Face select mode" },
+
+    "Keyboard_E": { "colour": "#22CC66", "label": "Extrude" },
+    "Keyboard_I": { "colour": "#22CC66", "label": "Inset faces" },
+    "Keyboard_K": { "colour": "#22CC66", "label": "Knife cut" },
+    "Keyboard_F": { "colour": "#22CC66", "label": "Make edge or face" },
+    "Keyboard_U": { "colour": "#22CC66", "label": "UV unwrap" },
+    "Keyboard_V": { "colour": "#22CC66", "label": "Rip vertices" },
+    "Keyboard_P": { "colour": "#22CC66", "label": "Separate mesh" },
+    "Keyboard_M": { "colour": "#22CC66", "label": "Merge vertices" },
+    "Keyboard_Z": { "colour": "#22CC66", "label": "Split" },
+    "Keyboard_O": { "colour": "#22CC66", "label": "Toggle proportional editing" },
+    "Keyboard_X": { "colour": "#22CC66", "label": "Delete" },
+    "Keyboard_H": { "colour": "#22CC66", "label": "Hide selected" },
+
+    "Keyboard_Tab": { "colour": "#B4B4B4", "label": "Toggle edit mode" },
+    "Keyboard_Y": { "colour": "#B4B4B4", "label": "Shading menu" },
+    "Keyboard_N": { "colour": "#B4B4B4", "label": "Toggle sidebar" },
+    "Keyboard_T": { "colour": "#B4B4B4", "label": "Toggle toolbar" },
+    "Keyboard_Q": { "colour": "#B4B4B4", "label": "Quick favourites" },
+    "Keyboard_Space": { "colour": "#B4B4B4", "label": "Play animation" },
+    "Keyboard_F2": { "colour": "#B4B4B4", "label": "Rename active item" },
+    "Keyboard_F3": { "colour": "#B4B4B4", "label": "Search menu" },
+    "Keyboard_F9": { "colour": "#B4B4B4", "label": "Adjust last operation" },
+    "Keyboard_F11": { "colour": "#B4B4B4", "label": "Show render window" },
+    "Keyboard_F12": { "colour": "#B4B4B4", "label": "Render image" },
+    "Keyboard_Num0": { "colour": "#B4B4B4", "label": "Camera view" },
+    "Keyboard_Num1": { "colour": "#B4B4B4", "label": "Front view" },
+    "Keyboard_Num3": { "colour": "#B4B4B4", "label": "Right view" },
+    "Keyboard_Num7": { "colour": "#B4B4B4", "label": "Top view" },
+    "Keyboard_Num5": { "colour": "#B4B4B4", "label": "Toggle orthographic view" },
+    "Keyboard_Num9": { "colour": "#B4B4B4", "label": "Orbit to opposite view" },
+    "Keyboard_Num2": { "colour": "#B4B4B4", "label": "Orbit down" },
+    "Keyboard_Num8": { "colour": "#B4B4B4", "label": "Orbit up" },
+    "Keyboard_Num4": { "colour": "#B4B4B4", "label": "Orbit left" },
+    "Keyboard_Num6": { "colour": "#B4B4B4", "label": "Orbit right" },
+    "Keyboard_NumPlus": { "colour": "#B4B4B4", "label": "Zoom in" },
+    "Keyboard_NumMinus": { "colour": "#B4B4B4", "label": "Zoom out" },
+    "Keyboard_NumPeriodAndDelete": { "colour": "#B4B4B4", "label": "Frame selected" },
+    "Keyboard_NumSlash": { "colour": "#B4B4B4", "label": "Toggle local view" }
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "n": { "group": "File", "label": "New file" },
+        "o": { "group": "File", "label": "Open file" },
+        "s": { "group": "File", "label": "Save" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "i": { "group": "Edit", "label": "Invert selection" },
+        "j": { "group": "Edit", "label": "Join objects" },
+        "p": { "group": "Edit", "label": "Set parent" },
+        "a": { "group": "Edit", "label": "Apply transform" },
+        "m": { "group": "Edit", "label": "Mirror" },
+        "g": { "group": "Edit", "label": "Move to new collection" },
+        "r": { "group": "Tools", "label": "Loop cut" },
+        "b": { "group": "Tools", "label": "Bevel" },
+        "e": { "group": "Tools", "label": "Edge menu" },
+        "f": { "group": "Tools", "label": "Face menu" },
+        "v": { "group": "Tools", "label": "Vertex menu" }
+      },
+      "keys": {
+        "Keyboard_Tab": { "group": "Tools", "label": "Mode pie menu" },
+        "Keyboard_Space": { "group": "View", "label": "Maximise area" },
+        "Keyboard_NumPlus": { "group": "Edit", "label": "Select more" },
+        "Keyboard_NumMinus": { "group": "Edit", "label": "Select less" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "s": { "group": "File", "label": "Save as" },
+        "z": { "group": "Edit", "label": "Redo" }
+      }
+    },
+
+    "Ctrl+Alt": {
+      "characters": {
+        "q": { "group": "View", "label": "Toggle quad view" },
+        "u": { "group": "System", "label": "Preferences" }
+      }
+    },
+
+    "Alt": {
+      "characters": {
+        "a": { "group": "Edit", "label": "Deselect all" },
+        "h": { "group": "Edit", "label": "Unhide all" },
+        "d": { "group": "Edit", "label": "Duplicate linked" },
+        "g": { "group": "Edit", "label": "Clear location" },
+        "r": { "group": "Edit", "label": "Clear rotation" },
+        "s": { "group": "Edit", "label": "Clear scale" },
+        "z": { "group": "View", "label": "Toggle x-ray" }
+      }
+    }
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "word",
+  "name": "Microsoft Word",
+  "kind": "app",
+
+  "match": {
+    "processes": ["winword"],
+    "priority": 10
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "n": { "group": "File", "label": "New document" },
+        "o": { "group": "File", "label": "Open document" },
+        "s": { "group": "File", "label": "Save" },
+        "p": { "group": "File", "label": "Print" },
+        "w": { "group": "File", "label": "Close document" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "y": { "group": "Edit", "label": "Redo" },
+        "x": { "group": "Edit", "label": "Cut" },
+        "c": { "group": "Edit", "label": "Copy" },
+        "v": { "group": "Edit", "label": "Paste" },
+        "a": { "group": "Edit", "label": "Select all" },
+        "f": { "group": "Search", "label": "Find" },
+        "h": { "group": "Search", "label": "Replace" },
+        "g": { "group": "Search", "label": "Go to page or bookmark" },
+        "b": { "group": "Edit", "label": "Bold" },
+        "i": { "group": "Edit", "label": "Italic" },
+        "u": { "group": "Edit", "label": "Underline" },
+        "d": { "group": "Edit", "label": "Font dialog" },
+        "k": { "group": "Edit", "label": "Insert hyperlink" },
+        "e": { "group": "Edit", "label": "Center paragraph" },
+        "l": { "group": "Edit", "label": "Align paragraph left" },
+        "r": { "group": "Edit", "label": "Align paragraph right" },
+        "j": { "group": "Edit", "label": "Justify paragraph" },
+        "m": { "group": "Edit", "label": "Increase indent" },
+        "t": { "group": "Edit", "label": "Create hanging indent" },
+        "q": { "group": "Edit", "label": "Remove paragraph formatting" },
+        "1": { "group": "Edit", "label": "Single line spacing" },
+        "2": { "group": "Edit", "label": "Double line spacing" },
+        "5": { "group": "Edit", "label": "1.5 line spacing" }
+      },
+      "keys": {
+        "Keyboard_Enter": { "group": "Edit", "label": "Insert page break" },
+        "Keyboard_Backspace": { "group": "Edit", "label": "Delete word to the left" },
+        "Keyboard_Delete": { "group": "Edit", "label": "Delete word to the right" },
+        "Keyboard_Home": { "group": "Navigation", "label": "Go to start of document" },
+        "Keyboard_End": { "group": "Navigation", "label": "Go to end of document" },
+        "Keyboard_ArrowLeft": { "group": "Navigation", "label": "Word left" },
+        "Keyboard_ArrowRight": { "group": "Navigation", "label": "Word right" },
+        "Keyboard_ArrowUp": { "group": "Navigation", "label": "Paragraph up" },
+        "Keyboard_ArrowDown": { "group": "Navigation", "label": "Paragraph down" },
+        "Keyboard_F1": { "group": "View", "label": "Collapse or expand ribbon" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "c": { "group": "Edit", "label": "Copy formatting" },
+        "v": { "group": "Edit", "label": "Paste formatting" },
+        "n": { "group": "Edit", "label": "Apply Normal style" },
+        "s": { "group": "Edit", "label": "Open Apply Styles pane" },
+        "l": { "group": "Edit", "label": "Apply bullet list style" },
+        "m": { "group": "Edit", "label": "Decrease indent" }
+      },
+      "keys": {
+        "Keyboard_Home": { "group": "Edit", "label": "Select to start of document" },
+        "Keyboard_End": { "group": "Edit", "label": "Select to end of document" },
+        "Keyboard_ArrowLeft": { "group": "Edit", "label": "Select word left" },
+        "Keyboard_ArrowRight": { "group": "Edit", "label": "Select word right" }
+      }
+    },
+
+    "Ctrl+Alt": {
+      "characters": {
+        "1": { "group": "Edit", "label": "Apply Heading 1 style" },
+        "2": { "group": "Edit", "label": "Apply Heading 2 style" },
+        "3": { "group": "Edit", "label": "Apply Heading 3 style" },
+        "m": { "group": "Edit", "label": "Insert comment" },
+        "v": { "group": "Edit", "label": "Paste special" },
+        "f": { "group": "Edit", "label": "Insert footnote" },
+        "d": { "group": "Edit", "label": "Insert endnote" },
+        "n": { "group": "View", "label": "Draft view" },
+        "p": { "group": "View", "label": "Print layout view" },
+        "o": { "group": "View", "label": "Outline view" },
+        "s": { "group": "Window", "label": "Split window" }
+      }
+    }
+  }
+}

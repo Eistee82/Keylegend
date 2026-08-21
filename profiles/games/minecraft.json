@@ -1,0 +1,47 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "minecraft",
+  "name": "Minecraft",
+  "kind": "game",
+
+  "match": {
+    "processes": ["javaw", "java", "minecraft.windows"],
+    "titleContains": ["Minecraft"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Forward" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Left" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Back" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Right" },
+
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Jump" },
+    "Keyboard_LeftShift": { "colour": "#FF8C00", "label": "Sneak" },
+    "Keyboard_LeftCtrl": { "colour": "#FF8C00", "label": "Sprint" },
+    "Keyboard_Q": { "colour": "#FF8C00", "label": "Drop item" },
+    "Keyboard_F": { "colour": "#FF8C00", "label": "Swap item to off hand" },
+
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Hotbar slot 1" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Hotbar slot 2" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Hotbar slot 3" },
+    "Keyboard_4": { "colour": "#00C8FF", "label": "Hotbar slot 4" },
+    "Keyboard_5": { "colour": "#00C8FF", "label": "Hotbar slot 5" },
+    "Keyboard_6": { "colour": "#00C8FF", "label": "Hotbar slot 6" },
+    "Keyboard_7": { "colour": "#00C8FF", "label": "Hotbar slot 7" },
+    "Keyboard_8": { "colour": "#00C8FF", "label": "Hotbar slot 8" },
+    "Keyboard_9": { "colour": "#00C8FF", "label": "Hotbar slot 9" },
+
+    "Keyboard_E": { "colour": "#B4B4B4", "label": "Open inventory" },
+    "Keyboard_T": { "colour": "#B4B4B4", "label": "Open chat" },
+    "Keyboard_Tab": { "colour": "#B4B4B4", "label": "Show player list" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Pause menu" },
+    "Keyboard_F1": { "colour": "#B4B4B4", "label": "Hide interface" },
+    "Keyboard_F2": { "colour": "#B4B4B4", "label": "Take screenshot" },
+    "Keyboard_F3": { "colour": "#B4B4B4", "label": "Debug screen" },
+    "Keyboard_F5": { "colour": "#B4B4B4", "label": "Change camera view" },
+    "Keyboard_F11": { "colour": "#B4B4B4", "label": "Toggle full screen" }
+  }
+}

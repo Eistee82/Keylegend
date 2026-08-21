@@ -1,0 +1,63 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "davinci-resolve",
+  "name": "DaVinci Resolve",
+  "kind": "app",
+
+  "match": {
+    "processes": ["resolve"],
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_A": { "colour": "#FFC800", "label": "Selection mode" },
+    "Keyboard_T": { "colour": "#FFC800", "label": "Trim edit mode" },
+    "Keyboard_B": { "colour": "#FFC800", "label": "Blade edit mode" },
+    "Keyboard_W": { "colour": "#FFC800", "label": "Dynamic trim mode" },
+
+    "Keyboard_J": { "colour": "#00C8FF", "label": "Play backwards" },
+    "Keyboard_K": { "colour": "#00C8FF", "label": "Stop" },
+    "Keyboard_L": { "colour": "#00C8FF", "label": "Play forwards" },
+    "Keyboard_Space": { "colour": "#00C8FF", "label": "Play and stop" },
+    "Keyboard_Q": { "colour": "#00C8FF", "label": "Switch source and timeline viewer" },
+
+    "Keyboard_I": { "colour": "#22CC66", "label": "Mark in" },
+    "Keyboard_O": { "colour": "#22CC66", "label": "Mark out" },
+    "Keyboard_M": { "colour": "#22CC66", "label": "Add marker" },
+    "Keyboard_D": { "colour": "#22CC66", "label": "Enable and disable clip" },
+    "Keyboard_N": { "colour": "#22CC66", "label": "Toggle snapping" },
+    "Keyboard_CommaAndLessThan": { "colour": "#22CC66", "label": "Nudge one frame left" },
+    "Keyboard_PeriodAndBiggerThan": { "colour": "#22CC66", "label": "Nudge one frame right" },
+
+    "Keyboard_F9": { "colour": "#B4B4B4", "label": "Insert clip" },
+    "Keyboard_F10": { "colour": "#B4B4B4", "label": "Overwrite clip" },
+    "Keyboard_F11": { "colour": "#B4B4B4", "label": "Replace clip" },
+    "Keyboard_F12": { "colour": "#B4B4B4", "label": "Place clip on top" }
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "n": { "group": "File", "label": "New timeline" },
+        "s": { "group": "File", "label": "Save project" },
+        "i": { "group": "File", "label": "Import media" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "x": { "group": "Edit", "label": "Cut" },
+        "c": { "group": "Edit", "label": "Copy" },
+        "v": { "group": "Edit", "label": "Paste" },
+        "a": { "group": "Edit", "label": "Select all" },
+        "b": { "group": "Edit", "label": "Split clip at playhead" },
+        "r": { "group": "Edit", "label": "Retime controls" },
+        ",": { "group": "System", "label": "Preferences" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "s": { "group": "File", "label": "Save project as" },
+        "z": { "group": "Edit", "label": "Redo" }
+      }
+    }
+  }
+}

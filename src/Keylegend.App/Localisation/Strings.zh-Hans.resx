@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    界面文本，简体中文。此处缺少的键将回退到 Strings.resx 中的英文。
+
+    语气与 docs/zh-cn 一致：就事论事，说明原因，不用宣传性措辞。技术术语和标识符保持原样。
+  -->
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <data name="TabKeyboard" xml:space="preserve">
+    <value>键盘</value>
+  </data>
+  <data name="TabColours" xml:space="preserve">
+    <value>颜色</value>
+  </data>
+  <data name="TabProfiles" xml:space="preserve">
+    <value>配置</value>
+  </data>
+  <data name="TabShortcuts" xml:space="preserve">
+    <value>快捷键</value>
+  </data>
+  <data name="TabSettings" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="StatusDeviceVerified" xml:space="preserve">
+    <value>{0} · {1} 个按键 · 映射已在硬件上验证</value>
+  </data>
+  <data name="StatusDeviceNotVerified" xml:space="preserve">
+    <value>{0} · {1} 个按键 · 映射尚未验证</value>
+  </data>
+  <data name="StatusProfileLabel" xml:space="preserve">
+    <value>配置：{0}</value>
+  </data>
+  <data name="StatusPainting" xml:space="preserve">
+    <value>正在点亮</value>
+  </data>
+  <data name="StatusIdle" xml:space="preserve">
+    <value>空闲 · Chroma Studio</value>
+  </data>
+  <data name="StatusPaused" xml:space="preserve">
+    <value>已暂停</value>
+  </data>
+  <data name="StatusActiveTooltip" xml:space="preserve">
+    <value>Keylegend 正在控制键盘灯光。</value>
+  </data>
+  <data name="StatusIdleTooltip" xml:space="preserve">
+    <value>已交还——你的 Chroma Studio 效果正在运行。按任意键即可重新接管。</value>
+  </data>
+  <data name="StatusPausedTooltip" xml:space="preserve">
+    <value>已暂停。灯光归 Chroma Studio 所有，直到你恢复为止。</value>
+  </data>
+  <data name="StatusPauseButton" xml:space="preserve">
+    <value>暂停</value>
+  </data>
+  <data name="StatusResumeButton" xml:space="preserve">
+    <value>恢复</value>
+  </data>
+  <data name="StatusFollowing" xml:space="preserve">
+    <value>正在跟随键盘。</value>
+  </data>
+  <data name="StatusShowingLayer" xml:space="preserve">
+    <value>正在显示选定的层——按“跟随我的键盘”返回。</value>
+  </data>
+  <data name="StatusColoursRestored" xml:space="preserve">
+    <value>已恢复默认颜色。</value>
+  </data>
+  <data name="StatusProfileDeleted" xml:space="preserve">
+    <value>已删除“{0}”。</value>
+  </data>
+  <data name="StatusProfileShown" xml:space="preserve">
+    <value>“{0}”已重新启用。</value>
+  </data>
+  <data name="StatusProfileHidden" xml:space="preserve">
+    <value>“{0}”已隐藏。选中它并按“显示”即可恢复。</value>
+  </data>
+  <data name="StatusSectionReset" xml:space="preserve">
+    <value>“{1}”的{0}重新跟随随附配置。</value>
+  </data>
+  <data name="StatusProfileReset" xml:space="preserve">
+    <value>“{0}”重新跟随随附配置。</value>
+  </data>
+  <data name="StatusSelectProfileFirst" xml:space="preserve">
+    <value>请先选择或添加一个配置。</value>
+  </data>
+  <data name="StatusProfileLayerCleared" xml:space="preserve">
+    <value>“{0}”不再替换 {1} 层。</value>
+  </data>
+  <data name="StatusLayerCleared" xml:space="preserve">
+    <value>已清空 {0} 层。</value>
+  </data>
+  <data name="StatusShortcutsRestored" xml:space="preserve">
+    <value>已恢复默认快捷键。</value>
+  </data>
+  <data name="StatusIdleTimeoutSet" xml:space="preserve">
+    <value>空闲超时已设为 {0} 秒。</value>
+  </data>
+  <data name="StatusHandBackOn" xml:space="preserve">
+    <value>静止 {0} 秒后交还灯光。</value>
+  </data>
+  <data name="StatusHandBackOff" xml:space="preserve">
+    <value>灯光将一直保留，直到你暂停或关闭 Keylegend。</value>
+  </data>
+  <data name="StatusIdleTimeoutInvalid" xml:space="preserve">
+    <value>空闲超时必须是正的秒数。</value>
+  </data>
+  <data name="StatusAutostartUnknownPath" xml:space="preserve">
+    <value>无法确定应用程序路径；开机启动未更改。</value>
+  </data>
+  <data name="StatusAutostartOn" xml:space="preserve">
+    <value>Keylegend 将随 Windows 启动，并最小化到通知区域。</value>
+  </data>
+  <data name="StatusAutostartOff" xml:space="preserve">
+    <value>Keylegend 将不再随 Windows 启动。</value>
+  </data>
+  <data name="StatusSaved" xml:space="preserve">
+    <value>已保存到 {0}</value>
+  </data>
+  <data name="KeyboardLayerHeading" xml:space="preserve">
+    <value>显示某一层</value>
+  </data>
+  <data name="KeyboardLayerNote" xml:space="preserve">
+    <value>在此启用某个修饰键，即可查看该层而无需按住实体键。不会向你的应用程序发送任何内容。</value>
+  </data>
+  <data name="KeyboardFollowButton" xml:space="preserve">
+    <value>跟随我的键盘</value>
+  </data>
+  <data name="KeyboardNoProfile" xml:space="preserve">
+    <value>未加载设备配置</value>
+  </data>
+  <data name="ColoursCategoriesHeading" xml:space="preserve">
+    <value>按键类别</value>
+  </data>
+  <data name="ColoursCategoriesNote" xml:space="preserve">
+    <value>按键输入什么，就决定它是什么颜色。点击色块即可更改——键盘会立即跟上。</value>
+  </data>
+  <data name="ColoursCategoryDigit" xml:space="preserve">
+    <value>数字</value>
+  </data>
+  <data name="ColoursCategoryLowercase" xml:space="preserve">
+    <value>小写字母</value>
+  </data>
+  <data name="ColoursCategoryUppercase" xml:space="preserve">
+    <value>大写字母</value>
+  </data>
+  <data name="ColoursCategorySymbol" xml:space="preserve">
+    <value>符号</value>
+  </data>
+  <data name="ColoursCategoryControl" xml:space="preserve">
+    <value>控制键</value>
+  </data>
+  <data name="ColoursCategoryDeadKey" xml:space="preserve">
+    <value>死键</value>
+  </data>
+  <data name="ColoursCategoryFunctionKey" xml:space="preserve">
+    <value>功能键</value>
+  </data>
+  <data name="ColoursExampleDigit" xml:space="preserve">
+    <value>1 7 · Num Lock 开启时的小键盘</value>
+  </data>
+  <data name="ColoursExampleLowercase" xml:space="preserve">
+    <value>a ö</value>
+  </data>
+  <data name="ColoursExampleUppercase" xml:space="preserve">
+    <value>A Ö · 配合 Shift 或 Caps Lock</value>
+  </data>
+  <data name="ColoursExampleSymbol" xml:space="preserve">
+    <value>+ # € |</value>
+  </data>
+  <data name="ColoursExampleControl" xml:space="preserve">
+    <value>Esc Tab ⏎ 方向键</value>
+  </data>
+  <data name="ColoursExampleDeadKey" xml:space="preserve">
+    <value>^ ´ ` · 需要再按一次</value>
+  </data>
+  <data name="ColoursExampleFunctionKey" xml:space="preserve">
+    <value>F1 – F12</value>
+  </data>
+  <data name="ColoursLocksHeading" xml:space="preserve">
+    <value>锁定键</value>
+  </data>
+  <data name="ColoursLocksNote" xml:space="preserve">
+    <value>每个各有两种颜色：开与关。它们始终优先于其他一切，好让状态保持可读。</value>
+  </data>
+  <data name="ColoursLockNumOn" xml:space="preserve">
+    <value>Num Lock 开启</value>
+  </data>
+  <data name="ColoursLockNumOff" xml:space="preserve">
+    <value>Num Lock 关闭</value>
+  </data>
+  <data name="ColoursLockCapsOn" xml:space="preserve">
+    <value>Caps Lock 开启</value>
+  </data>
+  <data name="ColoursLockCapsOff" xml:space="preserve">
+    <value>Caps Lock 关闭</value>
+  </data>
+  <data name="ColoursLockScrollOn" xml:space="preserve">
+    <value>Scroll Lock 开启</value>
+  </data>
+  <data name="ColoursLockScrollOff" xml:space="preserve">
+    <value>Scroll Lock 关闭</value>
+  </data>
+  <data name="ColoursGroupsHeading" xml:space="preserve">
+    <value>快捷键分组</value>
+  </data>
+  <data name="ColoursGroupsNote" xml:space="preserve">
+    <value>按住 Windows、Ctrl 或 Alt 时显示。相关命令共用一种颜色，因而成组呈现。</value>
+  </data>
+  <data name="ColoursResetButton" xml:space="preserve">
+    <value>恢复默认颜色</value>
+  </data>
+  <data name="ProfilesHeading" xml:space="preserve">
+    <value>配置</value>
+  </data>
+  <data name="ProfilesSearchHint" xml:space="preserve">
+    <value>搜索名称或程序</value>
+  </data>
+  <data name="ProfilesAddButton" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="ProfilesHideButton" xml:space="preserve">
+    <value>隐藏</value>
+  </data>
+  <data name="ProfilesShowButton" xml:space="preserve">
+    <value>显示</value>
+  </data>
+  <data name="ProfilesDeleteButton" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="ProfilesHideTooltip" xml:space="preserve">
+    <value>停用这个随附配置。它仍留在列表中，可以再次显示。</value>
+  </data>
+  <data name="ProfilesShowTooltip" xml:space="preserve">
+    <value>重新启用这个随附配置。</value>
+  </data>
+  <data name="ProfilesDeleteTooltip" xml:space="preserve">
+    <value>删除这个配置。它是你自己的，因此没有可回退的版本。</value>
+  </data>
+  <data name="ProfilesGroupApps" xml:space="preserve">
+    <value>应用程序</value>
+  </data>
+  <data name="ProfilesGroupGames" xml:space="preserve">
+    <value>游戏</value>
+  </data>
+  <data name="ProfilesOriginUser" xml:space="preserve">
+    <value>你自己的配置</value>
+  </data>
+  <data name="ProfilesOriginShipped" xml:space="preserve">
+    <value>随附</value>
+  </data>
+  <data name="ProfilesOriginShippedEdited" xml:space="preserve">
+    <value>随附 · 已修改</value>
+  </data>
+  <data name="ProfilesOriginHidden" xml:space="preserve">
+    <value>{0} · 已隐藏</value>
+  </data>
+  <data name="ProfilesNoSelection" xml:space="preserve">
+    <value>未选择配置</value>
+  </data>
+  <data name="ProfilesNewName" xml:space="preserve">
+    <value>新建配置</value>
+  </data>
+  <data name="ProfilesResetAllButton" xml:space="preserve">
+    <value>重置整个配置</value>
+  </data>
+  <data name="ProfilesResetAllTooltip" xml:space="preserve">
+    <value>把每个部分连同名称都还原为随附版本。</value>
+  </data>
+  <data name="ProfilesResetSectionTooltip" xml:space="preserve">
+    <value>把这一部分还原为随附版本。</value>
+  </data>
+  <data name="ProfilesSectionMatch" xml:space="preserve">
+    <value>匹配</value>
+  </data>
+  <data name="ProfilesSectionMatchTooltip" xml:space="preserve">
+    <value>名称、程序、游戏开关和优先级。</value>
+  </data>
+  <data name="ProfilesSectionHighlights" xml:space="preserve">
+    <value>高亮</value>
+  </data>
+  <data name="ProfilesSectionHighlightsTooltip" xml:space="preserve">
+    <value>固定为某一颜色的按键。</value>
+  </data>
+  <data name="ProfilesSectionShortcuts" xml:space="preserve">
+    <value>快捷键</value>
+  </data>
+  <data name="ProfilesSectionShortcutsTooltip" xml:space="preserve">
+    <value>这个配置所替换的修饰键层。</value>
+  </data>
+  <data name="ProfilesSectionYours" xml:space="preserve">
+    <value>你的</value>
+  </data>
+  <data name="ProfilesSectionEdited" xml:space="preserve">
+    <value>已由你修改</value>
+  </data>
+  <data name="ProfilesSectionShipped" xml:space="preserve">
+    <value>随附</value>
+  </data>
+  <data name="ProfilesNameLabel" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="ProfilesPriorityLabel" xml:space="preserve">
+    <value>优先级</value>
+  </data>
+  <data name="ProfilesPriorityTooltip" xml:space="preserve">
+    <value>多个配置同时匹配时，数值高者胜出。它只用于打破平局——指名程序本来就优先于通用游戏配置。</value>
+  </data>
+  <data name="ProfilesProgramsLabel" xml:space="preserve">
+    <value>程序</value>
+  </data>
+  <data name="ProfilesProgramsTooltip" xml:space="preserve">
+    <value>可执行文件名，不含 .exe，用逗号分隔——例如：notepad, devenv</value>
+  </data>
+  <data name="ProfilesGamesCheckbox" xml:space="preserve">
+    <value>应用于任何检测到的游戏</value>
+  </data>
+  <data name="ProfilesGamesTooltip" xml:space="preserve">
+    <value>通过 Windows 自身的全屏信号，加上对覆盖整个显示器的窗口的检查来识别，因此无边框窗口游戏同样会被认出。</value>
+  </data>
+  <data name="ProfilesHighlightModeButton" xml:space="preserve">
+    <value>高亮按键</value>
+  </data>
+  <data name="ProfilesShortcutModeButton" xml:space="preserve">
+    <value>快捷键</value>
+  </data>
+  <data name="ProfilesHighlightNote" xml:space="preserve">
+    <value>点击按键为它设置固定颜色，右键点击可清除。高亮优先于输入颜色，但绝不会盖过锁定键或修饰键层。</value>
+  </data>
+  <data name="ProfilesHighlightColourLabel" xml:space="preserve">
+    <value>所点按键的颜色</value>
+  </data>
+  <data name="ProfilesHighlightChooseButton" xml:space="preserve">
+    <value>选择…</value>
+  </data>
+  <data name="ProfilesClearHighlightsButton" xml:space="preserve">
+    <value>清除所有高亮</value>
+  </data>
+  <data name="ProfilesShortcutNote" xml:space="preserve">
+    <value>先选择一个层和一个分组，然后点击按键进行分配；右键点击可移除。只要该程序位于前台，这个配置定义的层就会取代通用层。</value>
+  </data>
+  <data name="ProfilesClearLayerButton" xml:space="preserve">
+    <value>清空这一层</value>
+  </data>
+  <data name="ProfilesHighlightCountOne" xml:space="preserve">
+    <value>已高亮 1 个按键</value>
+  </data>
+  <data name="ProfilesHighlightCount" xml:space="preserve">
+    <value>已高亮 {0} 个按键</value>
+  </data>
+  <data name="ProfilesLayerUndefined" xml:space="preserve">
+    <value>{0}：此处未定义，因此适用通用层。分配一个按键后，这个配置就会取代它。</value>
+  </data>
+  <data name="ProfilesLayerCountOne" xml:space="preserve">
+    <value>{0}：1 个按键，取代通用层。</value>
+  </data>
+  <data name="ProfilesLayerCount" xml:space="preserve">
+    <value>{0}：{1} 个按键，取代通用层。</value>
+  </data>
+  <data name="ShortcutsLayerHeading" xml:space="preserve">
+    <value>层</value>
+  </data>
+  <data name="ShortcutsLayerNote" xml:space="preserve">
+    <value>你正在编辑哪一组修饰键组合。</value>
+  </data>
+  <data name="ShortcutsAssignHeading" xml:space="preserve">
+    <value>把按键分配到分组</value>
+  </data>
+  <data name="ShortcutsAssignNote" xml:space="preserve">
+    <value>先选择一个分组，然后点击下方按键将其加入。右键点击可移除按键。相关命令共用一种颜色，这样一层读起来是成块的，而不是散落的灯点。</value>
+  </data>
+  <data name="ShortcutsClearLayerButton" xml:space="preserve">
+    <value>清空这一层</value>
+  </data>
+  <data name="ShortcutsResetButton" xml:space="preserve">
+    <value>恢复默认快捷键</value>
+  </data>
+  <data name="ShortcutsCountOne" xml:space="preserve">
+    <value>这一层已分配 1 个按键</value>
+  </data>
+  <data name="ShortcutsCount" xml:space="preserve">
+    <value>这一层已分配 {0} 个按键</value>
+  </data>
+  <data name="SettingsIdleHeading" xml:space="preserve">
+    <value>交还灯光</value>
+  </data>
+  <data name="SettingsIdleNote" xml:space="preserve">
+    <value>在这段时间内没有输入后，Keylegend 会释放键盘，让你的 Chroma Studio 效果恢复。之后重新接管需要一到两秒——超时太短会让这成为频繁的打断，所以默认是六十秒而不是十秒。</value>
+  </data>
+  <data name="SettingsIdleSeconds" xml:space="preserve">
+    <value>秒</value>
+  </data>
+  <data name="SettingsHandBackCheckbox" xml:space="preserve">
+    <value>空闲时交还灯光</value>
+  </data>
+  <data name="SettingsHandBackNote" xml:space="preserve">
+    <value>关闭后，Keylegend 会一直占用键盘，直到你暂停或关闭它，其间你的 Chroma Studio 效果将保持熄灭。</value>
+  </data>
+  <data name="SettingsBrightnessHeading" xml:space="preserve">
+    <value>亮度</value>
+  </data>
+  <data name="SettingsBehaviourHeading" xml:space="preserve">
+    <value>行为</value>
+  </data>
+  <data name="SettingsProfilesCheckbox" xml:space="preserve">
+    <value>使用应用程序配置</value>
+  </data>
+  <data name="SettingsAutostartCheckbox" xml:space="preserve">
+    <value>随 Windows 启动（最小化到通知区域）</value>
+  </data>
+  <data name="SettingsFileHeading" xml:space="preserve">
+    <value>设置文件</value>
+  </data>
+  <data name="SettingsSaveButton" xml:space="preserve">
+    <value>立即保存</value>
+  </data>
+  <data name="SettingsOpenFolderButton" xml:space="preserve">
+    <value>打开文件夹</value>
+  </data>
+  <data name="SettingsLanguageHeading" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="SettingsLanguageAutomatic" xml:space="preserve">
+    <value>跟随 Windows</value>
+  </data>
+  <data name="SettingsLanguageNote" xml:space="preserve">
+    <value>键帽上的字样不受影响：它们来自设备配置，因此始终与你面前的键盘一致，而不是与这些菜单的语言一致。</value>
+  </data>
+  <data name="TrayShow" xml:space="preserve">
+    <value>显示 Keylegend</value>
+  </data>
+  <data name="TrayPause" xml:space="preserve">
+    <value>暂停</value>
+  </data>
+  <data name="TrayResume" xml:space="preserve">
+    <value>恢复</value>
+  </data>
+  <data name="TrayQuit" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="TrayTooltipActive" xml:space="preserve">
+    <value>Keylegend — 正在点亮</value>
+  </data>
+  <data name="TrayTooltipIdle" xml:space="preserve">
+    <value>Keylegend — 空闲</value>
+  </data>
+  <data name="TrayTooltipPaused" xml:space="preserve">
+    <value>Keylegend — 已暂停</value>
+  </data>
+  <data name="TrayBalloonText" xml:space="preserve">
+    <value>仍在通知区域中运行。</value>
+  </data>
+  <data name="CommonReset" xml:space="preserve">
+    <value>重置</value>
+  </data>
+  <data name="DonatePrompt" xml:space="preserve">
+    <value>如果你喜欢 Keylegend，我会很高兴收到一点小小的捐助。</value>
+  </data>
+  <data name="DonateKofiTooltip" xml:space="preserve">
+    <value>在浏览器中打开 ko-fi.com/eistee</value>
+  </data>
+  <data name="DonateTooltip" xml:space="preserve">
+    <value>在浏览器中打开 paypal.me/eistee</value>
+  </data>
+  <data name="DonateBrowserFailed" xml:space="preserve">
+    <value>无法打开浏览器。地址是 {0}</value>
+  </data>
+</root>

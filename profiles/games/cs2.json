@@ -1,0 +1,53 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "cs2",
+  "name": "Counter-Strike 2",
+  "kind": "game",
+
+  "match": {
+    "processes": ["cs2"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Forward" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Left" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Back" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Right" },
+
+    "Keyboard_Q": { "colour": "#FF8C00", "label": "Last weapon" },
+    "Keyboard_E": { "colour": "#FF8C00", "label": "Use" },
+    "Keyboard_R": { "colour": "#FF8C00", "label": "Reload" },
+    "Keyboard_F": { "colour": "#FF8C00", "label": "Inspect weapon" },
+    "Keyboard_G": { "colour": "#FF8C00", "label": "Drop weapon" },
+    "Keyboard_B": { "colour": "#FF8C00", "label": "Buy menu" },
+    "Keyboard_X": { "colour": "#FF8C00", "label": "Healthshot" },
+    "Keyboard_LeftShift": { "colour": "#FF8C00", "label": "Walk" },
+    "Keyboard_LeftCtrl": { "colour": "#FF8C00", "label": "Duck" },
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Jump" },
+    "Keyboard_Tab": { "colour": "#FF8C00", "label": "Scoreboard" },
+
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Primary weapon" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Secondary weapon" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Knife" },
+    "Keyboard_4": { "colour": "#00C8FF", "label": "Grenades" },
+    "Keyboard_5": { "colour": "#00C8FF", "label": "Bomb" },
+    "Keyboard_6": { "colour": "#00C8FF", "label": "HE grenade" },
+    "Keyboard_7": { "colour": "#00C8FF", "label": "Flashbang" },
+    "Keyboard_8": { "colour": "#00C8FF", "label": "Smoke grenade" },
+    "Keyboard_9": { "colour": "#00C8FF", "label": "Decoy grenade" },
+    "Keyboard_0": { "colour": "#00C8FF", "label": "Molotov" },
+    "Keyboard_F3": { "colour": "#00C8FF", "label": "Autobuy" },
+    "Keyboard_F4": { "colour": "#00C8FF", "label": "Rebuy" },
+
+    "Keyboard_C": { "colour": "#C864FF", "label": "Chat wheel 1" },
+    "Keyboard_V": { "colour": "#C864FF", "label": "Chat wheel 2" },
+    "Keyboard_T": { "colour": "#C864FF", "label": "Graffiti" },
+    "Keyboard_U": { "colour": "#C864FF", "label": "Team chat" },
+
+    "Keyboard_M": { "colour": "#B4B4B4", "label": "Team menu" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Menu" }
+  }
+}

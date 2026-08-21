@@ -1,0 +1,45 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "team-fortress-2",
+  "name": "Team Fortress 2",
+  "kind": "game",
+
+  "match": {
+    "processes": ["tf_win64", "tf"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Forward" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Left" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Back" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Right" },
+
+    "Keyboard_Q": { "colour": "#FF8C00", "label": "Last weapon" },
+    "Keyboard_R": { "colour": "#FF8C00", "label": "Reload" },
+    "Keyboard_F": { "colour": "#FF8C00", "label": "Inspect" },
+    "Keyboard_G": { "colour": "#FF8C00", "label": "Taunt" },
+    "Keyboard_H": { "colour": "#FF8C00", "label": "Use action item" },
+    "Keyboard_B": { "colour": "#FF8C00", "label": "Last disguise" },
+    "Keyboard_LeftCtrl": { "colour": "#FF8C00", "label": "Duck" },
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Jump" },
+    "Keyboard_Tab": { "colour": "#FF8C00", "label": "Scoreboard" },
+
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Primary weapon" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Secondary weapon" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Melee weapon" },
+    "Keyboard_4": { "colour": "#00C8FF", "label": "Slot 4 — PDA" },
+    "Keyboard_5": { "colour": "#00C8FF", "label": "Slot 5 — PDA" },
+
+    "Keyboard_E": { "colour": "#C864FF", "label": "Call for Medic" },
+    "Keyboard_X": { "colour": "#C864FF", "label": "Voice menu 2" },
+    "Keyboard_C": { "colour": "#C864FF", "label": "Voice menu 3" },
+    "Keyboard_U": { "colour": "#C864FF", "label": "Team chat" },
+
+    "Keyboard_CommaAndLessThan": { "colour": "#B4B4B4", "label": "Change class" },
+    "Keyboard_PeriodAndBiggerThan": { "colour": "#B4B4B4", "label": "Change team" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Menu" }
+  }
+}

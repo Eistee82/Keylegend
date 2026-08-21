@@ -1,0 +1,50 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "slack",
+  "name": "Slack",
+  "kind": "app",
+
+  "match": {
+    "processes": ["slack"],
+    "priority": 10
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "k": { "group": "Search", "label": "Jump to a conversation" },
+        "t": { "group": "Search", "label": "Jump to a conversation" },
+        "g": { "group": "Search", "label": "Start a search" },
+        "j": { "group": "Navigation", "label": "Jump to most recent unread message" },
+        "n": { "group": "File", "label": "Compose a new message" },
+        "b": { "group": "Edit", "label": "Bold" },
+        "i": { "group": "Edit", "label": "Italic" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "k": { "group": "File", "label": "Compose a new message" },
+        "m": { "group": "View", "label": "Activity view" },
+        "t": { "group": "View", "label": "Threads view" },
+        "l": { "group": "View", "label": "Browse channels" },
+        "i": { "group": "View", "label": "Conversation details" },
+        "j": { "group": "File", "label": "View downloaded files" },
+        "h": { "group": "Tools", "label": "Start or join a huddle" },
+        "x": { "group": "Edit", "label": "Strikethrough" },
+        "u": { "group": "Edit", "label": "Insert hyperlink" },
+        "c": { "group": "Edit", "label": "Format as code" }
+      }
+    },
+
+    "Alt": {
+      "keys": {
+        "Keyboard_ArrowUp": { "group": "Navigation", "label": "Previous conversation in sidebar" },
+        "Keyboard_ArrowDown": { "group": "Navigation", "label": "Next conversation in sidebar" },
+        "Keyboard_ArrowLeft": { "group": "Navigation", "label": "Back in history" },
+        "Keyboard_ArrowRight": { "group": "Navigation", "label": "Forward in history" }
+      }
+    }
+  }
+}

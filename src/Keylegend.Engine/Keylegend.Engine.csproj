@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Coordinates the Windows state adapters, so it follows their target framework. -->
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Keylegend.Core\Keylegend.Core.csproj" />
+    <ProjectReference Include="..\Keylegend.Chroma\Keylegend.Chroma.csproj" />
+    <ProjectReference Include="..\Keylegend.Windows\Keylegend.Windows.csproj" />
+  </ItemGroup>
+
+</Project>

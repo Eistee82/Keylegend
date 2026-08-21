@@ -1,0 +1,39 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "rust",
+  "name": "Rust",
+  "kind": "game",
+
+  "match": {
+    "processes": ["rustclient", "rust"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Forward" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Left" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Back" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Right" },
+
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Jump" },
+    "Keyboard_LeftShift": { "colour": "#FF8C00", "label": "Sprint" },
+    "Keyboard_LeftCtrl": { "colour": "#FF8C00", "label": "Duck" },
+    "Keyboard_E": { "colour": "#FF8C00", "label": "Use and loot" },
+    "Keyboard_R": { "colour": "#FF8C00", "label": "Reload" },
+    "Keyboard_V": { "colour": "#FF8C00", "label": "Voice chat" },
+
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Belt slot 1" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Belt slot 2" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Belt slot 3" },
+    "Keyboard_4": { "colour": "#00C8FF", "label": "Belt slot 4" },
+    "Keyboard_5": { "colour": "#00C8FF", "label": "Belt slot 5" },
+    "Keyboard_6": { "colour": "#00C8FF", "label": "Belt slot 6" },
+
+    "Keyboard_Tab": { "colour": "#B4B4B4", "label": "Inventory and crafting" },
+    "Keyboard_G": { "colour": "#B4B4B4", "label": "Open map" },
+    "Keyboard_F1": { "colour": "#B4B4B4", "label": "Console" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Menu" }
+  }
+}

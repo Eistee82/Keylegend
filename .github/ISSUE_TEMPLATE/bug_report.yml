@@ -1,0 +1,56 @@
+name: Bug report
+description: Something behaves differently from what the documentation says.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before filing: if the **wrong keys light up**, that is most likely an unverified device
+        profile rather than a defect. Thirty-one of the thirty-two shipped profiles have their
+        LED mapping inferred rather than confirmed. Correcting one needs no programming and takes
+        about ten minutes — see
+        [adding-a-keyboard.md](https://github.com/Eistee82/Keylegend/blob/main/docs/en/adding-a-keyboard.md).
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: And what you expected instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: How to reproduce it
+      placeholder: |
+        1. Start Keylegend
+        2. Hold AltGr
+        3. ...
+    validations:
+      required: true
+
+  - type: input
+    id: keyboard
+    attributes:
+      label: Keyboard and layout
+      placeholder: Razer DeathStalker V2, ISO-DE
+    validations:
+      required: true
+
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Output of keylegend --dump-layout
+      description: |
+        The console program ships alongside the application. Run it from the install directory;
+        the first two lines say which profile was chosen and whether the keyboard was recognised.
+      render: text
+
+  - type: input
+    id: version
+    attributes:
+      label: Keylegend version
+      placeholder: 1.0.0
+    validations:
+      required: true

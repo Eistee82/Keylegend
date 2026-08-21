@@ -1,0 +1,75 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "notepad-plus-plus",
+  "name": "Notepad++",
+  "kind": "app",
+
+  "match": {
+    "processes": ["notepad++"],
+    "priority": 10
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "n": { "group": "File", "label": "New file" },
+        "o": { "group": "File", "label": "Open file" },
+        "s": { "group": "File", "label": "Save" },
+        "w": { "group": "Window", "label": "Close document" },
+        "p": { "group": "File", "label": "Print" },
+        "f": { "group": "Search", "label": "Find" },
+        "h": { "group": "Search", "label": "Replace" },
+        "g": { "group": "Navigation", "label": "Go to line" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "y": { "group": "Edit", "label": "Redo" },
+        "x": { "group": "Edit", "label": "Cut" },
+        "c": { "group": "Edit", "label": "Copy" },
+        "v": { "group": "Edit", "label": "Paste" },
+        "a": { "group": "Edit", "label": "Select all" },
+        "d": { "group": "Edit", "label": "Duplicate current line" },
+        "l": { "group": "Edit", "label": "Delete current line" },
+        "i": { "group": "Edit", "label": "Split lines" },
+        "j": { "group": "Edit", "label": "Join lines" },
+        "u": { "group": "Edit", "label": "Convert to lower case" },
+        "q": { "group": "Edit", "label": "Toggle single line comment" },
+        "k": { "group": "Edit", "label": "Single line comment" },
+        "b": { "group": "Navigation", "label": "Go to matching brace" }
+      },
+      "keys": {
+        "Keyboard_F2": { "group": "Navigation", "label": "Toggle bookmark" },
+        "Keyboard_Tab": { "group": "Window", "label": "Next document" },
+        "Keyboard_Delete": { "group": "Edit", "label": "Delete word right" },
+        "Keyboard_Backspace": { "group": "Edit", "label": "Delete word left" },
+        "Keyboard_Home": { "group": "Navigation", "label": "Go to start of file" },
+        "Keyboard_End": { "group": "Navigation", "label": "Go to end of file" },
+        "Keyboard_ArrowLeft": { "group": "Navigation", "label": "Word left" },
+        "Keyboard_ArrowRight": { "group": "Navigation", "label": "Word right" },
+        "Keyboard_ArrowUp": { "group": "Navigation", "label": "Scroll line up" },
+        "Keyboard_ArrowDown": { "group": "Navigation", "label": "Scroll line down" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "s": { "group": "File", "label": "Save all" },
+        "w": { "group": "Window", "label": "Close all documents" },
+        "f": { "group": "Search", "label": "Find in files" },
+        "u": { "group": "Edit", "label": "Convert to UPPER CASE" },
+        "k": { "group": "Edit", "label": "Single line uncomment" },
+        "q": { "group": "Edit", "label": "Block comment" }
+      },
+      "keys": {
+        "Keyboard_ArrowUp": { "group": "Edit", "label": "Move line up" },
+        "Keyboard_ArrowDown": { "group": "Edit", "label": "Move line down" }
+      }
+    },
+
+    "Alt": {
+      "characters": {
+        "c": { "group": "Tools", "label": "Column editor" },
+        "0": { "group": "View", "label": "Fold all" }
+      }
+    }
+  }
+}

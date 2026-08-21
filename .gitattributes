@@ -1,0 +1,13 @@
+# Normalise line endings so contributors on different systems do not fight over them.
+* text=auto eol=lf
+
+# Windows-only tooling keeps CRLF
+*.ps1   text eol=crlf
+*.cmd   text eol=crlf
+*.bat   text eol=crlf
+
+# Binary
+*.png   binary
+*.jpg   binary
+*.gif   binary
+*.ico   binary

@@ -1,0 +1,39 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "_generic",
+  "name": "Games",
+  "kind": "game",
+
+  "match": {
+    "processes": [],
+    "appliesToGames": true,
+    "priority": 0
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Forward" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Left" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Back" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Right" },
+
+    "Keyboard_Q": { "colour": "#FF8C00", "label": "Action" },
+    "Keyboard_E": { "colour": "#FF8C00", "label": "Use" },
+    "Keyboard_R": { "colour": "#FF8C00", "label": "Reload" },
+    "Keyboard_F": { "colour": "#FF8C00", "label": "Interact" },
+    "Keyboard_C": { "colour": "#FF8C00", "label": "Crouch" },
+    "Keyboard_LeftShift": { "colour": "#FF8C00", "label": "Sprint" },
+    "Keyboard_LeftCtrl": { "colour": "#FF8C00", "label": "Crouch" },
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Jump" },
+    "Keyboard_Tab": { "colour": "#FF8C00", "label": "Scoreboard" },
+
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Slot 1" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Slot 2" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Slot 3" },
+    "Keyboard_4": { "colour": "#00C8FF", "label": "Slot 4" },
+    "Keyboard_5": { "colour": "#00C8FF", "label": "Slot 5" },
+    "Keyboard_6": { "colour": "#00C8FF", "label": "Slot 6" },
+
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Menu" }
+  }
+}

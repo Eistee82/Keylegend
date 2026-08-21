@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <!-- Uses the Windows state adapters, so it follows their target framework. -->
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <!--
+      Not "keylegend": Windows file names are case-insensitive, so that would be the same file
+      as the application's Keylegend.exe. In the repository they sit in separate bin folders and
+      never meet; in a release directory the second one published silently overwrote the first,
+      and what shipped was the console tool wearing the application's name.
+    -->
+    <AssemblyName>keylegend-cli</AssemblyName>
+    <RootNamespace>Keylegend.Host</RootNamespace>
+    <InvariantGlobalization>false</InvariantGlobalization>
+    <!-- Shares the application's icon: it is the same program, seen from the command line. -->
+    <ApplicationIcon>..\Keylegend.App\keylegend.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Keylegend.Core\Keylegend.Core.csproj" />
+    <ProjectReference Include="..\Keylegend.Chroma\Keylegend.Chroma.csproj" />
+    <ProjectReference Include="..\Keylegend.Windows\Keylegend.Windows.csproj" />
+    <ProjectReference Include="..\Keylegend.Engine\Keylegend.Engine.csproj" />
+  </ItemGroup>
+
+
+  <!--
+    The device profiles, copied next to the binaries. Without this a published copy has no
+    devices folder at all: DeviceProfileLocator walks up from the executable looking for one,
+    finds nothing outside the repository, and the application refuses to start. That is invisible
+    during development, where the repository's own folder is always a few levels up, and fatal
+    everywhere else.
+
+    Application profiles need no equivalent — they are embedded resources in Keylegend.Core.
+  -->
+  <ItemGroup>
+    <Content Include="..\..\devices\**\device.json"
+             Link="devices\%(RecursiveDir)%(Filename)%(Extension)"
+             CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

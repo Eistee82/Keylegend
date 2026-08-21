@@ -1,0 +1,77 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "inkscape",
+  "name": "Inkscape",
+  "kind": "app",
+
+  "match": {
+    "processes": ["inkscape"],
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_S": { "colour": "#00C8FF", "label": "Selector" },
+    "Keyboard_N": { "colour": "#00C8FF", "label": "Node editor" },
+    "Keyboard_W": { "colour": "#00C8FF", "label": "Tweak" },
+    "Keyboard_M": { "colour": "#00C8FF", "label": "Measure" },
+
+    "Keyboard_R": { "colour": "#FFC800", "label": "Rectangle" },
+    "Keyboard_E": { "colour": "#FFC800", "label": "Ellipse" },
+
+    "Keyboard_P": { "colour": "#22CC66", "label": "Pencil" },
+    "Keyboard_B": { "colour": "#22CC66", "label": "Bezier pen" },
+    "Keyboard_C": { "colour": "#22CC66", "label": "Calligraphy" },
+    "Keyboard_T": { "colour": "#22CC66", "label": "Text" },
+
+    "Keyboard_G": { "colour": "#B4B4B4", "label": "Gradient" },
+    "Keyboard_D": { "colour": "#B4B4B4", "label": "Dropper" },
+    "Keyboard_Y": { "colour": "#B4B4B4", "label": "Zoom" }
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "n": { "group": "File", "label": "New document" },
+        "o": { "group": "File", "label": "Open file" },
+        "s": { "group": "File", "label": "Save" },
+        "i": { "group": "File", "label": "Import file" },
+        "p": { "group": "File", "label": "Print" },
+        "w": { "group": "File", "label": "Close document" },
+        "q": { "group": "File", "label": "Quit" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "y": { "group": "Edit", "label": "Redo" },
+        "x": { "group": "Edit", "label": "Cut" },
+        "c": { "group": "Edit", "label": "Copy" },
+        "v": { "group": "Edit", "label": "Paste" },
+        "a": { "group": "Edit", "label": "Select all" },
+        "d": { "group": "Edit", "label": "Duplicate object" },
+        "g": { "group": "Edit", "label": "Group objects" },
+        "k": { "group": "Edit", "label": "Combine paths" },
+        "l": { "group": "Edit", "label": "Simplify path" },
+        "f": { "group": "Search", "label": "Find" },
+        "5": { "group": "View", "label": "Fit page in window" },
+        "+": { "group": "View", "label": "Zoom in" },
+        "-": { "group": "View", "label": "Zoom out" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "s": { "group": "File", "label": "Save as" },
+        "e": { "group": "File", "label": "Export image" },
+        "g": { "group": "Edit", "label": "Ungroup objects" },
+        "c": { "group": "Edit", "label": "Convert object to path" },
+        "f": { "group": "View", "label": "Fill and stroke" },
+        "a": { "group": "View", "label": "Align and distribute" },
+        "l": { "group": "View", "label": "Layers" },
+        "o": { "group": "View", "label": "Object properties" },
+        "x": { "group": "View", "label": "XML editor" },
+        "t": { "group": "View", "label": "Text and font" },
+        "m": { "group": "View", "label": "Transform" },
+        "d": { "group": "File", "label": "Document properties" },
+        "p": { "group": "System", "label": "Preferences" }
+      }
+    }
+  }
+}

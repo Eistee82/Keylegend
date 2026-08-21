@@ -1,0 +1,60 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "telegram",
+  "name": "Telegram",
+  "kind": "app",
+
+  "match": {
+    "processes": ["telegram"],
+    "priority": 10
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "f": { "group": "Search", "label": "Search in current chat" },
+        "j": { "group": "Search", "label": "Search for a contact" },
+        "o": { "group": "File", "label": "Send file" },
+        "0": { "group": "Navigation", "label": "Go to Saved Messages" },
+        "9": { "group": "Navigation", "label": "Go to archived chats" },
+        "w": { "group": "Window", "label": "Minimize to system tray" },
+        "m": { "group": "Window", "label": "Minimize window" },
+        "l": { "group": "System", "label": "Lock Telegram" },
+        "q": { "group": "System", "label": "Quit Telegram" },
+        "b": { "group": "Edit", "label": "Bold" },
+        "i": { "group": "Edit", "label": "Italic" },
+        "u": { "group": "Edit", "label": "Underline" },
+        "k": { "group": "Edit", "label": "Create link" }
+      },
+      "keys": {
+        "Keyboard_Tab": { "group": "Navigation", "label": "Move to the chat below" },
+        "Keyboard_PageDown": { "group": "Navigation", "label": "Move to the chat below" },
+        "Keyboard_PageUp": { "group": "Navigation", "label": "Move to the chat above" },
+        "Keyboard_ArrowUp": { "group": "Edit", "label": "Reply to a message" },
+        "Keyboard_ArrowDown": { "group": "Edit", "label": "Reply to a message" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "m": { "group": "Edit", "label": "Monospace" },
+        "x": { "group": "Edit", "label": "Strikethrough" },
+        "p": { "group": "Edit", "label": "Spoiler" },
+        "n": { "group": "Edit", "label": "Remove formatting" }
+      },
+      "keys": {
+        "Keyboard_Tab": { "group": "Navigation", "label": "Move to the chat above" },
+        "Keyboard_ArrowUp": { "group": "Navigation", "label": "Move to the folder above" },
+        "Keyboard_ArrowDown": { "group": "Navigation", "label": "Move to the folder below" }
+      }
+    },
+
+    "Alt": {
+      "keys": {
+        "Keyboard_ArrowUp": { "group": "Navigation", "label": "Move to the chat above" },
+        "Keyboard_ArrowDown": { "group": "Navigation", "label": "Move to the chat below" }
+      }
+    }
+  }
+}

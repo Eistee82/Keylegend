@@ -1,0 +1,74 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "affinity-photo",
+  "name": "Affinity Photo",
+  "kind": "app",
+
+  "match": {
+    "processes": ["photo", "affinity"],
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_V": { "colour": "#00C8FF", "label": "Move" },
+    "Keyboard_M": { "colour": "#00C8FF", "label": "Marquee select" },
+    "Keyboard_L": { "colour": "#00C8FF", "label": "Freehand select" },
+    "Keyboard_W": { "colour": "#00C8FF", "label": "Selection brush" },
+    "Keyboard_C": { "colour": "#00C8FF", "label": "Crop" },
+
+    "Keyboard_B": { "colour": "#22CC66", "label": "Paint brush" },
+    "Keyboard_E": { "colour": "#22CC66", "label": "Erase brush" },
+    "Keyboard_S": { "colour": "#22CC66", "label": "Clone brush" },
+    "Keyboard_G": { "colour": "#22CC66", "label": "Gradient" },
+
+    "Keyboard_P": { "colour": "#FFC800", "label": "Pen" },
+    "Keyboard_T": { "colour": "#FFC800", "label": "Text" },
+
+    "Keyboard_Y": { "colour": "#B4B4B4", "label": "Zoom" },
+    "Keyboard_H": { "colour": "#B4B4B4", "label": "Pan view" }
+  },
+
+  "shortcuts": {
+    "Ctrl": {
+      "characters": {
+        "n": { "group": "File", "label": "New document" },
+        "o": { "group": "File", "label": "Open file" },
+        "s": { "group": "File", "label": "Save" },
+        "w": { "group": "File", "label": "Close document" },
+        "p": { "group": "File", "label": "Print" },
+        "z": { "group": "Edit", "label": "Undo" },
+        "x": { "group": "Edit", "label": "Cut" },
+        "c": { "group": "Edit", "label": "Copy" },
+        "v": { "group": "Edit", "label": "Paste" },
+        "a": { "group": "Edit", "label": "Select all" },
+        "d": { "group": "Edit", "label": "Deselect" },
+        "j": { "group": "Edit", "label": "Duplicate" },
+        "g": { "group": "Edit", "label": "Group layers" },
+        "i": { "group": "Tools", "label": "Invert colours" },
+        "l": { "group": "Tools", "label": "Levels" },
+        "m": { "group": "Tools", "label": "Curves" },
+        "0": { "group": "View", "label": "Fit to screen" },
+        "1": { "group": "View", "label": "Zoom to 100%" },
+        "+": { "group": "View", "label": "Zoom in" },
+        "-": { "group": "View", "label": "Zoom out" }
+      }
+    },
+
+    "Ctrl+Shift": {
+      "characters": {
+        "z": { "group": "Edit", "label": "Redo" },
+        "i": { "group": "Edit", "label": "Invert selection" },
+        "c": { "group": "Edit", "label": "Copy merged" },
+        "g": { "group": "Edit", "label": "Ungroup layers" }
+      }
+    },
+
+    "Ctrl+Alt": {
+      "characters": {
+        "i": { "group": "File", "label": "Resize document" },
+        "c": { "group": "File", "label": "Resize canvas" }
+      }
+    }
+  }
+}

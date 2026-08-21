@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    Textes de l'interface, français. Une clé absente ici retombe sur l'anglais de Strings.resx.
+
+    Même ton que docs/fr : factuel, explique le pourquoi, sans langage promotionnel. Les termes
+    techniques et les identifiants restent dans leur forme d'origine.
+  -->
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <data name="TabKeyboard" xml:space="preserve">
+    <value>Clavier</value>
+  </data>
+  <data name="TabColours" xml:space="preserve">
+    <value>Couleurs</value>
+  </data>
+  <data name="TabProfiles" xml:space="preserve">
+    <value>Profils</value>
+  </data>
+  <data name="TabShortcuts" xml:space="preserve">
+    <value>Raccourcis</value>
+  </data>
+  <data name="TabSettings" xml:space="preserve">
+    <value>Paramètres</value>
+  </data>
+  <data name="StatusDeviceVerified" xml:space="preserve">
+    <value>{0} · {1} touches · correspondance vérifiée sur le matériel</value>
+  </data>
+  <data name="StatusDeviceNotVerified" xml:space="preserve">
+    <value>{0} · {1} touches · correspondance pas encore vérifiée</value>
+  </data>
+  <data name="StatusProfileLabel" xml:space="preserve">
+    <value>profil : {0}</value>
+  </data>
+  <data name="StatusPainting" xml:space="preserve">
+    <value>en cours</value>
+  </data>
+  <data name="StatusIdle" xml:space="preserve">
+    <value>au repos · Chroma Studio</value>
+  </data>
+  <data name="StatusPaused" xml:space="preserve">
+    <value>en pause</value>
+  </data>
+  <data name="StatusActiveTooltip" xml:space="preserve">
+    <value>Keylegend pilote l'éclairage du clavier.</value>
+  </data>
+  <data name="StatusIdleTooltip" xml:space="preserve">
+    <value>Rendu — votre effet Chroma Studio fonctionne. Appuyez sur une touche pour reprendre la main.</value>
+  </data>
+  <data name="StatusPausedTooltip" xml:space="preserve">
+    <value>En pause. L'éclairage reste à Chroma Studio jusqu'à ce que vous repreniez.</value>
+  </data>
+  <data name="StatusPauseButton" xml:space="preserve">
+    <value>Pause</value>
+  </data>
+  <data name="StatusResumeButton" xml:space="preserve">
+    <value>Reprendre</value>
+  </data>
+  <data name="StatusFollowing" xml:space="preserve">
+    <value>Suit le clavier.</value>
+  </data>
+  <data name="StatusShowingLayer" xml:space="preserve">
+    <value>Affiche une couche choisie — appuyez sur « Suivre mon clavier » pour revenir.</value>
+  </data>
+  <data name="StatusColoursRestored" xml:space="preserve">
+    <value>Couleurs par défaut rétablies.</value>
+  </data>
+  <data name="StatusProfileDeleted" xml:space="preserve">
+    <value>« {0} » supprimé.</value>
+  </data>
+  <data name="StatusProfileShown" xml:space="preserve">
+    <value>« {0} » est de nouveau utilisé.</value>
+  </data>
+  <data name="StatusProfileHidden" xml:space="preserve">
+    <value>« {0} » est masqué. Sélectionnez-le et appuyez sur Afficher pour le rétablir.</value>
+  </data>
+  <data name="StatusSectionReset" xml:space="preserve">
+    <value>{0} de « {1} » suit de nouveau le profil fourni.</value>
+  </data>
+  <data name="StatusProfileReset" xml:space="preserve">
+    <value>« {0} » suit de nouveau le profil fourni.</value>
+  </data>
+  <data name="StatusSelectProfileFirst" xml:space="preserve">
+    <value>Sélectionnez ou ajoutez d'abord un profil.</value>
+  </data>
+  <data name="StatusProfileLayerCleared" xml:space="preserve">
+    <value>« {0} » ne remplace plus la couche {1}.</value>
+  </data>
+  <data name="StatusLayerCleared" xml:space="preserve">
+    <value>Couche {0} vidée.</value>
+  </data>
+  <data name="StatusShortcutsRestored" xml:space="preserve">
+    <value>Raccourcis par défaut rétablis.</value>
+  </data>
+  <data name="StatusIdleTimeoutSet" xml:space="preserve">
+    <value>Délai d'inactivité réglé sur {0} s.</value>
+  </data>
+  <data name="StatusHandBackOn" xml:space="preserve">
+    <value>L'éclairage est rendu après {0} s sans frappe.</value>
+  </data>
+  <data name="StatusHandBackOff" xml:space="preserve">
+    <value>L'éclairage est conservé jusqu'à ce que vous mettiez en pause ou fermiez Keylegend.</value>
+  </data>
+  <data name="StatusIdleTimeoutInvalid" xml:space="preserve">
+    <value>Le délai d'inactivité doit être un nombre de secondes positif.</value>
+  </data>
+  <data name="StatusAutostartUnknownPath" xml:space="preserve">
+    <value>Le chemin de l'application n'a pas pu être déterminé ; démarrage automatique inchangé.</value>
+  </data>
+  <data name="StatusAutostartOn" xml:space="preserve">
+    <value>Keylegend démarrera avec Windows, réduit dans la zone de notification.</value>
+  </data>
+  <data name="StatusAutostartOff" xml:space="preserve">
+    <value>Keylegend ne démarrera plus avec Windows.</value>
+  </data>
+  <data name="StatusSaved" xml:space="preserve">
+    <value>Enregistré dans {0}</value>
+  </data>
+  <data name="KeyboardLayerHeading" xml:space="preserve">
+    <value>Afficher une couche</value>
+  </data>
+  <data name="KeyboardLayerNote" xml:space="preserve">
+    <value>Activez ici un modificateur pour examiner sa couche sans maintenir la touche. Rien n'est envoyé à vos applications.</value>
+  </data>
+  <data name="KeyboardFollowButton" xml:space="preserve">
+    <value>Suivre mon clavier</value>
+  </data>
+  <data name="KeyboardNoProfile" xml:space="preserve">
+    <value>Aucun profil de périphérique chargé</value>
+  </data>
+  <data name="ColoursCategoriesHeading" xml:space="preserve">
+    <value>Catégories de touches</value>
+  </data>
+  <data name="ColoursCategoriesNote" xml:space="preserve">
+    <value>Ce qu'une touche produit décide de sa couleur. Cliquez sur un échantillon pour la changer — le clavier suit immédiatement.</value>
+  </data>
+  <data name="ColoursCategoryDigit" xml:space="preserve">
+    <value>Chiffres</value>
+  </data>
+  <data name="ColoursCategoryLowercase" xml:space="preserve">
+    <value>Lettres minuscules</value>
+  </data>
+  <data name="ColoursCategoryUppercase" xml:space="preserve">
+    <value>Lettres majuscules</value>
+  </data>
+  <data name="ColoursCategorySymbol" xml:space="preserve">
+    <value>Symboles</value>
+  </data>
+  <data name="ColoursCategoryControl" xml:space="preserve">
+    <value>Touches de commande</value>
+  </data>
+  <data name="ColoursCategoryDeadKey" xml:space="preserve">
+    <value>Touches mortes</value>
+  </data>
+  <data name="ColoursCategoryFunctionKey" xml:space="preserve">
+    <value>Touches de fonction</value>
+  </data>
+  <data name="ColoursExampleDigit" xml:space="preserve">
+    <value>1 7 · pavé numérique avec Verr Num activé</value>
+  </data>
+  <data name="ColoursExampleLowercase" xml:space="preserve">
+    <value>a é</value>
+  </data>
+  <data name="ColoursExampleUppercase" xml:space="preserve">
+    <value>A É · avec Maj ou Verr Maj</value>
+  </data>
+  <data name="ColoursExampleSymbol" xml:space="preserve">
+    <value>+ # € |</value>
+  </data>
+  <data name="ColoursExampleControl" xml:space="preserve">
+    <value>Échap Tab ⏎ flèches</value>
+  </data>
+  <data name="ColoursExampleDeadKey" xml:space="preserve">
+    <value>^ ´ ` · demandent une seconde frappe</value>
+  </data>
+  <data name="ColoursExampleFunctionKey" xml:space="preserve">
+    <value>F1 – F12</value>
+  </data>
+  <data name="ColoursLocksHeading" xml:space="preserve">
+    <value>Touches de verrouillage</value>
+  </data>
+  <data name="ColoursLocksNote" xml:space="preserve">
+    <value>Deux couleurs chacune : activée et désactivée. Elles l'emportent toujours sur le reste, pour que l'état reste lisible.</value>
+  </data>
+  <data name="ColoursLockNumOn" xml:space="preserve">
+    <value>Verr Num activé</value>
+  </data>
+  <data name="ColoursLockNumOff" xml:space="preserve">
+    <value>Verr Num désactivé</value>
+  </data>
+  <data name="ColoursLockCapsOn" xml:space="preserve">
+    <value>Verr Maj activé</value>
+  </data>
+  <data name="ColoursLockCapsOff" xml:space="preserve">
+    <value>Verr Maj désactivé</value>
+  </data>
+  <data name="ColoursLockScrollOn" xml:space="preserve">
+    <value>Arrêt Défil activé</value>
+  </data>
+  <data name="ColoursLockScrollOff" xml:space="preserve">
+    <value>Arrêt Défil désactivé</value>
+  </data>
+  <data name="ColoursGroupsHeading" xml:space="preserve">
+    <value>Groupes de raccourcis</value>
+  </data>
+  <data name="ColoursGroupsNote" xml:space="preserve">
+    <value>Affichés quand Windows, Ctrl ou Alt est maintenu. Les commandes apparentées partagent une couleur et se lisent comme un bloc.</value>
+  </data>
+  <data name="ColoursResetButton" xml:space="preserve">
+    <value>Rétablir les couleurs par défaut</value>
+  </data>
+  <data name="ProfilesHeading" xml:space="preserve">
+    <value>Profils</value>
+  </data>
+  <data name="ProfilesSearchHint" xml:space="preserve">
+    <value>Chercher un nom ou un programme</value>
+  </data>
+  <data name="ProfilesAddButton" xml:space="preserve">
+    <value>Ajouter</value>
+  </data>
+  <data name="ProfilesHideButton" xml:space="preserve">
+    <value>Masquer</value>
+  </data>
+  <data name="ProfilesShowButton" xml:space="preserve">
+    <value>Afficher</value>
+  </data>
+  <data name="ProfilesDeleteButton" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="ProfilesHideTooltip" xml:space="preserve">
+    <value>Cesser d'utiliser ce profil fourni. Il reste dans la liste et peut être réaffiché.</value>
+  </data>
+  <data name="ProfilesShowTooltip" xml:space="preserve">
+    <value>Remettre ce profil fourni en service.</value>
+  </data>
+  <data name="ProfilesDeleteTooltip" xml:space="preserve">
+    <value>Supprimer ce profil. Il est à vous, il n'y a donc rien sur quoi retomber.</value>
+  </data>
+  <data name="ProfilesGroupApps" xml:space="preserve">
+    <value>Applications</value>
+  </data>
+  <data name="ProfilesGroupGames" xml:space="preserve">
+    <value>Jeux</value>
+  </data>
+  <data name="ProfilesOriginUser" xml:space="preserve">
+    <value>votre propre profil</value>
+  </data>
+  <data name="ProfilesOriginShipped" xml:space="preserve">
+    <value>fourni</value>
+  </data>
+  <data name="ProfilesOriginShippedEdited" xml:space="preserve">
+    <value>fourni · modifié</value>
+  </data>
+  <data name="ProfilesOriginHidden" xml:space="preserve">
+    <value>{0} · masqué</value>
+  </data>
+  <data name="ProfilesNoSelection" xml:space="preserve">
+    <value>Aucun profil sélectionné</value>
+  </data>
+  <data name="ProfilesNewName" xml:space="preserve">
+    <value>Nouveau profil</value>
+  </data>
+  <data name="ProfilesResetAllButton" xml:space="preserve">
+    <value>Réinitialiser tout le profil</value>
+  </data>
+  <data name="ProfilesResetAllTooltip" xml:space="preserve">
+    <value>Rendre chaque section, et le nom, à la version fournie.</value>
+  </data>
+  <data name="ProfilesResetSectionTooltip" xml:space="preserve">
+    <value>Rendre cette section à la version fournie.</value>
+  </data>
+  <data name="ProfilesSectionMatch" xml:space="preserve">
+    <value>Correspondance</value>
+  </data>
+  <data name="ProfilesSectionMatchTooltip" xml:space="preserve">
+    <value>Le nom, les programmes, l'option jeu et la priorité.</value>
+  </data>
+  <data name="ProfilesSectionHighlights" xml:space="preserve">
+    <value>Mises en évidence</value>
+  </data>
+  <data name="ProfilesSectionHighlightsTooltip" xml:space="preserve">
+    <value>Les touches fixées à une couleur.</value>
+  </data>
+  <data name="ProfilesSectionShortcuts" xml:space="preserve">
+    <value>Raccourcis</value>
+  </data>
+  <data name="ProfilesSectionShortcutsTooltip" xml:space="preserve">
+    <value>Les couches de modificateurs que ce profil remplace.</value>
+  </data>
+  <data name="ProfilesSectionYours" xml:space="preserve">
+    <value>à vous</value>
+  </data>
+  <data name="ProfilesSectionEdited" xml:space="preserve">
+    <value>modifié par vous</value>
+  </data>
+  <data name="ProfilesSectionShipped" xml:space="preserve">
+    <value>fourni</value>
+  </data>
+  <data name="ProfilesNameLabel" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="ProfilesPriorityLabel" xml:space="preserve">
+    <value>Priorité</value>
+  </data>
+  <data name="ProfilesPriorityTooltip" xml:space="preserve">
+    <value>La valeur la plus haute l'emporte quand plusieurs profils correspondent. Ne départage que les égalités — nommer le programme prime déjà sur le profil de jeu général.</value>
+  </data>
+  <data name="ProfilesProgramsLabel" xml:space="preserve">
+    <value>Programmes</value>
+  </data>
+  <data name="ProfilesProgramsTooltip" xml:space="preserve">
+    <value>Noms des exécutables sans .exe, séparés par des virgules — par exemple : notepad, devenv</value>
+  </data>
+  <data name="ProfilesGamesCheckbox" xml:space="preserve">
+    <value>Appliquer à tout jeu détecté</value>
+  </data>
+  <data name="ProfilesGamesTooltip" xml:space="preserve">
+    <value>Détecté par le signal plein écran de Windows lui-même, complété par une vérification des fenêtres couvrant un écran entier, ce qui attrape aussi les jeux en fenêtre sans bordure.</value>
+  </data>
+  <data name="ProfilesHighlightModeButton" xml:space="preserve">
+    <value>Touches mises en évidence</value>
+  </data>
+  <data name="ProfilesShortcutModeButton" xml:space="preserve">
+    <value>Raccourcis</value>
+  </data>
+  <data name="ProfilesHighlightNote" xml:space="preserve">
+    <value>Cliquez sur une touche pour lui donner une couleur fixe, clic droit pour l'effacer. Les mises en évidence priment sur les couleurs de frappe, mais jamais sur les touches de verrouillage ni sur une couche de modificateur.</value>
+  </data>
+  <data name="ProfilesHighlightColourLabel" xml:space="preserve">
+    <value>Couleur des touches cliquées</value>
+  </data>
+  <data name="ProfilesHighlightChooseButton" xml:space="preserve">
+    <value>Choisir…</value>
+  </data>
+  <data name="ProfilesClearHighlightsButton" xml:space="preserve">
+    <value>Effacer toutes les mises en évidence</value>
+  </data>
+  <data name="ProfilesShortcutNote" xml:space="preserve">
+    <value>Choisissez une couche et un groupe, puis cliquez sur les touches pour les affecter ; le clic droit en retire une. Une couche définie par ce profil remplace la couche générale tant que le programme est au premier plan.</value>
+  </data>
+  <data name="ProfilesClearLayerButton" xml:space="preserve">
+    <value>Vider cette couche</value>
+  </data>
+  <data name="ProfilesHighlightCountOne" xml:space="preserve">
+    <value>1 touche mise en évidence</value>
+  </data>
+  <data name="ProfilesHighlightCount" xml:space="preserve">
+    <value>{0} touches mises en évidence</value>
+  </data>
+  <data name="ProfilesLayerUndefined" xml:space="preserve">
+    <value>{0} : non définie ici, la couche générale s'applique donc. Affecter une touche fait que ce profil la remplace.</value>
+  </data>
+  <data name="ProfilesLayerCountOne" xml:space="preserve">
+    <value>{0} : 1 touche, remplace la couche générale.</value>
+  </data>
+  <data name="ProfilesLayerCount" xml:space="preserve">
+    <value>{0} : {1} touches, remplacent la couche générale.</value>
+  </data>
+  <data name="ShortcutsLayerHeading" xml:space="preserve">
+    <value>Couche</value>
+  </data>
+  <data name="ShortcutsLayerNote" xml:space="preserve">
+    <value>La combinaison de modificateurs que vous modifiez.</value>
+  </data>
+  <data name="ShortcutsAssignHeading" xml:space="preserve">
+    <value>Affecter des touches à un groupe</value>
+  </data>
+  <data name="ShortcutsAssignNote" xml:space="preserve">
+    <value>Choisissez un groupe, puis cliquez sur les touches ci-dessous pour les ajouter. Le clic droit retire une touche. Les commandes apparentées partagent une couleur : une couche se lit alors en blocs plutôt qu'en lumières éparses.</value>
+  </data>
+  <data name="ShortcutsClearLayerButton" xml:space="preserve">
+    <value>Vider cette couche</value>
+  </data>
+  <data name="ShortcutsResetButton" xml:space="preserve">
+    <value>Rétablir les raccourcis par défaut</value>
+  </data>
+  <data name="ShortcutsCountOne" xml:space="preserve">
+    <value>1 touche affectée sur cette couche</value>
+  </data>
+  <data name="ShortcutsCount" xml:space="preserve">
+    <value>{0} touches affectées sur cette couche</value>
+  </data>
+  <data name="SettingsIdleHeading" xml:space="preserve">
+    <value>Rendre l'éclairage</value>
+  </data>
+  <data name="SettingsIdleNote" xml:space="preserve">
+    <value>Après ce temps sans frappe, Keylegend libère le clavier pour que votre effet Chroma Studio reprenne. Le reprendre ensuite demande une à deux secondes — un délai court en fait une interruption fréquente, et c'est pourquoi la valeur par défaut est de soixante secondes plutôt que dix.</value>
+  </data>
+  <data name="SettingsIdleSeconds" xml:space="preserve">
+    <value>secondes</value>
+  </data>
+  <data name="SettingsHandBackCheckbox" xml:space="preserve">
+    <value>Rendre l'éclairage en cas d'inactivité</value>
+  </data>
+  <data name="SettingsHandBackNote" xml:space="preserve">
+    <value>Désactivé, Keylegend garde le clavier jusqu'à ce que vous le mettiez en pause ou le fermiez, et votre effet Chroma Studio reste éteint entre-temps.</value>
+  </data>
+  <data name="SettingsBrightnessHeading" xml:space="preserve">
+    <value>Luminosité</value>
+  </data>
+  <data name="SettingsBehaviourHeading" xml:space="preserve">
+    <value>Comportement</value>
+  </data>
+  <data name="SettingsProfilesCheckbox" xml:space="preserve">
+    <value>Utiliser les profils d'application</value>
+  </data>
+  <data name="SettingsAutostartCheckbox" xml:space="preserve">
+    <value>Démarrer avec Windows (réduit dans la zone de notification)</value>
+  </data>
+  <data name="SettingsFileHeading" xml:space="preserve">
+    <value>Fichier de paramètres</value>
+  </data>
+  <data name="SettingsSaveButton" xml:space="preserve">
+    <value>Enregistrer</value>
+  </data>
+  <data name="SettingsOpenFolderButton" xml:space="preserve">
+    <value>Ouvrir le dossier</value>
+  </data>
+  <data name="SettingsLanguageHeading" xml:space="preserve">
+    <value>Langue</value>
+  </data>
+  <data name="SettingsLanguageAutomatic" xml:space="preserve">
+    <value>Suivre Windows</value>
+  </data>
+  <data name="SettingsLanguageNote" xml:space="preserve">
+    <value>Les légendes des touches ne sont pas concernées : elles viennent du profil de périphérique et correspondent donc toujours au clavier devant vous, pas à la langue de ces menus.</value>
+  </data>
+  <data name="TrayShow" xml:space="preserve">
+    <value>Afficher Keylegend</value>
+  </data>
+  <data name="TrayPause" xml:space="preserve">
+    <value>Pause</value>
+  </data>
+  <data name="TrayResume" xml:space="preserve">
+    <value>Reprendre</value>
+  </data>
+  <data name="TrayQuit" xml:space="preserve">
+    <value>Quitter</value>
+  </data>
+  <data name="TrayTooltipActive" xml:space="preserve">
+    <value>Keylegend — en cours</value>
+  </data>
+  <data name="TrayTooltipIdle" xml:space="preserve">
+    <value>Keylegend — au repos</value>
+  </data>
+  <data name="TrayTooltipPaused" xml:space="preserve">
+    <value>Keylegend — en pause</value>
+  </data>
+  <data name="TrayBalloonText" xml:space="preserve">
+    <value>Toujours actif dans la zone de notification.</value>
+  </data>
+  <data name="CommonReset" xml:space="preserve">
+    <value>Réinitialiser</value>
+  </data>
+  <data name="DonatePrompt" xml:space="preserve">
+    <value>Si Keylegend vous plaît, un petit don me ferait plaisir.</value>
+  </data>
+  <data name="DonateKofiTooltip" xml:space="preserve">
+    <value>Ouvre ko-fi.com/eistee dans votre navigateur</value>
+  </data>
+  <data name="DonateTooltip" xml:space="preserve">
+    <value>Ouvre paypal.me/eistee dans votre navigateur</value>
+  </data>
+  <data name="DonateBrowserFailed" xml:space="preserve">
+    <value>Impossible d'ouvrir un navigateur. L'adresse est {0}</value>
+  </data>
+</root>

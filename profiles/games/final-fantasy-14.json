@@ -1,0 +1,57 @@
+{
+  "$schema": "../schema.json",
+  "formatVersion": 1,
+  "id": "final-fantasy-14",
+  "name": "Final Fantasy XIV",
+  "kind": "game",
+
+  "match": {
+    "processes": ["ffxiv_dx11", "ffxiv"],
+    "appliesToGames": false,
+    "priority": 10
+  },
+
+  "highlights": {
+    "Keyboard_W": { "colour": "#FF0000", "label": "Move forward" },
+    "Keyboard_S": { "colour": "#FF0000", "label": "Move backward" },
+    "Keyboard_A": { "colour": "#FF0000", "label": "Turn left" },
+    "Keyboard_D": { "colour": "#FF0000", "label": "Turn right" },
+    "Keyboard_Q": { "colour": "#FF0000", "label": "Strafe left" },
+    "Keyboard_E": { "colour": "#FF0000", "label": "Strafe right" },
+
+    "Keyboard_Space": { "colour": "#FF8C00", "label": "Jump" },
+    "Keyboard_R": { "colour": "#FF8C00", "label": "Auto-run" },
+    "Keyboard_F": { "colour": "#FF8C00", "label": "Face target" },
+    "Keyboard_Tab": { "colour": "#FF8C00", "label": "Cycle enemies" },
+    "Keyboard_F1": { "colour": "#FF8C00", "label": "Target self" },
+    "Keyboard_F2": { "colour": "#FF8C00", "label": "Target party member 1" },
+    "Keyboard_F3": { "colour": "#FF8C00", "label": "Target party member 2" },
+    "Keyboard_F4": { "colour": "#FF8C00", "label": "Target party member 3" },
+    "Keyboard_F5": { "colour": "#FF8C00", "label": "Target party member 4" },
+    "Keyboard_F6": { "colour": "#FF8C00", "label": "Target party member 5" },
+    "Keyboard_F7": { "colour": "#FF8C00", "label": "Target party member 6" },
+    "Keyboard_F8": { "colour": "#FF8C00", "label": "Target party member 7" },
+
+    "Keyboard_1": { "colour": "#00C8FF", "label": "Hotbar slot 1" },
+    "Keyboard_2": { "colour": "#00C8FF", "label": "Hotbar slot 2" },
+    "Keyboard_3": { "colour": "#00C8FF", "label": "Hotbar slot 3" },
+    "Keyboard_4": { "colour": "#00C8FF", "label": "Hotbar slot 4" },
+    "Keyboard_5": { "colour": "#00C8FF", "label": "Hotbar slot 5" },
+    "Keyboard_6": { "colour": "#00C8FF", "label": "Hotbar slot 6" },
+    "Keyboard_7": { "colour": "#00C8FF", "label": "Hotbar slot 7" },
+    "Keyboard_8": { "colour": "#00C8FF", "label": "Hotbar slot 8" },
+    "Keyboard_9": { "colour": "#00C8FF", "label": "Hotbar slot 9" },
+    "Keyboard_0": { "colour": "#00C8FF", "label": "Hotbar slot 10" },
+    "Keyboard_MinusAndUnderscore": { "colour": "#00C8FF", "label": "Hotbar slot 11" },
+    "Keyboard_EqualsAndPlus": { "colour": "#00C8FF", "label": "Hotbar slot 12" },
+
+    "Keyboard_C": { "colour": "#B4B4B4", "label": "Character sheet" },
+    "Keyboard_I": { "colour": "#B4B4B4", "label": "Inventory" },
+    "Keyboard_P": { "colour": "#B4B4B4", "label": "Actions and traits" },
+    "Keyboard_M": { "colour": "#B4B4B4", "label": "Map" },
+    "Keyboard_J": { "colour": "#B4B4B4", "label": "Journal" },
+    "Keyboard_U": { "colour": "#B4B4B4", "label": "Duty finder" },
+    "Keyboard_Enter": { "colour": "#B4B4B4", "label": "Chat" },
+    "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Close window or menu" }
+  }
+}
