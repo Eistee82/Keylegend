@@ -68,8 +68,31 @@ jobs:
             out/SHA256SUMS.txt
           if-no-files-found: error
 
+      # A tag can be moved, and moving one that has already shipped would replace the artefacts
+      # people have downloaded — with different bytes, invalidating every checksum published
+      # alongside them, including the one in the winget manifest. Worse, the step below would set
+      # a published release back to draft and break its download links. So a release that is
+      # already out is left alone, loudly.
+      - name: Refuse to overwrite a published release
+        id: existing
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $tag = '${{ github.ref_name }}'
+          $draft = gh release view $tag --json isDraft --jq '.isDraft' 2>$null
+
+          if ($LASTEXITCODE -eq 0 -and $draft -eq 'false') {
+            Write-Host "::warning::$tag is already published. Leaving it untouched."
+            Write-Host "To replace it, delete the release first, or tag a new version."
+            "skip=true" >> $env:GITHUB_OUTPUT
+          }
+          else {
+            "skip=false" >> $env:GITHUB_OUTPUT
+          }
+
       - name: Publish the release
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: startsWith(github.ref, 'refs/tags/v') && steps.existing.outputs.skip != 'true' 
         uses: softprops/action-gh-release@v2
         with:
           name: Keylegend ${{ steps.version.outputs.version }}
