@@ -53,8 +53,23 @@ public sealed class FrameComposer
         var effectiveShortcuts = profile?.ApplyShortcuts(shortcuts) ?? shortcuts;
 
         // Only looked up once per frame rather than per key.
-        effectiveShortcuts.TryGetSet(state, out var shortcutSet);
-        var filtering = state.HasFilteringModifier;
+        var hasSet = effectiveShortcuts.TryGetSet(state, out var shortcutSet);
+
+        // Whether to show only the keys that carry a command. Two ways to get there, and the
+        // second is what lets a program define its own layers.
+        //
+        // Ctrl, Alt, Win and AltGr filter whether or not anything is assigned under them: holding
+        // Ctrl with nothing bound is a dark keyboard, which is the honest answer. Shift does not,
+        // because Shift normally changes which character a key types — a keyboard that went dark
+        // on Shift would lose the uppercase display for nothing.
+        //
+        // But Shift is only "not a modifier" for text. For functions it plainly is one, and games
+        // use it that way — sprint, walk, secondary fire — as they use the bare keys, where WASD
+        // means direction rather than letters. So a layer that somebody has actually defined
+        // filters too. Nothing changes by default, because no shipped layer is keyed on Shift or
+        // on no modifier at all; an application profile that defines one turns it into a function
+        // layer for as long as that program is in front.
+        var filtering = state.HasFilteringModifier || hasSet;
 
         foreach (var key in _profile.Keys)
         {

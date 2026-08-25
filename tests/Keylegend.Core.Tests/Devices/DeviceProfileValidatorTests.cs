@@ -9,15 +9,10 @@ public class DeviceProfileValidatorTests
 
     private static DeviceProfile ProfileWith(params KeyDefinition[] keys)
         => new(
-            FormatVersion: 1,
             Name: "Test keyboard",
-            Vendor: "Test",
-            Model: "T1",
             PhysicalLayout: "ISO-DE",
-            Image: "device.png",
             Canvas: new Canvas(500, 200),
             Matrix: new MatrixSize(6, 22),
-            Verified: false,
             Keys: keys);
 
     [Fact]
@@ -113,9 +108,11 @@ public class DeviceProfileValidatorTests
     }
 
     [Fact]
-    public void AllowsKeysWithoutAMappingYet()
+    public void AllowsAKeyTheMatrixTableDoesNotKnow()
     {
-        // Calibration has not happened yet - that is a legitimate intermediate state.
+        // A drawing can show a key the protocol's table has no cell for — a vendor key, say. That
+        // is not a broken profile: the frame composer skips such a key, and the interface draws it
+        // unlit. Rejecting it here would refuse the whole keyboard over one key that cannot light.
         var profile = ProfileWith(Key("Keyboard_A", row: null, column: null));
 
         Assert.Empty(DeviceProfileValidator.Validate(profile));
@@ -131,11 +128,4 @@ public class DeviceProfileValidatorTests
             p => p.Contains("outside the canvas"));
     }
 
-    [Fact]
-    public void RejectsAnUnsupportedFormatVersion()
-    {
-        var profile = ProfileWith(Key("Keyboard_A")) with { FormatVersion = 99 };
-
-        Assert.Contains(DeviceProfileValidator.Validate(profile), p => p.Contains("formatVersion"));
-    }
 }

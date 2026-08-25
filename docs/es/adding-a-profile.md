@@ -33,11 +33,11 @@ Lo que sigue es la parte que sale mal incluso cuando se ha leído el formato.
 
 ## 3. Posiciones y caracteres no son lo mismo
 
-Los identificadores de tecla vienen del perfil de dispositivo y nombran **posiciones americanas**.
-`Keyboard_Y` es la tecla física que escribe `Y` en un teclado americano; en uno alemán, esa tecla
-escribe `Z`. El formato ofrece por tanto dos maneras de nombrar una tecla, y elegir la equivocada
-produce un perfil visiblemente erróneo en cualquier distribución no americana mientras parece
-perfecto en la máquina donde se escribió.
+Los identificadores de tecla vienen de la tabla del protocolo de iluminación y nombran **posiciones
+americanas**. `Keyboard_Y` es la tecla física que escribe `Y` en un teclado americano; en uno
+alemán, esa tecla escribe `Z`. El formato ofrece por tanto dos maneras de nombrar una tecla, y
+elegir la equivocada produce un perfil visiblemente erróneo en cualquier distribución no americana
+mientras parece perfecto en la máquina donde se escribió.
 
 La pregunta que hay que hacerse en cada entrada es de qué trata realmente:
 
@@ -93,11 +93,10 @@ dotnet test
 
 Los tests de perfiles comprueban cada archivo bajo `profiles/`: el identificador es único y
 coincide con el nombre del archivo, `kind` coincide con la carpeta, cada identificador de tecla
-existe en un perfil de dispositivo incluido, los colores se interpretan, los grupos y las
-combinaciones de modificadores son válidos y están escritos en forma canónica, cada atajo lleva
-etiqueta, ninguna tecla de letra está bajo `shortcuts.keys` (su sitio es `characters`), ningún
-perfil está vacío, y no hay dos perfiles que reclamen un mismo ejecutable sin distinguirse
-mediante `titleContains`.
+existe en la tabla de matriz, los colores se interpretan, los grupos y las combinaciones de
+modificadores son válidos y están escritos en forma canónica, cada atajo lleva etiqueta, ninguna
+tecla de letra está bajo `shortcuts.keys` (su sitio es `characters`), ningún perfil está vacío, y
+no hay dos perfiles que reclamen un mismo ejecutable sin distinguirse mediante `titleContains`.
 
 Una cosa **no** se comprueba deliberadamente: la misma etiqueta apareciendo dos veces bajo un
 mismo modificador. Parecía una manera de detectar descuidos de copiar y pegar, y detectaba en

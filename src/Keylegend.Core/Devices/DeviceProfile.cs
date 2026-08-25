@@ -66,69 +66,84 @@ public sealed record Canvas(double Width, double Height);
 public sealed record MatrixSize(int Rows, int Columns);
 
 /// <summary>
-/// The USB identity of a keyboard, as four hex digits each — <c>1532</c> and <c>0295</c> for the
-/// Razer DeathStalker V2.
+/// The outlines of the legends printed on a keyboard, as one shape for the whole board.
 /// </summary>
+/// <param name="Path">
+/// The outline itself, in SVG path syntax, in the coordinates of the drawing it came from.
+/// </param>
+/// <param name="ScaleX">Multiply a drawing x by this to reach a profile x.</param>
+/// <param name="ScaleY">Multiply a drawing y by this to reach a profile y.</param>
+/// <param name="OffsetX">Then add this.</param>
+/// <param name="OffsetY">Then add this.</param>
+/// <param name="DrawnKeys">
+/// Where the drawing puts each key, by our key id, in the drawing's own coordinates. This is what
+/// lets a legend be placed on the key it belongs to rather than merely near it: the two sides do
+/// not agree on where a block of keys sits — the navigation block is the worst of them — so a
+/// single mapping for the whole board leaves a legend sitting over its neighbour. With this, each
+/// legend is nudged onto the centre of its own key.
+/// </param>
 /// <remarks>
-/// This is what makes recognition possible rather than guesswork: Windows reports the same pair
-/// for the hardware that is plugged in, so a profile carrying it can be matched to the keyboard
-/// on the desk instead of being picked by name order. Find yours with
-/// <c>Get-PnpDevice -Class Keyboard</c>; the instance id reads <c>HID\VID_1532&amp;PID_0295\…</c>.
 /// <para>
-/// A vendor uses one product id across layouts, so a match narrows the choice to a model, not to
-/// a layout. Which ISO or ANSI variant of that model is meant is decided afterwards, from the
-/// keyboard layout Windows is running.
+/// One shape rather than one per key, because that is how the drawing gives it: a single path
+/// holding every character on the board. There is no per-key division in it to recover, and none
+/// is needed — the path already sits at the right places in the drawing's own coordinates, so the
+/// same mapping that carries the key geometry across carries the legends with it. That mapping is
+/// the four numbers here, so that whoever draws this needs nothing but the profile.
+/// </para>
+/// <para>
+/// This is never written to a file. It is read from the vendor's own installation at runtime and
+/// held for as long as the program runs, which is what keeps it clear of the MIT licence: nothing
+/// is copied into this repository. It follows that a profile on disk never has one, and that
+/// everything downstream must work without it.
 /// </para>
 /// </remarks>
-public sealed record UsbId(string VendorId, string ProductId)
+public sealed record LegendDrawing(
+    string Path,
+    double ScaleX,
+    double ScaleY,
+    double OffsetX,
+    double OffsetY,
+    IReadOnlyDictionary<string, KeyArea>? DrawnKeys = null,
+    IReadOnlyList<ChassisShape>? Chassis = null);
+
+/// <summary>How prominent a shape of the casing is.</summary>
+public enum ChassisLayer
 {
-    /// <summary>Whether two ids name the same hardware, ignoring case and leading zeroes.</summary>
-    public bool Matches(UsbId other)
-    {
-        ArgumentNullException.ThrowIfNull(other);
+    /// <summary>The body of the case.</summary>
+    Body,
 
-        return Same(VendorId, other.VendorId) && Same(ProductId, other.ProductId);
-    }
+    /// <summary>A raised detail — a dial, a media strip, a wordmark.</summary>
+    Raised,
 
-    private static bool Same(string first, string second)
-        => string.Equals(
-            first?.TrimStart('0'),
-            second?.TrimStart('0'),
-            StringComparison.OrdinalIgnoreCase);
+    /// <summary>A recessed or shaded detail.</summary>
+    Recessed
 }
 
 /// <summary>
-/// Describes one keyboard model in one physical layout. Device support is data, not code:
-/// adding a keyboard means adding one of these, never changing the program.
+/// One shape of the keyboard's casing, in the same coordinates as the legend outline.
 /// </summary>
 /// <remarks>
-/// <see cref="Image"/> is optional and currently unused: the on-screen preview is drawn from
-/// the geometry below, which stays sharp at any size and cannot disagree with the profile.
-/// Only attach a picture you took or made yourself — everything in this repository ships under
-/// the MIT licence, and a vendor's product render cannot.
-/// <para>
-/// <see cref="Note"/> is free text for whoever opens the file next: what is still unchecked,
-/// which model the profile was written against, what surprised the person who calibrated it.
-/// </para>
-/// <para>
-/// <see cref="Usb"/> is what lets the right profile be recognised rather than guessed. Without
-/// it a profile still works — it just has to be chosen instead of found.
-/// </para>
+/// An outline and a layer, nothing more. What it is drawn in is the program's business: the
+/// vendor's own greys are read only to work out which shape sits on top of which. This is how the
+/// dial and the media strip along the top right of a board come to appear at all — they carry no
+/// addressable lighting, so no profile ever described them.
+/// </remarks>
+public sealed record ChassisShape(string Path, ChassisLayer Layer);
+
+/// <summary>
+/// The keyboard that is plugged in: what it is called, how it is laid out, and where every key
+/// sits.
+/// </summary>
+/// <remarks>
+/// Assembled while the program runs, from what the lighting service reports about the device and
+/// what the vendor's drawing of it measures. Every field is therefore something one of those two
+/// states — there is no version, no origin and no flag for how much of it to trust, because there
+/// is no file and nobody writing one by hand.
 /// </remarks>
 public sealed record DeviceProfile(
-    int FormatVersion,
     string Name,
-    string Vendor,
-    string Model,
     string PhysicalLayout,
-    string? Image,
     Canvas Canvas,
     MatrixSize Matrix,
-    bool Verified,
     IReadOnlyList<KeyDefinition> Keys,
-    string? Note = null,
-    UsbId? Usb = null)
-{
-    /// <summary>Highest format version this build understands.</summary>
-    public const int SupportedFormatVersion = 1;
-}
+    LegendDrawing? Legend = null);

@@ -97,8 +97,8 @@ de.LaunchAfter={#AppName} starten
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; Flags: unchecked
 
 [Files]
-; The whole staging directory, devices\ included. Without those profiles the application starts
-; and immediately reports that it has no keyboard to describe.
+; The whole staging directory. The keyboard itself is not packaged: Keylegend reads the
+; attached one from Razer Synapse at run time, which is also where its drawing comes from.
 Source: "{#Source}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
@@ -221,15 +221,11 @@ var
 begin
   Exec(ExpandConstant('{sys}\taskkill.exe'), '/IM Keylegend.exe',
        '', SW_HIDE, ewWaitUntilTerminated, Code);
-  Exec(ExpandConstant('{sys}\taskkill.exe'), '/IM keylegend-cli.exe',
-       '', SW_HIDE, ewWaitUntilTerminated, Code);
 
   { Long enough for a WPF window to finish closing, short enough not to look stuck. }
   Sleep(2500);
 
   Exec(ExpandConstant('{sys}\taskkill.exe'), '/F /IM Keylegend.exe',
-       '', SW_HIDE, ewWaitUntilTerminated, Code);
-  Exec(ExpandConstant('{sys}\taskkill.exe'), '/F /IM keylegend-cli.exe',
        '', SW_HIDE, ewWaitUntilTerminated, Code);
 
   Sleep(500);

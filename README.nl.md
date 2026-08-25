@@ -64,7 +64,7 @@ toetsaanslag. Zie [docs/nl/architecture.md](docs/nl/architecture.md).
 
 - Windows 10 of 11
 - Razer Synapse met de Chroma SDK-service actief
-- Een Chroma-geschikt toetsenbord met een apparaatprofiel (zie hieronder)
+- Een aangesloten Razer Chroma-toetsenbord (zie hieronder)
 - De .NET 10-runtime
 
 ## Installeren
@@ -89,39 +89,30 @@ controleren, en het bouwlogboek dat haar maakte is openbaar.
 
 ## Ondersteunde toetsenborden
 
-Ondersteuning voor een toetsenbord is **data, geen code**. Een toetsenbord is één bestand in
-`devices/`: `device.json`, met de toetsgeometrie en de koppeling van toetsen aan cellen van de
-Chroma-matrix.
+**Elk Razer Chroma-toetsenbord.** Er is geen lijst en geen bestand per model, want Keylegend hoeft
+je toetsenbord niet te herkennen — het vraagt het na. Razer Synapse beschrijft het aangesloten
+toetsenbord: het model bij naam, de fysieke indeling als getal, en de toetsen die de hardware
+werkelijk heeft. Razers eigen tekening van dat model levert de rest — de echte toetsafmetingen, de
+behuizing met wieltje en mediatoetsen, en de contouren van de tekens die op de kappen staan, in de
+juiste taal.
 
-Er worden tweeëndertig profielen meegeleverd. Eén daarvan is op echte hardware doorlopen; de rest
-is gegenereerd uit de genormeerde toetsmaten, wat hun geometrie exact maakt en hun LED-koppeling
-een beredeneerde gok.
+Het enige wat de tekening niet zegt, is bij welke cel van de lichtmatrix elke toets hoort. Dat is
+een constante van het Chroma-protocol, identiek op elk model — daarom heeft ook Synapse geen tabel
+per model nodig. Getoetst aan het enige met de hand gekalibreerde toetsenbord: alle 105 toetsen
+kloppen.
 
-| Toetsenbord | Indeling | Status |
-|---|---|---|
-| Razer DeathStalker V2 | ISO-DE | **op hardware geverifieerd** |
-| Razer DeathStalker V2, BlackWidow V4, Huntsman V3 Pro, Ornata V3 | ANSI-US, ISO-DE | gegenereerd |
-| Volledig formaat, 105/104 toetsen | ANSI-US, ISO-DE, ISO-UK, ISO-FR, ISO-ES, ISO-IT, ISO-NORDIC, ISO-PT, ISO-CH, ISO-RU, ISO-PL, JIS-JP, ABNT2-BR | gegenereerd |
-| Tenkeyless | ANSI-US, ISO-DE, ISO-UK, ISO-FR | gegenereerd |
-| 75 %, 65 %, 60 % | ANSI-US, ISO-DE | gegenereerd |
+`physicalLayout` beschrijft de *vorm* van het toetsenbord, niet de taal waarin je typt. Welk teken
+een toets oplevert wordt tijdens het draaien aan Windows gevraagd, dus een Duits toetsenbord werkt
+ook goed met Windows op US of Dvorak.
 
-`physicalLayout` beschrijft de *vorm* van het toetsenbord, niet de taal waarin je typt. Welk
-teken een toets oplevert wordt onderweg aan Windows gevraagd, dus een ISO-indelingsprofiel
-bedient jouw toetsenbord ook als Windows op Amerikaans of Dvorak staat.
-
-**Lichten bij jou de verkeerde toetsen op?** Dat is precies wat «gegenereerd» betekent, en het
-corrigeren vergt geen programmeerwerk — ongeveer tien minuten met de kalibratiemodus. Zie
-[docs/nl/adding-a-keyboard.md](docs/nl/adding-a-keyboard.md). Correcties zijn net zo welkom als
-nieuwe profielen en maken van een gok een `verified`-profiel voor iedereen met dat toetsenbord.
-
+**Vereist Razer Synapse**, geïnstalleerd en actief, met het toetsenbord aangesloten. Daar wordt het
+toetsenbord beschreven en daar staat de tekening.
 ## Documentatie
 
 | Onderwerp | |
 |---|---|
 | Architectuur | hoe de kleuring wordt bepaald, en waarom er geen toetsenbordhook is |
-| Toetsenbord toevoegen of corrigeren | apparaatprofielen, kalibratie, en wat te doen als de verkeerde toetsen oplichten |
 | Profiel toevoegen | kleuring per toepassing |
-| Apparaatprofielformaat | elk veld, in detail |
 | Configuratie | instellingen, instellingenbestand, automatisch starten |
 
 Beschikbaar in elf talen:
@@ -142,27 +133,18 @@ dotnet build
 dotnet test
 ```
 
-Er komen twee programma's uit. **`Keylegend.exe`** (`src/Keylegend.App`) is de toepassing:
-venster, pictogram in het systeemvak, instellingen. Dat is wat je voor normaal gebruik wilt.
-
-**`keylegend-cli.exe`** (`src/Keylegend.Host`) is een consoleaansturing met de diagnostiek:
-
-| Opdracht | Wat die doet |
-|---|---|
-| `keylegend-cli` | Start de verlichting. Neemt het bij de eerste aanslag over, geeft het na 10 s stilte terug. |
-| `keylegend-cli --idle 30` | Hetzelfde, met een inactiviteitstijd van 30 seconden. |
-| `keylegend-cli --once 10` | Tekent de huidige toestand eenmaal en houdt die tien seconden vast. Goede eerste controle. |
-| `keylegend-cli --calibrate` | Licht de toetsen één voor één op om een apparaatprofiel te verifiëren. |
-| `keylegend-cli --dump-layout` | Toont waar elke toets op uitkomt: gewoon / Shift / AltGr. |
-| `keylegend-cli --watch-foreground` | Meldt wat de gamedetectie ziet terwijl vensters wisselen. |
-| `keylegend-cli --profile <pad>` | Gebruikt een bepaalde `device.json`. |
+`Keylegend.exe` (`src/Keylegend.App`) is het hele programma: venster, pictogram in het
+systeemvak, instellingen. De ene schakelaar die het waard is: `--verify` controleert of een kopie de
+meegeleverde profielen en alle elf talen bij zich heeft, schrijft de bevinding naar het daarna
+opgegeven pad en antwoordt via zijn afsluitcode. Dat is wat het releasescript tegen een ingepakte
+kopie uitvoert.
 
 De instellingen staan in `%APPDATA%\Keylegend\settings.json` en worden door de toepassing
 geschreven.
 
 ## Bijdragen
 
-Foutmeldingen, apparaatprofielen en vertalingen zijn allemaal welkom — zie
+Foutmeldingen, toepassingsprofielen en vertalingen zijn allemaal welkom — zie
 [CONTRIBUTING.md](CONTRIBUTING.md) en [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
 ## Licentie
@@ -182,7 +164,7 @@ door de gemeenschap wordt onderhouden.
 
 Hetzelfde geldt voor elke andere naam in deze repository. De toepassings- en gameprofielen noemen
 ongeveer negentig programma's — Photoshop, Visual Studio Code, Excel, Elden Ring en meer — en de
-apparaatprofielen noemen toetsenbordfabrikanten en -modellen. Dat zijn handelsmerken van hun
-respectieve houders en ze staan er alleen om te zeggen voor welk programma of welk toetsenbord
-iets bedoeld is. Keylegend is met geen van hen verbonden en bevat noch hun code noch hun
-materiaal. Zie [NOTICE.md](NOTICE.md).
+documentatie noemt toetsenbordfabrikanten en -modellen. Dat zijn handelsmerken van hun respectieve
+houders en ze staan er alleen om te zeggen voor welk programma of welk toetsenbord iets bedoeld is.
+Keylegend is met geen van hen verbonden en bevat noch hun code noch hun materiaal. Zie
+[NOTICE.md](NOTICE.md).

@@ -135,10 +135,51 @@ public sealed class ShortcutCatalogue
 
         foreach (var (modifiers, set) in overrides)
         {
-            copy[modifiers] = set;
+            copy[modifiers] = copy.TryGetValue(modifiers, out var underneath)
+                ? Layer(underneath, set)
+                : set;
         }
 
         return new ShortcutCatalogue(copy);
+    }
+
+    /// <summary>
+    /// One set laid over another: every key the upper one names wins, the rest show through.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// This used to replace the whole layer, and that was wrong in a way that was easy to miss. A
+    /// profile naming Ctrl does not mean "Ctrl means nothing else here" — it means "Ctrl also
+    /// means this". Replacing threw away everything the profile happened not to repeat, and what
+    /// it threw away most often was the clipboard: Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+Z, Ctrl+Y and
+    /// Ctrl+A went dark in a browser, in Slack, in Teams, in a terminal — programs one does
+    /// nothing but type and paste in. Twenty-nine of the fifty-one shipped profiles were affected,
+    /// and the twenty-two that were not had simply repeated those six entries by hand.
+    /// </para>
+    /// <para>
+    /// Layering keeps the ability to <em>change</em> a meaning, which is what a profile is for:
+    /// name the key and the new meaning wins. It only removes the ability to blank a layer
+    /// wholesale, which nothing wanted.
+    /// </para>
+    /// </remarks>
+    private static ShortcutSet Layer(ShortcutSet underneath, ShortcutSet over)
+    {
+        var characters = new Dictionary<string, Shortcut>(
+            underneath.Characters, StringComparer.OrdinalIgnoreCase);
+
+        foreach (var (character, shortcut) in over.Characters)
+        {
+            characters[character] = shortcut;
+        }
+
+        var keys = new Dictionary<string, Shortcut>(underneath.Keys, StringComparer.Ordinal);
+
+        foreach (var (id, shortcut) in over.Keys)
+        {
+            keys[id] = shortcut;
+        }
+
+        return new ShortcutSet(characters, keys);
     }
 
     /// <summary>

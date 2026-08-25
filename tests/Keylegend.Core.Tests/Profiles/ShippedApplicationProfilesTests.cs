@@ -1,5 +1,7 @@
 using System.Text.Json;
 using Keylegend.Core.Devices;
+using Keylegend.Core.Input;
+using Keylegend.Core.Lighting;
 using Keylegend.Core.Profiles;
 using Keylegend.Core.Shortcuts;
 
@@ -317,26 +319,131 @@ public class ShippedApplicationProfilesTests
     // Ctrl+Tab and Ctrl+PageDown. An alias and a slip are indistinguishable from here, and a
     // check that fires on correct data is worse than no check.
 
+    /// <summary>
+    /// The universal editing shortcuts have to survive every shipped profile.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+Z, Ctrl+Y and Ctrl+A hold nearly everywhere there is a caret,
+    /// and a profile that names the Ctrl layer for its own commands is not saying otherwise. They
+    /// used to be lost in twenty-nine of the fifty-one profiles that name that layer, because an
+    /// override replaced the layer rather than laying over it — dark clipboard keys in a browser,
+    /// in Slack, in a terminal.
+    /// </para>
+    /// <para>
+    /// This checks the outcome rather than the profiles: each is laid over the shipped set the way
+    /// the engine does it, and the result has to still know how to copy.
+    /// </para>
+    /// </remarks>
+    [Fact]
+    public void EveryProfileKeepsTheClipboardShortcuts()
+    {
+        string[] editing = ["c", "v", "x", "z", "a"];
+        var general = DefaultShortcuts.Create();
+        var lost = new List<string>();
+
+        foreach (var profile in ShippedProfiles.All)
+        {
+            var effective = profile.ApplyShortcuts(general);
+
+            if (!effective.Sets.TryGetValue(ModifierKeys.LeftCtrl, out var ctrl))
+            {
+                lost.Add($"{profile.Id}: no Ctrl layer at all");
+                continue;
+            }
+
+            var missing = editing.Where(c => !ctrl.Characters.ContainsKey(c)).ToArray();
+
+            if (missing.Length > 0)
+            {
+                lost.Add($"{profile.Id}: {string.Join(", ", missing)}");
+            }
+        }
+
+        Assert.True(
+            lost.Count == 0,
+            $"{lost.Count} profile(s) lose editing shortcuts:{Environment.NewLine}  "
+            + string.Join(Environment.NewLine + "  ", lost));
+    }
+
+    /// <summary>
+    /// A highlight has to be visibly different from what the key shows anyway.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Reported from the hardware, and it was worth a test: the browser profiles had `F5` pinned
+    /// to white — which is exactly the colour the function row already is — so the highlight did
+    /// nothing at all, and `F1` to a pale blue, which on a lit keycap is a tinted white and reads
+    /// as no different either. Neither was visible on screen for what it was.
+    /// </para>
+    /// <para>
+    /// Checked against the structural colour a key carries without any profile: a function key is
+    /// white. Compared by perceived brightness as well as by hue, because two colours can differ
+    /// numerically and still not be told apart on a keycap.
+    /// </para>
+    /// </remarks>
+    [Fact]
+    public void EveryHighlightIsVisiblyDifferentFromTheKeysOwnColour()
+    {
+        var scheme = ColourScheme.Default;
+        var invisible = new List<string>();
+
+        foreach (var profile in ShippedProfiles.All)
+        {
+            foreach (var (id, highlight) in profile.Highlights)
+            {
+                if (KeyRoles.StructuralCategory(id) is not { } structural)
+                {
+                    continue;      // an ordinary key's colour depends on the layout, so skip it
+                }
+
+                var own = scheme.For(structural);
+                var difference = Distance(own, highlight.Colour);
+
+                if (difference < 120)
+                {
+                    invisible.Add(
+                        $"{profile.Id}/{id}: {Hex(highlight.Colour)} against {Hex(own)} "
+                        + $"(distance {difference:N0})");
+                }
+            }
+        }
+
+        Assert.True(
+            invisible.Count == 0,
+            $"{invisible.Count} highlight(s) too close to the key's own colour:{Environment.NewLine}  "
+            + string.Join(Environment.NewLine + "  ", invisible));
+    }
+
+    /// <summary>
+    /// How far apart two lit colours look. Weighted towards the channels the eye reads as
+    /// brightness, so a pale blue does not count as far from white just because its blue is high.
+    /// </summary>
+    private static double Distance(RgbColor a, RgbColor b)
+    {
+        double dr = a.R - b.R, dg = a.G - b.G, db = a.B - b.B;
+
+        return Math.Sqrt((2.0 * dr * dr) + (4.0 * dg * dg) + (db * db));
+    }
+
+    private static string Hex(RgbColor colour) => $"#{colour.R:X2}{colour.G:X2}{colour.B:X2}";
+
     private static bool IsColour(string? hex)
         => hex is { Length: 7 }
             && hex[0] == '#'
             && hex[1..].All(char.IsAsciiHexDigit);
 
+    /// <summary>
+    /// Every key id that can be lit, taken from the protocol's own table.
+    /// </summary>
+    /// <remarks>
+    /// This used to be the union of every shipped device profile. There are none now — the
+    /// attached keyboard's profile is built from the vendor's drawing — so the vocabulary comes
+    /// from where it was always defined: <see cref="StandardKeyMatrix"/>, which is the lighting
+    /// protocol's own list and cannot go out of date as models appear.
+    /// </remarks>
     private static HashSet<string> LoadKeyIds()
-    {
-        var ids = new HashSet<string>(StringComparer.Ordinal);
-
-        foreach (var path in Directory.EnumerateFiles(
-            TestPaths.DevicesDirectory, "device.json", SearchOption.AllDirectories))
-        {
-            foreach (var key in DeviceProfileLoader.Load(path).Keys)
-            {
-                ids.Add(key.Id);
-            }
-        }
-
-        return ids;
-    }
+        => new(StandardKeyMatrix.Ids, StringComparer.Ordinal);
 
     private static string Join(IEnumerable<string> values)
     {

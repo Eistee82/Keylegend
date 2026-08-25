@@ -44,9 +44,10 @@ Recognition is by executable name. Where more than one profile matches, the one 
 program wins — a game with its own profile therefore keeps it even though the game detection
 also fires. Priority only breaks the remaining ties.
 
-A profile replaces only the modifier layers it names itself. Photoshop replaces the Ctrl layer,
-because Ctrl means different commands there; `Win+E` still opens Explorer, because Windows
-assigns that combination system-wide and it holds regardless of what is in front.
+A profile is laid over the general set, entry by entry. Photoshop says what `Ctrl+J` means
+there; `Ctrl+C` still copies, because a profile naming the Ctrl layer is not claiming that Ctrl
+means nothing else. And `Win+E` still opens Explorer, because Windows assigns that combination
+system-wide and it holds regardless of what is in front.
 
 ### What a profile contains
 
@@ -91,12 +92,17 @@ file — see [Adding a profile](adding-a-profile.md).
 
 ### Settings file format
 
-`settings.json` carries `formatVersion` 2. Older files are migrated on load: version 1 knew
-neither ids nor where a profile came from, and so cannot say which of its entries were once
-shipped. All of them become user profiles. Nothing is lost, but the shipped profiles appear
-alongside them, so there may at first be two entries for the same program; the surplus one can
-be deleted or hidden.
+`settings.json` carries `formatVersion` 3. Older files are migrated on load.
 
+A version 1 file knows neither ids nor where a profile came from, so it cannot say which of its
+entries are shipped ones. All of them become user profiles. Nothing is lost, but the shipped
+profiles appear alongside them, so there may at first be two entries for the same program; the
+surplus one can be deleted or hidden.
+
+A version 2 file lists every colour, the untouched ones included, which pins the palette: an
+improved shipped colour reaches nobody who has run the program before. A colour equal to the
+palette of that version is therefore read as a default and dropped on migration; anything else is
+your choice and is kept.
 ## Behaviour
 
 | Setting | Meaning |
@@ -124,8 +130,7 @@ start, which is what a hand-edited file most likely wants anyway.
 
 What is translated is the menus and explanations. Two things are **not**, both deliberately:
 
-- **The key legends** on the pictured keyboard. They come from the device profile and have to
-  match the keyboard in front of you, not the language of the menus — a German ISO board shows
+- **The key legends** on the pictured keyboard. They come from Razer's drawing and have to match the keyboard in front of you, not the language of the menus — a German ISO board shows
   `strg` and `entf` whether or not the interface is running in English.
 - **The modifier names** (Shift, Ctrl, Alt, AltGr, Num Lock …). The same names are produced by
   the shortcut machinery for the layer lists, which sits outside the translation; half a
@@ -134,15 +139,26 @@ What is translated is the menus and explanations. Two things are **not**, both d
 Anything without a translation falls back to English, so an unfinished language file costs the
 lines it is missing rather than the whole interface.
 
-## Calibration
+## If the lighting is not working
 
-Calibration is a command-line mode, not a settings page:
+Talking to the Chroma service can fail: the service is stopped, Synapse was closed, another
+program holds the session. Keylegend keeps retrying, with a growing pause between attempts, and
+says what is wrong while it does:
 
-```bash
-keylegend-cli --profile devices/<folder>/device.json --calibrate
-```
+- the status line at the bottom of the window carries the reason, in amber rather than the usual
+  grey
+- the notification area says so in its tooltip, so a closed window does not hide it
+- one balloon announces it, once per fault rather than once per attempt
 
-It lights one key at a time and names it, so a device profile can be checked against real
-hardware. Findings are written to `calibration-findings.txt` as you go, and
-`tools/apply-calibration.ps1` writes them back into the profile. See
-[Adding or correcting a keyboard](adding-a-keyboard.md).
+All three go away as soon as a frame gets through again. If nothing appears at all and the keyboard
+still does not light, the program is not running — look for its icon in the notification area.
+
+## If the wrong keys light up
+
+The keyboard in the window is the keyboard on the desk: both are filled by the same code, so the
+window shows what the hardware should look like. Holding the two side by side is the check.
+
+Which cell of the lighting matrix a key belongs to is the one thing neither Synapse nor the drawing
+states — it comes from the Chroma protocol's own table. So if a key lights up on the hardware while
+a different one is lit in the window, that table is wrong for your model. An issue saying which
+keyboard and which key is worth opening.

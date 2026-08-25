@@ -48,9 +48,9 @@ public class ScanCodesTests
     public void EveryTypingKeyInTheShippedProfileResolves()
     {
         // Catches the table and the shipped profiles drifting apart.
-        var profile = DeviceProfileLoader.Load(TestPaths.ShippedProfile("razer-deathstalker-v2-de"));
+        var measured = MeasuredKeys.Load();
 
-        var unresolved = profile.Keys
+        var unresolved = measured
             .Where(k => k.ScanCode is null && !ScanCodes.TryGet(k.Id, out _))
             .Select(k => k.Id)
             .ToArray();

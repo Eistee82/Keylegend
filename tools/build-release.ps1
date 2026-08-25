@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-  Publishes both executables, assembles a staging directory, and packages the release.
+  Publishes the application, assembles a staging directory, and packages the release.
 
 .DESCRIPTION
   The same script the release workflow runs, so that what CI produces can be reproduced and
@@ -9,11 +9,10 @@
   Framework-dependent on purpose: self-contained measures 167 MB against 2 MB, for a utility
   whose users mostly have the runtime already and whose installer offers it to those who do not.
 
-  The smoke test in the middle is not ceremony. dotnet publish does not carry devices\ unless
-  the project files ask it to, and without those profiles every installed copy starts and
-  immediately gives up with "No device profile found". That went unnoticed through development,
-  where the repository's own folder always happens to be a few levels up. It cannot go unnoticed
-  again.
+  The smoke test in the middle is not ceremony. It asks the published copy rather than the build
+  output, because that is where a release breaks while the build and the tests stay green: data the
+  project files do not carry into the package. The copy answers for itself through --verify, which
+  opens no window and needs neither Razer Synapse nor a keyboard — a build machine has neither.
 
 .PARAMETER Version
   Version to stamp into the assemblies and the file names.
@@ -58,12 +57,10 @@ try {
 
     # --------------------------------------------------------------------------------------
     Write-Host "`n== Publish ==" -ForegroundColor Cyan
-    foreach ($project in 'src\Keylegend.App', 'src\Keylegend.Host') {
-        Write-Host "  $project"
-        dotnet publish $project -c Release -o $staging --nologo -v quiet `
-            -p:Version=$Version -p:DebugType=none
-        if ($LASTEXITCODE -ne 0) { throw "Publishing $project failed." }
-    }
+    Write-Host "  src\Keylegend.App"
+    dotnet publish 'src\Keylegend.App' -c Release -o $staging --nologo -v quiet `
+        -p:Version=$Version -p:DebugType=none
+    if ($LASTEXITCODE -ne 0) { throw "Publishing the application failed." }
 
     # Symbols are for debugging a build, not for shipping one.
     Get-ChildItem $staging -Filter *.pdb -Recurse | Remove-Item -Force
@@ -75,38 +72,31 @@ try {
     # --------------------------------------------------------------------------------------
     Write-Host "`n== Smoke test ==" -ForegroundColor Cyan
 
-    # Both programs, by name. Windows file names are case-insensitive, so the console tool was
-    # once called keylegend.exe and quietly overwrote the application's Keylegend.exe when the
-    # two were published into one directory. What shipped was a release with no interface, and
-    # nothing in the build said so. Counting the files is what catches that.
-    foreach ($expected in 'Keylegend.exe', 'keylegend-cli.exe') {
-        $path = Join-Path $staging $expected
-        if (-not (Test-Path $path)) {
-            throw "$expected is missing from the staging directory."
-        }
+    $exe = Join-Path $staging 'Keylegend.exe'
+    if (-not (Test-Path $exe)) {
+        throw "Keylegend.exe is missing from the staging directory."
     }
 
-    # Same name, different subsystem: the application is a GUI binary, the tool a console one.
-    # If one had overwritten the other they would be byte-identical.
-    $app = Get-FileHash (Join-Path $staging 'Keylegend.exe') -Algorithm SHA256
-    $cli = Get-FileHash (Join-Path $staging 'keylegend-cli.exe') -Algorithm SHA256
-    if ($app.Hash -eq $cli.Hash) {
-        throw "Keylegend.exe and keylegend-cli.exe are the same file. One has overwritten the other."
+    # The satellite assemblies, one directory per language. dotnet publish carries them, but a
+    # packaging step that walks the tree by hand can drop them, and the interface then shows
+    # English to everybody with nothing anywhere saying why.
+    $languages = @('de', 'es', 'fr', 'it', 'nl', 'pl', 'pt', 'ru', 'uk', 'zh-Hans')
+    $absent = $languages | Where-Object { -not (Test-Path (Join-Path $staging $_)) }
+    if ($absent) {
+        throw "The staging directory has no texts for: $($absent -join ', ')"
     }
-    Write-Host "  both executables present and distinct"
+    Write-Host "  $($languages.Count + 1) languages present"
 
-    $profiles = Get-ChildItem (Join-Path $staging "devices") -Filter device.json -Recurse -ErrorAction SilentlyContinue
-    if (-not $profiles) {
-        throw "The staging directory has no device profiles. An installed copy would refuse to start."
+    # Asks the published copy itself. --verify opens no window and touches no keyboard, which
+    # is what makes it usable here: a build machine has neither Synapse nor hardware. It answers
+    # through its exit code and writes what it found next to the artefacts.
+    $report = Join-Path $Output 'verify.txt'
+    $verify = Start-Process $exe -ArgumentList '--verify', $report -PassThru -Wait
+    if ($verify.ExitCode -ne 0) {
+        $found = if (Test-Path $report) { Get-Content $report -Raw } else { '(no report written)' }
+        throw "The published copy failed its own check:`n$found"
     }
-    Write-Host "  $($profiles.Count) device profiles present"
-
-    # Runs the real program against the real layout, from the directory a user would have.
-    $dump = & (Join-Path $staging "keylegend-cli.exe") --dump-layout 2>&1 | Out-String
-    if ($LASTEXITCODE -ne 0 -or $dump -match 'No device profile found') {
-        throw "The published copy could not find a device profile:`n$dump"
-    }
-    Write-Host "  $(($dump -split "`n")[0].Trim())"
+    Write-Host "  $(((Get-Content $report) | ForEach-Object { $_.Trim() } | Where-Object { $_ }) -join '; ')"
 
     # --------------------------------------------------------------------------------------
     Write-Host "`n== Package ==" -ForegroundColor Cyan

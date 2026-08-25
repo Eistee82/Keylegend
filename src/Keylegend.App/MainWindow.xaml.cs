@@ -113,7 +113,7 @@ public partial class MainWindow : Window
         // forwarding the frame - there is no second rendering path to keep in step.
         engine.FrameComposed += OnFrameComposed;
         engine.StateChanged += OnStateChanged;
-        engine.Warning += OnWarning;
+        engine.Fault += OnFault;
         engine.ProfileChanged += OnProfileChanged;
 
         UpdateStateLabel(engine.State);
@@ -131,11 +131,13 @@ public partial class MainWindow : Window
     /// The line under the device name. The layout and the key count come from the device, so
     /// only the words around them are localised.
     /// </summary>
+    /// <remarks>
+    /// It used to say whether the mapping had been calibrated on hardware. That distinction has
+    /// gone: the matrix positions now come from the lighting protocol's own table, which is the
+    /// same for every model, so there is nothing left for a calibration to confirm.
+    /// </remarks>
     private void ShowDevice(DeviceProfile device)
-        => DeviceDetail.Text = Texts.Get(
-            device.Verified ? "StatusDeviceVerified" : "StatusDeviceNotVerified",
-            device.PhysicalLayout,
-            device.Keys.Count);
+        => DeviceDetail.Text = Texts.Get("StatusDevice", device.PhysicalLayout, device.Keys.Count);
 
     /// <summary>
     /// Rebuilds everything whose text was put together in code rather than bound.
@@ -287,8 +289,21 @@ public partial class MainWindow : Window
     private void OnStateChanged(LightingState state) =>
         Dispatcher.BeginInvoke(() => UpdateStateLabel(state));
 
-    private void OnWarning(string message) =>
-        Dispatcher.BeginInvoke(() => StatusLine.Text = message);
+    /// <summary>
+    /// Says what is wrong with the lighting, and takes it back when it is not wrong any more.
+    /// </summary>
+    /// <remarks>
+    /// The status line is styled as an aside, which is right for what it usually carries and wrong
+    /// for this: a keyboard that has gone dark while the program still looks fine is exactly the
+    /// case a user cannot diagnose. So a fault switches the line to amber, and clearing it puts the
+    /// line back rather than leaving a stale complaint behind.
+    /// </remarks>
+    private void OnFault(string? message) =>
+        Dispatcher.BeginInvoke(() =>
+        {
+            StatusLine.Text = message ?? string.Empty;
+            StatusLine.Style = (Style)FindResource(message is null ? "Muted" : "Trouble");
+        });
 
     private void OnProfileChanged(ApplicationProfile? profile) =>
         Dispatcher.BeginInvoke(() =>
@@ -1816,7 +1831,7 @@ public partial class MainWindow : Window
     {
         _engine.FrameComposed -= OnFrameComposed;
         _engine.StateChanged -= OnStateChanged;
-        _engine.Warning -= OnWarning;
+        _engine.Fault -= OnFault;
         _engine.ProfileChanged -= OnProfileChanged;
 
         base.OnClosed(e);

@@ -32,6 +32,7 @@ public sealed class TrayIcon : IDisposable
     private readonly Forms.ToolStripMenuItem _quitItem;
 
     private bool _quitting;
+    private string? _fault;
 
     public TrayIcon(LightingEngine engine, Window window, Action quit)
     {
@@ -70,6 +71,7 @@ public sealed class TrayIcon : IDisposable
         _icon.DoubleClick += (_, _) => ShowWindow();
 
         engine.StateChanged += OnStateChanged;
+        engine.Fault += OnFault;
 
         // The menu is built once and never rebound, so it has to be written again when the
         // language changes - otherwise it would keep the wording it was created with.
@@ -129,12 +131,43 @@ public sealed class TrayIcon : IDisposable
         _quitItem.Text = Texts.Get("TrayQuit");
         _pauseItem.Text = Texts.Get(state == LightingState.Paused ? "TrayResume" : "TrayPause");
 
-        _icon.Text = Texts.Get(state switch
+        _icon.Text = _fault is not null
+            ? Texts.Get("TrayTooltipTrouble")
+            : Texts.Get(state switch
+            {
+                LightingState.Active => "TrayTooltipActive",
+                LightingState.Paused => "TrayTooltipPaused",
+                _ => "TrayTooltipIdle"
+            });
+    }
+
+    /// <summary>
+    /// What the notification area says while the lighting is not working, and the one balloon
+    /// that says it out loud.
+    /// </summary>
+    /// <remarks>
+    /// This is the case the window cannot cover: it is usually closed, so a keyboard that stops
+    /// lighting looks like the program having quietly given up. The tooltip carries the reason for
+    /// as long as it lasts; the balloon fires once per fault rather than on every retry, because
+    /// the engine backs off and retrying forever must not mean notifying forever.
+    /// </remarks>
+    private void OnFault(string? message)
+    {
+        if (!_window.Dispatcher.CheckAccess())
         {
-            LightingState.Active => "TrayTooltipActive",
-            LightingState.Paused => "TrayTooltipPaused",
-            _ => "TrayTooltipIdle"
-        });
+            _window.Dispatcher.BeginInvoke(() => OnFault(message));
+            return;
+        }
+
+        var announced = _fault is not null;
+        _fault = message;
+
+        OnStateChanged(_engine.State);
+
+        if (message is not null && !announced)
+        {
+            _icon.ShowBalloonTip(5000, "Keylegend", message, Forms.ToolTipIcon.Warning);
+        }
     }
 
     /// <summary>Writes the menu again after a language change.</summary>
@@ -204,6 +237,7 @@ public sealed class TrayIcon : IDisposable
     public void Dispose()
     {
         _engine.StateChanged -= OnStateChanged;
+        _engine.Fault -= OnFault;
         Texts.Instance.PropertyChanged -= OnTextsChanged;
         _icon.Visible = false;
         _icon.Dispose();

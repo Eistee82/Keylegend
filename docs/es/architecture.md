@@ -24,6 +24,7 @@ Todo lo que habla con el mundo exterior vive en adaptadores delgados alrededor d
 | `Keylegend.Core` | perfiles de dispositivo, categorías, conjuntos de atajos, el compositor de fotogramas, la máquina de estados de sesión | nada específico de plataforma |
 | `Keylegend.Windows` | estado del teclado, resolución de caracteres, ventana en primer plano | API de Windows |
 | `Keylegend.Chroma` | cliente REST para el SDK de Chroma, latido | red |
+| `Keylegend.Engine` | el bucle que lee el teclado, compone un fotograma y lo envía | Core, Chroma, Windows |
 | `Keylegend.App` | interfaz WPF, icono de bandeja, almacenamiento de la configuración | todo lo anterior |
 
 `Keylegend.Core` no debe referenciar nunca a los demás. Si un cambio parece exigirlo, es la
@@ -60,11 +61,30 @@ Por eso Mayús, Bloq Mayús y Bloq Num no necesitan tratamiento especial: la mis
 sencillamente `A` en lugar de `a` y aterriza por sí sola en la categoría «mayúscula». Y por eso
 también funciona cualquier distribución de teclado sin cambios.
 
+### Qué teclado está conectado
+
+Se le pregunta a Razer Synapse, porque ya lo sabe. Escribe una descripción de cada dispositivo
+conectado en `…\Razer Chroma SDK\Devices\<guid>.json`: el modelo por su nombre, la distribución
+física como número, el tamaño de la matriz y el código de escaneo de cada tecla que el hardware
+tiene realmente. `SdkDeviceDescription` lee eso, y del teclado no se deduce nada.
+
+El aspecto del teclado viene de la misma instalación. La interfaz de Synapse es una aplicación web,
+y los dibujos que carga para un dispositivo quedan en su caché: rectángulos de teclas con nombre,
+la forma de la carcasa con la rueda de volumen y la tira multimedia, y los contornos de los
+caracteres impresos en las teclas. `SvgLayoutSource` encuentra el del modelo y la distribución
+conectados de forma exacta y no por su forma, porque cada dibujo se entrega junto a un objeto de
+configuración que nombra ambos.
+
+Solo se toman medidas y contornos; los colores y el estilo de Razer se ignoran, y nada de ese
+material se copia a este repositorio.
+
+Lo único que ninguno de los dos dice es a qué celda de la matriz de iluminación pertenece una
+tecla. Eso es `StandardKeyMatrix`, la tabla `RZKEY` del propio protocolo, idéntica en cada modelo.
+
 ## Perfiles de aplicación
 
 Un perfil vincula reglas de iluminación a un programa. Se incluyen cerca de noventa, y vale la
-pena enunciar las decisiones que hay detrás, porque cada una fue la segunda respuesta y no la
-primera.
+pena enunciar las decisiones que hay detrás, porque ninguna de ellas es la respuesta evidente.
 
 ### Los perfiles son datos, no código
 
@@ -76,12 +96,13 @@ formato estaría mal.
 
 ### Incrustados en el ensamblado en vez de sueltos en disco
 
-Los perfiles de dispositivo están junto al ejecutable; los de aplicación no. Tres razones, y cada
-una bastaría por sí sola. Una versión en un solo archivo los lleva consigo sin carpeta que perder.
-Nada en disco puede editarse por accidente, que es precisamente lo que hace que «restablecer a la
-versión incluida» signifique algo — la versión incluida tiene que estar fuera de alcance para
-merecer que se vuelva a ella. Y un perfil que no compila se convierte en un error de compilación
-en lugar de en un programa que calladamente se queda sin perfiles.
+Los perfiles de aplicación se compilan dentro del ensamblado en vez de quedar como archivos junto
+al ejecutable. Tres razones, y cada una bastaría por sí sola. Una versión en un solo archivo los
+lleva consigo sin carpeta que perder. Nada en disco puede editarse por accidente, que es
+precisamente lo que hace que «restablecer a la versión incluida» signifique algo — la versión
+incluida tiene que estar fuera de alcance para merecer que se vuelva a ella. Y un perfil que no
+compila se convierte en un error de compilación en lugar de en un programa que calladamente se
+queda sin perfiles.
 
 ### Los reemplazos son por sección
 
@@ -91,7 +112,7 @@ cosas: restablecer es posible siquiera, y una compilación actualizada aún pued
 que alguien ha editado en parte. El identificador es la pieza que sostiene esto y no debe cambiar
 nunca una vez publicado: renombrarlo deja huérfanas las ediciones de alguien.
 
-La granularidad se eligió frente a las dos alternativas evidentes:
+La granularidad se sostiene frente a las dos alternativas evidentes:
 
 - **Por campo** parece más pulcro y produce estados que nadie configuró. Recolorea `W`, acepta
   luego una actualización que añade `Q`, y el resultado es una mezcla que el usuario nunca
@@ -102,15 +123,21 @@ La granularidad se eligió frente a las dos alternativas evidentes:
 Una sección es la granularidad a la que el cambio todavía cabe en una frase: editaste los
 resaltados, así que los resaltados son tuyos a partir de ahora.
 
-### Un perfil solo reemplaza las capas que nombra
+### Un perfil se superpone al conjunto general, entrada por entrada
 
-Los atajos se indexan por combinación de modificadores y se superponen al catálogo general, no lo
-sustituyen. Photoshop sabe qué significa `Ctrl` dentro de Photoshop; no sabe nada de `Win+E`, que
-Windows asigna a nivel de sistema y que es cierto tenga lo que tenga delante. Sustituir el
-catálogo entero haría a un perfil responsable de hechos sobre los que no tiene opinión. Un perfil
-que no nombra ninguna capa devuelve el catálogo general sin cambios, con lo que el caso común no
-reserva nada.
+Los atajos se indexan por combinación de modificadores, y las entradas de un perfil se colocan
+sobre las generales en vez de en su lugar — entrada por entrada, no capa por capa. Photoshop sabe
+qué significa `Ctrl+J` dentro de Photoshop; no sabe nada de `Win+E`, que Windows asigna a nivel de
+sistema, ni de `Ctrl+C`, que vale en cualquier sitio donde haya un cursor de texto.
 
+Por capa significaría que un perfil que nombra `Ctrl` para sus propios comandos se lleva la capa
+entera, y el portapapeles es lo que eso cuesta: copiar, pegar, cortar, deshacer y seleccionar todo
+se apagan en un navegador, en un cliente de chat, en un terminal — programas en los que apenas se
+hace otra cosa que escribir y pegar. Por entrada, quien nombra una tecla gana para esa tecla y nada
+más se mueve. Vaciar una capa entera no es posible a propósito.
+
+Un perfil que no nombra ninguna capa devuelve el catálogo general sin cambios, con lo que el caso
+común no reserva nada.
 ### Los atajos y los resaltados llevan una etiqueta
 
 La etiqueta dice qué hace el comando: «Duplicar capa», no «Ctrl+J». El hardware no la muestra
@@ -122,17 +149,32 @@ revise si una entrada es correcta. `"j": "Editar"` no se puede contrastar con na
 
 ### Migrar un archivo de ajustes de formato 1
 
-El formato 1 guardaba los perfiles enteros, sin identificador y sin dejar constancia de su
-procedencia. Eso es exactamente lo que corrige el formato nuevo: un reemplazo necesita un
-identificador al que engancharse, y restablecer necesita saber que hay una versión incluida a la
-que volver.
+Un archivo de formato 1 guarda los perfiles enteros, sin identificador y sin dejar constancia de su
+procedencia. Un reemplazo necesita un identificador al que engancharse, y restablecer necesita saber
+que hay una versión incluida a la que volver, de modo que un archivo así no puede decir cuáles de
+sus entradas son las incluidas.
 
-La consecuencia para la migración es que un archivo antiguo no puede decir cuáles de sus entradas
-fueron alguna vez incluidas. Así que todas pasan a ser perfiles de usuario. Eso conserva cada
-edición que alguien hiciera, al precio de que el perfil incluido aparezca junto a la copia migrada
-hasta que se quite uno de los dos — y es el intercambio correcto, porque la otra lectura borraría
-trabajo en silencio.
+Por eso todas pasan a ser perfiles de usuario. Eso conserva cada edición que alguien hiciera, al
+precio de que el perfil incluido aparezca junto a la copia migrada hasta que se quite uno de los dos
+— el intercambio correcto, porque la otra lectura borra trabajo en silencio.
 
+### Migrar un archivo de ajustes de formato 2
+
+Un archivo de formato 2 enumera todos los colores, incluidos los que nadie tocó, así que no puede
+decir cuáles de sus entradas son decisiones y cuáles valores por defecto devueltos. Acatarlos todos
+fija la paleta: un color incluido mejorado no llega entonces a nadie que haya ejecutado el programa
+alguna vez.
+
+El formato 3 escribe solo lo que difiere de la paleta incluida, de modo que una entrada en el
+archivo significa que alguien la eligió. Migrar un archivo más antiguo obliga a adivinar esa
+distinción, y la suposición es: una entrada igual a la paleta de aquella versión es un valor por
+defecto, cualquier otra es una elección. `PaletteBeforeFormat3` guarda esa paleta como copia
+congelada en vez de leer la actual — esa comparación queda sin sentido en el momento en que la
+paleta vuelve a cambiar, que es justo cuando se necesita.
+
+El precio es que quien eligió a propósito uno de esos colores lo pierde. Es la dirección correcta:
+una persona vuelve a elegir un color, frente a todos los usuarios conservando una paleta que nadie
+eligió.
 ## Hablar con el teclado
 
 Al SDK de Chroma se le habla por su interfaz REST local. Los colores son enteros codificados en
@@ -145,17 +187,17 @@ posterior alrededor de 2 ms.
 
 ### Con qué frecuencia se envían los fotogramas
 
-Parece un detalle y no lo es; las dos respuestas evidentes son erróneas, y ambas se probaron.
+Parece un detalle y no lo es; las dos respuestas evidentes son erróneas.
 
 **Enviar solo al cambiar** deja sin alimentar la toma de control. Una pulsación corriente no
 cambia el estado del teclado —solo lo hacen los modificadores y los bloqueos—, así que una toma de
-control producía exactamente un fotograma. Chroma descarta fotogramas mientras aún está tomando el
-control, e informa de éxito por ellos, de modo que ese único fotograma podía desvanecerse y dejar
-el teclado congelado en el efecto anterior hasta que el usuario pulsara por casualidad un
+control produce exactamente un fotograma. Chroma descarta fotogramas mientras aún está tomando el
+control, e informa de éxito por ellos, de modo que ese único fotograma puede desvanecerse y dejar
+el teclado congelado en el efecto anterior hasta que el usuario pulse por casualidad un
 modificador.
 
 **Enviar tan rápido como se pueda** arruina la respuesta. Los fotogramas se encolan dentro de la
-interfaz, y un cambio de estado espera entonces detrás de todo lo ya enviado: pulsar Mayús tardaba
+interfaz, y un cambio de estado espera entonces detrás de todo lo ya enviado: pulsar Mayús tarda
 un segundo o dos, visiblemente, en mostrarse.
 
 Lo que funciona es enviar por tres motivos distintos a tres ritmos distintos:

@@ -34,11 +34,8 @@
   <data name="TabSettings" xml:space="preserve">
     <value>Настройки</value>
   </data>
-  <data name="StatusDeviceVerified" xml:space="preserve">
-    <value>{0} · клавиш: {1} · соответствие проверено на устройстве</value>
-  </data>
-  <data name="StatusDeviceNotVerified" xml:space="preserve">
-    <value>{0} · клавиш: {1} · соответствие ещё не проверено</value>
+  <data name="StatusDevice" xml:space="preserve">
+    <value>{0} · клавиш: {1}</value>
   </data>
   <data name="StatusProfileLabel" xml:space="preserve">
     <value>профиль: {0}</value>
@@ -138,6 +135,9 @@
   </data>
   <data name="KeyboardNoProfile" xml:space="preserve">
     <value>Профиль устройства не загружен</value>
+  </data>
+  <data name="StartupNoKeyboard" xml:space="preserve">
+    <value>Клавиатура Razer не найдена. Keylegend получает данные о подключённой клавиатуре из Razer Synapse, поэтому Synapse должен быть установлен и запущен, а клавиатура подключена.</value>
   </data>
   <data name="ColoursCategoriesHeading" xml:space="preserve">
     <value>Категории клавиш</value>
@@ -453,6 +453,9 @@
   </data>
   <data name="TrayTooltipIdle" xml:space="preserve">
     <value>Keylegend — простой</value>
+  </data>
+  <data name="TrayTooltipTrouble" xml:space="preserve">
+    <value>Keylegend — подсветка не работает</value>
   </data>
   <data name="TrayTooltipPaused" xml:space="preserve">
     <value>Keylegend — приостановлено</value>

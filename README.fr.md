@@ -65,7 +65,7 @@ frappe. Voir [docs/fr/architecture.md](docs/fr/architecture.md).
 
 - Windows 10 ou 11
 - Razer Synapse avec le service Chroma SDK en fonctionnement
-- Un clavier compatible Chroma disposant d'un profil de périphérique (voir ci-dessous)
+- Un clavier Razer Chroma, branché (voir ci-dessous)
 - Le runtime .NET 10
 
 ## Installation
@@ -90,40 +90,30 @@ téléchargement, et le journal de compilation qui l'a produit est public.
 
 ## Claviers pris en charge
 
-La prise en charge d'un clavier est **une donnée, pas du code**. Un clavier tient dans un fichier
-de `devices/` : `device.json`, qui contient la géométrie des touches et la correspondance entre
-touches et cellules de la matrice Chroma.
+**Tout clavier Razer Chroma.** Il n’y a pas de liste, ni de fichier par modèle, car Keylegend
+n’a pas besoin de reconnaître votre clavier : il le demande. Razer Synapse décrit celui qui est
+branché — le modèle par son nom, la disposition physique sous forme de numéro, et les touches que le
+matériel possède réellement. Le dessin que Razer fait de ce modèle fournit le reste : les vraies
+dimensions des touches, le boîtier avec sa molette et ses touches multimédia, et les contours des
+caractères imprimés sur les capuchons, dans la bonne langue.
 
-Trente-deux profils sont fournis. L'un d'eux a été vérifié sur du matériel réel ; les autres sont
-générés à partir des dimensions normalisées, ce qui rend leur géométrie exacte et leur
-correspondance LED une supposition raisonnée.
+La seule chose que le dessin ne dit pas, c’est à quelle cellule de la matrice d’éclairage
+chaque touche appartient. C’est une constante du protocole Chroma, identique sur tous les
+modèles — raison pour laquelle Synapse non plus n’a pas besoin d’une table par modèle.
+Vérifié contre le seul clavier calibré à la main : les 105 touches concordent.
 
-| Clavier | Disposition | État |
-|---|---|---|
-| Razer DeathStalker V2 | ISO-DE | **vérifié sur le matériel** |
-| Razer DeathStalker V2, BlackWidow V4, Huntsman V3 Pro, Ornata V3 | ANSI-US, ISO-DE | généré |
-| Format complet, 105/104 touches | ANSI-US, ISO-DE, ISO-UK, ISO-FR, ISO-ES, ISO-IT, ISO-NORDIC, ISO-PT, ISO-CH, ISO-RU, ISO-PL, JIS-JP, ABNT2-BR | généré |
-| Tenkeyless | ANSI-US, ISO-DE, ISO-UK, ISO-FR | généré |
-| 75 %, 65 %, 60 % | ANSI-US, ISO-DE | généré |
+`physicalLayout` décrit la *forme* du clavier, non la langue dans laquelle vous écrivez. Le caractère
+que produit une touche est demandé à Windows au moment de l’exécution : un clavier allemand est
+donc servi correctement même si Windows est réglé sur US ou Dvorak.
 
-`physicalLayout` décrit la *forme* du clavier, pas la langue dans laquelle vous écrivez. Le
-caractère que produit chaque touche est demandé à Windows au moment voulu : un profil ISO-FR sert
-donc un clavier français que Windows soit réglé en français, en américain ou en Dvorak.
-
-**Ce sont les mauvaises touches qui s'allument chez vous ?** C'est exactement ce que « généré »
-veut dire, et le corriger ne demande aucune programmation — environ dix minutes avec le mode de
-calibrage. Voir [docs/fr/adding-a-keyboard.md](docs/fr/adding-a-keyboard.md). Les corrections
-sont aussi bienvenues que les nouveaux profils : elles transforment une supposition en profil
-`verified` pour tous ceux qui ont ce clavier.
-
+**Nécessite Razer Synapse**, installé et en cours d’exécution, clavier branché. C’est là
+que le clavier est décrit et là que se trouve son dessin.
 ## Documentation
 
 | Sujet | |
 |---|---|
 | Architecture | comment la coloration est décidée, et pourquoi il n'y a pas de hook clavier |
-| Ajouter ou corriger un clavier | profils de périphérique, calibrage, et que faire quand les mauvaises touches s'allument |
 | Ajouter un profil | coloration par application |
-| Format de profil de périphérique | chaque champ, en détail |
 | Configuration | paramètres, fichier de paramètres, démarrage automatique |
 
 Disponible en onze langues :
@@ -145,28 +135,18 @@ dotnet build
 dotnet test
 ```
 
-Deux programmes en sortent. **`Keylegend.exe`** (`src/Keylegend.App`) est l'application :
-fenêtre, icône dans la zone de notification, paramètres. C'est celui qu'il vous faut pour un
-usage normal.
-
-**`keylegend-cli.exe`** (`src/Keylegend.Host`) est un pilote console avec les diagnostics :
-
-| Commande | Ce qu'elle fait |
-|---|---|
-| `keylegend-cli` | Lance l'éclairage. Prend la main à la première frappe, la rend après 10 s d'inactivité. |
-| `keylegend-cli --idle 30` | Idem, avec un délai d'inactivité de 30 secondes. |
-| `keylegend-cli --once 10` | Peint l'état actuel une fois et le maintient dix secondes. Bon premier test. |
-| `keylegend-cli --calibrate` | Allume les touches une par une pour vérifier un profil de périphérique. |
-| `keylegend-cli --dump-layout` | Affiche ce que produit chaque touche : normal / Maj / Alt Gr. |
-| `keylegend-cli --watch-foreground` | Indique ce que voit la détection de jeux au fil des changements de fenêtre. |
-| `keylegend-cli --profile <chemin>` | Utilise un `device.json` précis. |
+`Keylegend.exe` (`src/Keylegend.App`) est tout le programme : fenêtre, icône dans la zone de
+notification, paramètres. Le seul commutateur à connaître : `--verify` vérifie qu'une copie porte
+les profils fournis et les onze langues, écrit ce qu'il trouve dans le chemin indiqué à la suite et
+répond par son code de sortie. C'est ce que le script de publication exécute contre une copie
+empaquetée.
 
 Les paramètres résident dans `%APPDATA%\Keylegend\settings.json` et sont écrits par
 l'application.
 
 ## Contribuer
 
-Les rapports de bogue, les profils de périphérique et les traductions sont tous bienvenus — voir
+Les rapports de bogue, les profils d'application et les traductions sont tous bienvenus — voir
 [CONTRIBUTING.md](CONTRIBUTING.md) et [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
 ## Licence
@@ -183,9 +163,9 @@ uniquement pour désigner le matériel et l'interface logicielle avec lesquels c
 fonctionne, comme le permet l'usage référentiel. Keylegend est un projet indépendant, maintenu
 par la communauté.
 
-Il en va de même pour tous les autres noms présents dans ce dépôt. Les profils d'application et
-de jeu nomment une petite centaine de programmes — Photoshop, Visual Studio Code, Excel, Elden
-Ring et d'autres — et les profils de périphérique nomment des fabricants et des modèles de
-clavier. Ce sont les marques de leurs détenteurs respectifs et elles n'apparaissent que pour dire
-à quel programme ou à quel clavier une chose se rapporte. Keylegend n'est associé à aucun d'eux
-et ne contient ni leur code ni leurs visuels. Voir [NOTICE.md](NOTICE.md).
+Il en va de même pour tous les autres noms présents dans ce dépôt. Les profils d'application et de
+jeu nomment une petite centaine de programmes — Photoshop, Visual Studio Code, Excel, Elden Ring et
+d'autres — et la documentation nomme des fabricants et des modèles de clavier. Ce sont les marques
+de leurs détenteurs respectifs et elles n'apparaissent que pour dire à quel programme ou à quel
+clavier une chose se rapporte. Keylegend n'est associé à aucun d'eux et ne contient ni leur code ni
+leurs visuels. Voir [NOTICE.md](NOTICE.md).

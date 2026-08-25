@@ -4,7 +4,6 @@
     <Project Path="src/Keylegend.Chroma/Keylegend.Chroma.csproj" />
     <Project Path="src/Keylegend.Core/Keylegend.Core.csproj" />
     <Project Path="src/Keylegend.Engine/Keylegend.Engine.csproj" />
-    <Project Path="src/Keylegend.Host/Keylegend.Host.csproj" />
     <Project Path="src/Keylegend.Windows/Keylegend.Windows.csproj" />
   </Folder>
   <Folder Name="/tests/">

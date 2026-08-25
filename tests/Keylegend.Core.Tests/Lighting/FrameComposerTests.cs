@@ -33,9 +33,9 @@ public class FrameComposerTests
 
     private static DeviceProfile ProfileWith(params (string Id, int Row, int Column)[] keys)
         => new(
-            FormatVersion: 1, Name: "Test", Vendor: "Test", Model: "T1",
-            PhysicalLayout: "ISO-DE", Image: "device.png",
-            Canvas: new Canvas(500, 200), Matrix: new MatrixSize(6, 22), Verified: true,
+            Name: "Test",
+            PhysicalLayout: "ISO-DE",
+            Canvas: new Canvas(500, 200), Matrix: new MatrixSize(6, 22),
             Keys: [.. keys.Select(k => new KeyDefinition(k.Id, 0, 0, 19, 19, k.Row, k.Column))]);
 
     private static KeyboardState State(
@@ -374,8 +374,8 @@ public class FrameComposerTests
     public void KeysWithoutAMatrixCellAreSkipped()
     {
         var profile = new DeviceProfile(
-            1, "Test", "Test", "T1", "ISO-DE", "device.png",
-            new Canvas(500, 200), new MatrixSize(6, 22), false,
+            "Test", "ISO-DE",
+            new Canvas(500, 200), new MatrixSize(6, 22),
             [new KeyDefinition("Keyboard_Macro1", 0, 0, 19, 19, null, null)]);
         var composer = new FrameComposer(profile, new FakeResolver());
         var frame = composer.CreateFrame();

@@ -110,8 +110,7 @@ jobs:
             autostart from within the application, and removes both on uninstall.
 
             **`Keylegend-${{ steps.version.outputs.version }}-portable.zip`** is the same
-            program to unpack and run wherever you like. Keep the `devices` folder next to the
-            executable; without it Keylegend has no keyboard to describe.
+            program to unpack and run wherever you like.
 
             ### Requirements
 
@@ -133,8 +132,9 @@ jobs:
 
             ### Which keyboards work
 
-            One profile has been verified on hardware — the Razer DeathStalker V2 in the German
-            ISO layout. The other thirty-one are generated from standard key dimensions: their
-            geometry is exact, their LED mapping is an educated guess. If yours lights the wrong
-            keys, correcting it takes about ten minutes and no programming. See
-            [docs/en/adding-a-keyboard.md](https://github.com/Eistee82/Keylegend/blob/main/docs/en/adding-a-keyboard.md).
+            Every Razer Chroma keyboard. Keylegend asks Razer Synapse which one is plugged in and
+            reads Razer's own drawing of that model, so there is no list to be on. Which cell of
+            the lighting matrix each key belongs to comes from the Chroma protocol's own table,
+            confirmed by hand on a DeathStalker V2 in ISO-DE and correct by inference elsewhere.
+            If yours lights the wrong keys, the window shows which key should be lit instead —
+            please open an issue saying which.

@@ -1,5 +1,6 @@
 using System.Net.Http;
 using System.Windows;
+using Keylegend.App.Localisation;
 using Keylegend.Chroma;
 using Keylegend.Core.Configuration;
 using Keylegend.Core.Devices;
@@ -23,6 +24,14 @@ public partial class App : Application
     {
         base.OnStartup(e);
 
+        // Before anything else, because it must not touch the keyboard, the settings file or the
+        // screen: --verify only reports whether this copy carries what it needs, and leaves.
+        if (Verification.Requested(e.Args, out var reportPath))
+        {
+            Shutdown(Verification.Run(reportPath));
+            return;
+        }
+
         // Started by Windows at logon rather than by hand: come up in the notification area,
         // with no window and no balloon in the way of whatever the user is doing.
         var minimised = Autostart.StartsMinimised(e.Args);
@@ -34,16 +43,12 @@ public partial class App : Application
         DeviceProfile profile;
         try
         {
-            // Ask Windows what is plugged in first. With one profile shipped this made no
-            // difference; with thirty-two it is the difference between lighting the keyboard on
-            // the desk and lighting whichever profile happened to sort first.
-            var path = DeviceProfileLocator.FindDefault(
-                    ConnectedKeyboards.Detect(),
-                    ConnectedKeyboards.SuggestPhysicalLayout())
-                ?? throw new DeviceProfileException(
-                    "No device profile found. Expected a devices folder next to the application.");
-
-            profile = DeviceProfileLoader.Load(path);
+            // Ask the lighting service what is actually plugged in. It knows the model by name,
+            // states the physical layout outright, and lists the keys the hardware really has —
+            // all three of which the program used to infer. Where it answers, the profile is
+            // built for that keyboard rather than chosen for a guessed one.
+            profile = FromAttachedDevice()
+                ?? throw new DeviceProfileException(Texts.Get("StartupNoKeyboard"));
 
             var problems = DeviceProfileValidator.Validate(profile);
             if (problems.Count > 0)
@@ -58,6 +63,33 @@ public partial class App : Application
             MessageBox.Show(ex.Message, "Keylegend", MessageBoxButton.OK, MessageBoxImage.Error);
             Shutdown(1);
             return;
+        }
+
+        static DeviceProfile? FromAttachedDevice()
+        {
+            // Without the vendor's software there is nothing to read, and nothing to fall back
+            // on either: the keyboard it describes and the drawing it keeps are where the profile
+            // comes from. The caller says so and stops.
+            var attached = SdkDeviceDescription.ReadAll().FirstOrDefault();
+
+            if (attached is null || attached.Keys.Count == 0)
+            {
+                return null;
+            }
+
+            // The vendor's own drawing of the attached model. Everything a profile used to carry
+            // is in it: the keys and their names, their real sizes, the casing, and the legends
+            // printed on the caps in the right language. What it does not carry — which cell each
+            // key lights — is a constant of the protocol.
+            var drawing = SvgLayoutSource.Find(attached);
+
+            if (drawing is not null
+                && AttachedDeviceProfile.FromDrawing(attached, drawing) is { } drawn)
+            {
+                return drawn;
+            }
+
+            return null;
         }
 
         var resolver = new WindowsKeyResolver();

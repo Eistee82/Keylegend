@@ -46,10 +46,10 @@ La reconnaissance se fait par nom d'exécutable. Quand plusieurs profils corresp
 nomme le programme l'emporte — un jeu ayant son propre profil le garde donc même si la détection
 de jeux se déclenche aussi. La priorité ne tranche que les égalités restantes.
 
-Un profil ne remplace que les couches de modificateurs qu'il nomme lui-même. Photoshop remplace la
-couche Ctrl, parce que Ctrl y signifie d'autres commandes ; `Win+E` ouvre toujours l'Explorateur,
-parce que Windows attribue cette combinaison à l'échelle du système et qu'elle tient quel que soit
-ce qui est devant.
+Un profil se superpose à l'ensemble général, entrée par entrée. Photoshop dit ce que `Ctrl+J`
+signifie là ; `Ctrl+C` copie toujours, car un profil qui nomme la couche Ctrl ne prétend pas que
+Ctrl ne signifie rien d'autre. Et `Win+E` ouvre toujours l'Explorateur, parce que Windows attribue
+cette combinaison à l'échelle du système et qu'elle tient quel que soit ce qui est devant.
 
 ### Ce que contient un profil
 
@@ -94,12 +94,17 @@ projet, sous forme de fichier — voir [Ajouter un profil](adding-a-profile.md).
 
 ### Format du fichier de paramètres
 
-`settings.json` porte le `formatVersion` 2. Les fichiers plus anciens sont migrés au chargement :
-la version 1 ne connaissait ni les identifiants ni la provenance d'un profil, et ne peut donc pas
-dire lesquelles de ses entrées étaient jadis fournies. Toutes deviennent des profils utilisateur.
-Rien n'est perdu, mais les profils fournis apparaissent à côté, il peut donc y avoir au début deux
-entrées pour un même programme ; celle en trop peut être supprimée ou masquée.
+`settings.json` porte le `formatVersion` 3. Les fichiers plus anciens sont migrés au chargement.
 
+Un fichier de version 1 ne connaît ni les identifiants ni la provenance d'un profil, et ne peut donc
+pas dire lesquelles de ses entrées sont les entrées fournies. Toutes deviennent des profils
+utilisateur. Rien n'est perdu, mais les profils fournis apparaissent à côté, il peut donc y avoir au
+début deux entrées pour un même programme ; celle en trop peut être supprimée ou masquée.
+
+Un fichier de version 2 énumère toutes les couleurs, y compris celles que personne n'a touchées, et
+fige ainsi la palette : une couleur livrée améliorée n'atteint personne ayant déjà lancé le
+programme. Une couleur égale à la palette de cette version est donc lue comme valeur par défaut et
+abandonnée à la migration ; tout le reste est votre choix et est conservé.
 ## Comportement
 
 | Réglage | Signification |
@@ -130,8 +135,7 @@ démarrer, ce qu'un fichier modifié à la main veut de toute façon le plus pro
 Ce qui est traduit, ce sont les menus et les explications. Deux choses ne le sont **pas**, toutes
 deux délibérément :
 
-- **Les légendes des touches** sur le clavier représenté. Elles viennent du profil de périphérique
-  et doivent correspondre au clavier devant vous, pas à la langue des menus — un clavier ISO
+- **Les légendes des touches** sur le clavier représenté. Elles viennent du dessin de Razer et doivent correspondre au clavier devant vous, pas à la langue des menus — un clavier ISO
   allemand affiche `strg` et `entf`, que l'interface tourne en anglais ou non.
 - **Les noms des modificateurs** (Shift, Ctrl, Alt, Alt Gr, Verr Num …). Ces mêmes noms sont
   produits par la mécanique des raccourcis pour les listes de couches, qui se situe hors de la
@@ -140,15 +144,26 @@ deux délibérément :
 Tout ce qui n'a pas de traduction retombe sur l'anglais, si bien qu'un fichier de langue inachevé
 coûte les lignes qui lui manquent et non l'interface entière.
 
-## Calibrage
+## Si l'éclairage ne fonctionne pas
 
-Le calibrage est un mode en ligne de commande, pas une page de paramètres :
+Le dialogue avec le service Chroma peut échouer : le service est arrêté, Synapse a été fermé, un
+autre programme détient la session. Keylegend continue d'essayer, avec une pause croissante entre
+les tentatives, et dit pendant ce temps ce qui ne va pas :
 
-```bash
-keylegend-cli --profile devices/<dossier>/device.json --calibrate
-```
+- la ligne d'état en bas de la fenêtre porte la raison, en ambre plutôt que dans le gris habituel
+- la zone de notification le dit dans son infobulle, pour qu'une fenêtre fermée ne le cache pas
+- une bulle l'annonce, une fois par panne et non une fois par tentative
 
-Il allume une touche à la fois et la nomme, pour qu'un profil de périphérique puisse être vérifié
-sur du matériel réel. Les constats sont écrits au fil de l'eau dans `calibration-findings.txt`, et
-`tools/apply-calibration.ps1` les réécrit dans le profil. Voir
-[Ajouter ou corriger un clavier](adding-a-keyboard.md).
+Les trois disparaissent dès qu'une image passe à nouveau. Si rien n'apparaît et que le clavier ne
+s'allume toujours pas, le programme ne tourne pas : cherchez son icône dans la zone de notification.
+
+## Si les mauvaises touches s'allument
+
+Le clavier dans la fenêtre est le clavier sur le bureau : les deux sont remplis par le même code, la
+fenêtre montre donc à quoi le matériel devrait ressembler. La vérification consiste à tenir les deux
+côte à côte.
+
+À quelle cellule de la matrice d'éclairage appartient une touche est la seule chose que ni Synapse ni
+le dessin n'indiquent : cela vient de la table du protocole Chroma lui-même. Si une touche s'allume
+sur le matériel alors qu'une autre est allumée dans la fenêtre, cette table est fausse pour votre
+modèle. Un ticket disant quel clavier et quelle touche vaut la peine.

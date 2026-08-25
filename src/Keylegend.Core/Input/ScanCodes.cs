@@ -110,4 +110,11 @@ public static class ScanCodes
 
         return Table.TryGetValue(keyId, out scanCode);
     }
+
+    /// <summary>
+    /// The scan code Windows reports for the Pause key. It arrives as an <c>E1</c> sequence
+    /// rather than a plain code, and the table above lists it under <c>0x45</c> — the same code
+    /// Num Lock uses, which is why the two can only be told apart by that prefix.
+    /// </summary>
+    public const ushort PauseSequence = 0x45;
 }

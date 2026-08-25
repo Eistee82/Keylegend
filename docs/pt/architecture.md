@@ -24,6 +24,7 @@ Tudo o que fala com o mundo exterior vive em adaptadores finos à volta desse n�
 | `Keylegend.Core` | perfis de dispositivo, categorias, conjuntos de atalhos, o compositor de fotogramas, a máquina de estados da sessão | nada específico de plataforma |
 | `Keylegend.Windows` | estado do teclado, resolução de carateres, janela em primeiro plano | APIs do Windows |
 | `Keylegend.Chroma` | cliente REST para o SDK Chroma, batimento | rede |
+| `Keylegend.Engine` | o ciclo que lê o teclado, compõe um fotograma e o envia | Core, Chroma, Windows |
 | `Keylegend.App` | interface WPF, ícone na área de notificação, armazenamento da configuração | tudo o que está acima |
 
 `Keylegend.Core` nunca pode referenciar os outros. Se uma alteração parecer exigi-lo, é a
@@ -61,10 +62,29 @@ obtido.
 devolve simplesmente `A` em vez de `a` e cai por si na categoria «maiúscula». E é também por isso
 que qualquer esquema de teclado funciona sem alterações.
 
+### Que teclado está ligado
+
+Pergunta-se ao Razer Synapse, porque já sabe. Escreve uma descrição de cada dispositivo ligado em
+`…\Razer Chroma SDK\Devices\<guid>.json`: o modelo pelo nome, a disposição física como número, o
+tamanho da matriz e o código de varrimento de cada tecla que o hardware realmente tem.
+`SdkDeviceDescription` lê isso, e nada do teclado é deduzido.
+
+O aspeto do teclado vem da mesma instalação. A interface do Synapse é uma aplicação web, e os
+desenhos que carrega para um dispositivo ficam na sua cache: retângulos de teclas com nome, a forma
+da caixa com a roda de volume e a faixa multimédia, e os contornos dos caracteres impressos nas
+teclas. `SvgLayoutSource` encontra o do modelo e da disposição ligados de forma exata e não pela
+forma, porque cada desenho é entregue ao lado de um objeto de configuração que nomeia ambos.
+
+Só se tomam medidas e contornos; as cores e o estilo da Razer são ignorados, e nada desse material
+é copiado para este repositório.
+
+A única coisa que nenhum dos dois indica é a que célula da matriz de iluminação pertence uma tecla.
+Isso é `StandardKeyMatrix`, a tabela `RZKEY` do próprio protocolo, idêntica em cada modelo.
+
 ## Perfis de aplicação
 
 Um perfil liga regras de iluminação a um programa. Vêm incluídos cerca de noventa, e vale a pena
-enunciar as decisões por detrás deles, porque cada uma foi a segunda resposta e não a primeira.
+enunciar as decisões por detrás deles, porque nenhuma delas é a resposta óbvia.
 
 ### Os perfis são dados, não código
 
@@ -76,12 +96,12 @@ exigisse código, o formato estaria errado.
 
 ### Embutidos no assembly em vez de soltos no disco
 
-Os perfis de dispositivo ficam ao lado do executável; os de aplicação não. Três razões, e cada uma
-bastaria por si. Uma versão em ficheiro único leva-os consigo sem pasta que se possa perder. Nada
-no disco pode ser editado por acidente, e é precisamente isso que dá sentido a «repor a versão
-incluída» — a versão incluída tem de estar fora de alcance para valer a pena voltar a ela. E um
-perfil que não compila torna-se um erro de compilação em vez de um programa que ficou
-silenciosamente sem perfis.
+Os perfis de aplicação são compilados no assembly em vez de ficarem como ficheiros ao lado do
+executável. Três razões, e cada uma bastaria por si. Uma versão em ficheiro único leva-os consigo
+sem pasta que se possa perder. Nada no disco pode ser editado por acidente, e é precisamente isso
+que dá sentido a «repor a versão incluída» — a versão incluída tem de estar fora de alcance para
+valer a pena voltar a ela. E um perfil que não compila torna-se um erro de compilação em vez de um
+programa que ficou silenciosamente sem perfis.
 
 ### As substituições são por secção
 
@@ -91,7 +111,7 @@ repor é sequer possível, e uma compilação atualizada ainda pode melhorar um 
 editou em parte. O identificador sustenta isto e nunca pode mudar depois de publicado: renomeá-lo
 deixa órfãs as edições de alguém.
 
-A granularidade foi escolhida contra as duas alternativas óbvias:
+A granularidade aguenta contra as duas alternativas óbvias:
 
 - **Por campo** parece mais arrumado e produz estados que ninguém configurou. Recoloca a cor de
   `W`, aceita depois uma atualização que acrescenta `Q`, e o resultado é uma mistura que o
@@ -102,15 +122,22 @@ A granularidade foi escolhida contra as duas alternativas óbvias:
 Uma secção é a granularidade à qual a alteração ainda cabe numa frase: editaste os destaques, logo
 os destaques passam a ser teus.
 
-### Um perfil substitui apenas as camadas que nomeia
+### Um perfil é sobreposto ao conjunto geral, entrada por entrada
 
-Os atalhos são indexados por combinação de modificadores e sobrepostos ao catálogo geral, não
-substituídos a ele. O Photoshop sabe o que `Ctrl` significa dentro do Photoshop; não sabe nada de
-`Win+E`, que o Windows atribui a nível de sistema e que é verdade haja o que houver à frente.
-Substituir o catálogo inteiro tornaria um perfil responsável por factos sobre os quais não tem
-opinião. Um perfil que não nomeia camada nenhuma devolve o catálogo geral inalterado, pelo que o
-caso comum não aloca nada.
+Os atalhos são indexados por combinação de modificadores, e as entradas de um perfil assentam sobre
+as gerais em vez de tomarem o seu lugar — entrada por entrada, não camada por camada. O Photoshop
+sabe o que significa `Ctrl+J` dentro do Photoshop; não sabe nada sobre `Win+E`, que o Windows
+atribui a todo o sistema, nem sobre `Ctrl+C`, que vale em qualquer lugar onde haja um cursor de
+texto.
 
+Por camada significaria que um perfil que nomeia `Ctrl` para os seus próprios comandos leva a camada
+inteira consigo, e a área de transferência é o que isso custa: copiar, colar, cortar, desfazer e
+selecionar tudo apagam-se num navegador, num programa de conversação, num terminal — programas em
+que pouco mais se faz do que escrever e colar. Por entrada, quem nomeia uma tecla vence para essa
+tecla e nada mais se move. Esvaziar uma camada inteira é de propósito impossível.
+
+Um perfil que não nomeia nenhuma camada devolve o catálogo geral inalterado; o caso comum não
+reserva, portanto, nada.
 ### Atalhos e destaques trazem uma etiqueta
 
 A etiqueta diz o que o comando faz — «Duplicar camada», não «Ctrl+J». O hardware nunca a mostra:
@@ -121,15 +148,31 @@ está certa. `"j": "Editar"` não pode ser confrontado com nada; `"j": "Duplicar
 
 ### Migrar um ficheiro de definições em formato 1
 
-O formato 1 guardava os perfis inteiros, sem identificador e sem registo da sua proveniência. É
-exatamente isso que o novo formato corrige: uma substituição precisa de um identificador a que se
-agarrar, e repor precisa de saber que existe uma versão incluída à qual voltar.
+Um ficheiro em formato 1 guarda os perfis inteiros, sem identificador e sem registo da sua
+proveniência. Uma substituição precisa de um identificador a que se agarrar, e repor precisa de
+saber que existe uma versão incluída à qual voltar: um ficheiro assim não pode, por isso, dizer
+quais das suas entradas são as incluídas.
 
-A consequência para a migração é que um ficheiro antigo não pode dizer quais das suas entradas
-foram outrora incluídas. Por isso todas passam a perfis de utilizador. Isso preserva cada edição
-que alguém fez, ao preço de o perfil incluído aparecer ao lado da cópia migrada até que um dos dois
-seja removido — e é a troca certa, porque a outra leitura apagaria trabalho em silêncio.
+Por isso todas passam a perfis de utilizador. Isso preserva cada edição que alguém fez, ao preço de
+o perfil incluído aparecer ao lado da cópia migrada até que um dos dois seja removido — a troca
+certa, porque a outra leitura apaga trabalho em silêncio.
 
+### Migrar um ficheiro de definições em formato 2
+
+Um ficheiro em formato 2 lista todas as cores, incluindo as que ninguém tocou, e não pode por isso
+dizer quais das suas entradas são decisões e quais valores predefinidos devolvidos. Acatá-las todas
+fixa a paleta: uma cor incluída melhorada não chega então a ninguém que já tenha executado o
+programa.
+
+O formato 3 escreve apenas o que difere da paleta incluída, pelo que uma entrada no ficheiro
+significa que alguém a escolheu. Migrar um ficheiro mais antigo obriga a adivinhar essa distinção, e
+o pressuposto é: uma entrada igual à paleta dessa versão é um valor predefinido, qualquer outra é
+uma escolha. `PaletteBeforeFormat3` guarda essa paleta como cópia congelada em vez de ler a atual —
+essa comparação perde sentido no momento em que a paleta muda de novo, que é exatamente quando é
+necessária.
+
+O preço é que quem escolheu de propósito uma dessas cores a perde. É o sentido certo: uma pessoa
+volta a escolher uma cor, contra todos os utilizadores a ficar com uma paleta que ninguém escolheu.
 ## Falar com o teclado
 
 O SDK Chroma é acedido pela sua interface REST local. As cores são inteiros codificados em BGR; o
@@ -142,18 +185,17 @@ fotograma seguinte à volta de 2 ms.
 
 ### Com que frequência os fotogramas são enviados
 
-Isto parece um pormenor e não é; ambas as respostas óbvias estão erradas, e ambas foram
-experimentadas.
+Isto parece um pormenor e não é; ambas as respostas óbvias estão erradas.
 
 **Enviar só quando muda** deixa a tomada de controlo a seco. Uma tecla premida vulgar não muda o
 estado do teclado — só os modificadores e os bloqueios o fazem — pelo que uma tomada de controlo
-produzia exatamente um fotograma. O Chroma descarta fotogramas enquanto ainda está a assumir o
-controlo, e reporta sucesso para eles, de modo que esse único fotograma podia desvanecer-se e
-deixar o teclado congelado no efeito anterior até o utilizador premir por acaso um modificador.
+produz exatamente um fotograma. O Chroma descarta fotogramas enquanto ainda está a assumir o
+controlo, e reporta sucesso para eles, de modo que esse único fotograma pode desvanecer-se e deixar
+o teclado congelado no efeito anterior até o utilizador premir por acaso um modificador.
 
 **Enviar o mais depressa possível** arruína a capacidade de resposta. Os fotogramas ficam em fila
 dentro da interface, e uma mudança de estado espera então atrás de tudo o que já foi enviado:
-premir Shift demorava um segundo ou dois, visivelmente, a aparecer.
+premir Shift demora um segundo ou dois, visivelmente, a aparecer.
 
 O que funciona é enviar por três razões distintas a três ritmos diferentes:
 

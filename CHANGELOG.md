@@ -5,6 +5,73 @@ All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+Keylegend no longer carries its own description of your keyboard. Razer Synapse already holds one —
+the model, the physical layout, which keys the hardware actually has, and a drawing of the whole
+board down to the characters printed on the caps — so that is what is used now, read from the local
+installation while the program runs. The keyboard on screen is therefore the keyboard on the desk:
+its real key sizes, its casing with the volume dial and the media strip, and its legends in the
+language they are actually printed in. Nothing has to be recognised, chosen or measured, and there
+is no list of supported models to be absent from.
+
+### Added
+- Windows shortcuts that were missing: the five taskbar layers on the digit row, the Microsoft 365
+  layer on Win+Ctrl+Alt+Shift, the on-screen keyboard, the taskbar settings and the Game Bar
+- More complete shortcuts for Chrome, Edge and Firefox, with the same highlights on the keys all
+  three give a meaning to unmodified — F1, F3, F5, F7, F11, F12 and Esc
+- A profile can now define what the keyboard shows under Shift, and with no modifier held at all.
+  For programs that use the keyboard for functions rather than for writing: a game binds Shift to
+  sprint, where which character a key types is beside the point. Nothing shipped uses either, so a
+  keyboard behaves as before until a profile says otherwise
+- **Keylegend says when the lighting is not working.** If talking to Chroma fails — the service
+  stopped, another program holding the session — the status line carries the reason in amber, the
+  notification area says so in its tooltip, and one balloon announces it. All three are withdrawn as
+  soon as a frame gets through again. This is the case the window alone cannot cover: it is usually
+  closed, and a keyboard that stops lighting otherwise looks like the program having quietly given
+  up
+
+### Changed
+- **Razer Synapse is now required**, installed and running, with the keyboard connected. It is where
+  the keyboard is described and where the drawing lives. Without it the program says so and stops
+- Colours in the palette are saturated now. A pale one is a tinted white on a lit keycap, and it was
+  indistinguishable from the keys next to it — measured on the hardware, not in the preview
+- The lit legends keep their hue and glow at any window size
+
+### Removed
+- **The shipped device profiles, and with them the whole idea of them.** There is no `devices/`
+  folder, no profile format, no generator, and nothing to write when a keyboard is not listed. One
+  profile is kept as test data: the keyboard this was developed against, which every generated one
+  is checked against
+- **The calibration mode.** It existed to confirm a hand-measured profile against the hardware, and
+  there are no hand-measured profiles left. The check it performed needs no mode of its own either:
+  the keyboard in the window and the keyboard on the desk are filled by the same code, so holding
+  the two side by side is the comparison. If they disagree, the window already names the key that
+  should have lit
+- **Everything left over from a keyboard being described in a file.** What the program builds for
+  the attached keyboard now holds only what it reads: a name, the physical layout, the drawing
+  surface, the matrix size and the keys. Gone are `formatVersion`, `verified`, `usb`, `note`,
+  `image`, `vendor` and `model` — seven fields that were written and never read — along with
+  `UsbId` and the reader for such files. The one hand-measured keyboard is kept as what it always
+  was, a table of measurements, and no longer pretends to be a profile
+- **`keylegend-cli.exe`.** A release is one executable now. The console driver existed for
+  diagnostics from a time when the window could not show them: it ran the lighting without a
+  window, printed what each key resolves to, and stepped through the matrix. The window does all of
+  that, and it says when the lighting is not working. What it could do that the window could not —
+  answer a script about whether a packaged copy is sound — is now `Keylegend.exe --verify`, which
+  opens no window, needs no keyboard, writes its findings to a path given after it and answers
+  through its exit code
+
+### Fixed
+- **An application profile no longer blanks the shortcuts it does not mention.** A profile naming the
+  Ctrl layer for its own commands dropped everything it did not repeat, and what it dropped most
+  often was the clipboard — Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+Z and Ctrl+A went dark in browsers, chat
+  clients and terminals, which are programs one does little but type and paste in
+- A settings file no longer pins the colour palette. Every colour was saved, the untouched ones
+  included, so improvements to the palette reached nobody who had ever run the program
+- The ISO Enter is drawn and lit as the L-shape it is, so its legend sits where the keyboard has it
+  and its light stays off the key beside it
+
 ## [1.0.0] — 2026-08-22
 
 First release. Everything below is what it contains; there is no earlier version to compare it
@@ -137,7 +204,7 @@ against.
 - A profile replaces only the modifier layers it names, so system-wide Windows shortcuts stay
   accurate while a program profile is active
 - **Profile format description** in `profiles/FORMAT.md`, and a guide for contributing a
-  profile ([en](docs/en/adding-a-profile.md), [de](docs/de/profil-hinzufuegen.md))
+  profile ([en](docs/en/adding-a-profile.md), [de](docs/de/adding-a-profile.md))
 
 ### Changed
 - `settings.json` is now `formatVersion` 2. Version 1 files are migrated on load: their

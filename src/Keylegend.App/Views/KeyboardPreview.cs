@@ -43,6 +43,16 @@ public sealed class KeyboardPreview : FrameworkElement
 
     private DeviceProfile? _profile;
     private LedFrame? _frame;
+    private Geometry? _legend;
+    private LegendDrawing? _legendFor;
+    private List<(Geometry Shape, ChassisLayer Layer)>? _chassis;
+    private LegendDrawing? _chassisFor;
+
+    // The case, in this program's own greys rather than the vendor's: dark enough for the keycaps
+    // to read as sitting on top of it, with a lighter edge where the case catches the light.
+    private static readonly Brush ChassisBody = Frozen(Color.FromRgb(19, 19, 24));
+    private static readonly Brush ChassisRaised = Frozen(Color.FromRgb(74, 74, 84));
+    private static readonly Brush ChassisRecessed = Frozen(Color.FromRgb(13, 13, 17));
     private readonly Dictionary<string, KeyLegend> _labels = [];
     private readonly Dictionary<string, string> _tips = [];
     private readonly ToolTip _tip = new()
@@ -78,8 +88,53 @@ public sealed class KeyboardPreview : FrameworkElement
         set
         {
             _profile = value;
+            _legend = null;
+            _legendFor = null;
+            _chassis = null;
+            _chassisFor = null;
             InvalidateVisual();
         }
+    }
+
+    /// <summary>
+    /// The printed legends as one shape, parsed once and reused.
+    /// </summary>
+    /// <remarks>
+    /// Parsing is the expensive part — the path holds every character on the keyboard, tens of
+    /// thousands of instructions — and it is done once per profile rather than once per frame at
+    /// twenty frames a second. The result is frozen, which lets WPF share it across threads and
+    /// skip its change tracking.
+    /// </remarks>
+    private Geometry? LegendGeometry()
+    {
+        if (_profile?.Legend is not { Path.Length: > 0 } legend)
+        {
+            return null;
+        }
+
+        if (_legend is not null && ReferenceEquals(_legendFor, legend))
+        {
+            return _legend;
+        }
+
+        _legendFor = legend;
+
+        try
+        {
+            // Left in the drawing's own coordinates on purpose. Setting Transform here is what an
+            // earlier attempt did, and it threw: the parser hands back an already frozen figure,
+            // so the mapping has to be applied when drawing instead — where it is combined with
+            // the control's own scaling into a single matrix anyway.
+            _legend = Geometry.Parse(legend.Path);
+        }
+        catch (FormatException)
+        {
+            // Someone else's asset, and it may change shape without warning. A path this cannot
+            // read costs the printed legends, nothing more: the text labels below still draw.
+            _legend = null;
+        }
+
+        return _legend;
     }
 
     /// <summary>Raised when a key is clicked, used to assign a highlight.</summary>
@@ -238,6 +293,10 @@ public sealed class KeyboardPreview : FrameworkElement
         var radius = Math.Max(2, 3 * scale / 5);
         var type = TypeSizes(_profile, scale);
 
+        // The height of an ordinary key on screen. Everything that has to look the same size at
+        // every window size and in either coordinate system is a fraction of this.
+        var unit = (_profile.Keys.Count > 0 ? _profile.Keys.Min(k => k.Height) : 19) * scale;
+
         if (ShowLayoutDiagnostics)
         {
             var report = new FormattedText(
@@ -249,6 +308,10 @@ public sealed class KeyboardPreview : FrameworkElement
             context.DrawText(report, new Point(6, 4));
         }
 
+        // The casing goes down before anything else, or it paints over the light: put this after
+        // the glow pass and every halo disappears under it.
+        DrawChassis(context, scale, offsetX, offsetY);
+
         // Two passes: every glow first, then every keycap. Otherwise a bright key's halo would
         // be painted over the neighbour drawn after it, and the light would look clipped.
         foreach (var key in _profile.Keys)
@@ -257,9 +320,15 @@ public sealed class KeyboardPreview : FrameworkElement
 
             if (colour != RgbColor.Off)
             {
-                DrawGlow(context, OutlineOf(key, scale, offsetX, offsetY, radius), colour);
+                DrawGlow(context, OutlineOf(key, scale, offsetX, offsetY, radius), colour, unit);
             }
         }
+
+        // The vendor's own outlines of what is printed on the caps, if this machine has them.
+        // One shape for the whole board, so it is clipped to each key in turn and painted in that
+        // key's colour — the legend has to light up with its own key, not with the board.
+        var legend = LegendGeometry();
+        var mapping = legend is null ? null : _profile.Legend;
 
         foreach (var key in _profile.Keys)
         {
@@ -271,6 +340,23 @@ public sealed class KeyboardPreview : FrameworkElement
             // shines around the cap and through the legend. Filling the whole key with the LED
             // colour - which this did at first - looks nothing like the keyboard.
             context.DrawGeometry(KeycapFill, mapped ? KeycapEdge : UnmappedPen, geometry);
+
+            if (legend is not null && mapping is not null
+                && LegendTransformFor(key, mapping, scale, offsetX, offsetY) is var placed
+                && placed is not null)
+            {
+                // Three hundredths of a key — about a pixel and a half at ordinary sizes —
+                // converted into the outline's own coordinates, because that is where the pen is
+                // stroked. A twentieth was tried and smeared the word legends into blobs: the
+                // small ones like "strg" are a fraction of the height of a letter, so an
+                // absolute width hits them hardest.
+                var bloom = unit * 0.03 / Math.Max(0.0001, mapping.ScaleX * scale);
+
+                DrawPrintedLegend(
+                    context, legend, placed.Value.Transform, bloom,
+                    placed.Value.Clip, geometry, colour);
+                continue;
+            }
 
             // Labels go on the main area; on an L-shaped key that is the part with the legend.
             DrawLabel(
@@ -286,6 +372,295 @@ public sealed class KeyboardPreview : FrameworkElement
     }
 
     /// <summary>
+    /// Paints the keyboard's casing from the vendor's drawing, if there is one.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Outlines only. The greys are this program's, chosen to sit under its own keycaps, so the
+    /// keyboard still looks like the rest of the application — the drawing is being read for the
+    /// shape of the case, not for its styling.
+    /// </para>
+    /// <para>
+    /// This is the only way the volume dial and the media strip appear at all. Neither carries
+    /// addressable lighting, so no device profile ever described them, and a keyboard drawn from
+    /// key rectangles alone simply had a hole where they belong.
+    /// </para>
+    /// </remarks>
+    private void DrawChassis(DrawingContext context, double scale, double offsetX, double offsetY)
+    {
+        if (_profile?.Legend is not { Chassis: { Count: > 0 } shapes } mapping)
+        {
+            return;
+        }
+
+        if (!ReferenceEquals(_chassisFor, mapping))
+        {
+            _chassisFor = mapping;
+            _chassis = [];
+
+            foreach (var shape in shapes)
+            {
+                try
+                {
+                    _chassis.Add((Geometry.Parse(shape.Path), shape.Layer));
+                }
+                catch (FormatException)
+                {
+                    // Another program's asset; a shape this cannot read is simply not drawn.
+                }
+            }
+        }
+
+        if (_chassis is not { Count: > 0 })
+        {
+            return;
+        }
+
+        var transform = new MatrixTransform(
+            mapping.ScaleX * scale,
+            0,
+            0,
+            mapping.ScaleY * scale,
+            (mapping.OffsetX * scale) + offsetX,
+            (mapping.OffsetY * scale) + offsetY);
+
+        transform.Freeze();
+
+        context.PushTransform(transform);
+
+        foreach (var (geometry, layer) in _chassis)
+        {
+            context.DrawGeometry(
+                layer switch
+                {
+                    ChassisLayer.Body => ChassisBody,
+                    ChassisLayer.Raised => ChassisRaised,
+                    _ => ChassisRecessed
+                },
+                null,
+                geometry);
+        }
+
+        context.Pop();
+    }
+
+    /// <summary>
+    /// Where to put the printed legends so that this key's own legend lands on this key, or
+    /// <c>null</c> if the drawing has no counterpart for it.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The mapping for the whole board is not enough. The two sides disagree about where a block
+    /// of keys sits — the navigation block by nearly a full key height — and with one mapping for
+    /// everything the second row of that block showed <c>druck rollen pause</c>, the legends of
+    /// the row above it, with its own <c>einfg pos 1 bild</c> clipped off along the top edge.
+    /// </para>
+    /// <para>
+    /// So each key is aligned on its own: the drawing's rectangle for this key is brought into
+    /// profile coordinates, and the outline is then shifted by the distance between that
+    /// rectangle's centre and this key's centre. Centres rather than corners, because the two
+    /// sides also disagree slightly about key sizes, and a legend belongs in the middle of its cap
+    /// either way.
+    /// </para>
+    /// </remarks>
+    private static (Transform Transform, Rect Clip)? LegendTransformFor(
+        KeyDefinition key,
+        LegendDrawing mapping,
+        double scale,
+        double offsetX,
+        double offsetY)
+    {
+        if (mapping.DrawnKeys is null || !mapping.DrawnKeys.TryGetValue(key.Id, out var drawn))
+        {
+            return null;
+        }
+
+        // The drawing's rectangle for this key, in profile coordinates.
+        var left = (drawn.X * mapping.ScaleX) + mapping.OffsetX;
+        var top = (drawn.Y * mapping.ScaleY) + mapping.OffsetY;
+        var width = drawn.Width * mapping.ScaleX;
+        var height = drawn.Height * mapping.ScaleY;
+
+        // Everything the key covers, not just its main rectangle: the drawing gives an L-shaped
+        // Enter one outline spanning both halves, so its centre sits between them. Aligning that
+        // on the upper half alone would lift the word clear of the key.
+        var spanLeft = double.MaxValue;
+        var spanTop = double.MaxValue;
+        var spanRight = double.MinValue;
+        var spanBottom = double.MinValue;
+
+        foreach (var part in key.Areas())
+        {
+            spanLeft = Math.Min(spanLeft, part.X);
+            spanTop = Math.Min(spanTop, part.Y);
+            spanRight = Math.Max(spanRight, part.X + part.Width);
+            spanBottom = Math.Max(spanBottom, part.Y + part.Height);
+        }
+
+        var nudgeX = ((spanLeft + spanRight) / 2) - (left + (width / 2));
+        var nudgeY = ((spanTop + spanBottom) / 2) - (top + (height / 2));
+
+        // Drawing coordinates into profile coordinates, nudged onto this key, then onto the
+        // control. One matrix, so the frozen outline is never touched.
+        var transform = new MatrixTransform(
+            mapping.ScaleX * scale,
+            0,
+            0,
+            mapping.ScaleY * scale,
+            ((mapping.OffsetX + nudgeX) * scale) + offsetX,
+            ((mapping.OffsetY + nudgeY) * scale) + offsetY);
+
+        transform.Freeze();
+
+        // Which part of the board-wide outline belongs to this key: the drawing's own rectangle
+        // for it, moved by the same nudge. Clipping to the keycap alone is not enough — the whole
+        // outline moves with the nudge, so a neighbour's legend rides along into the cap. That is
+        // what left "einfg" and "druck" printed on top of each other.
+        var clip = new Rect(
+            ((left + nudgeX) * scale) + offsetX,
+            ((top + nudgeY) * scale) + offsetY,
+            Math.Max(1, width * scale),
+            Math.Max(1, height * scale));
+
+        return (transform, clip);
+    }
+
+    /// <summary>
+    /// Paints one key's share of the printed legends, in that key's colour.
+    /// </summary>
+    /// <remarks>
+    /// The whole board's outline is clipped to the key rather than cut up in advance, because the
+    /// path carries no per-key division to cut along. Clipping does the same work and asks nothing
+    /// of the source: whatever falls inside this cap belongs to this cap.
+    /// </remarks>
+    private static void DrawPrintedLegend(
+        DrawingContext context,
+        Geometry legend,
+        Transform toScreen,
+        double bloomWidth,
+        Rect share,
+        Geometry keycap,
+        RgbColor colour)
+    {
+        var lit = colour != RgbColor.Off;
+        var ink = lit ? LegendInk(colour) : DarkInk;
+
+        var bounds = new RectangleGeometry(share);
+        bounds.Freeze();
+
+        context.PushClip(keycap);      // never outside the cap
+        context.PushClip(bounds);      // and only this key's own share of the outline
+        context.PushTransform(toScreen);
+
+        // A lit legend gets a soft bloom around the strokes before the strokes themselves. That
+        // is what a backlit character actually looks like: the light does not stop at the edge of
+        // the printing. One layer is enough, and it costs one extra pass over the outline rather
+        // than the three a full glow would.
+        //
+        // The width arrives already converted into the outline's own coordinates, because the pen
+        // is stroked inside the transform: left as a plain number it grew with the keyboard, and
+        // on a maximised window the bloom was wider than the strokes it was meant to soften,
+        // which read as the legends being out of focus.
+        if (lit && bloomWidth > 0)
+        {
+            var bloom = new Pen(LegendBloom(colour), bloomWidth)
+            {
+                LineJoin = PenLineJoin.Round,
+                StartLineCap = PenLineCap.Round,
+                EndLineCap = PenLineCap.Round
+            };
+
+            bloom.Freeze();
+
+            context.DrawGeometry(null, bloom, legend);
+        }
+
+        context.DrawGeometry(ink, null, legend);
+        context.Pop();
+        context.Pop();
+        context.Pop();
+    }
+
+    /// <summary>
+    /// The key's hue at full saturation, brought up to a set perceived brightness.
+    /// </summary>
+    /// <param name="colour">The key's colour.</param>
+    /// <param name="target">
+    /// Perceived brightness to lift a very dark colour to, 0 to 255. Deliberately low: white
+    /// mixed in to raise brightness also drains the colour, and on the real keyboard a blue key
+    /// is vivid blue rather than pale. An earlier attempt aimed at 185 here and the letters came
+    /// out nearly white. What makes a legend read as lit is the bloom around it, not a washed-out
+    /// stroke — so the stroke keeps its colour and the bloom does the work.
+    /// </param>
+    /// <remarks>
+    /// The colour is scaled until its strongest channel reaches 255. That brightens it without
+    /// washing it out, which is what mixing towards white — the way <see cref="Glow"/> does it —
+    /// cannot do: a deep blue key ends up with a pale grey legend.
+    /// </remarks>
+    private static Color LitLegendColour(RgbColor colour, double target)
+    {
+        var peak = Math.Max(colour.R, Math.Max(colour.G, colour.B));
+
+        if (peak == 0)
+        {
+            return Color.FromRgb(96, 96, 106);
+        }
+
+        var factor = 255.0 / peak;
+
+        double r = Math.Clamp(colour.R * factor, 0, 255);
+        double g = Math.Clamp(colour.G * factor, 0, 255);
+        double b = Math.Clamp(colour.B * factor, 0, 255);
+
+        var luminance = (0.2126 * r) + (0.7152 * g) + (0.0722 * b);
+
+        if (luminance < target && luminance < 255)
+        {
+            var white = (target - luminance) / (255 - luminance);
+
+            r += (255 - r) * white;
+            g += (255 - g) * white;
+            b += (255 - b) * white;
+        }
+
+        return Color.FromRgb(
+            (byte)Math.Clamp(r, 0, 255),
+            (byte)Math.Clamp(g, 0, 255),
+            (byte)Math.Clamp(b, 0, 255));
+    }
+
+    /// <summary>
+    /// The stroke of a lit legend: the key's hue at full saturation, and no paler than that.
+    /// </summary>
+    /// <remarks>
+    /// The target only rescues a colour so dark it would otherwise be unreadable. Anything with
+    /// normal brightness passes through with its hue intact, which is the point — a blue key gets
+    /// a vivid blue legend, the way the hardware shows it.
+    /// </remarks>
+    private static Brush LegendInk(RgbColor colour)
+    {
+        var brush = new SolidColorBrush(LitLegendColour(colour, 30));
+
+        brush.Freeze();
+
+        return brush;
+    }
+
+    /// <summary>
+    /// The halo around a lit legend. This is what carries the impression of light, so it is
+    /// brighter than the stroke and spreads past it.
+    /// </summary>
+    private static Brush LegendBloom(RgbColor colour)
+    {
+        var lit = LitLegendColour(colour, 120);
+        var brush = new SolidColorBrush(Color.FromArgb(120, lit.R, lit.G, lit.B));
+
+        brush.Freeze();
+
+        return brush;
+    }
+
+    /// <summary>
     /// Paints the light spilling out from under a keycap.
     /// </summary>
     /// <remarks>
@@ -293,32 +668,49 @@ public sealed class KeyboardPreview : FrameworkElement
     /// hundred keys at twenty frames a second is not worth its cost, and at this size the
     /// stepped version is indistinguishable from a soft one.
     /// </remarks>
-    private static void DrawGlow(DrawingContext context, Geometry outline, RgbColor colour)
+    /// <param name="unit">The height of an ordinary key on screen, in pixels.</param>
+    private static void DrawGlow(
+        DrawingContext context, Geometry outline, RgbColor colour, double unit)
     {
-        var bounds = outline.Bounds;
-
-        if (bounds.IsEmpty)
+        if (outline.Bounds.IsEmpty)
         {
             return;
         }
 
-        ReadOnlySpan<(double Spread, byte Alpha)> layers =
+        // Measured against a key, not against the screen and not against the coordinate system.
+        // A fixed spread in pixels looks right at one window size and no other — maximise the
+        // window and the keys grow while the halo does not, until the light has visibly gone. And
+        // a spread in profile units is no better: a key is 19 of them on the standard grid and 35
+        // in the vendor's drawing, so the same numbers gave half the glow once the geometry came
+        // from the drawing. A fraction of a key holds in every case.
+        ReadOnlySpan<(double Fraction, byte Alpha)> layers =
         [
-            (5.0, 26),
-            (2.5, 46),
-            (0.8, 92)
+            (0.100, 26),
+            (0.050, 46),
+            (0.016, 92)
         ];
 
-        foreach (var (spread, alpha) in layers)
+        foreach (var (fraction, alpha) in layers)
         {
+            var spread = Math.Max(0.5, fraction * unit);
+
             var brush = new SolidColorBrush(Color.FromArgb(alpha, colour.R, colour.G, colour.B));
             brush.Freeze();
 
-            var halo = new Rect(
-                bounds.X - spread, bounds.Y - spread,
-                bounds.Width + spread * 2, bounds.Height + spread * 2);
+            // Widened along the key's own outline rather than around its bounding box. On the
+            // L-shaped Enter the two are not the same shape at all: the bounding box covers the
+            // missing corner as well, so the Enter used to cast its light over the key beside it
+            // and the step showed up as a bright smear between the two.
+            var pen = new Pen(brush, spread * 2)
+            {
+                LineJoin = PenLineJoin.Round,
+                StartLineCap = PenLineCap.Round,
+                EndLineCap = PenLineCap.Round
+            };
 
-            context.DrawRoundedRectangle(brush, pen: null, halo, 4 + spread, 4 + spread);
+            pen.Freeze();
+
+            context.DrawGeometry(brush, pen, outline);
         }
     }
 
@@ -575,8 +967,10 @@ public sealed class KeyboardPreview : FrameworkElement
         // The legend is lit from below, so it carries the key's colour rather than being black
         // or white on top of it - which is what makes a backlit keyboard look the way it does.
         // Unlit keys keep a faint grey legend, as an unlit keycap still shows its printing.
+        // Same ink as the printed legends, so a keyboard with a drawing and one without look
+        // like the same program.
         var lit = colour != RgbColor.Off;
-        var ink = lit ? Glow(colour, 1.0) : DarkInk;
+        var ink = lit ? LegendInk(colour) : DarkInk;
         var faint = lit ? Glow(colour, 0.62) : FaintDarkInk;
 
         var dpi = VisualTreeHelper.GetDpi(this).PixelsPerDip;
@@ -603,11 +997,14 @@ public sealed class KeyboardPreview : FrameworkElement
 
             // A character sits on the same baseline as on every other key, whether or not this
             // one happens to carry a second legend. Otherwise Q, E and M - the letters with an
-            // AltGr character - would ride higher than the letters beside them. Words are
-            // centred, having nothing to line up with.
-            var y = legend.Main.Length > 1
-                ? rect.Y + (rect.Height - only.Height) / 2
-                : rect.Y + rect.Height * MainBaseline - only.Baseline;
+            // AltGr character - would ride higher than the letters beside them.
+            //
+            // Words sit on that baseline too. Centring them, which is what they used to do,
+            // dropped "strg" and "enter" below the letters around them - and below where they
+            // belong: on these keyboards the LED sits at the top of the switch, so the legend is
+            // printed high on the cap to catch it. Measured against the vendor's own drawing,
+            // the middle of a legend sits at 0.40 of the key's height rather than at 0.50.
+            var y = rect.Y + rect.Height * MainBaseline - only.Baseline;
 
             context.DrawText(only, new Point(rect.X + (rect.Width - only.Width) / 2, y));
 
@@ -620,14 +1017,19 @@ public sealed class KeyboardPreview : FrameworkElement
         // rather than stacked, both at the same size.
         if (legend.SideBySide && legend.Shifted is { } beside)
         {
-            // Both at the word size: on the keyboard these two are printed the same size as
-            // each other and larger than a corner legend, since neither is subordinate.
-            var left = Fit(legend.Main, type.Word, rect.Width * 0.4, ink);
-            var right = Fit(beside, type.Word, rect.Width * 0.4, faint);
+            // Both at the size a single character gets, and at the same size as each other:
+            // neither is subordinate, and a comma set smaller than the M beside it reads as an
+            // afterthought rather than as the legend of an equally ordinary key.
+            var left = Fit(legend.Main, mainSize, rect.Width * 0.4, ink);
+            var right = Fit(beside, mainSize, rect.Width * 0.4, faint);
             var gap = rect.Width * 0.12;
             var total = left.Width + gap + right.Width;
             var x = rect.X + (rect.Width - total) / 2;
-            var baseline = rect.Y + (rect.Height - left.Height) / 2;
+
+            // On the same baseline as the letters, not centred in the cap: the legend is printed
+            // high on the key so that the LED at the top of the switch lights it, and a comma
+            // sitting lower than the M beside it looks like a mistake.
+            var baseline = rect.Y + (rect.Height * MainBaseline) - left.Baseline;
 
             context.DrawText(left, new Point(x, baseline));
             context.DrawText(right, new Point(x + left.Width + gap, baseline));

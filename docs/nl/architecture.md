@@ -25,6 +25,7 @@ Alles wat met de buitenwereld praat, zit in dunne adapters rond die kern.
 | `Keylegend.Core` | apparaatprofielen, categorieën, sneltoetssets, de beeldsamensteller, de toestandsmachine van de sessie | niets platformspecifieks |
 | `Keylegend.Windows` | toetsenbordtoestand, tekenresolutie, voorgrondvenster | Windows-API's |
 | `Keylegend.Chroma` | REST-client voor de Chroma SDK, hartslag | netwerk |
+| `Keylegend.Engine` | de lus die het toetsenbord leest, een beeld samenstelt en verstuurt | Core, Chroma, Windows |
 | `Keylegend.App` | WPF-interface, systeemvakpictogram, opslag van de configuratie | al het bovenstaande |
 
 `Keylegend.Core` mag nooit naar de andere verwijzen. Als een wijziging dat lijkt te vereisen, zit
@@ -60,11 +61,30 @@ Daarom hebben Shift, Caps Lock en Num Lock geen bijzondere behandeling nodig: de
 levert eenvoudigweg `A` op in plaats van `a` en belandt vanzelf in de categorie «hoofdletter». En
 daarom werkt ook elke toetsenbordindeling zonder aanpassing.
 
+### Welk toetsenbord is aangesloten
+
+Dat wordt aan Razer Synapse gevraagd, want dat weet het al. Het schrijft een beschrijving van elk
+aangesloten apparaat naar `…\Razer Chroma SDK\Devices\<guid>.json`: het model bij naam, de
+fysieke indeling als getal, de matrixgrootte en de scancode van elke toets die de hardware
+werkelijk heeft. `SdkDeviceDescription` leest dat, en over het toetsenbord wordt niets afgeleid.
+
+Hoe het toetsenbord eruitziet komt uit dezelfde installatie. De interface van Synapse is een
+webtoepassing, en de tekeningen die het voor een apparaat laadt blijven in zijn cache: rechthoeken
+van toetsen met namen, de vorm van de behuizing met het volumewieltje en de mediastrook, en de
+contouren van de tekens die op de toetsen gedrukt staan. `SvgLayoutSource` vindt die van het
+aangesloten model en de aangesloten indeling exact en niet op vorm, omdat elke tekening naast een
+configuratieobject wordt geleverd dat beide noemt.
+
+Alleen maten en contouren worden overgenomen; de kleuren en vormgeving van Razer worden genegeerd,
+en niets van dat materiaal wordt naar deze repository gekopieerd.
+
+Het enige wat geen van beide zegt, is bij welke cel van de lichtmatrix een toets hoort. Dat is
+`StandardKeyMatrix`, de eigen `RZKEY`-tabel van het protocol, op elk model gelijk.
+
 ## Toepassingsprofielen
 
 Een profiel bindt verlichtingsregels aan een programma. Er worden er ongeveer negentig
-meegeleverd, en de afwegingen daarachter zijn het waard om te noemen, want elk was het tweede
-antwoord en niet het eerste.
+meegeleverd, en de afwegingen daarachter zijn het waard om te noemen, want geen ervan is het voor de hand liggende antwoord.
 
 ### Profielen zijn data, geen code
 
@@ -76,12 +96,12 @@ toepassing ooit code zou vergen, deugt het formaat niet.
 
 ### Ingebed in de assembly in plaats van los op schijf
 
-Apparaatprofielen staan naast het uitvoerbare bestand; toepassingsprofielen niet. Drie redenen, en
-elk zou op zichzelf volstaan. Een release als één bestand draagt ze mee zonder map die kwijt kan
-raken. Niets op schijf kan per ongeluk worden bewerkt, en juist dat geeft «terugzetten naar de
-meegeleverde versie» betekenis — de meegeleverde versie moet buiten bereik zijn om het waard te
-zijn ernaar terug te keren. En een profiel dat niet bouwt wordt een buildfout in plaats van een
-programma dat stilzwijgend geen profielen heeft.
+Toepassingsprofielen worden in de assembly gecompileerd in plaats van als bestanden naast het
+uitvoerbare bestand te staan. Drie redenen, en elk zou op zichzelf volstaan. Een release als één
+bestand draagt ze mee zonder map die kwijt kan raken. Niets op schijf kan per ongeluk worden
+bewerkt, en juist dat geeft «terugzetten naar de meegeleverde versie» betekenis — de meegeleverde
+versie moet buiten bereik zijn om het waard te zijn ernaar terug te keren. En een profiel dat niet
+bouwt wordt een buildfout in plaats van een programma dat stilzwijgend geen profielen heeft.
 
 ### Overschrijvingen gaan per onderdeel
 
@@ -91,7 +111,7 @@ aangeraakt. Twee dingen volgen: terugzetten is überhaupt mogelijk, en een bijge
 profiel dat iemand deels heeft bewerkt nog steeds verbeteren. De id draagt dit en mag na publicatie
 nooit veranderen: hem hernoemen maakt iemands bewerkingen wees.
 
-De korrelgrootte is gekozen tegenover beide voor de hand liggende alternatieven:
+De korrelgrootte houdt stand tegenover beide voor de hand liggende alternatieven:
 
 - **Per veld** oogt netter en levert toestanden op die niemand heeft ingesteld. Verkleur `W`, neem
   daarna een update die `Q` toevoegt, en het resultaat is een mengsel dat de gebruiker nooit heeft
@@ -102,15 +122,21 @@ De korrelgrootte is gekozen tegenover beide voor de hand liggende alternatieven:
 Een onderdeel is de korrelgrootte waarop de wijziging nog in één zin past: je hebt de accenten
 bewerkt, dus de accenten zijn nu van jou.
 
-### Een profiel vervangt alleen de lagen die het noemt
+### Een profiel wordt over de algemene set gelegd, regel voor regel
 
-Sneltoetsen zijn gerangschikt op modificatiecombinatie en worden over de algemene catalogus
-gelegd, niet ervoor in de plaats gezet. Photoshop weet wat `Ctrl` binnen Photoshop betekent; het
-weet niets van `Win+E`, dat Windows systeembreed toewijst en dat waar is ongeacht wat er
-vooraan staat. De hele catalogus vervangen zou een profiel verantwoordelijk maken voor feiten
-waarover het geen mening heeft. Een profiel dat geen enkele laag noemt, geeft de algemene
-catalogus ongewijzigd terug, zodat het gewone geval niets alloceert.
+Sneltoetsen zijn geordend op modificatiecombinatie, en de regels van een profiel leggen zich over de
+algemene in plaats van op hun plaats — regel voor regel, niet laag voor laag. Photoshop weet wat
+`Ctrl+J` binnen Photoshop betekent; het weet niets van `Win+E`, dat Windows systeembreed toekent, en
+niets van `Ctrl+C`, dat overal geldt waar een tekstcursor staat.
 
+Per laag zou betekenen dat een profiel dat `Ctrl` voor zijn eigen opdrachten noemt de hele laag
+meeneemt, en het klembord is wat dat kost: kopiëren, plakken, knippen, ongedaan maken en alles
+selecteren gaan uit in een browser, in een chatprogramma, in een terminal — programma's waarin je
+weinig anders doet dan typen en plakken. Per regel wint wie een toets noemt voor die toets, en er
+beweegt niets anders. Een hele laag leegmaken is met opzet niet mogelijk.
+
+Een profiel dat geen enkele laag noemt geeft de algemene catalogus onveranderd terug; het
+gebruikelijke geval reserveert dus niets.
 ### Sneltoetsen en accenten dragen een label
 
 Het label zegt wat de opdracht doet — «Laag dupliceren», niet «Ctrl+J». De hardware toont het
@@ -122,16 +148,31 @@ waarop iemand kan nakijken of een item klopt. `"j": "Bewerken"` valt nergens teg
 
 ### Een instellingenbestand in formaat 1 migreren
 
-Formaat 1 bewaarde profielen in hun geheel, zonder id en zonder vastlegging van hun herkomst. Juist
-dat lost het nieuwe formaat op: een overschrijving heeft een id nodig om zich aan vast te maken, en
-terugzetten moet weten dat er een meegeleverde versie is om naar terug te gaan.
+Een bestand in formaat 1 bewaart profielen in hun geheel, zonder id en zonder vastlegging van hun
+herkomst. Een overschrijving heeft een id nodig om zich aan vast te maken, en terugzetten moet weten
+dat er een meegeleverde versie is om naar terug te gaan: zo'n bestand kan dus niet zeggen welke van
+zijn items de meegeleverde zijn.
 
-Het gevolg voor de migratie is dat een oud bestand niet kan zeggen welke van zijn items ooit
-meegeleverd waren. Dus worden ze allemaal gebruikersprofielen. Dat behoudt elke bewerking die
-iemand heeft gemaakt, tegen de prijs dat het meegeleverde profiel naast de gemigreerde kopie
-verschijnt tot een van beide wordt verwijderd — en dat is de juiste ruil, want de andere lezing zou
-stilzwijgend werk wissen.
+Daarom worden ze allemaal gebruikersprofielen. Dat behoudt elke bewerking die iemand heeft gemaakt,
+tegen de prijs dat het meegeleverde profiel naast de gemigreerde kopie verschijnt tot een van beide
+wordt verwijderd — de juiste ruil, want de andere lezing wist stilzwijgend werk.
 
+### Een instellingenbestand in formaat 2 migreren
+
+Een bestand in formaat 2 somt alle kleuren op, ook de onaangeroerde, en kan dus niet zeggen welke
+van zijn regels beslissingen zijn en welke teruggekaatste standaardwaarden. Ze allemaal opvolgen zet
+het palet vast: een verbeterde meegeleverde kleur bereikt dan niemand die het programma ooit heeft
+gestart.
+
+Formaat 3 schrijft alleen wat van het meegeleverde palet afwijkt, dus een regel in het bestand
+betekent dat iemand die heeft gekozen. Een ouder bestand migreren dwingt tot een gok over dat
+onderscheid, en de aanname is: een regel gelijk aan het palet van die versie is een standaardwaarde,
+al het andere is een keuze. `PaletteBeforeFormat3` bewaart dat palet als bevroren kopie in plaats van
+het huidige te lezen — die vergelijking is zinloos op het moment dat het palet opnieuw verandert, en
+dat is precies wanneer ze nodig is.
+
+De prijs is dat wie een van die kleuren met opzet koos, haar verliest. Dat is de goede kant op: één
+persoon kiest een kleur opnieuw, tegenover alle gebruikers die een palet houden dat niemand koos.
 ## Praten met het toetsenbord
 
 De Chroma SDK wordt via zijn lokale REST-interface aangesproken. Kleuren zijn in BGR gecodeerde
@@ -143,18 +184,17 @@ overnemen van een lopend Chroma Studio-effect ongeveer 500 ms, en elk beeld daar
 
 ### Hoe vaak beelden worden verstuurd
 
-Dit lijkt een detail en is dat niet; beide voor de hand liggende antwoorden zijn fout, en beide
-zijn geprobeerd.
+Dit lijkt een detail en is dat niet: beide voor de hand liggende antwoorden zijn fout.
 
 **Alleen bij verandering sturen** laat de overname verhongeren. Een gewone toetsaanslag verandert
-de toetsenbordtoestand niet — alleen modificatie- en vergrendeltoetsen doen dat — dus leverde een
+de toetsenbordtoestand niet — alleen modificatie- en vergrendeltoetsen doen dat — dus levert een
 overname precies één beeld op. Chroma gooit beelden weg terwijl het nog de controle overneemt, en
-meldt daarvoor succes, zodat dat ene beeld kon verdwijnen en het toetsenbord vastgevroren liet op
-het vorige effect tot de gebruiker toevallig een modificatietoets indrukte.
+meldt daarvoor succes, zodat dat ene beeld kan verdwijnen en het toetsenbord op het vorige effect
+laat staan tot de gebruiker toevallig een modificatietoets indrukt.
 
 **Zo snel mogelijk sturen** verwoest de reactiesnelheid. Beelden komen in de interface in de wacht
 te staan, en een toestandswijziging wacht dan achter alles wat al verstuurd is: op Shift drukken
-deed er zichtbaar een seconde of twee over om te verschijnen.
+doet er zichtbaar een seconde of twee over om te verschijnen.
 
 Wat wél werkt is sturen om drie verschillende redenen op drie verschillende tempo's:
 

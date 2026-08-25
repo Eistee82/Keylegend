@@ -70,10 +70,13 @@ public sealed record ColourScheme
             [FunctionGroup.View] = new(255, 0, 255),       // magenta
             [FunctionGroup.Window] = new(0, 255, 255),     // cyan
             [FunctionGroup.System] = new(255, 0, 0),       // red
-            // Lavender rather than orange: orange sits on the line between red and yellow and
-            // was too close to both. With eight groups the pure hues run out, so this one takes
-            // a corner of the colour cube the others leave free.
-            [FunctionGroup.Tools] = new(128, 128, 255),
+            // Orange, and it has to be a saturated one. Lavender was tried first, on the
+            // reasoning that orange sits between red and yellow and would be confused with both.
+            // On the hardware it turned out worse than that: lavender is a tinted white, and it
+            // is white the eye compares it to — the function row is white, Navigation is white,
+            // and a Tools key beside them read as "white, maybe". Saturated orange is told apart
+            // from red and yellow at a glance; a pale blue is not told apart from white at all.
+            [FunctionGroup.Tools] = new(255, 140, 0),
             [FunctionGroup.Navigation] = new(255, 255, 255) // white
         },
         NumLock = new LockColours(new RgbColor(0, 255, 0), new RgbColor(30, 30, 30)),
@@ -109,4 +112,74 @@ public sealed record ColourScheme
     /// </summary>
     public static bool RunsAtFullBrightness(RgbColor colour)
         => colour.R == 255 || colour.G == 255 || colour.B == 255;
+
+    /// <summary>How far a colour is from grey, 0 to 1.</summary>
+    /// <remarks>
+    /// The measure <see cref="Distance"/> lacks, and the reason a palette can pass that check and
+    /// still be unreadable on the hardware. A pale blue sits 180 from white by distance — well
+    /// past the minimum — and on a lit keycap it is simply a tinted white, because what the eye
+    /// compares against white is saturation and not the size of a channel difference.
+    /// </remarks>
+    public static double Saturation(RgbColor colour)
+    {
+        var peak = Math.Max(colour.R, Math.Max(colour.G, colour.B));
+
+        if (peak == 0)
+        {
+            return 0;
+        }
+
+        var floor = Math.Min(colour.R, Math.Min(colour.G, colour.B));
+
+        return (peak - floor) / (double)peak;
+    }
+
+    /// <summary>The hue of a colour in degrees, 0 to 360. Meaningless for a grey.</summary>
+    public static double Hue(RgbColor colour)
+    {
+        double r = colour.R / 255.0, g = colour.G / 255.0, b = colour.B / 255.0;
+
+        var peak = Math.Max(r, Math.Max(g, b));
+        var floor = Math.Min(r, Math.Min(g, b));
+        var span = peak - floor;
+
+        if (span < 0.0001)
+        {
+            return 0;
+        }
+
+        var hue = peak == r
+            ? ((g - b) / span) % 6
+            : peak == g
+                ? ((b - r) / span) + 2
+                : ((r - g) / span) + 4;
+
+        hue *= 60;
+
+        return hue < 0 ? hue + 360 : hue;
+    }
+
+    /// <summary>The shorter way round the colour wheel between two hues, in degrees.</summary>
+    public static double HueDistance(RgbColor a, RgbColor b)
+    {
+        var difference = Math.Abs(Hue(a) - Hue(b)) % 360;
+
+        return difference > 180 ? 360 - difference : difference;
+    }
+
+    /// <summary>
+    /// The saturation a colour needs to read as a colour rather than as a tinted white.
+    /// </summary>
+    /// <remarks>
+    /// Found at the keyboard rather than reasoned out: a group colour at 0.5 was reported as
+    /// looking white beside the function row, which is white, and beside Navigation, which is also
+    /// white. Everything meant to be a hue is at or near 1.0 now, and white is left to mean white.
+    /// </remarks>
+    public const double MinimumSaturation = 0.85;
+
+    /// <summary>
+    /// The hue separation two saturated colours need. Red, orange and yellow sit 27 to 33 degrees
+    /// apart and are told apart at a glance; this is set just under that.
+    /// </summary>
+    public const double MinimumHueSeparation = 25;
 }

@@ -64,7 +64,7 @@ i blokad; nigdy nie przechwytuje, nie przekazuje ani nie zapisuje naciśnięć. 
 
 - Windows 10 lub 11
 - Razer Synapse z działającą usługą Chroma SDK
-- Klawiatura zgodna z Chroma, mająca profil urządzenia (patrz niżej)
+- Podłączona klawiatura Razer Chroma (patrz niżej)
 - Środowisko uruchomieniowe .NET 10
 
 ## Instalacja
@@ -89,38 +89,28 @@ pliku, a dziennik kompilacji, który je wytworzył, jest jawny.
 
 ## Obsługiwane klawiatury
 
-Obsługa klawiatury to **dane, nie kod**. Klawiatura to jeden plik w `devices/`: `device.json`, z
-geometrią klawiszy i przypisaniem klawiszy do komórek macierzy Chroma.
+**Każda klawiatura Razer Chroma.** Nie ma listy ani pliku na model, bo Keylegend nie musi rozpoznawać
+twojej klawiatury — pyta o nią. Razer Synapse opisuje podłączoną: model z nazwy, układ fizyczny jako
+liczbę oraz klawisze, które sprzęt naprawdę ma. Rysunek tego modelu wykonany przez Razera dostarcza
+resztę: prawdziwe wymiary klawiszy, obudowę z pokrętłem i klawiszami multimedialnymi oraz kontury
+znaków nadrukowanych na nasadkach, we właściwym języku.
 
-W zestawie są trzydzieści dwa profile. Jeden z nich przeszedł weryfikację na prawdziwym sprzęcie;
-pozostałe są wygenerowane ze znormalizowanych wymiarów, co czyni ich geometrię dokładną, a
-przypisanie diod uzasadnionym domysłem.
+Jedyne, czego rysunek nie mówi, to do której komórki macierzy podświetlenia należy każdy klawisz. To
+stała protokołu Chroma, identyczna w każdym modelu — dlatego również Synapse nie potrzebuje tabeli na
+model. Sprawdzone wobec jedynej ręcznie skalibrowanej klawiatury: wszystkie 105 klawiszy się zgadza.
 
-| Klawiatura | Układ | Stan |
-|---|---|---|
-| Razer DeathStalker V2 | ISO-DE | **sprawdzony na sprzęcie** |
-| Razer DeathStalker V2, BlackWidow V4, Huntsman V3 Pro, Ornata V3 | ANSI-US, ISO-DE | wygenerowany |
-| Pełnowymiarowa, 105/104 klawisze | ANSI-US, ISO-DE, ISO-UK, ISO-FR, ISO-ES, ISO-IT, ISO-NORDIC, ISO-PT, ISO-CH, ISO-RU, ISO-PL, JIS-JP, ABNT2-BR | wygenerowany |
-| Tenkeyless | ANSI-US, ISO-DE, ISO-UK, ISO-FR | wygenerowany |
-| 75 %, 65 %, 60 % | ANSI-US, ISO-DE | wygenerowany |
+`physicalLayout` opisuje *kształt* klawiatury, nie język, w którym piszesz. O to, jaki znak daje
+klawisz, pyta się Windows w trakcie działania, więc niemiecka klawiatura działa poprawnie także przy
+Windows ustawionym na US lub Dvoraka.
 
-`physicalLayout` opisuje *kształt* klawiatury, a nie język, w którym piszesz. O to, jaki znak
-wytwarza klawisz, pytany jest Windows na bieżąco, więc profil ISO-PL obsłuży polską klawiaturę
-niezależnie od tego, czy Windows ustawiony jest na polski, amerykański czy Dvoraka.
-
-**Świecą Ci się nie te klawisze?** Dokładnie to znaczy „wygenerowany", a poprawienie tego nie
-wymaga programowania — jakieś dziesięć minut z trybem kalibracji. Zobacz
-[docs/pl/adding-a-keyboard.md](docs/pl/adding-a-keyboard.md). Poprawki są równie mile widziane jak
-nowe profile i zmieniają domysł w profil `verified` dla wszystkich z tą klawiaturą.
-
+**Wymaga Razer Synapse**, zainstalowanego i uruchomionego, z podłączoną klawiaturą. Tam klawiatura
+jest opisana i tam znajduje się jej rysunek.
 ## Dokumentacja
 
 | Temat | |
 |---|---|
 | Architektura | jak rozstrzygane jest kolorowanie i dlaczego nie ma żadnego haka klawiatury |
-| Dodawanie i poprawianie klawiatury | profile urządzeń, kalibracja i co robić, gdy świecą nie te klawisze |
 | Dodawanie profilu | kolorowanie dla poszczególnych aplikacji |
-| Format profilu urządzenia | każde pole, szczegółowo |
 | Konfiguracja | ustawienia, plik ustawień, autostart |
 
 Dostępna w jedenastu językach:
@@ -141,26 +131,16 @@ dotnet build
 dotnet test
 ```
 
-Powstają dwa programy. **`Keylegend.exe`** (`src/Keylegend.App`) to aplikacja: okno, ikona w
-obszarze powiadomień, ustawienia. To jej chcesz do zwykłego użytku.
-
-**`keylegend-cli.exe`** (`src/Keylegend.Host`) to konsolowy sterownik z diagnostyką:
-
-| Polecenie | Co robi |
-|---|---|
-| `keylegend-cli` | Uruchamia podświetlenie. Przejmuje przy pierwszym naciśnięciu, oddaje po 10 s bezczynności. |
-| `keylegend-cli --idle 30` | To samo, z 30-sekundowym czasem bezczynności. |
-| `keylegend-cli --once 10` | Rysuje bieżący stan raz i utrzymuje go przez dziesięć sekund. Dobra pierwsza próba. |
-| `keylegend-cli --calibrate` | Zapala klawisze po kolei, aby sprawdzić profil urządzenia. |
-| `keylegend-cli --dump-layout` | Wypisuje, na co rozwiązuje się każdy klawisz: zwykle / z Shift / z AltGr. |
-| `keylegend-cli --watch-foreground` | Pokazuje, co widzi wykrywanie gier przy zmianach okien. |
-| `keylegend-cli --profile <ścieżka>` | Używa wskazanego `device.json`. |
+`Keylegend.exe` (`src/Keylegend.App`) to cały program: okno, ikona w obszarze powiadomień,
+ustawienia. Jedyny przełącznik wart poznania: `--verify` sprawdza, czy kopia niesie dostarczone
+profile i wszystkie jedenaście języków, zapisuje ustalenia do podanej po nim ścieżki i odpowiada
+kodem wyjścia. To właśnie skrypt wydania uruchamia na spakowanej kopii.
 
 Ustawienia znajdują się w `%APPDATA%\Keylegend\settings.json` i są zapisywane przez aplikację.
 
 ## Współtworzenie
 
-Zgłoszenia błędów, profile urządzeń i tłumaczenia są mile widziane — zobacz
+Zgłoszenia błędów, profile aplikacji i tłumaczenia są mile widziane — zobacz
 [CONTRIBUTING.md](CONTRIBUTING.md) oraz [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
 ## Licencja
@@ -178,8 +158,8 @@ współpracuje — co dopuszcza użycie odnoszące. Keylegend jest niezależnym 
 przez społeczność.
 
 To samo dotyczy każdej innej nazwy w tym repozytorium. Profile aplikacji i gier wymieniają około
-dziewięćdziesięciu programów — Photoshop, Visual Studio Code, Excel, Elden Ring i inne — a profile
-urządzeń wymieniają producentów i modele klawiatur. To znaki towarowe ich właścicieli i pojawiają
+dziewięćdziesięciu programów — Photoshop, Visual Studio Code, Excel, Elden Ring i inne — a
+dokumentacja wymienia producentów i modele klawiatur. To znaki towarowe ich właścicieli i pojawiają
 się wyłącznie po to, by powiedzieć, do jakiego programu lub jakiej klawiatury coś się odnosi.
-Keylegend nie jest z żadnym z nich związany i nie zawiera ani ich kodu, ani ich materiałów.
-Zobacz [NOTICE.md](NOTICE.md).
+Keylegend nie jest z żadnym z nich związany i nie zawiera ani ich kodu, ani ich materiałów. Zobacz
+[NOTICE.md](NOTICE.md).

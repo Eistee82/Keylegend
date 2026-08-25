@@ -19,11 +19,23 @@ public static class ModifierCombination
         ModifierKeys.LeftWin,
         ModifierKeys.LeftWin | ModifierKeys.LeftShift,
         ModifierKeys.LeftWin | ModifierKeys.LeftCtrl,
+        ModifierKeys.LeftWin | ModifierKeys.LeftAlt,
+        ModifierKeys.LeftWin | ModifierKeys.LeftCtrl | ModifierKeys.LeftShift,
+        ModifierKeys.LeftWin | ModifierKeys.LeftCtrl | ModifierKeys.LeftAlt | ModifierKeys.LeftShift,
         ModifierKeys.LeftCtrl,
         ModifierKeys.LeftCtrl | ModifierKeys.LeftShift,
         ModifierKeys.LeftCtrl | ModifierKeys.LeftAlt,
         ModifierKeys.LeftAlt,
-        ModifierKeys.RightAlt
+        ModifierKeys.RightAlt,
+
+        // Shift on its own, and no modifier at all. Nothing shipped is keyed on either, and that
+        // is deliberate: Shift normally changes which character a key types, and with no modifier
+        // held the keyboard shows what its keys mean. Both are offered because a program may use
+        // the keyboard for functions rather than for writing — a game binds Shift to sprint and
+        // WASD to direction, where the letters are beside the point — and an application profile
+        // is where that gets said.
+        ModifierKeys.LeftShift,
+        ModifierKeys.None
     ];
 
     /// <summary>Renders a combination as text, e.g. <c>Ctrl+Shift</c>.</summary>
@@ -63,6 +75,14 @@ public static class ModifierCombination
         if (string.IsNullOrWhiteSpace(text))
         {
             return false;
+        }
+
+        // "None" is a layer in its own right: the keys a program gives a meaning to while no
+        // modifier is held. It has to parse, or a profile that defines one could be written to
+        // settings and never read back.
+        if (text.Trim().Equals("None", StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
         }
 
         foreach (var part in text.Split('+', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))

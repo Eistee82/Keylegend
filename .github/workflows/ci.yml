@@ -31,8 +31,9 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Test
-        # Device profiles under devices/ are validated as part of this run, so a broken
-        # contributed profile fails the build rather than reaching users.
+        # The tests that read the vendor's drawings skip themselves where its software is not
+        # installed, which is the case on a runner. What still runs there is everything that
+        # reasons about a drawing rather than reading one.
         run: dotnet test --configuration Release --no-build --verbosity normal --logger "trx;LogFileName=results.trx"
 
       - name: Publish test results
@@ -47,12 +48,11 @@ jobs:
     name: Package
     runs-on: windows-latest
 
-    # Everything the release does, on every change rather than only at a tag. Both defects this
-    # step exists for were invisible until something was actually packaged: dotnet publish left
-    # devices/ behind, so an installed copy had no keyboard to describe, and the console tool was
+    # Everything the release does, on every change rather than only at a tag. The defect this
+    # step exists for was invisible until something was actually packaged: the console tool was
     # called keylegend.exe — the same file name as the application on a case-insensitive
     # filesystem — so publishing both into one directory shipped a release with no interface.
-    # Neither showed up in a build or a test. Finding them at a tag would mean finding them late.
+    # It showed up in neither a build nor a test. Finding it at a tag would mean finding it late.
     steps:
       - name: Check out
         uses: actions/checkout@v4

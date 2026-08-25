@@ -61,7 +61,7 @@ It deliberately does **not** install a global keyboard hook. It only reads modif
 
 - Windows 10 or 11
 - Razer Synapse with the Chroma SDK service running
-- A Chroma-capable keyboard with a device profile (see below)
+- A Razer Chroma keyboard, connected (see below)
 - .NET 10 runtime
 
 ## Installing
@@ -86,38 +86,29 @@ is intact, and the build log that produced it is public.
 
 ## Supported keyboards
 
-Device support is **data, not code**. A keyboard is one file in `devices/`: `device.json`,
-holding the key geometry and the mapping from keys to Chroma matrix cells.
+**Every Razer Chroma keyboard.** There is no list, and no file per model, because Keylegend does
+not need to recognise your keyboard — it asks. Razer Synapse describes the one that is plugged in:
+the model by name, the physical layout as a number, and the keys the hardware actually has. Its own
+drawing of that model supplies the rest — the real key sizes, the casing with its dial and media
+keys, and the outlines of the characters printed on the caps, in the right language.
 
-Thirty-two profiles ship. One of them has been stepped through on real hardware; the rest are
-generated from the standard key dimensions, which makes their geometry exact and their LED
-mapping an educated guess.
-
-| Keyboard | Layout | Status |
-|---|---|---|
-| Razer DeathStalker V2 | ISO-DE | **verified on hardware** |
-| Razer DeathStalker V2, BlackWidow V4, Huntsman V3 Pro, Ornata V3 | ANSI-US, ISO-DE | generated |
-| Full-size, 105/104 keys | ANSI-US, ISO-DE, ISO-UK, ISO-FR, ISO-ES, ISO-IT, ISO-NORDIC, ISO-PT, ISO-CH, ISO-RU, ISO-PL, JIS-JP, ABNT2-BR | generated |
-| Tenkeyless | ANSI-US, ISO-DE, ISO-UK, ISO-FR | generated |
-| 75 %, 65 %, 60 % | ANSI-US, ISO-DE | generated |
+The one thing the drawing does not say is which cell of the lighting matrix each key belongs to.
+That is a constant of the Chroma protocol, identical on every model, which is why Synapse itself
+needs no per-model table either. Checked against the one keyboard this was calibrated on by hand,
+all 105 keys agree.
 
 `physicalLayout` describes the *shape* of the keyboard, not the language you type in. Which
-character each key produces is asked from Windows at runtime, so one ISO-DE profile serves a
-German keyboard whether Windows is set to German, US or Dvorak.
+character a key produces is asked of Windows at run time, so a German keyboard is served correctly
+even with Windows set to US or Dvorak.
 
-**Does your keyboard light up the wrong keys?** That is what "generated" means, and correcting it
-needs no programming — about ten minutes with the calibration mode. See
-[docs/en/adding-a-keyboard.md](docs/en/adding-a-keyboard.md). Corrections are as welcome as new
-profiles, and turn a guess into a `verified` profile for everyone with that keyboard.
-
+**Requires Razer Synapse**, installed and running, with the keyboard connected. That is where the
+keyboard is described and where its drawing is kept.
 ## Documentation
 
 | Topic | |
 |---|---|
 | Architecture | how the colouring is decided, and why there is no keyboard hook |
-| Adding or correcting a keyboard | device profiles, calibration, and what to do when keys light up wrong |
 | Adding a profile | per-application colouring |
-| Device profile format | every field, in detail |
 | Configuration | settings, the settings file, autostart |
 
 Available in eleven languages:
@@ -142,26 +133,16 @@ dotnet build
 dotnet test
 ```
 
-Two programs are produced. **`Keylegend.exe`** (`src/Keylegend.App`) is the application: window,
-notification-area icon, settings. It is what you want for normal use.
-
-**`keylegend-cli.exe`** (`src/Keylegend.Host`) is a console driver with the diagnostics:
-
-| Command | What it does |
-|---|---|
-| `keylegend-cli` | Runs the lighting. Takes over on the first keypress, hands back after 10 s idle. |
-| `keylegend-cli --idle 30` | Same, with a 30-second idle timeout. |
-| `keylegend-cli --once 10` | Paints the current state once and holds it for ten seconds. Good first check. |
-| `keylegend-cli --calibrate` | Lights one key at a time so a device profile can be verified. |
-| `keylegend-cli --dump-layout` | Prints what every key resolves to, plain / Shift / AltGr. |
-| `keylegend-cli --watch-foreground` | Reports what the game detection sees as windows change. |
-| `keylegend-cli --profile <path>` | Uses a specific `device.json`. |
+`Keylegend.exe` (`src/Keylegend.App`) is the whole program: window, notification-area icon,
+settings. `--verify` is the one switch worth knowing — it checks that a copy carries the shipped
+profiles and all eleven languages, writes what it found to the path given after it, and answers
+through its exit code. That is what the release script runs against a packaged copy.
 
 Settings live in `%APPDATA%\Keylegend\settings.json` and are written by the application.
 
 ## Contributing
 
-Bug reports, device profiles and translations are all welcome — see
+Bug reports, application profiles and translations are all welcome — see
 [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
 ## Licence
@@ -177,9 +158,8 @@ RAZER and RAZER CHROMA are trademarks or registered trademarks of Razer Inc. The
 here solely to identify the hardware and the software interface this project works with, as
 permitted by referential use. Keylegend is an independent, community-maintained project.
 
-The same applies to every other name in this repository. The application and game profiles
-name around ninety programs — Photoshop, Visual Studio Code, Excel, Elden Ring and the rest —
-and the device profiles name keyboard vendors and models. Those are trademarks of their
-respective owners and appear only to say which program or which keyboard something is for.
-Keylegend is not associated with any of them and contains none of their code or assets. See
-[NOTICE.md](NOTICE.md).
+The same applies to every other name in this repository. The application and game profiles name
+around ninety programs — Photoshop, Visual Studio Code, Excel, Elden Ring and the rest — and the
+documentation names keyboard vendors and models. Those are trademarks of their respective owners
+and appear only to say which program or which keyboard something is for. Keylegend is not
+associated with any of them and contains none of their code or assets. See [NOTICE.md](NOTICE.md).

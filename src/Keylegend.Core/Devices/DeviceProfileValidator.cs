@@ -16,13 +16,6 @@ public static class DeviceProfileValidator
 
         var problems = new List<string>();
 
-        if (profile.FormatVersion is < 1 or > DeviceProfile.SupportedFormatVersion)
-        {
-            problems.Add(
-                $"formatVersion {profile.FormatVersion} is not supported " +
-                $"(this build understands 1..{DeviceProfile.SupportedFormatVersion}).");
-        }
-
         if (string.IsNullOrWhiteSpace(profile.Name))
         {
             problems.Add("name must not be empty.");

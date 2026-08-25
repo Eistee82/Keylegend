@@ -54,20 +54,20 @@ public class KeyAreaTests
     }
 
     [Fact]
-    public void TheShippedProfileDrawsEnterAsOneKey()
+    public void TheMeasuredKeyboardDrawsEnterAsOneKey()
     {
         // The upper half of the ISO Enter drives no LED on this model, so it is part of the
         // Enter key rather than a key of its own - otherwise the interface shows a key that
         // does not exist.
-        var profile = DeviceProfileLoader.Load(TestPaths.ShippedProfile("razer-deathstalker-v2-de"));
+        var measured = MeasuredKeys.Load();
 
-        Assert.DoesNotContain(profile.Keys, k => k.Id == "Keyboard_Backslash");
+        Assert.DoesNotContain(measured, k => k.Id == "Keyboard_Backslash");
 
-        var enter = profile.Keys.Single(k => k.Id == "Keyboard_Enter");
+        var enter = measured.Single(k => k.Id == "Keyboard_Enter");
         Assert.Equal(2, enter.Areas().Count());
     }
 
     private static DeviceProfile ProfileWith(params KeyDefinition[] keys)
-        => new(1, "Test", "Test", "T1", "ISO-DE", "device.png",
-            new Canvas(500, 200), new MatrixSize(6, 22), true, keys);
+        => new("Test", "ISO-DE",
+            new Canvas(500, 200), new MatrixSize(6, 22), keys);
 }

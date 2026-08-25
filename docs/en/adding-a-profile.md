@@ -31,10 +31,10 @@ What follows is the part that goes wrong even when the format has been read.
 
 ## 3. Positions and characters are not the same thing
 
-Key ids come from the device profile and name **US positions**. `Keyboard_Y` is the physical key
-that types `Y` on a US keyboard — on a German one, that key types `Z`. The format therefore has
-two ways of naming a key, and picking the wrong one produces a profile that is visibly wrong on
-every non-US layout while looking perfectly fine on the machine it was written on.
+Key ids come from the lighting protocol's own table and name **US positions**. `Keyboard_Y` is the
+physical key that types `Y` on a US keyboard — on a German one, that key types `Z`. The format
+therefore has two ways of naming a key, and picking the wrong one produces a profile that is
+visibly wrong on every non-US layout while looking perfectly fine on the machine it was written on.
 
 The question to ask for each entry is what it is really about:
 
@@ -87,12 +87,11 @@ the profile yet.
 dotnet test
 ```
 
-The profile tests check every file under `profiles/`: the id is unique and matches the file
-name, `kind` matches the folder, every key id exists in a shipped device profile, colours parse,
-groups and modifier combinations are valid and canonically spelled, every shortcut carries a
-label, no letter key sits under `shortcuts.keys` (it belongs under `characters`), no profile is
-empty, and no two profiles claim one executable without telling themselves apart through
-`titleContains`.
+The profile tests check every file under `profiles/`: the id is unique and matches the file name,
+`kind` matches the folder, every key id exists in the matrix table, colours parse, groups and
+modifier combinations are valid and canonically spelled, every shortcut carries a label, no letter
+key sits under `shortcuts.keys` (it belongs under `characters`), no profile is empty, and no two
+profiles claim one executable without telling themselves apart through `titleContains`.
 
 One thing is deliberately **not** checked: the same label appearing twice under one modifier. It
 looked like a way to catch copy-and-paste slips and caught real aliases instead — browsers close

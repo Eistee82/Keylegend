@@ -34,11 +34,8 @@
   <data name="TabSettings" xml:space="preserve">
     <value>Instellingen</value>
   </data>
-  <data name="StatusDeviceVerified" xml:space="preserve">
-    <value>{0} · {1} toetsen · toewijzing op hardware geverifieerd</value>
-  </data>
-  <data name="StatusDeviceNotVerified" xml:space="preserve">
-    <value>{0} · {1} toetsen · toewijzing nog niet geverifieerd</value>
+  <data name="StatusDevice" xml:space="preserve">
+    <value>{0} · {1} toetsen</value>
   </data>
   <data name="StatusProfileLabel" xml:space="preserve">
     <value>profiel: {0}</value>
@@ -138,6 +135,9 @@
   </data>
   <data name="KeyboardNoProfile" xml:space="preserve">
     <value>Geen apparaatprofiel geladen</value>
+  </data>
+  <data name="StartupNoKeyboard" xml:space="preserve">
+    <value>Geen Razer-toetsenbord gevonden. Keylegend leest het aangesloten toetsenbord uit Razer Synapse, dus Synapse moet geïnstalleerd zijn en draaien, met het toetsenbord aangesloten.</value>
   </data>
   <data name="ColoursCategoriesHeading" xml:space="preserve">
     <value>Toetscategorieën</value>
@@ -453,6 +453,9 @@
   </data>
   <data name="TrayTooltipIdle" xml:space="preserve">
     <value>Keylegend — inactief</value>
+  </data>
+  <data name="TrayTooltipTrouble" xml:space="preserve">
+    <value>Keylegend — verlichting werkt niet</value>
   </data>
   <data name="TrayTooltipPaused" xml:space="preserve">
     <value>Keylegend — gepauzeerd</value>

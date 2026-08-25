@@ -45,9 +45,10 @@ Herkenning gaat op naam van het uitvoerbare bestand. Passen er meerdere profiele
 profiel dat het programma noemt — een game met een eigen profiel houdt dat dus, ook al slaat de
 gamedetectie eveneens aan. Prioriteit beslecht alleen de resterende gelijkspelen.
 
-Een profiel vervangt alleen de modificatielagen die het zelf noemt. Photoshop vervangt de
-Ctrl-laag, omdat Ctrl daar andere opdrachten betekent; `Win+E` opent nog steeds de Verkenner, omdat
-Windows die combinatie systeembreed toewijst en dat geldt ongeacht wat er vooraan staat.
+Een profiel wordt over de algemene set gelegd, regel voor regel. Photoshop zegt wat `Ctrl+J` daar
+betekent; `Ctrl+C` kopieert nog steeds, want een profiel dat de Ctrl-laag noemt beweert niet dat Ctrl
+verder niets betekent. En `Win+E` opent nog steeds de Verkenner, omdat Windows die combinatie
+systeembreed toekent en die geldt wat er ook vooraan staat.
 
 ### Wat een profiel bevat
 
@@ -93,12 +94,17 @@ het project thuis — zie [Een profiel toevoegen](adding-a-profile.md).
 
 ### Formaat van het instellingenbestand
 
-`settings.json` draagt `formatVersion` 2. Oudere bestanden worden bij het laden gemigreerd: versie
-1 kende noch id's noch de herkomst van een profiel, en kan dus niet zeggen welke van zijn items ooit
-meegeleverd waren. Ze worden allemaal gebruikersprofielen. Er gaat niets verloren, maar de
-meegeleverde profielen verschijnen ernaast, dus er kunnen aanvankelijk twee items voor hetzelfde
-programma zijn; het overtollige kan worden verwijderd of verborgen.
+`settings.json` draagt `formatVersion` 3. Oudere bestanden worden bij het laden gemigreerd.
 
+Een bestand van versie 1 kent noch id's noch de herkomst van een profiel, en kan dus niet zeggen
+welke van zijn items de meegeleverde zijn. Ze worden allemaal gebruikersprofielen. Er gaat niets
+verloren, maar de meegeleverde profielen verschijnen ernaast, dus er kunnen aanvankelijk twee items
+voor hetzelfde programma zijn; het overtollige kan worden verwijderd of verborgen.
+
+Een bestand van versie 2 somt alle kleuren op, ook de onaangeroerde, en zet daarmee het palet vast:
+een verbeterde meegeleverde kleur bereikt niemand die het programma eerder heeft gestart. Een kleur
+gelijk aan het palet van die versie wordt bij de migratie daarom als standaardwaarde gelezen en
+laten vallen; al het andere is uw keuze en blijft.
 ## Gedrag
 
 | Instelling | Betekenis |
@@ -127,8 +133,7 @@ te starten, wat een met de hand bewerkt bestand hoogstwaarschijnlijk toch wil.
 
 Wat vertaald is, zijn de menu's en de uitleg. Twee dingen zijn dat **niet**, beide met opzet:
 
-- **De toetsopschriften** op het afgebeelde toetsenbord. Die komen uit het apparaatprofiel en
-  moeten passen bij het toetsenbord voor je, niet bij de taal van de menu's — een Duits
+- **De toetsopschriften** op het afgebeelde toetsenbord. Die komen uit Razers tekening en moeten passen bij het toetsenbord voor je, niet bij de taal van de menu's — een Duits
   ISO-toetsenbord toont `strg` en `entf`, of de interface nu in het Engels draait of niet.
 - **De namen van de modificatietoetsen** (Shift, Ctrl, Alt, AltGr, Num Lock …). Diezelfde namen
   produceert de sneltoetsmachinerie voor de laaglijsten, en die staat buiten de vertaling; een
@@ -137,15 +142,26 @@ Wat vertaald is, zijn de menu's en de uitleg. Twee dingen zijn dat **niet**, bei
 Alles zonder vertaling valt terug op het Engels, zodat een onafgemaakt taalbestand de regels kost
 die het mist en niet de hele interface.
 
-## Kalibratie
+## Als de verlichting niet werkt
 
-Kalibratie is een opdrachtregelmodus, geen instellingenpagina:
+Het gesprek met de Chroma-service kan mislukken: de service is gestopt, Synapse is afgesloten, een
+ander programma houdt de sessie. Keylegend blijft het proberen, met een groeiende pauze tussen de
+pogingen, en zegt daarbij wat er mis is:
 
-```bash
-keylegend-cli --profile devices/<map>/device.json --calibrate
-```
+- de statusregel onderaan het venster draagt de reden, in amber in plaats van het gewone grijs
+- het systeemvak zegt het in zijn tooltip, zodat een gesloten venster het niet verbergt
+- één ballon meldt het, eenmaal per storing en niet eenmaal per poging
 
-Ze laat één toets tegelijk oplichten en noemt hem, zodat een apparaatprofiel tegen echte hardware
-kan worden gecontroleerd. Bevindingen worden gaandeweg naar `calibration-findings.txt` geschreven,
-en `tools/apply-calibration.ps1` schrijft ze terug in het profiel. Zie
-[Een toetsenbord toevoegen of corrigeren](adding-a-keyboard.md).
+Alle drie verdwijnen zodra er weer een beeld doorkomt. Verschijnt er niets en licht het toetsenbord
+nog steeds niet op, dan loopt het programma niet — kijk in het systeemvak naar zijn pictogram.
+
+## Als de verkeerde toetsen oplichten
+
+Het toetsenbord in het venster is het toetsenbord op het bureau: ze worden door dezelfde code
+gevuld, dus het venster toont hoe de hardware eruit zou moeten zien. De controle is de twee naast
+elkaar houden.
+
+Bij welke cel van de lichtmatrix een toets hoort, is het enige wat noch Synapse noch de tekening
+zegt: dat komt uit de tabel van het Chroma-protocol zelf. Licht er op de hardware dus een andere
+toets op dan in het venster, dan is die tabel verkeerd voor jouw model. Een issue met welk
+toetsenbord en welke toets is dan de moeite waard.

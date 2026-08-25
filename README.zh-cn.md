@@ -51,7 +51,7 @@ Keylegend 向 Windows 询问在当前键盘状态下每个键会产生什么字�
 
 - Windows 10 或 11
 - Razer Synapse，且 Chroma SDK 服务正在运行
-- 一块支持 Chroma 且有设备配置的键盘（见下）
+- 一块已连接的 Razer Chroma 键盘（见下）
 - .NET 10 运行时
 
 ## 安装
@@ -75,35 +75,23 @@ winget install Eistee82.Keylegend
 
 ## 支持的键盘
 
-对某块键盘的支持是**数据，不是代码**。一块键盘就是 `devices/` 下的一个文件：`device.json`，
-其中是按键几何以及按键到 Chroma 矩阵单元的对应关系。
+**任何 Razer Chroma 键盘。** 没有列表，也没有按型号划分的文件，因为 Keylegend 不需要识别你的键盘——它直接
+询问。Razer Synapse 会描述已连接的键盘：型号名称、以数字表示的物理布局，以及硬件实际拥有的按键。Razer
+为该型号绘制的图形提供其余部分——真实的按键尺寸、带滚轮和多媒体键的外壳，以及键帽上印刷字符的轮廓，语言正确。
 
-随附三十二个配置。其中一个已在真实硬件上逐键走过；其余由标准键位尺寸生成，因此几何精确，而
-LED 对应关系是有依据的推测。
+图形唯一没有说明的，是每个按键属于灯光矩阵的哪个单元。那是 Chroma 协议的常量，在所有型号上都相同——这也是
+Synapse 本身同样不需要按型号建表的原因。对照唯一一台手工校准过的键盘检验：全部 105 个按键一致。
 
-| 键盘 | 布局 | 状态 |
-|---|---|---|
-| Razer DeathStalker V2 | ISO-DE | **已在硬件上验证** |
-| Razer DeathStalker V2、BlackWidow V4、Huntsman V3 Pro、Ornata V3 | ANSI-US、ISO-DE | 生成 |
-| 全尺寸，105/104 键 | ANSI-US、ISO-DE、ISO-UK、ISO-FR、ISO-ES、ISO-IT、ISO-NORDIC、ISO-PT、ISO-CH、ISO-RU、ISO-PL、JIS-JP、ABNT2-BR | 生成 |
-| Tenkeyless | ANSI-US、ISO-DE、ISO-UK、ISO-FR | 生成 |
-| 75 %、65 %、60 % | ANSI-US、ISO-DE | 生成 |
+`physicalLayout` 描述键盘的*形状*，而不是你输入的语言。某个键产生什么字符是在运行时向 Windows 询问的，
+因此即使 Windows 设为 US 或 Dvorak，德语键盘仍能正确工作。
 
-`physicalLayout` 描述的是键盘的*形状*，而不是你输入的语言。某个键产生什么字符是当场向 Windows
-询问的，因此一个 ANSI-US 配置在 Windows 设为中文、美式还是 Dvorak 时都同样适用。
-
-**你这边亮起的是错的键？** 这正是“生成”的含义，纠正它无需编程——用校准模式约十分钟即可。参见
-[docs/zh-cn/adding-a-keyboard.md](docs/zh-cn/adding-a-keyboard.md)。纠正与新配置同样受欢迎，它
-们能把推测变成 `verified` 配置，惠及所有使用该键盘的人。
-
+**需要 Razer Synapse**，已安装并正在运行，且键盘已连接。键盘的描述来自那里，它的图形也存放在那里。
 ## 文档
 
 | 主题 | |
 |---|---|
 | 架构 | 着色如何决定，以及为什么没有键盘钩子 |
-| 添加或纠正键盘 | 设备配置、校准，以及亮错键时该怎么办 |
 | 添加配置 | 按应用程序着色 |
-| 设备配置格式 | 逐个字段详解 |
 | 配置 | 设置、设置文件、开机启动 |
 
 提供十一种语言：
@@ -124,26 +112,15 @@ dotnet build
 dotnet test
 ```
 
-会产出两个程序。**`Keylegend.exe`**（`src/Keylegend.App`）是应用程序：窗口、通知区域图标、
-设置。日常使用要的就是它。
-
-**`keylegend-cli.exe`**（`src/Keylegend.Host`）是带诊断功能的控制台版本：
-
-| 命令 | 作用 |
-|---|---|
-| `keylegend-cli` | 运行灯光。首次按键时接管，空闲 10 秒后交还。 |
-| `keylegend-cli --idle 30` | 同上，空闲超时改为 30 秒。 |
-| `keylegend-cli --once 10` | 把当前状态绘制一次并保持十秒。适合作第一次检查。 |
-| `keylegend-cli --calibrate` | 逐个点亮按键，用于核对设备配置。 |
-| `keylegend-cli --dump-layout` | 打印每个键解析出的结果：普通 / Shift / AltGr。 |
-| `keylegend-cli --watch-foreground` | 报告窗口切换时游戏检测看到了什么。 |
-| `keylegend-cli --profile <路径>` | 使用指定的 `device.json`。 |
+`Keylegend.exe`（`src/Keylegend.App`）就是整个程序：窗口、通知区域图标、设置。
+唯一值得知道的开关是 `--verify`：它检查一份副本是否带着随附配置和全部十一种语言，
+把结果写入紧随其后给出的路径，并通过退出码作答。发行脚本就是用它检查打好包的副本。
 
 设置位于 `%APPDATA%\Keylegend\settings.json`，由应用程序写入。
 
 ## 参与贡献
 
-错误报告、设备配置和翻译都很受欢迎——参见 [CONTRIBUTING.md](CONTRIBUTING.md) 和
+错误报告、应用程序配置和翻译都很受欢迎——参见 [CONTRIBUTING.md](CONTRIBUTING.md) 和
 [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)。
 
 ## 许可
@@ -159,6 +136,6 @@ RAZER 与 RAZER CHROMA 是 Razer Inc. 的商标或注册商标。此处使用它
 和软件接口，属于指称性使用所允许的范围。Keylegend 是一个由社区维护的独立项目。
 
 本仓库中的其他名称同理。应用程序与游戏配置提到了约九十个程序——Photoshop、Visual Studio Code、
-Excel、Elden Ring 等——设备配置提到了键盘厂商与型号。它们是各自权利人的商标，出现在此仅为说明
+Excel、Elden Ring 等——文档提到了键盘厂商与型号。它们是各自权利人的商标，出现在此仅为说明
 某项内容对应哪个程序或哪块键盘。Keylegend 与它们均无关联，也不含它们的代码或素材。参见
 [NOTICE.md](NOTICE.md)。

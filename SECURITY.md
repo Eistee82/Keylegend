@@ -16,9 +16,10 @@ build if `Keylegend.Core` grows a dependency it should not have, and there is no
 anywhere in `Keylegend.Windows`. The relevant Win32 imports are collected in one file,
 `NativeMethods.cs`, so the claim can be verified by reading a single page.
 
-Raw Input is used in one place, `ConnectedKeyboards`, and only to ask Windows **which** keyboards
-are attached — reading device names to find a matching device profile. Listing devices is not
-listening to them.
+The whole Win32 surface for the keyboard is four calls, and none of them receives input:
+`GetAsyncKeyState` and `GetKeyState` read the state of modifiers and lock keys, `GetKeyboardLayout`
+and `MapVirtualKeyEx`/`ToUnicodeEx` answer what a key *would* type. There is no hook, no Raw Input
+and no device enumeration — which keyboard is attached is a question for Razer Synapse.
 
 ## What it sends over the network
 
@@ -29,7 +30,6 @@ SDK's local interface. There is no telemetry, no update check and no analytics.
 
 - `%APPDATA%\Keylegend\settings.json` — your colours, profiles and settings
 - `HKCU\Software\Microsoft\Windows\CurrentVersion\Run` — only while autostart is switched on
-- `calibration-findings.txt` next to the executable, and only while calibrating
 
 ## Reporting something
 

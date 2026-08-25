@@ -34,11 +34,8 @@
   <data name="TabSettings" xml:space="preserve">
     <value>Paramètres</value>
   </data>
-  <data name="StatusDeviceVerified" xml:space="preserve">
-    <value>{0} · {1} touches · correspondance vérifiée sur le matériel</value>
-  </data>
-  <data name="StatusDeviceNotVerified" xml:space="preserve">
-    <value>{0} · {1} touches · correspondance pas encore vérifiée</value>
+  <data name="StatusDevice" xml:space="preserve">
+    <value>{0} · {1} touches</value>
   </data>
   <data name="StatusProfileLabel" xml:space="preserve">
     <value>profil : {0}</value>
@@ -138,6 +135,9 @@
   </data>
   <data name="KeyboardNoProfile" xml:space="preserve">
     <value>Aucun profil de périphérique chargé</value>
+  </data>
+  <data name="StartupNoKeyboard" xml:space="preserve">
+    <value>Aucun clavier Razer trouvé. Keylegend lit le clavier connecté depuis Razer Synapse : Synapse doit donc être installé et en cours d'exécution, et le clavier branché.</value>
   </data>
   <data name="ColoursCategoriesHeading" xml:space="preserve">
     <value>Catégories de touches</value>
@@ -453,6 +453,9 @@
   </data>
   <data name="TrayTooltipIdle" xml:space="preserve">
     <value>Keylegend — au repos</value>
+  </data>
+  <data name="TrayTooltipTrouble" xml:space="preserve">
+    <value>Keylegend — l'éclairage ne fonctionne pas</value>
   </data>
   <data name="TrayTooltipPaused" xml:space="preserve">
     <value>Keylegend — en pause</value>

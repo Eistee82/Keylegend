@@ -30,11 +30,11 @@ Poniżej to część, która psuje się nawet wtedy, gdy format został przeczyt
 
 ## 3. Pozycje i znaki to nie to samo
 
-Identyfikatory klawiszy pochodzą z profilu urządzenia i nazywają **pozycje amerykańskie**.
-`Keyboard_Y` to fizyczny klawisz, który na klawiaturze amerykańskiej pisze `Y` — na niemieckiej ten
-klawisz pisze `Z`. Format ma więc dwa sposoby nazywania klawisza, a wybranie złego daje profil
-widocznie błędny na każdym układzie nieamerykańskim, choć wyglądający idealnie na maszynie, na
-której powstał.
+Identyfikatory klawiszy pochodzą z tabeli protokołu podświetlenia i nazywają **pozycje
+amerykańskie**. `Keyboard_Y` to fizyczny klawisz, który na klawiaturze amerykańskiej pisze `Y` — na
+niemieckiej ten klawisz pisze `Z`. Format ma więc dwa sposoby nazywania klawisza, a wybranie złego
+daje profil widocznie błędny na każdym układzie nieamerykańskim, choć wyglądający idealnie na
+maszynie, na której powstał.
 
 Przy każdym wpisie trzeba zapytać, o co tak naprawdę chodzi:
 
@@ -87,12 +87,11 @@ dotnet test
 ```
 
 Testy profili sprawdzają każdy plik w `profiles/`: identyfikator jest unikatowy i zgodny z nazwą
-pliku, `kind` zgadza się z katalogiem, każdy identyfikator klawisza istnieje w dostarczonym profilu
-urządzenia, kolory dają się odczytać, grupy i kombinacje modyfikatorów są poprawne i zapisane w
-postaci kanonicznej, każdy skrót niesie etykietę, żaden klawisz literowy nie stoi pod
-`shortcuts.keys` (jego miejsce jest pod `characters`), żaden profil nie jest pusty i żadne dwa
-profile nie roszczą sobie prawa do jednego pliku wykonywalnego, nie odróżniając się przez
-`titleContains`.
+pliku, `kind` zgadza się z katalogiem, każdy identyfikator klawisza istnieje w tabeli macierzy,
+kolory dają się odczytać, grupy i kombinacje modyfikatorów są poprawne i zapisane w postaci
+kanonicznej, każdy skrót niesie etykietę, żaden klawisz literowy nie stoi pod `shortcuts.keys`
+(jego miejsce jest pod `characters`), żaden profil nie jest pusty i żadne dwa profile nie roszczą
+sobie prawa do jednego pliku wykonywalnego, nie odróżniając się przez `titleContains`.
 
 Jedna rzecz celowo **nie** jest sprawdzana: ta sama etykieta pojawiająca się dwa razy pod jednym
 modyfikatorem. Wyglądało to na sposób łapania pomyłek kopiuj-wklej, a łapało prawdziwe warianty —

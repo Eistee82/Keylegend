@@ -26,6 +26,13 @@
             <Setter Property="FontSize" Value="12" />
             <Setter Property="TextWrapping" Value="Wrap" />
         </Style>
+        <!-- A fault is the one thing in the status line that must not read as an aside, so it
+             carries amber rather than the muted grey. Amber and not red: the lighting retries by
+             itself, so this says "not working at the moment", not "gone". -->
+        <Style x:Key="Trouble" TargetType="TextBlock" BasedOn="{StaticResource Muted}">
+            <Setter Property="Foreground" Value="#FFB454" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
 
         <Style TargetType="ToggleButton">
             <Setter Property="Background" Value="#24242C" />

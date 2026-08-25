@@ -65,7 +65,7 @@ modificatori e dei blocchi; non intercetta, non inoltra e non registra mai una b
 
 - Windows 10 o 11
 - Razer Synapse con il servizio Chroma SDK in esecuzione
-- Una tastiera compatibile Chroma con un profilo di dispositivo (vedi sotto)
+- Una tastiera Razer Chroma, collegata (vedi sotto)
 - Il runtime .NET 10
 
 ## Installazione
@@ -90,40 +90,30 @@ il download, e il registro di compilazione che l'ha prodotta è pubblico.
 
 ## Tastiere supportate
 
-Il supporto di una tastiera è **un dato, non codice**. Una tastiera è un file in `devices/`:
-`device.json`, con la geometria dei tasti e la corrispondenza fra tasti e celle della matrice
-Chroma.
+**Qualsiasi tastiera Razer Chroma.** Non c’è un elenco né un file per modello, perché Keylegend
+non ha bisogno di riconoscere la tua tastiera: la interroga. Razer Synapse descrive quella collegata
+— il modello per nome, il layout fisico come numero e i tasti che l’hardware ha davvero. Il
+disegno che Razer fa di quel modello fornisce il resto: le misure reali dei tasti, il telaio con la
+sua rotella e i tasti multimediali, e i contorni dei caratteri stampati sui cappucci, nella lingua
+giusta.
 
-Sono inclusi trentadue profili. Uno di essi è stato percorso su hardware reale; gli altri sono
-generati dalle dimensioni standard, il che rende la loro geometria esatta e la loro
-corrispondenza LED un'ipotesi ragionata.
+L’unica cosa che il disegno non dice è a quale cella della matrice di illuminazione appartenga
+ogni tasto. Quella è una costante del protocollo Chroma, identica su ogni modello — ed è il motivo
+per cui nemmeno Synapse ha bisogno di una tabella per modello. Verificato sulla sola tastiera
+calibrata a mano: tutti i 105 tasti coincidono.
 
-| Tastiera | Layout | Stato |
-|---|---|---|
-| Razer DeathStalker V2 | ISO-DE | **verificato sull'hardware** |
-| Razer DeathStalker V2, BlackWidow V4, Huntsman V3 Pro, Ornata V3 | ANSI-US, ISO-DE | generato |
-| Formato completo, 105/104 tasti | ANSI-US, ISO-DE, ISO-UK, ISO-FR, ISO-ES, ISO-IT, ISO-NORDIC, ISO-PT, ISO-CH, ISO-RU, ISO-PL, JIS-JP, ABNT2-BR | generato |
-| Tenkeyless | ANSI-US, ISO-DE, ISO-UK, ISO-FR | generato |
-| 75 %, 65 %, 60 % | ANSI-US, ISO-DE | generato |
+`physicalLayout` descrive la *forma* della tastiera, non la lingua con cui scrivi. Quale carattere
+produce un tasto viene chiesto a Windows in esecuzione, così una tastiera tedesca funziona
+correttamente anche con Windows impostato su US o Dvorak.
 
-`physicalLayout` descrive la *forma* della tastiera, non la lingua in cui scrivi. Quale carattere
-produce un tasto viene chiesto a Windows al momento, quindi un profilo ISO-IT serve una tastiera
-italiana sia che Windows sia impostato su italiano, su americano o su Dvorak.
-
-**Si accendono i tasti sbagliati?** È esattamente ciò che significa «generato», e correggerlo non
-richiede programmazione: una decina di minuti con la modalità di calibrazione. Vedi
-[docs/it/adding-a-keyboard.md](docs/it/adding-a-keyboard.md). Le correzioni sono benvenute quanto
-i profili nuovi e trasformano un'ipotesi in un profilo `verified` per tutti quelli che hanno
-quella tastiera.
-
+**Richiede Razer Synapse**, installato e in esecuzione, con la tastiera collegata. È lì che la
+tastiera viene descritta e lì che si trova il suo disegno.
 ## Documentazione
 
 | Argomento | |
 |---|---|
 | Architettura | come si decide la colorazione, e perché non c'è alcun hook della tastiera |
-| Aggiungere o correggere una tastiera | profili di dispositivo, calibrazione, e che fare quando si accendono i tasti sbagliati |
 | Aggiungere un profilo | colorazione per applicazione |
-| Formato del profilo di dispositivo | ogni campo, in dettaglio |
 | Configurazione | impostazioni, file delle impostazioni, avvio automatico |
 
 Disponibile in undici lingue:
@@ -144,27 +134,18 @@ dotnet build
 dotnet test
 ```
 
-Ne escono due programmi. **`Keylegend.exe`** (`src/Keylegend.App`) è l'applicazione: finestra,
-icona nell'area di notifica, impostazioni. È quello che serve per l'uso normale.
-
-**`keylegend-cli.exe`** (`src/Keylegend.Host`) è un driver da console con le diagnostiche:
-
-| Comando | Che cosa fa |
-|---|---|
-| `keylegend-cli` | Avvia l'illuminazione. Prende il comando alla prima battuta, lo restituisce dopo 10 s di inattività. |
-| `keylegend-cli --idle 30` | Lo stesso, con un timeout di inattività di 30 secondi. |
-| `keylegend-cli --once 10` | Disegna lo stato attuale una volta e lo mantiene dieci secondi. Buona prima verifica. |
-| `keylegend-cli --calibrate` | Accende un tasto alla volta per verificare un profilo di dispositivo. |
-| `keylegend-cli --dump-layout` | Stampa a che cosa corrisponde ogni tasto: normale / Maiusc / Alt Gr. |
-| `keylegend-cli --watch-foreground` | Riferisce che cosa vede il rilevamento dei giochi al cambiare delle finestre. |
-| `keylegend-cli --profile <percorso>` | Usa un `device.json` preciso. |
+`Keylegend.exe` (`src/Keylegend.App`) è tutto il programma: finestra, icona nell'area di notifica,
+impostazioni. L'unica opzione che vale la pena conoscere: `--verify` controlla che una copia porti i
+profili inclusi e tutte e undici le lingue, scrive quello che trova nel percorso indicato dopo di
+essa e risponde tramite il proprio codice di uscita. È ciò che lo script di rilascio esegue contro
+una copia impacchettata.
 
 Le impostazioni risiedono in `%APPDATA%\Keylegend\settings.json` e vengono scritte
 dall'applicazione.
 
 ## Contribuire
 
-Segnalazioni di errori, profili di dispositivo e traduzioni sono tutti benvenuti — vedi
+Segnalazioni di errori, profili di applicazione e traduzioni sono tutti benvenuti — vedi
 [CONTRIBUTING.md](CONTRIBUTING.md) e [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
 ## Licenza
@@ -181,8 +162,8 @@ identificare l'hardware e l'interfaccia software con cui questo progetto lavora,
 l'uso referenziale. Keylegend è un progetto indipendente, mantenuto dalla comunità.
 
 Lo stesso vale per ogni altro nome presente in questo repository. I profili di applicazione e di
-gioco nominano circa novanta programmi — Photoshop, Visual Studio Code, Excel, Elden Ring e altri
-— e i profili di dispositivo nominano produttori e modelli di tastiera. Sono marchi dei
-rispettivi titolari e compaiono solo per dire a quale programma o a quale tastiera qualcosa si
-riferisce. Keylegend non è associato a nessuno di essi e non contiene né il loro codice né i loro
-materiali. Vedi [NOTICE.md](NOTICE.md).
+gioco nominano circa novanta programmi — Photoshop, Visual Studio Code, Excel, Elden Ring e altri —
+e la documentazione nomina produttori e modelli di tastiera. Sono marchi dei rispettivi titolari e
+compaiono solo per dire a quale programma o a quale tastiera qualcosa si riferisce. Keylegend non è
+associato a nessuno di essi e non contiene né il loro codice né i loro materiali. Vedi
+[NOTICE.md](NOTICE.md).

@@ -23,6 +23,7 @@ Wszystko, co rozmawia ze światem zewnętrznym, siedzi w cienkich adapterach wok
 | `Keylegend.Core` | profile urządzeń, kategorie, zestawy skrótów, kompozytor klatek, automat stanów sesji | niczego zależnego od platformy |
 | `Keylegend.Windows` | stan klawiatury, rozstrzyganie znaków, okno pierwszoplanowe | API Windows |
 | `Keylegend.Chroma` | klient REST dla Chroma SDK, bicie serca | sieci |
+| `Keylegend.Engine` | pętla, która czyta klawiaturę, składa klatkę i ją wysyła | Core, Chroma, Windows |
 | `Keylegend.App` | interfejs WPF, ikona w obszarze powiadomień, przechowywanie konfiguracji | wszystkiego powyższego |
 
 `Keylegend.Core` nigdy nie może odwoływać się do pozostałych. Jeśli zmiana zdaje się tego wymagać,
@@ -57,10 +58,29 @@ Dlatego Shift, Caps Lock i Num Lock nie wymagają żadnego szczególnego traktow
 po prostu zwraca `A` zamiast `a` i sam trafia do kategorii „wielka litera". I dlatego też każdy
 układ klawiatury działa bez zmian.
 
+### Jaka klawiatura jest podłączona
+
+Pyta się o to Razer Synapse, bo już to wie. Zapisuje opis każdego podłączonego urządzenia do
+`…\Razer Chroma SDK\Devices\<guid>.json`: model z nazwy, układ fizyczny jako liczbę, rozmiar
+macierzy i skan-kod każdego klawisza, który sprzęt naprawdę ma. `SdkDeviceDescription` to czyta, a o klawiaturze nic nie jest wywnioskowane.
+
+Jak klawiatura wygląda, pochodzi z tej samej instalacji. Interfejs Synapse to aplikacja
+internetowa, a rysunki, które wczytuje dla urządzenia, zostają w jej pamięci podręcznej:
+prostokąty klawiszy z nazwami, kształt obudowy z pokrętłem głośności i paskiem multimedialnym oraz
+obrysy znaków nadrukowanych na klawiszach. `SvgLayoutSource` znajduje rysunek podłączonego modelu i
+układu dokładnie, a nie po kształcie, bo każdy rysunek dostarczany jest obok obiektu konfiguracji
+nazywającego jedno i drugie.
+
+Pobierane są tylko wymiary i obrysy; kolory i stylistyka Razera są pomijane, a nic z tego materiału
+nie jest kopiowane do tego repozytorium.
+
+Jedyne, czego nie mówi żadne z nich, to do której komórki macierzy podświetlenia należy klawisz. To
+`StandardKeyMatrix`, własna tablica `RZKEY` protokołu, identyczna w każdym modelu.
+
 ## Profile aplikacji
 
 Profil wiąże reguły podświetlenia z programem. W zestawie jest ich około dziewięćdziesięciu, a
-decyzje, które za nimi stoją, warto wyłożyć, bo każda była drugą, a nie pierwszą odpowiedzią.
+decyzje, które za nimi stoją, warto wyłożyć, bo żadna z nich nie jest odpowiedzią oczywistą.
 
 ### Profile to dane, nie kod
 
@@ -71,11 +91,11 @@ Gdyby obsługa nowej aplikacji kiedykolwiek wymagała kodu, format byłby zły.
 
 ### Osadzone w zestawie, a nie luzem na dysku
 
-Profile urządzeń leżą obok pliku wykonywalnego, profile aplikacji nie. Trzy powody, a każdy
-wystarczyłby sam. Wydanie w jednym pliku zabiera je ze sobą, bez katalogu, który da się zgubić. Nic
-na dysku nie da się zmienić przypadkiem, a właśnie to nadaje sens „przywróceniu wersji
-dostarczonej" — wersja dostarczona musi być poza zasięgiem, żeby warto było do niej wracać. A
-profil, który się nie kompiluje, staje się błędem kompilacji, a nie programem, który po cichu nie
+Profile aplikacji są skompilowane w zestawie, a nie leżą jako pliki obok pliku wykonywalnego. Trzy
+powody, a każdy wystarczyłby sam. Wydanie w jednym pliku zabiera je ze sobą, bez katalogu, który da
+się zgubić. Nic na dysku nie da się zmienić przypadkiem, a właśnie to nadaje sens „przywróceniu
+wersji dostarczonej" — wersja dostarczona musi być poza zasięgiem, żeby warto było do niej wracać.
+A profil, który się nie kompiluje, staje się błędem kompilacji, a nie programem, który po cichu nie
 ma żadnych profili.
 
 ### Nadpisania idą sekcjami
@@ -86,7 +106,7 @@ rzeczy: przywracanie w ogóle jest możliwe, a nowsze wydanie wciąż może popr
 częściowo zmienił. Identyfikator to nośna część i po opublikowaniu nie wolno go zmieniać — zmiana
 nazwy osieroca czyjeś zmiany.
 
-Ziarnistość wybrano wbrew obu oczywistym alternatywom:
+Ziarnistość broni się wobec obu oczywistych alternatyw:
 
 - **Po polu** wygląda schludniej i tworzy stany, których nikt nie skonfigurował. Przemaluj `W`,
   potem przyjmij aktualizację dodającą `Q`, a wynikiem jest mieszanina, której użytkownik nigdy nie
@@ -97,15 +117,21 @@ Ziarnistość wybrano wbrew obu oczywistym alternatywom:
 Sekcja to ziarnistość, przy której zmiana wciąż mieści się w jednym zdaniu: zmieniłeś wyróżnienia,
 więc wyróżnienia są teraz twoje.
 
-### Profil zastępuje tylko te warstwy, które wymienia
+### Profil nakłada się na zestaw ogólny, wpis po wpisie
 
-Skróty są indeksowane kombinacją modyfikatorów i nakładane na katalog ogólny, a nie stawiane w jego
-miejsce. Photoshop wie, co `Ctrl` znaczy w Photoshopie; nie wie nic o `Win+E`, które Windows
-przypisuje w skali systemu i które jest prawdziwe niezależnie od tego, co jest na wierzchu.
-Zastąpienie całego katalogu czyniłoby profil odpowiedzialnym za fakty, w sprawie których nie ma
-zdania. Profil, który nie wymienia żadnej warstwy, zwraca katalog ogólny bez zmian, więc przypadek
-typowy nie alokuje niczego.
+Skróty są indeksowane według połączenia modyfikatorów, a wpisy profilu kładą się na ogólnych, a nie
+na ich miejsce — wpis po wpisie, nie warstwa po warstwie. Photoshop wie, co znaczy `Ctrl+J` w
+Photoshopie; nie wie nic o `Win+E`, które Windows przypisuje w całym systemie, ani o `Ctrl+C`, które
+obowiązuje wszędzie, gdzie stoi kursor tekstu.
 
+Warstwami znaczyłoby, że profil wymieniający `Ctrl` dla własnych poleceń zabiera całą warstwę, a
+schowek jest tego ceną: kopiowanie, wklejanie, wycinanie, cofanie i zaznaczanie wszystkiego gasną w
+przeglądarce, w komunikatorze, w terminalu — w programach, w których niemal nic innego się nie robi
+poza pisaniem i wklejaniem. Wpisami wygrywa ten, kto wymienia klawisz, dla tego klawisza, i nic
+więcej się nie rusza. Opróżnienie całej warstwy jest celowo niemożliwe.
+
+Profil, który nie wymienia żadnej warstwy, zwraca ogólny katalog bez zmian; częsty przypadek nie
+zajmuje więc pamięci.
 ### Skróty i wyróżnienia niosą etykietę
 
 Etykieta mówi, co robi polecenie — „Powiel warstwę", a nie „Ctrl+J". Sprzęt nigdy jej nie pokazuje:
@@ -116,16 +142,31 @@ wpis jest poprawny. `"j": "Edycja"` nie da się z niczym zestawić; `"j": "Powie
 
 ### Migracja pliku ustawień w formacie 1
 
-Format 1 przechowywał profile w całości, bez identyfikatora i bez zapisu, skąd profil pochodzi.
-Właśnie to naprawia nowy format: nadpisanie potrzebuje identyfikatora, o który się zaczepi, a
-przywracanie musi wiedzieć, że istnieje wersja dostarczona, do której można wrócić.
+Plik w formacie 1 przechowuje profile w całości, bez identyfikatora i bez zapisu, skąd profil
+pochodzi. Nadpisanie potrzebuje identyfikatora, o który się zaczepi, a przywracanie musi wiedzieć,
+że istnieje wersja dostarczona, do której można wrócić — taki plik nie potrafi więc powiedzieć,
+które z jego wpisów są dostarczone.
 
-Konsekwencją dla migracji jest to, że stary plik nie potrafi powiedzieć, które z jego wpisów były
-kiedyś dostarczone. Wszystkie stają się więc profilami użytkownika. Zachowuje to każdą zmianę, którą
-ktoś wprowadził, kosztem tego, że profil dostarczony pojawi się obok zmigrowanej kopii, dopóki jeden
-z dwóch nie zostanie usunięty — i to jest właściwy kompromis, bo odczyt przeciwny po cichu
-kasowałby czyjąś pracę.
+Dlatego wszystkie stają się profilami użytkownika. Zachowuje to każdą zmianę, którą ktoś wprowadził,
+kosztem tego, że profil dostarczony pojawi się obok zmigrowanej kopii, dopóki jeden z dwóch nie
+zostanie usunięty — to właściwy kompromis, bo odczyt przeciwny po cichu kasuje czyjąś pracę.
 
+### Migracja pliku ustawień w formacie 2
+
+Plik w formacie 2 wymienia wszystkie kolory, także nietknięte, i nie potrafi więc powiedzieć, które
+z jego wpisów są decyzjami, a które odbitymi wartościami domyślnymi. Uszanowanie ich wszystkich
+przypina paletę: poprawiony kolor dostarczony nie dociera wtedy do nikogo, kto kiedykolwiek
+uruchomił program.
+
+Format 3 zapisuje tylko to, co odbiega od dostarczonej palety, więc wpis w pliku znaczy, że ktoś go
+wybrał. Migracja starszego pliku wymusza odgadnięcie tej różnicy, a założenie jest takie: wpis równy
+palecie tamtej wersji jest wartością domyślną, wszystko inne jest wyborem. `PaletteBeforeFormat3`
+przechowuje tę paletę jako zamrożoną kopię, zamiast czytać obecną — takie porównanie traci sens w
+chwili, gdy paleta znów się zmieni, czyli dokładnie wtedy, gdy jest potrzebne.
+
+Ceną jest to, że kto świadomie wybrał jeden z tych kolorów, traci go. To właściwy kierunek: jedna
+osoba wybiera kolor ponownie, wobec wszystkich użytkowników trzymających paletę, której nikt nie
+wybrał.
 ## Rozmowa z klawiaturą
 
 Do Chroma SDK zwracamy się przez jego lokalny interfejs REST. Kolory to liczby całkowite kodowane w
@@ -137,17 +178,17 @@ przejęciu od działającego efektu Chroma Studio około 500 ms, a każda nastę
 
 ### Jak często wysyłane są klatki
 
-Wygląda to na szczegół, a nim nie jest; obie oczywiste odpowiedzi są błędne i obu próbowano.
+Wygląda to na szczegół, a nim nie jest: obie oczywiste odpowiedzi są błędne.
 
 **Wysyłanie tylko przy zmianie** zagładza przejęcie. Zwykłe naciśnięcie nie zmienia stanu
-klawiatury — robią to tylko modyfikatory i blokady — więc przejęcie dawało dokładnie jedną klatkę.
+klawiatury — robią to tylko modyfikatory i blokady — więc przejęcie daje dokładnie jedną klatkę.
 Chroma odrzuca klatki, dopóki wciąż przejmuje kontrolę, i zgłasza dla nich powodzenie, więc ta jedna
-klatka mogła zniknąć i zostawić klawiaturę zamrożoną na poprzednim efekcie, dopóki użytkownik nie
-nacisnął przypadkiem modyfikatora.
+klatka może zniknąć i zostawić klawiaturę zamrożoną na poprzednim efekcie, dopóki użytkownik nie
+naciśnie przypadkiem modyfikatora.
 
 **Wysyłanie tak szybko, jak się da** rujnuje responsywność. Klatki ustawiają się w kolejce wewnątrz
 interfejsu, a zmiana stanu czeka wtedy za wszystkim, co już wysłano — naciśnięcie Shift wyraźnie
-potrzebowało sekundy lub dwóch, żeby się pokazać.
+potrzebuje sekundy lub dwóch, żeby się pokazać.
 
 Sprawdza się wysyłanie z trzech odrębnych powodów w trzech różnych tempach:
 

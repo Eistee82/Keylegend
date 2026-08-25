@@ -24,6 +24,7 @@ Everything that talks to the outside world sits in thin adapters around that cor
 | `Keylegend.Core` | device profiles, categories, shortcut sets, the frame composer, session state machine | nothing platform-specific |
 | `Keylegend.Windows` | keyboard state, character resolution, foreground window | Windows APIs |
 | `Keylegend.Chroma` | REST client for the Chroma SDK, heartbeat | network |
+| `Keylegend.Engine` | the loop that reads the keyboard, composes a frame and sends it | Core, Chroma, Windows |
 | `Keylegend.App` | WPF interface, tray icon, configuration storage | all of the above |
 
 `Keylegend.Core` must never reference the others. If a change seems to require it, the
@@ -61,30 +62,42 @@ keyboard layout works without changes.
 
 ### Which keyboard is attached
 
-The Chroma SDK cannot say. Its REST interface has no query endpoint — creating a session returns
-an id and a URI, and a `GET` against that URI is answered with "Not Supported". The native DLL
-offers `QueryDevice`, but that answers "is *this* GUID present?" one model at a time; the request
-for a list of connected devices in the most active community wrapper has been open since 2016.
+Razer Synapse is asked, because it already knows. It writes a description of every attached device
+into `…\Razer Chroma SDK\Devices\<guid>.json`: the model by name, the physical layout as a number,
+the matrix size, and the scan code of every key the hardware actually has. `SdkDeviceDescription`
+reads that. Nothing about the keyboard is inferred — not the model, not the layout, not
+which keys exist.
 
-Windows answers it in one call. `ConnectedKeyboards` asks Raw Input for the attached devices and
-keeps the USB vendor and product ids out of their names — `1532:0295` for a DeathStalker V2. A
-device profile carrying a matching `usb` pair is then chosen outright.
+The Chroma SDK's own interfaces cannot answer this. Its REST interface has no query endpoint —
+creating a session returns an id and a URI, and a `GET` against that URI is answered with "Not
+Supported". The native DLL offers `QueryDevice`, but that answers "is *this* GUID present?" one
+model at a time; the request for a list of connected devices in the most active community wrapper
+has been open since 2016.
 
-Two things are worth being precise about. Raw Input is used here **only to enumerate devices**,
-never to receive input from them: listing keyboards is not listening to them, and the promise
-above holds unchanged. And a vendor uses one product id across layouts, so recognition narrows
-the choice to a *model*; which ISO or ANSI variant of it applies is then taken from the active
-Windows keyboard layout, as a hint and only to break that tie.
+What the keyboard *looks like* comes from the same installation. Synapse's interface is a web
+application, and the drawings it loads for a device stay in its cache: key rectangles with names,
+the shape of the casing including the volume dial and the media strip, and the outlines of the
+characters printed on the caps. `SvgLayoutSource` finds the one for the attached model and physical
+layout — exactly, not by shape, because each drawing is delivered beside a configuration object
+naming both, and the layout id there is the same number the service reports.
 
-This matters more than it looks. While one profile shipped, picking "the first file found" was
-the same thing as picking the right one. With thirty-two it was a 60 % layout, which left two
-thirds of a full-size keyboard dark — a profile that does not mention a key cannot light it.
+Only measurements and outlines are taken. Razer's colours and styling are ignored, and none of the
+artwork is copied into this repository — it is read at run time from the installation that already
+holds it.
+
+The one thing neither the description nor the drawing states is which cell of the lighting matrix a
+key belongs to. That is `StandardKeyMatrix`, the protocol's own `RZKEY` table, identical on every
+model — which is why Synapse needs no per-model table for it either.
+
+**So no device profile is shipped at all.** There is no folder of them, no file to write for a new
+keyboard, and no list of supported models. The one profile ever calibrated by hand is kept as test
+data, and `FromDrawingTests` checks the whole assembly against it: same keys, and every key on the
+cell that was measured at the hardware.
 
 ## Application profiles
 
-A profile binds lighting rules to a program. Around ninety are shipped, and the decisions
-behind them are worth stating, because each of them was the second answer rather than the
-first.
+A profile binds lighting rules to a program. Around ninety are shipped, and the decisions behind
+them are worth stating, because none of them is the obvious answer.
 
 ### Profiles are data, not code
 
@@ -95,11 +108,12 @@ program. If supporting a new application ever needed code, the format would be w
 
 ### Embedded in the assembly rather than loose on disk
 
-Device profiles sit beside the executable; application profiles do not. Three reasons, and each
-would be enough on its own. A single-file release carries them with no folder to lose. Nothing
-on disk can be edited by accident, which is what makes "reset to shipped" mean anything at all
-— the shipped version has to be out of reach to be a version worth resetting to. And a profile
-that fails to build becomes a build error rather than a program that quietly has no profiles.
+Application profiles are compiled into the assembly rather than left as files beside the
+executable. Three reasons, and each would be enough on its own. A single-file release carries them
+with no folder to lose. Nothing on disk can be edited by accident, which is what makes "reset to
+shipped" mean anything at all — the shipped version has to be out of reach to be a version worth
+resetting to. And a profile that fails to build becomes a build error rather than a program that
+quietly has no profiles.
 
 ### Overrides are per section
 
@@ -109,7 +123,7 @@ possible at all, and an updated build can still improve a profile somebody has p
 The id is load-bearing for this and must never change once shipped — renaming it orphans
 somebody's edits.
 
-The granularity was chosen against both obvious alternatives:
+The granularity holds against both obvious alternatives:
 
 - **Per field** looks tidier and produces states nobody configured. Recolour `W`, then take an
   update that adds `Q`, and the result is a mixture the user never built and cannot explain.
@@ -119,14 +133,21 @@ The granularity was chosen against both obvious alternatives:
 A section is the granularity at which the change still has a sentence: you edited the
 highlights, so the highlights are yours now.
 
-### A profile replaces only the layers it names
+### A profile is laid over the general set, entry by entry
 
-Shortcuts are keyed by modifier combination and laid over the general catalogue, not
-substituted for it. Photoshop knows what `Ctrl` means inside Photoshop; it knows nothing about
-`Win+E`, which Windows assigns system-wide and which is true no matter what is in front.
-Replacing the whole catalogue would make a profile responsible for facts it has no opinion
-about. A profile that names no layer returns the general catalogue unchanged, so the common
-case allocates nothing.
+Shortcuts are keyed by modifier combination, and a profile's entries go over the general ones
+rather than in place of them — per entry, not per layer. Photoshop knows what `Ctrl+J` means
+inside Photoshop; it knows nothing about `Win+E`, which Windows assigns system-wide, and nothing
+about `Ctrl+C`, which holds anywhere there is a caret.
+
+Per layer would mean that a profile naming `Ctrl` for its own commands takes the whole layer with
+it, and the clipboard is what that costs: copy, paste, cut, undo and select-all go dark in a
+browser, in a chat client, in a terminal — programs one does little in but type and paste. Per
+entry, naming a key wins for that key and nothing else moves. There is deliberately no way to
+blank a layer wholesale.
+
+A profile that names no layer returns the general catalogue unchanged, so the common case
+allocates nothing.
 
 ### Shortcuts and highlights carry a label
 
@@ -139,14 +160,28 @@ review whether an entry is correct. `"j": "Edit"` cannot be checked against anyt
 
 ### Migrating a format 1 settings file
 
-Format 1 stored profiles whole, without an id and without any record of where a profile came
-from. That is exactly what the new format fixes: an override needs an id to attach to, and
-resetting needs to know that there is a shipped version to reset to.
+A format 1 file stores profiles whole, without an id and without any record of where a profile
+came from. An override needs an id to attach to, and resetting needs to know that a shipped
+version exists to reset to, so such a file cannot say which of its entries are shipped ones.
 
-The consequence for migration is that an old file cannot say which of its entries were once
-shipped. So all of them become user profiles. That keeps every edit somebody made, at the price
-of the shipped profile appearing next to the migrated copy until one of the two is removed —
-which is the right trade, because the other reading would silently delete work.
+All of them therefore become user profiles. That keeps every edit somebody made, at the price of
+the shipped profile appearing next to the migrated copy until one of the two is removed — the
+right trade, because the other reading silently deletes work.
+
+### Migrating a format 2 settings file
+
+A format 2 file lists every colour, the untouched ones included, so it cannot say which of its
+entries are decisions and which are defaults echoed back. Honouring all of them pins the palette:
+an improved shipped colour then reaches nobody who has ever run the program.
+
+Format 3 writes only what differs from the shipped palette, so an entry in the file means somebody
+chose it. Migrating an older file has to guess at that distinction, and the guess is: an entry equal
+to the palette of that format's day is a default, anything else is a choice. `PaletteBeforeFormat3`
+holds that palette as a frozen copy rather than reading the current one — that comparison is
+meaningless the moment the palette changes again, which is exactly when it is needed.
+
+The price is that somebody who deliberately picked one of those colours loses it. That is the right
+way round: one person re-picks a colour, against every user keeping a palette nobody chose.
 
 ## Talking to the keyboard
 
@@ -168,7 +203,7 @@ the wrong matrix size comes back as:
 ```
 
 with a 200 status. Checking the status code alone therefore reports success for frames the
-keyboard never showed — a silent failure, indistinguishable from the lighting simply not
+keyboard does not show — a silent failure, indistinguishable from the lighting simply not
 changing.
 
 So `result` in the body decides: zero is success, anything else is a rejection. Where the
@@ -188,17 +223,16 @@ so its absence counts as success.
 
 ### How often frames are sent
 
-This looks like a detail and is not; both obvious answers are wrong, and each was tried.
+This looks like a detail and is not: both obvious answers are wrong.
 
 **Sending only on change** starves the hand-over. An ordinary keypress does not change the
-keyboard state — only modifiers and locks do — so a take-over produced exactly one frame.
-Chroma discards frames while it is still taking control, and reports success for them, so that
-single frame could vanish and leave the keyboard frozen on the previous effect until the user
-happened to press a modifier.
+keyboard state — only modifiers and locks do — so a take-over is one single frame. Chroma discards
+frames while it is still taking control and reports success for them, so that frame can vanish and
+leave the keyboard on the previous effect until the user happens to press a modifier.
 
 **Sending as fast as possible** ruins responsiveness. Frames queue inside the interface, and a
-state change then waits behind everything already sent — pressing Shift took a visible second
-or two to show.
+state change then waits behind everything already sent — pressing Shift takes a visible second or
+two to show.
 
 What works is sending for three distinct reasons at three different rates:
 

@@ -45,10 +45,10 @@ El reconocimiento es por nombre de ejecutable. Cuando coincide más de un perfil
 nombra el programa — un juego con su propio perfil lo conserva por tanto aunque la detección de
 juegos también se dispare. La prioridad solo deshace los empates restantes.
 
-Un perfil sustituye únicamente las capas de modificadores que él mismo nombra. Photoshop sustituye
-la capa Ctrl, porque allí Ctrl significa otros comandos; `Win+E` sigue abriendo el Explorador,
-porque Windows asigna esa combinación a nivel de sistema y vale sea lo que sea lo que esté
-delante.
+Un perfil se superpone al conjunto general, entrada por entrada. Photoshop dice qué significa allí
+`Ctrl+J`; `Ctrl+C` sigue copiando, porque un perfil que nombra la capa Ctrl no está afirmando que
+Ctrl no signifique nada más. Y `Win+E` sigue abriendo el Explorador, porque Windows asigna esa
+combinación en todo el sistema y se cumple sea lo que sea que esté delante.
 
 ### Qué contiene un perfil
 
@@ -92,12 +92,17 @@ archivo — véase [Añadir un perfil](adding-a-profile.md).
 
 ### Formato del archivo de ajustes
 
-`settings.json` lleva `formatVersion` 2. Los archivos más antiguos se migran al cargarlos: la
-versión 1 no conocía ni identificadores ni la procedencia de un perfil, y por eso no puede decir
-cuáles de sus entradas fueron alguna vez incluidas. Todas pasan a ser perfiles de usuario. No se
+`settings.json` lleva `formatVersion` 3. Los archivos más antiguos se migran al cargarlos.
+
+Un archivo de la versión 1 no conoce ni identificadores ni la procedencia de un perfil, y por eso no
+puede decir cuáles de sus entradas son las incluidas. Todas pasan a ser perfiles de usuario. No se
 pierde nada, pero los perfiles incluidos aparecen junto a ellos, así que al principio puede haber
 dos entradas para el mismo programa; la sobrante se puede borrar u ocultar.
 
+Un archivo de la versión 2 enumera todos los colores, incluidos los que nadie tocó, y con ello fija
+la paleta: un color de fábrica mejorado no llega a nadie que haya ejecutado antes el programa. Por
+eso un color igual a la paleta de esa versión se lee como valor por defecto y se descarta al migrar;
+todo lo demás es su elección y se conserva.
 ## Comportamiento
 
 | Ajuste | Significado |
@@ -126,8 +131,7 @@ es lo que un archivo editado a mano quiere con toda probabilidad.
 Lo que está traducido son los menús y las explicaciones. Dos cosas **no** lo están, ambas a
 propósito:
 
-- **Las leyendas de las teclas** del teclado dibujado. Vienen del perfil de dispositivo y tienen
-  que coincidir con el teclado que tienes delante, no con el idioma de los menús: un teclado ISO
+- **Las leyendas de las teclas** del teclado dibujado. Vienen del dibujo de Razer y tienen que coincidir con el teclado que tienes delante, no con el idioma de los menús: un teclado ISO
   alemán muestra `strg` y `entf` esté la interfaz en inglés o no.
 - **Los nombres de los modificadores** (Shift, Ctrl, Alt, Alt Gr, Bloq Num …). Esos mismos nombres
   los produce la maquinaria de atajos para las listas de capas, que queda fuera de la traducción;
@@ -136,15 +140,26 @@ propósito:
 Todo lo que no tenga traducción recae en el inglés, así que un archivo de idioma sin terminar
 cuesta las líneas que le faltan y no la interfaz entera.
 
-## Calibración
+## Si la iluminación no funciona
 
-La calibración es un modo de línea de comandos, no una página de ajustes:
+Hablar con el servicio Chroma puede fallar: el servicio está detenido, Synapse se cerró, otro
+programa tiene la sesión. Keylegend sigue intentándolo, con una pausa creciente entre intentos, y
+mientras lo hace dice qué va mal:
 
-```bash
-keylegend-cli --profile devices/<carpeta>/device.json --calibrate
-```
+- la línea de estado al pie de la ventana lleva el motivo, en ámbar en vez del gris habitual
+- el área de notificación lo dice en su información, para que una ventana cerrada no lo oculte
+- un globo lo anuncia, una vez por fallo y no una vez por intento
 
-Enciende una tecla cada vez y la nombra, para que un perfil de dispositivo pueda comprobarse
-contra hardware real. Los hallazgos se escriben sobre la marcha en `calibration-findings.txt`, y
-`tools/apply-calibration.ps1` los devuelve al perfil. Véase
-[Añadir o corregir un teclado](adding-a-keyboard.md).
+Los tres desaparecen en cuanto vuelve a pasar un fotograma. Si no aparece nada y el teclado sigue
+sin encenderse, el programa no se está ejecutando: busca su icono en el área de notificación.
+
+## Si se encienden las teclas equivocadas
+
+El teclado de la ventana es el teclado del escritorio: los rellena el mismo código, así que la
+ventana muestra cómo debería verse el hardware. La comprobación es sostener los dos uno al lado del
+otro.
+
+A qué celda de la matriz de iluminación pertenece una tecla es lo único que no dice ni Synapse ni el
+dibujo: viene de la tabla del propio protocolo Chroma. Así que si en el hardware se enciende una
+tecla distinta de la que está encendida en la ventana, esa tabla es incorrecta para tu modelo. Vale
+la pena abrir una incidencia que diga qué teclado y qué tecla.
