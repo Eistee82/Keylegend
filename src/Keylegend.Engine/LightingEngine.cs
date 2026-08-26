@@ -18,7 +18,7 @@ namespace Keylegend.Engine;
 /// </remarks>
 public sealed class LightingEngine
 {
-    private readonly DeviceProfile _profile;
+    private readonly AttachedKeyboard _keyboard;
     private readonly IChromaClient _chroma;
     private readonly IKeyStateSource _keys;
     private readonly FrameComposer _composer;
@@ -34,20 +34,20 @@ public sealed class LightingEngine
     /// can be exercised without a desktop.
     /// </param>
     public LightingEngine(
-        DeviceProfile profile,
+        AttachedKeyboard keyboard,
         IChromaClient chroma,
         IKeyStateSource keys,
         IKeyResolver resolver,
         Func<DateTimeOffset>? clock = null,
         Func<ForegroundContext>? foreground = null)
     {
-        _profile = profile ?? throw new ArgumentNullException(nameof(profile));
+        _keyboard = keyboard ?? throw new ArgumentNullException(nameof(keyboard));
         _chroma = chroma ?? throw new ArgumentNullException(nameof(chroma));
         _keys = keys ?? throw new ArgumentNullException(nameof(keys));
         _clock = clock ?? (() => DateTimeOffset.UtcNow);
         _foreground = foreground;
 
-        _composer = new FrameComposer(profile, resolver ?? throw new ArgumentNullException(nameof(resolver)));
+        _composer = new FrameComposer(keyboard, resolver ?? throw new ArgumentNullException(nameof(resolver)));
         _frame = _composer.CreateFrame();
         _session = new SessionManager(_settings.IdleTimeout, _clock);
     }
@@ -250,7 +250,7 @@ public sealed class LightingEngine
     }
 
     /// <summary>The device this engine drives.</summary>
-    public DeviceProfile Profile => _profile;
+    public AttachedKeyboard Keyboard => _keyboard;
 
     private void OnSessionStateChanged(LightingState state) => StateChanged?.Invoke(state);
 }

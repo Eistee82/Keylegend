@@ -39,7 +39,7 @@ public class ProgramDefinedLayerTests
             };
     }
 
-    private static DeviceProfile Board() => new(
+    private static AttachedKeyboard Board() => new(
         Name: "Test",
         PhysicalLayout: "ISO-DE",
         Canvas: new Canvas(500, 200), Matrix: new MatrixSize(6, 22),

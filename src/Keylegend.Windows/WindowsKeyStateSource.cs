@@ -12,9 +12,9 @@ public sealed class WindowsKeyStateSource : IKeyStateSource
     private readonly KeyboardStateReader _reader = new();
     private readonly ActivityTracker _activity;
 
-    public WindowsKeyStateSource(DeviceProfile profile)
+    public WindowsKeyStateSource(AttachedKeyboard keyboard)
     {
-        _activity = new ActivityTracker(profile);
+        _activity = new ActivityTracker(keyboard);
     }
 
     public KeyboardState Read() => _reader.Read();

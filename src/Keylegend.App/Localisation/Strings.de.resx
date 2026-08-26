@@ -149,6 +149,18 @@
     <value>Keine Razer-Tastatur gefunden. Keylegend liest die angeschlossene Tastatur aus Razer Synapse — Synapse muss also installiert und gestartet sein und die Tastatur angesteckt.</value>
   </data>
 
+  <data name="StartupNoDrawing" xml:space="preserve">
+    <value>Razer Synapse kennt Ihre Tastatur, hält aber keine Zeichnung von ihr — und aus der nimmt Keylegend die Form der Tasten und ihre Beschriftung. Öffnen Sie Synapse einmal mit angeschlossener Tastatur, damit es die Zeichnung lädt, und starten Sie Keylegend erneut.</value>
+  </data>
+
+  <data name="StartupDrawingUnreadable" xml:space="preserve">
+    <value>Razer Synapse hat eine Zeichnung Ihrer Tastatur, aber Keylegend konnte sie nicht lesen — möglicherweise hat Razer das Format geändert. Bitte melden Sie das unter https://github.com/Eistee82/Keylegend/issues und nennen Sie Ihr Tastaturmodell.</value>
+  </data>
+
+  <data name="StartupAlreadyRunning" xml:space="preserve">
+    <value>Es läuft bereits eine Kopie von Keylegend, die für diese nicht Platz gemacht hat. Beenden Sie sie im Task-Manager und starten Sie Keylegend erneut.</value>
+  </data>
+
   <!-- Reiter „Farben“ -->
   <data name="ColoursCategoriesHeading" xml:space="preserve">
     <value>Tastenkategorien</value>
@@ -480,9 +492,6 @@
   </data>
   <data name="TrayTooltipPaused" xml:space="preserve">
     <value>Keylegend — pausiert</value>
-  </data>
-  <data name="TrayBalloonText" xml:space="preserve">
-    <value>Läuft im Infobereich weiter.</value>
   </data>
 
   <!-- Von mehreren Bereichen genutzt -->

@@ -15,7 +15,9 @@
   opens no window and needs neither Razer Synapse nor a keyboard — a build machine has neither.
 
 .PARAMETER Version
-  Version to stamp into the assemblies and the file names.
+  Version to stamp into the assemblies and the file names. Defaults to the one in
+  Directory.Build.props, so a local build cannot quietly produce artefacts named after the
+  previous release. The release workflow passes the git tag instead.
 
 .PARAMETER Output
   Directory for the staging tree and the finished artefacts.
@@ -24,10 +26,13 @@
   Assemble and zip, but do not call Inno Setup. For machines without it.
 
 .EXAMPLE
-  tools\build-release.ps1 -Version 1.0.0
+  tools\build-release.ps1
+
+.EXAMPLE
+  tools\build-release.ps1 -Version 1.2.0-rc1
 #>
 param(
-    [string] $Version = "1.0.0",
+    [string] $Version,
     [string] $Output = "out",
     [switch] $SkipInstaller
 )
@@ -35,6 +40,17 @@ param(
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
 Push-Location $root
+
+# The version lives in one place. Reading it from there means a local build after a version bump
+# cannot quietly produce artefacts named after the previous release.
+if (-not $Version) {
+    $props = Join-Path $root 'Directory.Build.props'
+    $Version = ([xml](Get-Content $props)).Project.PropertyGroup.Version
+
+    if (-not $Version) { throw "No <Version> in $props, and none was given." }
+
+    Write-Host "Version $Version, from Directory.Build.props" -ForegroundColor DarkGray
+}
 
 try {
     $staging = Join-Path $Output "staging"
@@ -52,7 +68,9 @@ try {
 
     # --------------------------------------------------------------------------------------
     Write-Host "`n== Tests ==" -ForegroundColor Cyan
-    dotnet test --nologo -v minimal
+    # No --nologo here. Under the Microsoft Testing Platform runner, "dotnet test" hands that
+    # option to the test executable, which does not know it: no tests run, and it exits 5.
+    dotnet test -v minimal
     if ($LASTEXITCODE -ne 0) { throw "Tests failed - not packaging this." }
 
     # --------------------------------------------------------------------------------------

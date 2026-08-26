@@ -14,7 +14,7 @@ namespace Keylegend.Core.Tests.Chroma;
 /// <see cref="FromDrawingTests"/>.
 /// </para>
 /// </remarks>
-public class AttachedDeviceProfileTests
+public class AttachedKeyboardBuilderTests
 {
     /// <summary>A drawing of a small keyboard, named the way the vendor names keys.</summary>
     private static SvgKeyboardLayout Drawing(params string[] names)
@@ -64,7 +64,7 @@ public class AttachedDeviceProfileTests
         var drawing = Drawing("Esc", "A", "B");
         var device = Device(["Keyboard_Escape", "Keyboard_A", "Keyboard_B"]);
 
-        var built = AttachedDeviceProfile.FromDrawing(device, drawing);
+        var built = AttachedKeyboardBuilder.FromDrawing(device, drawing);
 
         Assert.NotNull(built);
         Assert.Equal("Razer DeathStalker V2", built.Name);
@@ -78,7 +78,7 @@ public class AttachedDeviceProfileTests
         var drawing = Drawing("Esc", "A");
         var device = Device(["Keyboard_Escape", "Keyboard_A"]);
 
-        var built = AttachedDeviceProfile.FromDrawing(device, drawing);
+        var built = AttachedKeyboardBuilder.FromDrawing(device, drawing);
 
         Assert.NotNull(built);
 
@@ -100,7 +100,7 @@ public class AttachedDeviceProfileTests
         var drawing = Drawing("Esc", "Function");
         var device = Device(["Keyboard_Escape", "Keyboard_RightGui"]);
 
-        var built = AttachedDeviceProfile.FromDrawing(device, drawing);
+        var built = AttachedKeyboardBuilder.FromDrawing(device, drawing);
 
         Assert.NotNull(built);
         Assert.Equal("fn", built.Keys.Single(k => k.Id == "Keyboard_RightGui").Label);
@@ -116,7 +116,7 @@ public class AttachedDeviceProfileTests
         var drawing = Drawing("Esc", "F7", "A");
         var device = Device(["Keyboard_Escape", "Keyboard_A"]);
 
-        var built = AttachedDeviceProfile.FromDrawing(device, drawing);
+        var built = AttachedKeyboardBuilder.FromDrawing(device, drawing);
 
         Assert.NotNull(built);
         Assert.DoesNotContain("Keyboard_F7", built.Keys.Select(k => k.Id));
@@ -134,7 +134,7 @@ public class AttachedDeviceProfileTests
         var drawing = Drawing("Esc", "Function", "A");
         var device = Device(["Keyboard_Escape", "Keyboard_A"], silent: 1);
 
-        var built = AttachedDeviceProfile.FromDrawing(device, drawing);
+        var built = AttachedKeyboardBuilder.FromDrawing(device, drawing);
 
         Assert.NotNull(built);
         Assert.Contains("Keyboard_RightGui", built.Keys.Select(k => k.Id));
@@ -146,7 +146,7 @@ public class AttachedDeviceProfileTests
         var drawing = Drawing("Esc", "A", "Space", "NumPad7");
         var device = Device(["Keyboard_Escape", "Keyboard_A", "Keyboard_Space", "Keyboard_Num7"]);
 
-        var built = AttachedDeviceProfile.FromDrawing(device, drawing);
+        var built = AttachedKeyboardBuilder.FromDrawing(device, drawing);
 
         Assert.NotNull(built);
         Assert.All(built.Keys, k =>
@@ -163,6 +163,6 @@ public class AttachedDeviceProfileTests
         var drawing = Drawing("Nonsense1", "Nonsense2");
         var device = Device(["Keyboard_Escape"]);
 
-        Assert.Null(AttachedDeviceProfile.FromDrawing(device, drawing));
+        Assert.Null(AttachedKeyboardBuilder.FromDrawing(device, drawing));
     }
 }

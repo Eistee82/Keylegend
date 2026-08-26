@@ -103,6 +103,7 @@ Un archivo de la versión 2 enumera todos los colores, incluidos los que nadie t
 la paleta: un color de fábrica mejorado no llega a nadie que haya ejecutado antes el programa. Por
 eso un color igual a la paleta de esa versión se lee como valor por defecto y se descarta al migrar;
 todo lo demás es su elección y se conserva.
+
 ## Comportamiento
 
 | Ajuste | Significado |

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+Nothing yet.
+
+## [1.1.0] — 2026-08-26
+
 Keylegend no longer carries its own description of your keyboard. Razer Synapse already holds one —
 the model, the physical layout, which keys the hardware actually has, and a drawing of the whole
 board down to the characters printed on the caps — so that is what is used now, read from the local
@@ -32,11 +36,42 @@ is no list of supported models to be absent from.
   up
 
 ### Changed
-- **Razer Synapse is now required**, installed and running, with the keyboard connected. It is where
-  the keyboard is described and where the drawing lives. Without it the program says so and stops
+- **Keylegend no longer runs twice.** Two copies open two Chroma sessions for the same keyboard,
+  the service gives it to one of them, and the other lights nothing while still reporting success
+  — which looks exactly like a program that has quietly stopped working. What a second start does
+  now depends on what is already running:
+  - **The same program from the same place** — you double-clicked the icon while it sat in the
+    notification area. Its window comes up and the second start bows out. Nothing is killed, the
+    session does not change hands, and the lighting does not blink
+  - **Anything else** — an older version, or the same one from another folder — is superseded by
+    the newer start. It is asked to quit first, so it hands its session back and the keyboard
+    returns to its own effect rather than freezing on the last frame; one that does not answer
+    within two seconds is ended outright
+- **A failed start now says which of three things is missing**, instead of always blaming the
+  keyboard. No device description means Synapse is not running or nothing is plugged in; a device
+  Synapse knows but has no drawing for means opening Synapse once, with the keyboard connected, so
+  it fetches one; a drawing that cannot be read means the format moved and is worth reporting. The
+  second case used to be told to connect a keyboard that was already connected
+- **Closing the window no longer pops up a balloon** saying the program is still running. The
+  icon in the notification area says that already, and the balloon said it again on every single
+  close. The one balloon left is the one that reports a fault
+- **Synapse now has to know your keyboard, not merely be running.** It was already required in
+  1.0.0, for the Chroma service that does the lighting; what changed is what else it is asked for.
+  The keyboard is now described by Synapse instead of by a file shipped here, so it has to be
+  connected and Synapse has to hold the drawing of that model — which it downloads the first time
+  one is attached. Where 1.0.0 fell back on a generated layout, this says what is missing and
+  stops, because a guessed layout lights the wrong keys without ever admitting it
 - Colours in the palette are saturated now. A pale one is a tinted white on a lit keycap, and it was
   indistinguishable from the keys next to it — measured on the hardware, not in the preview
 - The lit legends keep their hue and glow at any window size
+- **The nineteen tests that need Razer's own files now report as skipped**, with the reason, instead
+  of passing without having checked anything. A green run on a machine without Synapse used to
+  report every test as passed while having looked at no drawing at all; it now says `19 skipped`
+  and names them. This is what the test project is on xUnit v3 for — `Assert.Skip` decides at run
+  time, which xUnit 2 cannot do
+- Internal naming: what describes the plugged-in keyboard is called `AttachedKeyboard` rather than
+  `DeviceProfile`. It is not a file and never was one, and "profile" already means the application
+  profiles elsewhere in the program
 
 ### Removed
 - **The shipped device profiles, and with them the whole idea of them.** There is no `devices/`

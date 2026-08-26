@@ -49,7 +49,7 @@ Num Lock do **not** filter — they only change which character is produced.
 
 ```bash
 dotnet build
-dotnet test        # everything except the checks against the vendor's own files
+dotnet test        # 506 tests; 19 of them skip without Razer Synapse installed
 ```
 
 ## What the tests can and cannot reach
@@ -62,10 +62,18 @@ is skipped unread. `DrawingChoiceTests` does that, and it runs anywhere.
 
 What no test can reach is whether the vendor's real files still look the way this program assumes.
 That needs the files, and they cannot be copied here — they are Razer's artwork and the licence
-here is MIT. So the tests reading the local installation stay, and on a machine without Synapse they
-pass without checking anything. They are the ones in `SvgLayoutSourceTests`, `FromDrawingTests` and
-`LegendPlacementTests`; nineteen test cases, and a green run on a build machine says nothing about
-them. Run them on a machine with the vendor's software before trusting a change to the parser.
+here is MIT. So the tests reading the local installation stay, and on a machine without Synapse
+they **skip**: nineteen test cases in `SvgLayoutSourceTests`, `FromDrawingTests` and
+`LegendPlacementTests`, each saying in the run why it reached no verdict. Read the count, not just
+the colour — `506 passed` and `487 passed, 19 skipped` are different runs, and only the first one
+has looked at a drawing. Run them on a machine with the vendor's software before trusting a change
+to the parser.
+
+That is what the test project is on xUnit v3 for: `Assert.Skip` decides at run time, which xUnit 2
+cannot do, so those nineteen used to return quietly and be counted as passes. v3 test projects host
+their own runner, which is why the project builds as an executable and why `global.json` names
+`Microsoft.Testing.Platform` as the runner for `dotnet test` — the .NET 10 SDK will not run a
+project built this way any other way.
 
 ## Documentation
 

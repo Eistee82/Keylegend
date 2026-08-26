@@ -5,7 +5,7 @@
 [English](README.md) · [Deutsch](README.de.md) · [Español](README.es.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Nederlands](README.nl.md) ·
 [Polski](README.pl.md) · [Português](README.pt.md) · [Русский](README.ru.md) · [Українська](README.uk.md) · [简体中文](README.zh-cn.md)
 
-> **Version 1.0.0.** L'éclairage, l'interface, la détection des jeux et les profils d'application
+> **Version 1.1.0.** L'éclairage, l'interface, la détection des jeux et les profils d'application
 > fonctionnent. [Téléchargez l'installateur ou la version portable](https://github.com/Eistee82/Keylegend/releases/latest),
 > ou compilez depuis les sources. Voir [CHANGELOG.md](CHANGELOG.md).
 
@@ -35,7 +35,7 @@ que sa signification change :
 - **Les jeux ont leur propre traitement.** Détectés automatiquement — y compris en fenêtre sans
   bordure — ZQSD, les touches autour et la rangée de chiffres prennent des couleurs fixes : en
   jouant, ce qui compte est où vont les mains, pas quelle lettre une touche écrit.
-- **Des profils par application, une petite centaine fournis.** Photoshop, Visual Studio Code,
+- **Des profils par application, environ quatre-vingt-dix fournis.** Photoshop, Visual Studio Code,
   Excel, Elden Ring et les autres s'appliquent dès que le programme a le focus, et un profil qui
   nomme un programme l'emporte sur le profil de jeu général. Modifiez-en un et seule la partie
   modifiée cesse de suivre la version fournie — le reste continue de s'améliorer avec les
@@ -81,8 +81,8 @@ il n'y a donc aucun prérequis à installer soi-même. Sinon, prenez un fichier 
 
 | Fichier | Ce que c'est |
 |---|---|
-| `Keylegend-1.0.0-setup.exe` | S'installe pour l'utilisateur courant — aucun droit d'administrateur. Entrée dans le menu Démarrer, et une désinstallation qui retire aussi l'entrée de démarrage automatique. |
-| `Keylegend-1.0.0-portable.zip` | Le même programme, à décompresser. Gardez le dossier `devices` à côté de l'exécutable. |
+| `Keylegend-1.1.0-setup.exe` | S'installe pour l'utilisateur courant — aucun droit d'administrateur. Entrée dans le menu Démarrer, et une désinstallation qui retire aussi l'entrée de démarrage automatique. |
+| `Keylegend-1.1.0-portable.zip` | Le même programme, à décompresser. Gardez les dossiers de langue (`de`, `fr`, …) à côté de l'exécutable, sinon l'interface repasse en anglais. |
 
 Les deux ne sont pas signés : Windows annoncera donc un éditeur inconnu — un certificat coûte plus
 par an que ce projet ne dispose. Chaque version fournit `SHA256SUMS.txt` pour vérifier le
@@ -102,12 +102,13 @@ chaque touche appartient. C’est une constante du protocole Chroma, identique s
 modèles — raison pour laquelle Synapse non plus n’a pas besoin d’une table par modèle.
 Vérifié contre le seul clavier calibré à la main : les 105 touches concordent.
 
-`physicalLayout` décrit la *forme* du clavier, non la langue dans laquelle vous écrivez. Le caractère
+La **disposition physique** décrit la *forme* du clavier, non la langue dans laquelle vous écrivez. Le caractère
 que produit une touche est demandé à Windows au moment de l’exécution : un clavier allemand est
 donc servi correctement même si Windows est réglé sur US ou Dvorak.
 
 **Nécessite Razer Synapse**, installé et en cours d’exécution, clavier branché. C’est là
 que le clavier est décrit et là que se trouve son dessin.
+
 ## Documentation
 
 | Sujet | |
@@ -130,7 +131,7 @@ le texte anglais qui fait foi. Les corrections sont bienvenues, voir
 
 ```bash
 git clone https://github.com/Eistee82/Keylegend.git
-cd keylegend
+cd Keylegend
 dotnet build
 dotnet test
 ```

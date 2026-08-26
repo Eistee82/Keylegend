@@ -6,7 +6,7 @@ Toda a lógica de decisão é um **cálculo puro**, sem acesso ao Windows, à re
 ficheiros:
 
 ```
-(estado do teclado, perfil de dispositivo, perfil de aplicação, definições de cor) → cor por tecla
+(estado do teclado, teclado ligado, perfil de aplicação, definições de cor) → cor por tecla
 ```
 
 Daqui decorrem duas coisas, e ambas explicam por que o desenho tem esta forma:
@@ -21,7 +21,7 @@ Tudo o que fala com o mundo exterior vive em adaptadores finos à volta desse n�
 
 | Projeto | Contém | Pode depender de |
 |---|---|---|
-| `Keylegend.Core` | perfis de dispositivo, categorias, conjuntos de atalhos, o compositor de fotogramas, a máquina de estados da sessão | nada específico de plataforma |
+| `Keylegend.Core` | o teclado ligado, categorias, conjuntos de atalhos, o compositor de fotogramas, a máquina de estados da sessão | nada específico de plataforma |
 | `Keylegend.Windows` | estado do teclado, resolução de carateres, janela em primeiro plano | APIs do Windows |
 | `Keylegend.Chroma` | cliente REST para o SDK Chroma, batimento | rede |
 | `Keylegend.Engine` | o ciclo que lê o teclado, compõe um fotograma e o envia | Core, Chroma, Windows |
@@ -138,6 +138,7 @@ tecla e nada mais se move. Esvaziar uma camada inteira é de propósito impossí
 
 Um perfil que não nomeia nenhuma camada devolve o catálogo geral inalterado; o caso comum não
 reserva, portanto, nada.
+
 ### Atalhos e destaques trazem uma etiqueta
 
 A etiqueta diz o que o comando faz — «Duplicar camada», não «Ctrl+J». O hardware nunca a mostra:
@@ -173,6 +174,7 @@ necessária.
 
 O preço é que quem escolheu de propósito uma dessas cores a perde. É o sentido certo: uma pessoa
 volta a escolher uma cor, contra todos os utilizadores a ficar com uma paleta que ninguém escolheu.
+
 ## Falar com o teclado
 
 O SDK Chroma é acedido pela sua interface REST local. As cores são inteiros codificados em BGR; o
@@ -182,6 +184,35 @@ batimento.
 Medido na máquina de desenvolvimento: criar uma sessão demora 60 a 125 ms, o primeiro fotograma
 depois de assumir o comando de um efeito do Chroma Studio em curso cerca de 500 ms, e cada
 fotograma seguinte à volta de 2 ms.
+
+### Cada resposta diz 200, por isso decide o corpo
+
+O serviço responde a **tudo** com HTTP 200, incluindo pedidos que deitou fora. Um fotograma com o
+tamanho de matriz errado volta assim:
+
+```json
+{"error":"expecting a 2 dimensional array of 6 (rows) x 22 (columns) elements with integer values","result":87}
+```
+
+com estado 200. Verificar apenas o código de estado comunica portanto sucesso para fotogramas que o
+teclado nunca mostrou: uma falha silenciosa, indistinguível de a iluminação simplesmente não mudar.
+
+Por isso decide o `result` no corpo: zero é sucesso, tudo o resto é uma recusa. Onde o serviço
+fornece um `error` em linguagem clara, este é mantido tal como está, porque nomeia o defeito real
+melhor do que qualquer formulação inventada aqui. Os códigos com que um utilizador pode fazer
+alguma coisa são traduzidos:
+
+| Código | Significado |
+|---|---|
+| 4309 | o Chroma está desligado para este dispositivo no Synapse |
+| 1152 | outra aplicação detém a sessão |
+| 1167 | não há nenhum dispositivo Chroma ligado |
+| 5 | o acesso foi negado |
+| 87 | o pedido estava malformado |
+| 50 | o pedido não é suportado |
+
+Um início de sessão bem-sucedido não traz `result` nenhum — devolve antes os dados da sessão —, por
+isso a sua ausência conta como sucesso.
 
 ### Com que frequência os fotogramas são enviados
 
@@ -216,3 +247,13 @@ O que funciona é enviar por três razões distintas a três ritmos diferentes:
 O Keylegend assume ao primeiro toque e liberta o teclado após um período de inatividade
 configurável, para que o teu próprio efeito do Chroma Studio regresse. O custo de despertar de
 cerca de 500 ms é portanto pago apenas após uma pausa verdadeira, nunca enquanto se escreve.
+
+Apenas uma cópia do Keylegend comanda o teclado. Duas abririam duas sessões para o mesmo
+dispositivo; o serviço dá-o a uma delas, e a outra não ilumina nada enquanto continua a comunicar
+sucesso — que é exatamente o aspeto de um programa que deixou de funcionar em silêncio. O que um
+segundo arranque faz depende do que já está a correr. O mesmo programa a partir do mesmo sítio
+significa que alguém fez duplo clique no ícone enquanto estava na área de notificação: aparece a
+janela dessa cópia e o segundo arranque retira-se, portanto nada é terminado e a iluminação não
+pisca. Tudo o resto — uma versão anterior, ou a mesma a partir de outra pasta — é substituído:
+pede-se-lhe que saia, devolve a sua sessão, e só é terminada de imediato se não responder em dois
+segundos.

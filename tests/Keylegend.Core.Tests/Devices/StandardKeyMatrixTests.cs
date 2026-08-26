@@ -5,8 +5,8 @@ namespace Keylegend.Core.Tests.Devices;
 
 /// <summary>
 /// Guards the matrix positions taken from the lighting protocol. The decisive test is the last
-/// one: the only profile that was calibrated against real hardware must agree with this table on
-/// every single key. If it ever stops agreeing, the table is wrong — not the measurement.
+/// one: the keyboard measured against real hardware must agree with this table on every single
+/// key. If it ever stops agreeing, the table is wrong — not the measurement.
 /// </summary>
 public class StandardKeyMatrixTests
 {
@@ -68,7 +68,7 @@ public class StandardKeyMatrixTests
             || id.StartsWith("Keyboard_Kor", StringComparison.Ordinal)
             || id.StartsWith("Keyboard_NonUs", StringComparison.Ordinal)
             // fn sits where an ordinary keyboard has the right Windows key, and no keyboard has
-            // both — verified below against every shipped profile.
+            // both — confirmed against the keyboard measured at the device.
             || id is "Keyboard_Function" or "Keyboard_RightGui";
 
         var doubled = StandardKeyMatrix.All
@@ -92,8 +92,8 @@ public class StandardKeyMatrixTests
     /// </para>
     /// <para>
     /// The list is written out rather than reasoned about, so that a pair nobody intended shows up
-    /// as a failure. This used to be checked against every shipped device profile — there are none
-    /// now, and the table is the only place the answer was ever really kept.
+    /// as a failure. The table is the only place the answer is kept, so there is nothing else to
+    /// check it against.
     /// </para>
     /// </remarks>
     [Fact]
@@ -129,7 +129,7 @@ public class StandardKeyMatrixTests
     }
 
     /// <summary>
-    /// The one profile calibrated at the device, key by key. This is the anchor for the whole
+    /// The one keyboard measured at the device, key by key. This is the anchor for the whole
     /// table: it was measured over the same path the program actually lights by.
     /// </summary>
     [Fact]

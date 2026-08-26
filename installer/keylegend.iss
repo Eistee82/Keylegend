@@ -2,7 +2,7 @@
 ;
 ; Built by .github/workflows/release.yml, which passes the version and the staging directory:
 ;
-;   iscc /DVersion=1.0.0 /DSource=..\out\staging installer\keylegend.iss
+;   iscc /DVersion=<version> /DSource=..\out\staging installer\keylegend.iss
 ;
 ; Per-user by design. Keylegend keeps its settings in %APPDATA% and its autostart entry under
 ; HKCU, so a machine-wide install would put the program somewhere its own uninstaller could not
@@ -110,7 +110,8 @@ Name: "{autodesktop}\{#AppName}"; Filename: "{app}\{#AppExe}"; Tasks: desktopico
 Filename: "{app}\{#AppExe}"; Description: "{cm:LaunchAfter}"; Flags: nowait postinstall skipifsilent
 
 [UninstallDelete]
-; Written next to the binaries by the calibration mode, so it is ours to remove.
+; Left beside the binaries by version 1.0.0, which had a calibration mode. Nothing writes it any
+; more, but an installation upgraded from that version still has it, and it is ours to remove.
 Type: files; Name: "{app}\calibration-findings.txt"
 
 ; Then the directory itself. Removing the tracked files leaves the satellite-assembly folders

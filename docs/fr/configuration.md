@@ -105,6 +105,7 @@ Un fichier de version 2 énumère toutes les couleurs, y compris celles que pers
 fige ainsi la palette : une couleur livrée améliorée n'atteint personne ayant déjà lancé le
 programme. Une couleur égale à la palette de cette version est donc lue comme valeur par défaut et
 abandonnée à la migration ; tout le reste est votre choix et est conservé.
+
 ## Comportement
 
 | Réglage | Signification |

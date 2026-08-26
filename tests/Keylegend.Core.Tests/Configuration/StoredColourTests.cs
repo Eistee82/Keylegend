@@ -11,10 +11,10 @@ namespace Keylegend.Core.Tests.Configuration;
 /// </summary>
 /// <remarks>
 /// A settings file that states every colour pins every colour, including the ones nobody chose.
-/// Improving the shipped palette then reaches nobody who has ever run the program. This is the
-/// same fault the shortcut sets had — it was fixed there and left here — and it surfaced when the
-/// Tools colour was changed because the old one was reported as looking white on the hardware: the
-/// new colour did not appear.
+/// Improving the shipped palette would then reach nobody who has ever run the program. It is the
+/// same fault the shortcut sets can have, and it is not theoretical: it surfaced when the Tools
+/// colour was changed because the previous one looked white on the hardware, and the new colour
+/// did not appear.
 /// </remarks>
 public class StoredColourTests
 {

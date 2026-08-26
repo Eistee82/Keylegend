@@ -2,12 +2,12 @@ using Keylegend.Core.Devices;
 
 namespace Keylegend.Core.Tests.Devices;
 
-public class DeviceProfileValidatorTests
+public class AttachedKeyboardValidatorTests
 {
     private static KeyDefinition Key(string id, int? row = 0, int? column = 0, double x = 0, double y = 0)
         => new(id, x, y, 19, 19, row, column);
 
-    private static DeviceProfile ProfileWith(params KeyDefinition[] keys)
+    private static AttachedKeyboard KeyboardWith(params KeyDefinition[] keys)
         => new(
             Name: "Test keyboard",
             PhysicalLayout: "ISO-DE",
@@ -16,11 +16,11 @@ public class DeviceProfileValidatorTests
             Keys: keys);
 
     [Fact]
-    public void AcceptsAWellFormedProfile()
+    public void AcceptsAWellFormedKeyboard()
     {
-        var profile = ProfileWith(Key("Keyboard_A", 3, 2), Key("Keyboard_B", 4, 7, x: 40));
+        var profile = KeyboardWith(Key("Keyboard_A", 3, 2), Key("Keyboard_B", 4, 7, x: 40));
 
-        Assert.Empty(DeviceProfileValidator.Validate(profile));
+        Assert.Empty(AttachedKeyboardValidator.Validate(profile));
     }
 
     /// <summary>
@@ -30,10 +30,10 @@ public class DeviceProfileValidatorTests
     [Fact]
     public void RejectsOverlappingKeys()
     {
-        var profile = ProfileWith(Key("Keyboard_A", 3, 2), Key("Keyboard_B", 4, 7, x: 10));
+        var profile = KeyboardWith(Key("Keyboard_A", 3, 2), Key("Keyboard_B", 4, 7, x: 10));
 
         Assert.Contains(
-            DeviceProfileValidator.Validate(profile),
+            AttachedKeyboardValidator.Validate(profile),
             p => p.Contains("Keyboard_A") && p.Contains("Keyboard_B") && p.Contains("overlap"));
     }
 
@@ -44,9 +44,9 @@ public class DeviceProfileValidatorTests
     [Fact]
     public void AcceptsKeysThatTouchAlongAnEdge()
     {
-        var profile = ProfileWith(Key("Keyboard_A", 3, 2), Key("Keyboard_B", 4, 7, x: 19));
+        var profile = KeyboardWith(Key("Keyboard_A", 3, 2), Key("Keyboard_B", 4, 7, x: 19));
 
-        Assert.Empty(DeviceProfileValidator.Validate(profile));
+        Assert.Empty(AttachedKeyboardValidator.Validate(profile));
     }
 
     /// <summary>
@@ -61,7 +61,7 @@ public class DeviceProfileValidatorTests
             Parts: [new KeyArea(95, 0, 28.5, 19)]);
         var intruder = Key("Keyboard_BracketRight", 2, 13, x: 100, y: 0);
 
-        var problems = DeviceProfileValidator.Validate(ProfileWith(enter, intruder));
+        var problems = AttachedKeyboardValidator.Validate(KeyboardWith(enter, intruder));
 
         Assert.Contains(problems, p => p.Contains("overlap"));
     }
@@ -69,29 +69,29 @@ public class DeviceProfileValidatorTests
     [Fact]
     public void RejectsDuplicateKeyIds()
     {
-        var profile = ProfileWith(Key("Keyboard_A", 3, 2), Key("Keyboard_A", 4, 7, x: 40));
+        var profile = KeyboardWith(Key("Keyboard_A", 3, 2), Key("Keyboard_A", 4, 7, x: 40));
 
         Assert.Contains(
-            DeviceProfileValidator.Validate(profile),
+            AttachedKeyboardValidator.Validate(profile),
             p => p.Contains("Keyboard_A") && p.Contains("unique"));
     }
 
     [Fact]
     public void RejectsTwoKeysDrivingTheSameLed()
     {
-        var profile = ProfileWith(Key("Keyboard_A", 3, 2), Key("Keyboard_B", 3, 2, x: 40));
+        var profile = KeyboardWith(Key("Keyboard_A", 3, 2), Key("Keyboard_B", 3, 2, x: 40));
 
         Assert.Contains(
-            DeviceProfileValidator.Validate(profile),
+            AttachedKeyboardValidator.Validate(profile),
             p => p.Contains("(3,2)") && p.Contains("more than one key"));
     }
 
     [Fact]
     public void RejectsCellsOutsideTheMatrix()
     {
-        var profile = ProfileWith(Key("Keyboard_A", 9, 2), Key("Keyboard_B", 3, 99, x: 40));
+        var profile = KeyboardWith(Key("Keyboard_A", 9, 2), Key("Keyboard_B", 3, 99, x: 40));
 
-        var problems = DeviceProfileValidator.Validate(profile);
+        var problems = AttachedKeyboardValidator.Validate(profile);
 
         Assert.Contains(problems, p => p.Contains("row 9"));
         Assert.Contains(problems, p => p.Contains("column 99"));
@@ -100,10 +100,10 @@ public class DeviceProfileValidatorTests
     [Fact]
     public void RejectsHalfSpecifiedCoordinates()
     {
-        var profile = ProfileWith(Key("Keyboard_A", row: 3, column: null));
+        var profile = KeyboardWith(Key("Keyboard_A", row: 3, column: null));
 
         Assert.Contains(
-            DeviceProfileValidator.Validate(profile),
+            AttachedKeyboardValidator.Validate(profile),
             p => p.Contains("only one of row/column"));
     }
 
@@ -113,18 +113,18 @@ public class DeviceProfileValidatorTests
         // A drawing can show a key the protocol's table has no cell for — a vendor key, say. That
         // is not a broken profile: the frame composer skips such a key, and the interface draws it
         // unlit. Rejecting it here would refuse the whole keyboard over one key that cannot light.
-        var profile = ProfileWith(Key("Keyboard_A", row: null, column: null));
+        var profile = KeyboardWith(Key("Keyboard_A", row: null, column: null));
 
-        Assert.Empty(DeviceProfileValidator.Validate(profile));
+        Assert.Empty(AttachedKeyboardValidator.Validate(profile));
     }
 
     [Fact]
     public void RejectsKeysOffTheCanvas()
     {
-        var profile = ProfileWith(Key("Keyboard_A", 3, 2, x: 495));
+        var profile = KeyboardWith(Key("Keyboard_A", 3, 2, x: 495));
 
         Assert.Contains(
-            DeviceProfileValidator.Validate(profile),
+            AttachedKeyboardValidator.Validate(profile),
             p => p.Contains("outside the canvas"));
     }
 

@@ -24,10 +24,8 @@ Build and test time only, never shipped:
 
 | Component | Licence | Used for |
 |---|---|---|
-| xunit | Apache-2.0 | test framework |
-| xunit.runner.visualstudio | Apache-2.0 | test runner |
-| Microsoft.NET.Test.Sdk | MIT | test host |
-| coverlet.collector | MIT | coverage |
+| xunit.v3 | Apache-2.0 | test framework and runner |
+| Microsoft.Testing.Extensions.TrxReport | MIT | writes the test run as a `.trx` file for CI |
 | Pillow | MIT-CMU (HPND) | `tools/make-icon.py` draws the application icon |
 | actions/checkout, actions/setup-dotnet, actions/upload-artifact | MIT | continuous integration |
 

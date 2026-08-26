@@ -139,6 +139,18 @@
   <data name="StartupNoKeyboard" xml:space="preserve">
     <value>Nenhum teclado Razer encontrado. O Keylegend lê o teclado ligado a partir do Razer Synapse, pelo que o Synapse tem de estar instalado e em execução, com o teclado ligado.</value>
   </data>
+
+  <data name="StartupNoDrawing" xml:space="preserve">
+    <value>O Razer Synapse conhece o seu teclado, mas não guarda nenhum desenho dele, e é do desenho que o Keylegend tira a forma das teclas e os caracteres nelas impressos. Abra o Synapse uma vez com o teclado ligado, para que o transfira, e inicie o Keylegend de novo.</value>
+  </data>
+
+  <data name="StartupDrawingUnreadable" xml:space="preserve">
+    <value>O Razer Synapse tem um desenho do seu teclado, mas o Keylegend não conseguiu interpretá-lo — talvez a Razer tenha mudado o formato. Comunique-o em https://github.com/Eistee82/Keylegend/issues, indicando o modelo do seu teclado.</value>
+  </data>
+
+  <data name="StartupAlreadyRunning" xml:space="preserve">
+    <value>Já está em execução outra cópia do Keylegend que não deu lugar a esta. Termine-a no Gestor de Tarefas e volte a iniciar o Keylegend.</value>
+  </data>
   <data name="ColoursCategoriesHeading" xml:space="preserve">
     <value>Categorias de teclas</value>
   </data>
@@ -459,9 +471,6 @@
   </data>
   <data name="TrayTooltipPaused" xml:space="preserve">
     <value>Keylegend — em pausa</value>
-  </data>
-  <data name="TrayBalloonText" xml:space="preserve">
-    <value>Continua a correr na área de notificação.</value>
   </data>
   <data name="CommonReset" xml:space="preserve">
     <value>Repor</value>

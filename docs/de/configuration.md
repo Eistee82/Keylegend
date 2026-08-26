@@ -106,6 +106,7 @@ Eine Datei der Version 2 führt jede Farbe auf, auch die unberührten, und nagel
 fest: eine verbesserte mitgelieferte Farbe erreicht niemanden, der das Programm zuvor gestartet
 hat. Eine Farbe, die der Palette jener Fassung entspricht, wird bei der Umstellung deshalb als
 Vorgabe gelesen und verworfen; alles andere ist deine Wahl und bleibt.
+
 ## Verhalten
 
 | Einstellung | Bedeutung |

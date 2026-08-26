@@ -325,9 +325,9 @@ public class ShippedApplicationProfilesTests
     /// <remarks>
     /// <para>
     /// Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+Z, Ctrl+Y and Ctrl+A hold nearly everywhere there is a caret,
-    /// and a profile that names the Ctrl layer for its own commands is not saying otherwise. They
-    /// used to be lost in twenty-nine of the fifty-one profiles that name that layer, because an
-    /// override replaced the layer rather than laying over it — dark clipboard keys in a browser,
+    /// and a profile that names the Ctrl layer for its own commands is not saying otherwise.
+    /// Twenty-nine of the fifty-one profiles that name that layer would lose them the moment an
+    /// override replaced the layer instead of laying over it — dark clipboard keys in a browser,
     /// in Slack, in a terminal.
     /// </para>
     /// <para>
@@ -437,10 +437,9 @@ public class ShippedApplicationProfilesTests
     /// Every key id that can be lit, taken from the protocol's own table.
     /// </summary>
     /// <remarks>
-    /// This used to be the union of every shipped device profile. There are none now — the
-    /// attached keyboard's profile is built from the vendor's drawing — so the vocabulary comes
-    /// from where it was always defined: <see cref="StandardKeyMatrix"/>, which is the lighting
-    /// protocol's own list and cannot go out of date as models appear.
+    /// The vocabulary comes from <see cref="StandardKeyMatrix"/>, the lighting protocol's own
+    /// list of key ids. Checking against that rather than against some set of files means it
+    /// cannot go out of date as models appear.
     /// </remarks>
     private static HashSet<string> LoadKeyIds()
         => new(StandardKeyMatrix.Ids, StringComparer.Ordinal);

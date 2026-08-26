@@ -15,9 +15,9 @@ namespace Keylegend.Core.Tests.Chroma;
 /// artwork and the licence here is MIT.
 /// </para>
 /// <para>
-/// Every test therefore skips when the vendor's software is not installed. That is deliberate and
-/// not a gap: on a machine without it the application falls back to the shipped layout, and so
-/// there is nothing here to check.
+/// Every test therefore skips when the vendor's software is not installed, and says so in the
+/// run rather than passing. On such a machine the application has no keyboard to describe and
+/// stops with a message, so there is nothing here to check.
 /// </para>
 /// </remarks>
 public class SvgLayoutSourceTests
@@ -84,10 +84,7 @@ public class SvgLayoutSourceTests
     [Fact]
     public void FindsDrawingsWhereTheVendorSoftwareKeepsThem()
     {
-        if (!Installed)
-        {
-            return;
-        }
+        Assert.SkipUnless(Installed, VendorFiles.Absent);
 
         Assert.NotEmpty(Drawings);
     }
@@ -99,10 +96,7 @@ public class SvgLayoutSourceTests
     [Fact]
     public void EveryDrawingHasAPlausibleNumberOfKeys()
     {
-        if (!Installed)
-        {
-            return;
-        }
+        Assert.SkipUnless(Installed, VendorFiles.Absent);
 
         foreach (var drawing in Drawings)
         {
@@ -117,10 +111,7 @@ public class SvgLayoutSourceTests
     [Fact]
     public void EveryKeyIsNamed()
     {
-        if (!Installed)
-        {
-            return;
-        }
+        Assert.SkipUnless(Installed, VendorFiles.Absent);
 
         foreach (var drawing in Drawings)
         {
@@ -133,10 +124,7 @@ public class SvgLayoutSourceTests
     [Fact]
     public void EveryKeyHasAPositiveSize()
     {
-        if (!Installed)
-        {
-            return;
-        }
+        Assert.SkipUnless(Installed, VendorFiles.Absent);
 
         foreach (var drawing in Drawings)
         {
@@ -155,10 +143,7 @@ public class SvgLayoutSourceTests
     [Fact]
     public void NoTwoKeysShareAPosition()
     {
-        if (!Installed)
-        {
-            return;
-        }
+        Assert.SkipUnless(Installed, VendorFiles.Absent);
 
         foreach (var drawing in Drawings)
         {
@@ -171,10 +156,7 @@ public class SvgLayoutSourceTests
     [Fact]
     public void KeysStayInsideTheCanvas()
     {
-        if (!Installed)
-        {
-            return;
-        }
+        Assert.SkipUnless(Installed, VendorFiles.Absent);
 
         foreach (var drawing in Drawings)
         {
@@ -188,23 +170,20 @@ public class SvgLayoutSourceTests
 
     /// <summary>
     /// A full-size drawing must carry the keys every keyboard has. If the vendor renames these,
-    /// the geometry hand-off in <c>AttachedDeviceProfile.WithGeometryOf</c> starts matching by
+    /// the geometry hand-off in <c>AttachedKeyboardBuilder.WithGeometryOf</c> starts matching by
     /// distance alone, and this is the test that says so.
     /// </summary>
     [Fact]
     public void FullSizeDrawingsCarryTheKeysEveryKeyboardHas()
     {
-        if (!Installed)
-        {
-            return;
-        }
+        Assert.SkipUnless(Installed, VendorFiles.Absent);
 
         var fullSize = Drawings.Where(d => d.Keys.Count >= 100).ToArray();
 
-        if (fullSize.Length == 0)
-        {
-            return;
-        }
+        Assert.SkipWhen(
+            fullSize.Length == 0,
+            "None of the drawings on this machine is of a full-size keyboard, which is what this "
+            + "test is about.");
 
         string[] expected = ["Esc", "F1", "F12", "Space", "Enter", "LeftShift", "LeftCtrl"];
 
@@ -228,17 +207,14 @@ public class SvgLayoutSourceTests
     [Fact]
     public void ALegendOutlineIsOnePathForTheWholeKeyboard()
     {
-        if (!Installed)
-        {
-            return;
-        }
+        Assert.SkipUnless(Installed, VendorFiles.Absent);
 
         var withLegends = Drawings.Where(d => d.Legends is not null).ToArray();
 
-        if (withLegends.Length == 0)
-        {
-            return;
-        }
+        Assert.SkipWhen(
+            withLegends.Length == 0,
+            "None of the drawings on this machine carries a legend outline, which is what this "
+            + "test is about.");
 
         foreach (var drawing in withLegends)
         {
@@ -252,10 +228,10 @@ public class SvgLayoutSourceTests
     }
 
     /// <summary>
-    /// The drawing's own measurements reach the profile. For a long time they did not: the reader
-    /// lost the L-shaped Enter, and once that was fixed the Enter kept its drawn size while every
-    /// neighbour took the drawing's, overlapped them, and the validator threw the whole measured
-    /// layout away — invisibly, because the fallback still looks correct.
+    /// The drawing's own measurements reach the keyboard that gets built. Two ways of losing them
+    /// have happened: the reader dropping the L-shaped Enter, and — once that was fixed — the
+    /// Enter keeping its drawn size while every neighbour took the drawing's, so they overlapped
+    /// and the validator threw the whole measured layout away.
     /// </summary>
     /// <remarks>
     /// The space bar is the witness: the standard 19.05 mm grid makes it 118.75 wide, and the
@@ -263,26 +239,23 @@ public class SvgLayoutSourceTests
     /// grid's number.
     /// </remarks>
     [Fact]
-    public void TheDrawingsMeasurementsReachTheProfile()
+    public void TheDrawingsMeasurementsReachTheKeyboard()
     {
-        if (!Installed)
-        {
-            return;
-        }
+        Assert.SkipUnless(Installed, VendorFiles.Absent);
 
         var device = DeathStalker();
+        var drawing = SvgLayoutSource.Find(device);
 
-        if (SvgLayoutSource.Find(device) is not { } drawing
-            || AttachedDeviceProfile.FromDrawing(device, drawing) is not { } built)
-        {
-            return;
-        }
+        Assert.SkipWhen(drawing is null, VendorFiles.NoDrawingForTheDevice);
+
+        var built = AttachedKeyboardBuilder.FromDrawing(device, drawing);
+
+        Assert.NotNull(built);
 
         Assert.Contains("Enter", drawing.Keys.Select(k => k.Name));
 
-        // Razer's own space bar, in the drawing's own units. The profile is built from the
-        // drawing now, so this is no longer a comparison against a grid — it is a check that the
-        // measurement survives the journey rather than being rounded to something tidy.
+        // Razer's own space bar, in the drawing's own units: a check that the measurement
+        // survives the journey rather than being rounded to something tidy off a standard grid.
         var space = built.Keys.Single(k => k.Id == "Keyboard_Space");
         var drawnSpace = drawing.Keys.Single(k => k.Name == "Space");
 
@@ -333,10 +306,7 @@ public class SvgLayoutSourceTests
     [Fact]
     public void DrawingsOfTheSameShapeAgreeOnGeometry()
     {
-        if (!Installed)
-        {
-            return;
-        }
+        Assert.SkipUnless(Installed, VendorFiles.Absent);
 
         var groups = Drawings
             .GroupBy(d => (

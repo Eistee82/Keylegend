@@ -6,7 +6,7 @@ Die gesamte Entscheidungslogik ist eine **reine Berechnung** ohne Zugriff auf Wi
 oder Dateisystem:
 
 ```
-(Tastaturzustand, Geräteprofil, Anwendungsprofil, Farbeinstellungen) → Farbe je Taste
+(Tastaturzustand, angeschlossene Tastatur, Anwendungsprofil, Farbeinstellungen) → Farbe je Taste
 ```
 
 Daraus folgen zwei Eigenschaften, und sie sind der Grund für diesen Zuschnitt:
@@ -22,7 +22,7 @@ Alles, was mit der Außenwelt spricht, liegt in dünnen Adaptern darum herum.
 
 | Projekt | Enthält | Darf abhängen von |
 |---|---|---|
-| `Keylegend.Core` | Geräteprofile, Kategorien, Kürzelsätze, Bilderzeugung, Zustandsautomat | nichts Plattformspezifischem |
+| `Keylegend.Core` | die angeschlossene Tastatur, Kategorien, Kürzelsätze, Bilderzeugung, Zustandsautomat | nichts Plattformspezifischem |
 | `Keylegend.Windows` | Tastaturzustand, Zeichenermittlung, Vordergrundfenster | Windows-Schnittstellen |
 | `Keylegend.Chroma` | REST-Anbindung an das Chroma SDK, Heartbeat | Netzwerk |
 | `Keylegend.Engine` | die Schleife, die die Tastatur liest, ein Bild erzeugt und es sendet | Core, Chroma, Windows |
@@ -72,8 +72,8 @@ Modell, nicht das Layout, nicht welche Tasten es gibt.
 
 Die eigenen Schnittstellen des Chroma SDK können das nicht beantworten. Der REST-Weg hat keinen
 Abfragepunkt — eine Sitzung anzulegen gibt eine Kennung und eine URI zurück, und ein `GET` darauf
-antwortet „Not Supported". Die native DLL bietet `QueryDevice`, das aber nur „ist *diese* GUID
-vorhanden?" beantwortet, ein Modell auf einmal; die Bitte um eine Liste angeschlossener Geräte
+antwortet „Not Supported“. Die native DLL bietet `QueryDevice`, das aber nur „ist *diese* GUID
+vorhanden?“ beantwortet, ein Modell auf einmal; die Bitte um eine Liste angeschlossener Geräte
 liegt im aktivsten Community-Wrapper seit 2016 offen.
 
 Wie die Tastatur *aussieht*, kommt aus derselben Installation. Synapses Oberfläche ist eine
@@ -91,10 +91,11 @@ Das Einzige, was weder Beschreibung noch Zeichnung sagt, ist die Zelle der Beleu
 jeder Taste. Das ist `StandardKeyMatrix`, die `RZKEY`-Tabelle des Protokolls, auf jedem Modell
 dieselbe — weshalb auch Synapse dafür keine Modelltabelle braucht.
 
-**Es wird also überhaupt kein Geräteprofil mitgeliefert.** Es gibt keinen Ordner dafür, keine Datei,
-die man für eine neue Tastatur schreiben müsste, und keine Liste unterstützter Modelle. Das eine je
-von Hand kalibrierte Profil bleibt als Testdatum, und `FromDrawingTests` prüft den ganzen Aufbau
-dagegen: dieselben Tasten, und jede auf der Zelle, die an der Hardware gemessen wurde.
+**Es wird also überhaupt keine Tastaturbeschreibung mitgeliefert.** Es gibt keinen Ordner dafür,
+keine Datei, die man für eine neue Tastatur schreiben müsste, und keine Liste unterstützter
+Modelle. Die eine von Hand vermessene Tastatur bleibt als Testdatum, und `FromDrawingTests` prüft
+den ganzen Aufbau dagegen: dieselben Tasten, und jede auf der Zelle, die an der Hardware gemessen
+wurde.
 
 ## Anwendungsprofile
 
@@ -227,6 +228,7 @@ Nutzer etwas anfangen kann, werden übersetzt:
 | 4309 | Chroma ist für dieses Gerät in Synapse abgeschaltet |
 | 1152 | eine andere Anwendung hält die Sitzung |
 | 1167 | kein Chroma-Gerät angeschlossen |
+| 5 | der Zugriff wurde verweigert |
 | 87 | die Anfrage war fehlerhaft |
 | 50 | die Anfrage wird nicht unterstützt |
 
@@ -266,3 +268,13 @@ Was funktioniert: aus drei verschiedenen Anlässen mit drei verschiedenen Raten 
 Keylegend übernimmt beim ersten Tastendruck und gibt die Tastatur nach einer einstellbaren
 Ruhezeit wieder frei, sodass dein eigener Chroma-Studio-Effekt zurückkehrt. Die rund 500 ms
 Anlaufzeit fallen daher nur nach einer echten Pause an, nie während des Tippens.
+
+Nur eine Kopie von Keylegend steuert die Tastatur. Zwei würden zwei Sitzungen für dasselbe Gerät
+öffnen; der Dienst gibt es einer davon, und die andere beleuchtet nichts, meldet aber weiter Erfolg
+— was genau so aussieht wie ein Programm, das stillschweigend aufgehört hat zu arbeiten. Was ein
+zweiter Start bewirkt, hängt davon ab, was bereits läuft. Dasselbe Programm vom selben Ort heißt:
+jemand hat das Symbol angeklickt, während es im Infobereich saß. Dann kommt dessen Fenster hoch und
+der zweite Start tritt ab — nichts wird beendet, und die Beleuchtung flackert nicht. Alles andere —
+eine ältere Fassung oder dieselbe aus einem anderen Ordner — wird abgelöst: sie wird gebeten zu
+gehen, gibt ihre Sitzung zurück und wird nur dann hart beendet, wenn sie binnen zwei Sekunden nicht
+antwortet.

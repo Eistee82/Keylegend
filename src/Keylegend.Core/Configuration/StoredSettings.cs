@@ -137,10 +137,10 @@ public sealed record StoredSettings
     /// The shortcut layers that differ from the shipped ones — the only ones worth writing down.
     /// </summary>
     /// <remarks>
-    /// Saving every layer, which is what this used to do, quietly froze the untouched ones: a
-    /// file listing Win+Shift exactly as it shipped is indistinguishable from one where somebody
-    /// meant it that way, so later additions to that layer could never appear. Writing only what
-    /// was actually changed keeps the rest open to improvement.
+    /// Saving every layer would quietly freeze the untouched ones: a file listing Win+Shift
+    /// exactly as it shipped is indistinguishable from one where somebody meant it that way, so
+    /// later additions to that layer could never appear. Writing only what was actually changed
+    /// keeps the rest open to improvement.
     /// </remarks>
     /// <summary>
     /// The colours that differ from the shipped palette, and only those.
@@ -222,11 +222,11 @@ public sealed record StoredSettings
     /// them.
     /// </summary>
     /// <remarks>
-    /// The saved layers are an overlay, not a replacement. Replacing was what this used to do,
-    /// and it meant that anyone who had ever saved settings was frozen at the shortcuts of that
-    /// day: a layer added later — Win+Alt, say — could never reach them, because their file said
-    /// nothing about it and the shipped sets were discarded wholesale. What somebody edited
-    /// stays edited; everything else keeps improving with the program.
+    /// The saved layers are an overlay, not a replacement. Replacing would freeze anyone who has
+    /// ever saved settings at the shortcuts of that day: a layer added later — Win+Alt, say —
+    /// could never reach them, because their file says nothing about it and the shipped sets
+    /// would be discarded wholesale. What somebody edited stays edited; everything else keeps
+    /// improving with the program.
     /// </remarks>
     public ShortcutCatalogue ToShortcutCatalogue()
     {

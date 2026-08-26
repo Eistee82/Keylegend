@@ -18,12 +18,13 @@ namespace Keylegend.Core.Devices;
 /// layout decides which of the two a given cell means.
 /// </para>
 /// <para>
-/// It is worth being precise about what this replaces. A device profile used to carry a
-/// <c>row</c> and <c>column</c> for every key, derived from the keyboard's firmware. But firmware
-/// describes how the board is <em>wired</em>, and that is not the matrix a custom frame is
-/// addressed by — the two agree on some models and not on others. Measuring at the device
-/// settled it: the measured mapping of the DeathStalker V2 matches this table on all 105 keys,
-/// including the three that no derived rule got right. Positions therefore come from here, and a
+/// It is worth being precise about why the positions come from here and not from the hardware.
+/// A keyboard's firmware states a <c>row</c> and <c>column</c> for every key, and it is tempting
+/// to use them. But firmware describes how the board is <em>wired</em>, and that is not the
+/// matrix a custom frame is addressed by — the two agree on some models and not on others.
+/// Measuring at the device settled it: the measured mapping of the DeathStalker V2 matches this
+/// table on all 105 keys, including the three that no derived rule got right. Positions come
+/// from here, and a
 /// profile only has to say which keys a device <em>has</em>.
 /// </para>
 /// </remarks>
@@ -192,10 +193,10 @@ public static class StandardKeyMatrix
     /// Every key id the protocol knows, which is every key that can be lit on any Razer keyboard.
     /// </summary>
     /// <remarks>
-    /// This is the vocabulary of key ids for the whole program now that no device profile is
-    /// shipped: it is what a drawn key name is resolved against, and what an application profile's
-    /// key ids are checked against. Being the protocol's own table rather than the union of some
-    /// set of files, it cannot go out of date as models appear.
+    /// This is the vocabulary of key ids for the whole program: it is what a drawn key name is
+    /// resolved against, and what an application profile's key ids are checked against. Being the
+    /// protocol's own table rather than the union of some set of files, it cannot go out of date
+    /// as models appear.
     /// </remarks>
     public static IReadOnlyCollection<string> Ids => Cells.Keys;
 }

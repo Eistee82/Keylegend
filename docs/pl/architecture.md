@@ -5,7 +5,7 @@
 Cała logika decyzyjna to **czyste obliczenie**, bez dostępu do Windows, sieci ani systemu plików:
 
 ```
-(stan klawiatury, profil urządzenia, profil aplikacji, ustawienia kolorów) → kolor każdego klawisza
+(stan klawiatury, podłączona klawiatura, profil aplikacji, ustawienia kolorów) → kolor każdego klawisza
 ```
 
 Wynikają z tego dwie rzeczy i obie tłumaczą, dlaczego projekt ma taki kształt:
@@ -20,7 +20,7 @@ Wszystko, co rozmawia ze światem zewnętrznym, siedzi w cienkich adapterach wok
 
 | Projekt | Zawiera | Może zależeć od |
 |---|---|---|
-| `Keylegend.Core` | profile urządzeń, kategorie, zestawy skrótów, kompozytor klatek, automat stanów sesji | niczego zależnego od platformy |
+| `Keylegend.Core` | podłączona klawiatura, kategorie, zestawy skrótów, kompozytor klatek, automat stanów sesji | niczego zależnego od platformy |
 | `Keylegend.Windows` | stan klawiatury, rozstrzyganie znaków, okno pierwszoplanowe | API Windows |
 | `Keylegend.Chroma` | klient REST dla Chroma SDK, bicie serca | sieci |
 | `Keylegend.Engine` | pętla, która czyta klawiaturę, składa klatkę i ją wysyła | Core, Chroma, Windows |
@@ -55,7 +55,7 @@ Zamiast wozić ze sobą tabelę układów, Keylegend pyta Windows, jaki znak da�
 stanie klawiatury (`ToUnicodeEx`), i wyprowadza kategorię z otrzymanego znaku.
 
 Dlatego Shift, Caps Lock i Num Lock nie wymagają żadnego szczególnego traktowania: ten sam klawisz
-po prostu zwraca `A` zamiast `a` i sam trafia do kategorii „wielka litera". I dlatego też każdy
+po prostu zwraca `A` zamiast `a` i sam trafia do kategorii „wielka litera”. I dlatego też każdy
 układ klawiatury działa bez zmian.
 
 ### Jaka klawiatura jest podłączona
@@ -94,7 +94,7 @@ Gdyby obsługa nowej aplikacji kiedykolwiek wymagała kodu, format byłby zły.
 Profile aplikacji są skompilowane w zestawie, a nie leżą jako pliki obok pliku wykonywalnego. Trzy
 powody, a każdy wystarczyłby sam. Wydanie w jednym pliku zabiera je ze sobą, bez katalogu, który da
 się zgubić. Nic na dysku nie da się zmienić przypadkiem, a właśnie to nadaje sens „przywróceniu
-wersji dostarczonej" — wersja dostarczona musi być poza zasięgiem, żeby warto było do niej wracać.
+wersji dostarczonej” — wersja dostarczona musi być poza zasięgiem, żeby warto było do niej wracać.
 A profil, który się nie kompiluje, staje się błędem kompilacji, a nie programem, który po cichu nie
 ma żadnych profili.
 
@@ -132,9 +132,10 @@ więcej się nie rusza. Opróżnienie całej warstwy jest celowo niemożliwe.
 
 Profil, który nie wymienia żadnej warstwy, zwraca ogólny katalog bez zmian; częsty przypadek nie
 zajmuje więc pamięci.
+
 ### Skróty i wyróżnienia niosą etykietę
 
-Etykieta mówi, co robi polecenie — „Powiel warstwę", a nie „Ctrl+J". Sprzęt nigdy jej nie pokazuje:
+Etykieta mówi, co robi polecenie — „Powiel warstwę”, a nie „Ctrl+J”. Sprzęt nigdy jej nie pokazuje:
 diody niosą kolor i nic więcej, więc etykieta nic nie kosztuje w czasie działania. Zwraca się
 trzykrotnie gdzie indziej. Podgląd w aplikacji może ją pokazać, test może znaleźć sprzeczności
 między wpisami, a przy dziewięćdziesięciu profilach to jedyny sposób, by ktokolwiek sprawdził, czy
@@ -167,6 +168,7 @@ chwili, gdy paleta znów się zmieni, czyli dokładnie wtedy, gdy jest potrzebne
 Ceną jest to, że kto świadomie wybrał jeden z tych kolorów, traci go. To właściwy kierunek: jedna
 osoba wybiera kolor ponownie, wobec wszystkich użytkowników trzymających paletę, której nikt nie
 wybrał.
+
 ## Rozmowa z klawiaturą
 
 Do Chroma SDK zwracamy się przez jego lokalny interfejs REST. Kolory to liczby całkowite kodowane w
@@ -175,6 +177,36 @@ serca.
 
 Zmierzone na maszynie deweloperskiej: utworzenie sesji zajmuje 60–125 ms, pierwsza klatka po
 przejęciu od działającego efektu Chroma Studio około 500 ms, a każda następna około 2 ms.
+
+### Każda odpowiedź brzmi 200, więc decyduje treść
+
+Usługa odpowiada **na wszystko** kodem HTTP 200, także na żądania, które odrzuciła. Klatka o
+błędnym rozmiarze macierzy wraca tak:
+
+```json
+{"error":"expecting a 2 dimensional array of 6 (rows) x 22 (columns) elements with integer values","result":87}
+```
+
+ze statusem 200. Kto sprawdza sam kod statusu, zgłasza więc powodzenie dla klatek, których
+klawiatura nigdy nie pokazała: ciche niepowodzenie, nie do odróżnienia od podświetlenia, które po
+prostu się nie zmienia.
+
+Dlatego decyduje `result` w treści: zero oznacza powodzenie, wszystko inne — odrzucenie. Tam, gdzie
+usługa podaje `error` otwartym tekstem, jest on przejmowany bez zmian, bo nazywa rzeczywistą
+usterkę lepiej niż jakiekolwiek sformułowanie wymyślone tutaj. Kody, z którymi użytkownik może coś
+zrobić, są tłumaczone:
+
+| Kod | Znaczenie |
+|---|---|
+| 4309 | Chroma jest wyłączona dla tego urządzenia w Synapse |
+| 1152 | sesję trzyma inna aplikacja |
+| 1167 | nie podłączono żadnego urządzenia Chroma |
+| 5 | odmówiono dostępu |
+| 87 | żądanie było błędne |
+| 50 | żądanie nie jest obsługiwane |
+
+Udane nawiązanie sesji nie niesie `result` w ogóle — zwraca zamiast tego dane sesji — więc jego
+brak liczy się jako powodzenie.
 
 ### Jak często wysyłane są klatki
 
@@ -209,3 +241,12 @@ Sprawdza się wysyłanie z trzech odrębnych powodów w trzech różnych tempach
 Keylegend przejmuje przy pierwszym naciśnięciu i zwalnia klawiaturę po konfigurowalnym czasie
 bezczynności, dzięki czemu wraca twój własny efekt z Chroma Studio. Koszt wybudzenia rzędu 500 ms
 płaci się więc dopiero po prawdziwej przerwie, nigdy podczas pisania.
+
+Klawiaturą steruje tylko jedna kopia Keylegend. Dwie otwierałyby dwie sesje dla tego samego
+urządzenia; usługa oddaje je jednej z nich, a druga niczego nie podświetla, wciąż zgłaszając
+powodzenie — co wygląda dokładnie jak program, który po cichu przestał działać. To, co robi drugie
+uruchomienie, zależy od tego, co już działa. Ten sam program z tego samego miejsca oznacza, że ktoś
+kliknął ikonę, gdy siedziała w obszarze powiadomień: pojawia się jej okno, a drugie uruchomienie
+ustępuje — nic nie zostaje zamknięte i podświetlenie nie mruga. Wszystko inne — starsza wersja albo
+ta sama z innego katalogu — zostaje zastąpione: prosi się ją o zakończenie, oddaje swoją sesję, a
+zamykana jest bez pytania dopiero wtedy, gdy nie odpowie w ciągu dwóch sekund.

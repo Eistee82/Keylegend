@@ -105,6 +105,7 @@ Een bestand van versie 2 somt alle kleuren op, ook de onaangeroerde, en zet daar
 een verbeterde meegeleverde kleur bereikt niemand die het programma eerder heeft gestart. Een kleur
 gelijk aan het palet van die versie wordt bij de migratie daarom als standaardwaarde gelezen en
 laten vallen; al het andere is uw keuze en blijft.
+
 ## Gedrag
 
 | Instelling | Betekenis |

@@ -5,9 +5,9 @@ namespace Keylegend.Core.Devices;
 /// Carried to the top of the program, where it becomes the message the user sees and the reason
 /// it stops: there is nothing to light without a profile, and nothing to fall back on either.
 /// </remarks>
-public sealed class DeviceProfileException : Exception
+public sealed class AttachedKeyboardException : Exception
 {
-    public DeviceProfileException(string message) : base(message) { }
+    public AttachedKeyboardException(string message) : base(message) { }
 
-    public DeviceProfileException(string message, Exception inner) : base(message, inner) { }
+    public AttachedKeyboardException(string message, Exception inner) : base(message, inner) { }
 }

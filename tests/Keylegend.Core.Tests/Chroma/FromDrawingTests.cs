@@ -4,26 +4,27 @@ using Keylegend.Core.Devices;
 namespace Keylegend.Core.Tests.Chroma;
 
 /// <summary>
-/// The profile built from the vendor's drawing alone, with no shipped layout involved.
+/// The keyboard built from the vendor's drawing, against the one measured at real hardware.
 /// </summary>
 /// <remarks>
 /// <para>
-/// This is what has to hold before the shipped layouts can go. The yardstick is the same one as
-/// everywhere else: <c>razer-deathstalker-v2-de</c>, the only profile ever calibrated against real
-/// hardware. If a profile assembled from the drawing places every key on the cell that was
-/// measured at the device, then the files were restating what the drawing already says.
+/// This is the test the whole approach rests on. The yardstick is the same one as everywhere
+/// else: <c>razer-deathstalker-v2-de</c>, measured key by key at the device. If a keyboard
+/// assembled from the drawing places every key on the cell that was measured there, then the
+/// drawing and the protocol between them say everything a description of a keyboard can say.
 /// </para>
 /// <para>
 /// Skips without the vendor's software, like the other drawing tests — there is nothing to build
-/// from on a machine that has none.
+/// from on a machine that has none. See <see cref="VendorFiles"/> for why that is a skip and not
+/// a pass.
 /// </para>
 /// </remarks>
 public class FromDrawingTests
 {
     private static SdkDeviceDescription DeathStalker()
     {
-        // The scan codes the hardware reports, taken from the calibrated profile's key list so
-        // that this describes the same board.
+        // The scan codes the hardware reports, taken from the measured key list so that this
+        // describes the same board.
         var measured = MeasuredKeys.Load();
         var reported = new List<SdkKey>();
 
@@ -41,19 +42,21 @@ public class FromDrawingTests
             MatrixRows: 6, MatrixColumns: 22, reported);
     }
 
-    private static (DeviceProfile Built, IReadOnlyList<KeyDefinition> Measured)? Built()
+    /// <summary>
+    /// The profile built from the drawing on this machine, beside the measurement it has to
+    /// agree with. Skips the calling test if there is no drawing here to build from.
+    /// </summary>
+    private static (AttachedKeyboard Built, IReadOnlyList<KeyDefinition> Measured) Built()
     {
         var device = DeathStalker();
+        var drawing = SvgLayoutSource.Find(device);
 
-        if (SvgLayoutSource.Find(device) is not { } drawing)
-        {
-            return null;
-        }
+        Assert.SkipWhen(drawing is null, VendorFiles.NoDrawingForTheDevice);
 
-        if (AttachedDeviceProfile.FromDrawing(device, drawing) is not { } built)
-        {
-            return null;
-        }
+        var built = AttachedKeyboardBuilder.FromDrawing(device, drawing);
+
+        // Not a skip: the drawing is here and was read, so a profile has to come out of it.
+        Assert.NotNull(built);
 
         return (built, MeasuredKeys.Load());
     }
@@ -61,10 +64,7 @@ public class FromDrawingTests
     [Fact]
     public void BuildsAProfileFromTheDrawingAlone()
     {
-        if (Built() is not { } pair)
-        {
-            return;
-        }
+        var pair = Built();
 
         Assert.Equal("Razer DeathStalker V2", pair.Built.Name);
         Assert.Equal("ISO-DE", pair.Built.PhysicalLayout);
@@ -78,16 +78,13 @@ public class FromDrawingTests
     [Fact]
     public void CarriesTheSameKeysAsTheMeasuredKeyboard()
     {
-        if (Built() is not { } pair)
-        {
-            return;
-        }
+        var pair = Built();
 
         var built = pair.Built.Keys.Select(k => k.Id).ToHashSet(StringComparer.Ordinal);
-        var calibrated = pair.Measured.Select(k => k.Id).ToHashSet(StringComparer.Ordinal);
+        var measured = pair.Measured.Select(k => k.Id).ToHashSet(StringComparer.Ordinal);
 
-        var missing = calibrated.Except(built).Order().ToArray();
-        var extra = built.Except(calibrated).Order().ToArray();
+        var missing = measured.Except(built).Order().ToArray();
+        var extra = built.Except(measured).Order().ToArray();
 
         Assert.True(
             missing.Length == 0 && extra.Length == 0,
@@ -96,16 +93,13 @@ public class FromDrawingTests
     }
 
     /// <summary>
-    /// The decisive one. Every key must land on the cell that was measured at the hardware — if
-    /// this holds, the shipped layouts carry nothing the drawing does not.
+    /// The decisive one. Every key must land on the cell that was measured at the hardware: this
+    /// is what says the cells come from the protocol and not from any per-model knowledge.
     /// </summary>
     [Fact]
     public void PlacesEveryKeyOnTheCellMeasuredAtTheDevice()
     {
-        if (Built() is not { } pair)
-        {
-            return;
-        }
+        var pair = Built();
 
         var measured = pair.Measured.ToDictionary(k => k.Id, StringComparer.Ordinal);
         var disagreements = new List<string>();
@@ -133,10 +127,7 @@ public class FromDrawingTests
     [Fact]
     public void EveryKeyHasACellToLight()
     {
-        if (Built() is not { } pair)
-        {
-            return;
-        }
+        var pair = Built();
 
         var dark = pair.Built.Keys
             .Where(k => k.Row is null || k.Column is null)
@@ -148,16 +139,13 @@ public class FromDrawingTests
         Assert.True(dark.Length == 0, $"No cell for: {string.Join(", ", dark)}");
     }
 
-    /// <summary>The result has to survive the same checks a contributed profile would.</summary>
+    /// <summary>The result has to survive the validator like any other description would.</summary>
     [Fact]
-    public void TheBuiltProfileIsValid()
+    public void TheBuiltKeyboardIsValid()
     {
-        if (Built() is not { } pair)
-        {
-            return;
-        }
+        var pair = Built();
 
-        var problems = DeviceProfileValidator.Validate(pair.Built);
+        var problems = AttachedKeyboardValidator.Validate(pair.Built);
 
         Assert.True(
             problems.Count == 0,
@@ -168,10 +156,7 @@ public class FromDrawingTests
     [Fact]
     public void BringsTheCasingAndTheLegends()
     {
-        if (Built() is not { } pair)
-        {
-            return;
-        }
+        var pair = Built();
 
         Assert.NotNull(pair.Built.Legend);
         Assert.NotEmpty(pair.Built.Legend.Path);

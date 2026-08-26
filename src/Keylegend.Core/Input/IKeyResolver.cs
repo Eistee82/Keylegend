@@ -32,8 +32,8 @@ public readonly record struct KeyMeaning(string? Character, KeyCategory Category
 /// </summary>
 public interface IKeyResolver
 {
-    /// <param name="keyId">Key identifier from the device profile.</param>
-    /// <param name="scanCode">Scan code override from the profile, or <c>null</c>.</param>
+    /// <param name="keyId">Key identifier, as the attached keyboard names it.</param>
+    /// <param name="scanCode">Scan code override the key carries, or <c>null</c>.</param>
     /// <param name="state">The keyboard state to evaluate against.</param>
     KeyMeaning Resolve(string keyId, int? scanCode, KeyboardState state);
 }

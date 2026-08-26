@@ -5,7 +5,7 @@
 [English](README.md) · [Deutsch](README.de.md) · [Español](README.es.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Nederlands](README.nl.md) ·
 [Polski](README.pl.md) · [Português](README.pt.md) · [Русский](README.ru.md) · [Українська](README.uk.md) · [简体中文](README.zh-cn.md)
 
-> **Versione 1.0.0.** Illuminazione, interfaccia, rilevamento dei giochi e profili delle
+> **Versione 1.1.0.** Illuminazione, interfaccia, rilevamento dei giochi e profili delle
 > applicazioni funzionano. [Scarica l'installatore o la copia portatile](https://github.com/Eistee82/Keylegend/releases/latest),
 > oppure compila dai sorgenti. Vedi [CHANGELOG.md](CHANGELOG.md).
 
@@ -81,8 +81,8 @@ resta nulla da installare a mano. Altrimenti, prendi un file:
 
 | File | Che cos'è |
 |---|---|
-| `Keylegend-1.0.0-setup.exe` | Si installa per l'utente corrente — nessun diritto di amministratore. Voce nel menu Start, e una disinstallazione che rimuove anche la voce di avvio automatico. |
-| `Keylegend-1.0.0-portable.zip` | Lo stesso programma, da estrarre. Tieni la cartella `devices` accanto all'eseguibile. |
+| `Keylegend-1.1.0-setup.exe` | Si installa per l'utente corrente — nessun diritto di amministratore. Voce nel menu Start, e una disinstallazione che rimuove anche la voce di avvio automatico. |
+| `Keylegend-1.1.0-portable.zip` | Lo stesso programma, da estrarre. Tieni le cartelle delle lingue (`de`, `fr`, …) accanto all'eseguibile, altrimenti l'interfaccia torna all'inglese. |
 
 Nessuno dei due è firmato, quindi Windows dichiarerà sconosciuto l'autore: un certificato costa
 all'anno più di quanto questo progetto abbia. Ogni versione porta `SHA256SUMS.txt` per verificare
@@ -102,12 +102,13 @@ ogni tasto. Quella è una costante del protocollo Chroma, identica su ogni model
 per cui nemmeno Synapse ha bisogno di una tabella per modello. Verificato sulla sola tastiera
 calibrata a mano: tutti i 105 tasti coincidono.
 
-`physicalLayout` descrive la *forma* della tastiera, non la lingua con cui scrivi. Quale carattere
+Il **layout fisico** descrive la *forma* della tastiera, non la lingua con cui scrivi. Quale carattere
 produce un tasto viene chiesto a Windows in esecuzione, così una tastiera tedesca funziona
 correttamente anche con Windows impostato su US o Dvorak.
 
 **Richiede Razer Synapse**, installato e in esecuzione, con la tastiera collegata. È lì che la
 tastiera viene descritta e lì che si trova il suo disegno.
+
 ## Documentazione
 
 | Argomento | |
@@ -129,7 +130,7 @@ inglese quello giusto. Le correzioni sono benvenute, vedi [CONTRIBUTING.md](CONT
 
 ```bash
 git clone https://github.com/Eistee82/Keylegend.git
-cd keylegend
+cd Keylegend
 dotnet build
 dotnet test
 ```

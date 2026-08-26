@@ -58,7 +58,7 @@ obowiązuje ono niezależnie od tego, co jest na wierzchu.
 | Wyróżnienia | Klawisze przypięte do stałego koloru niezależnie od wytwarzanego znaku — WASD w grze, klawisze narzędzi w edytorze obrazu |
 | Skróty | Zamienniki poszczególnych warstw modyfikatorów: który klawisz niesie które polecenie pod `Ctrl`, kolorowany według grupy funkcji |
 
-Wyróżnienia i skróty niosą też etykietę mówiącą, co robi polecenie — „Powiel warstwę", „Skok". Nic
+Wyróżnienia i skróty niosą też etykietę mówiącą, co robi polecenie — „Powiel warstwę”, „Skok”. Nic
 z tego nie jest widoczne na klawiaturze; diody pokazują wyłącznie kolor. Etykieta pojawia się w
 podglądzie wewnątrz aplikacji, a przy dziewięćdziesięciu profilach to jedyny sposób, by w ogóle
 sprawdzić, czy wpis jest poprawny.
@@ -102,6 +102,7 @@ Plik wersji 2 wymienia wszystkie kolory, także nietknięte, i tym samym przypin
 dostarczony kolor nie dociera do nikogo, kto uruchomił program wcześniej. Kolor równy palecie tamtej
 wersji jest więc przy migracji czytany jako wartość domyślna i porzucany; wszystko inne jest
 Państwa wyborem i zostaje.
+
 ## Zachowanie
 
 | Ustawienie | Znaczenie |

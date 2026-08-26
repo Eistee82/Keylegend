@@ -66,18 +66,18 @@ public partial class MainWindow : Window
         // language rather than in the one Windows happens to be set to.
         ShowLanguage(language);
 
-        var device = engine.Profile;
+        var device = engine.Keyboard;
         var labels = BuildLabels(device);
 
-        Preview.Profile = device;
+        Preview.Keyboard = device;
         Preview.SetLabels(labels);
-        ProfilePreview.Profile = device;
+        ProfilePreview.Keyboard = device;
         ProfilePreview.SetLabels(labels);
         ProfilePreview.KeyClicked += OnProfileKeyClicked;
         ProfilePreview.KeyRightClicked += OnProfileKeyCleared;
         ProfilePreview.KeyHovered += OnProfileKeyHovered;
 
-        ShortcutPreview.Profile = device;
+        ShortcutPreview.Keyboard = device;
         ShortcutPreview.SetLabels(labels);
         ShortcutPreview.KeyClicked += OnShortcutKeyClicked;
         ShortcutPreview.KeyRightClicked += OnShortcutKeyCleared;
@@ -132,12 +132,12 @@ public partial class MainWindow : Window
     /// only the words around them are localised.
     /// </summary>
     /// <remarks>
-    /// It used to say whether the mapping had been calibrated on hardware. That distinction has
-    /// gone: the matrix positions now come from the lighting protocol's own table, which is the
-    /// same for every model, so there is nothing left for a calibration to confirm.
+    /// The physical layout and the key count, because those are what tell one attached keyboard
+    /// from another. How confident the matrix mapping is does not appear, and has no reason to:
+    /// it comes from the lighting protocol's own table, the same on every model.
     /// </remarks>
-    private void ShowDevice(DeviceProfile device)
-        => DeviceDetail.Text = Texts.Get("StatusDevice", device.PhysicalLayout, device.Keys.Count);
+    private void ShowDevice(AttachedKeyboard keyboard)
+        => DeviceDetail.Text = Texts.Get("StatusDevice", keyboard.PhysicalLayout, keyboard.Keys.Count);
 
     /// <summary>
     /// Rebuilds everything whose text was put together in code rather than bound.
@@ -149,7 +149,7 @@ public partial class MainWindow : Window
     /// </remarks>
     private void ShowTexts()
     {
-        ShowDevice(_engine.Profile);
+        ShowDevice(_engine.Keyboard);
         UpdateStateLabel(_engine.State);
         OnProfileChanged(_engine.ActiveProfile);
         BuildColourEditors();
@@ -163,14 +163,14 @@ public partial class MainWindow : Window
     /// Works out what is printed on each key.
     /// </summary>
     /// <remarks>
-    /// Three sources, in order. A label from the device profile wins — the text on a keycap
+    /// Three sources, in order. A label the attached keyboard carries wins — the text on a keycap
     /// belongs to the keyboard, not to the program's language, so a German board says "Strg"
     /// whatever language the interface speaks. Otherwise the characters the key types are asked
     /// from the active layout, in all three positions a keycap carries them. Only if neither
-    /// applies does a fallback name appear, which should be rare and signals a profile worth
-    /// improving.
+    /// applies does a fallback name appear, which should be rare: it means the drawing named a
+    /// key this program cannot place.
     /// </remarks>
-    private Dictionary<string, KeyLegend> BuildLabels(DeviceProfile profile)
+    private Dictionary<string, KeyLegend> BuildLabels(AttachedKeyboard keyboard)
     {
         var plain = new KeyboardState(Modifiers.None, new LockStates(true, false, false));
         var shift = new KeyboardState(Modifiers.LeftShift, new LockStates(true, false, false));
@@ -179,7 +179,7 @@ public partial class MainWindow : Window
 
         var legends = new Dictionary<string, KeyLegend>(StringComparer.Ordinal);
 
-        foreach (var key in profile.Keys)
+        foreach (var key in keyboard.Keys)
         {
             // A profile label wins for the main legend; the layout supplies it otherwise.
             var fromLayout = Printable(_resolver.Resolve(key.Id, key.ScanCode, plain));
@@ -1229,7 +1229,7 @@ public partial class MainWindow : Window
     /// </summary>
     private void RefreshProfilePreview()
     {
-        if (ProfilePreview.Profile is null)
+        if (ProfilePreview.Keyboard is null)
         {
             return;
         }
@@ -1320,7 +1320,7 @@ public partial class MainWindow : Window
             return tips;
         }
 
-        foreach (var key in _engine.Profile.Keys)
+        foreach (var key in _engine.Keyboard.Keys)
         {
             if (set.TryGet(key.Id, out var byPosition))
             {
@@ -1342,7 +1342,7 @@ public partial class MainWindow : Window
 
     private void OnTabChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (!_loading && ProfilePreview.Profile is not null)
+        if (!_loading && ProfilePreview.Keyboard is not null)
         {
             RefreshProfilePreview();
         }
@@ -1447,7 +1447,7 @@ public partial class MainWindow : Window
     /// </summary>
     private void RefreshShortcutPreview()
     {
-        if (ShortcutPreview.Profile is null)
+        if (ShortcutPreview.Keyboard is null)
         {
             return;
         }

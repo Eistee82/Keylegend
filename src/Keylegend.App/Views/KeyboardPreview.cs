@@ -11,13 +11,13 @@ using Keylegend.Core.Lighting;
 namespace Keylegend.App.Views;
 
 /// <summary>
-/// Draws the keyboard from a device profile and fills it from an <see cref="LedFrame"/>.
+/// Draws the attached keyboard and fills it from an <see cref="LedFrame"/>.
 /// </summary>
 /// <remarks>
-/// Nothing here knows about any particular keyboard: geometry and colours both come from data,
-/// so a contributed device profile shows up correctly without a line of code. And because the
-/// frame it displays is produced by the same composer that drives the hardware, the preview
-/// cannot drift out of step with what actually lights up.
+/// Nothing here knows about any particular keyboard: geometry and colours both come from the
+/// <see cref="AttachedKeyboard"/> it is given, so a model nobody anticipated shows up correctly
+/// without a line of code. And because the frame it displays is produced by the same composer
+/// that drives the hardware, the preview cannot drift out of step with what actually lights up.
 /// </remarks>
 public sealed class KeyboardPreview : FrameworkElement
 {
@@ -41,7 +41,7 @@ public sealed class KeyboardPreview : FrameworkElement
     private static readonly bool ShowLayoutDiagnostics =
         Environment.GetEnvironmentVariable("KEYLEGEND_LAYOUT_DEBUG") == "1";
 
-    private DeviceProfile? _profile;
+    private AttachedKeyboard? _keyboard;
     private LedFrame? _frame;
     private Geometry? _legend;
     private LegendDrawing? _legendFor;
@@ -82,12 +82,12 @@ public sealed class KeyboardPreview : FrameworkElement
     }
 
     /// <summary>The keyboard to draw.</summary>
-    public DeviceProfile? Profile
+    public AttachedKeyboard? Keyboard
     {
-        get => _profile;
+        get => _keyboard;
         set
         {
-            _profile = value;
+            _keyboard = value;
             _legend = null;
             _legendFor = null;
             _chassis = null;
@@ -107,7 +107,7 @@ public sealed class KeyboardPreview : FrameworkElement
     /// </remarks>
     private Geometry? LegendGeometry()
     {
-        if (_profile?.Legend is not { Path.Length: > 0 } legend)
+        if (_keyboard?.Legend is not { Path.Length: > 0 } legend)
         {
             return null;
         }
@@ -251,14 +251,14 @@ public sealed class KeyboardPreview : FrameworkElement
 
     private KeyDefinition? KeyAt(Point position)
     {
-        if (_profile is null)
+        if (_keyboard is null)
         {
             return null;
         }
 
-        var (scale, offsetX, offsetY) = Layout(_profile);
+        var (scale, offsetX, offsetY) = Layout(_keyboard);
 
-        foreach (var key in _profile.Keys)
+        foreach (var key in _keyboard.Keys)
         {
             // Every area counts, so clicking either half of an L-shaped key hits it.
             foreach (var area in key.Areas())
@@ -283,25 +283,25 @@ public sealed class KeyboardPreview : FrameworkElement
     {
         context.DrawRectangle(Background, pen: null, new Rect(RenderSize));
 
-        if (_profile is null)
+        if (_keyboard is null)
         {
             DrawCentredNotice(context, Texts.Get("KeyboardNoProfile"));
             return;
         }
 
-        var (scale, offsetX, offsetY) = Layout(_profile);
+        var (scale, offsetX, offsetY) = Layout(_keyboard);
         var radius = Math.Max(2, 3 * scale / 5);
-        var type = TypeSizes(_profile, scale);
+        var type = TypeSizes(_keyboard, scale);
 
         // The height of an ordinary key on screen. Everything that has to look the same size at
         // every window size and in either coordinate system is a fraction of this.
-        var unit = (_profile.Keys.Count > 0 ? _profile.Keys.Min(k => k.Height) : 19) * scale;
+        var unit = (_keyboard.Keys.Count > 0 ? _keyboard.Keys.Min(k => k.Height) : 19) * scale;
 
         if (ShowLayoutDiagnostics)
         {
             var report = new FormattedText(
                 $"render {RenderSize.Width:N0}x{RenderSize.Height:N0} · scale {scale:N2} · " +
-                $"keyboard {_profile.Canvas.Width * scale:N0} wide",
+                $"keyboard {_keyboard.Canvas.Width * scale:N0} wide",
                 CultureInfo.InvariantCulture, FlowDirection.LeftToRight, LabelFace, 12,
                 Brushes.Yellow, VisualTreeHelper.GetDpi(this).PixelsPerDip);
 
@@ -314,7 +314,7 @@ public sealed class KeyboardPreview : FrameworkElement
 
         // Two passes: every glow first, then every keycap. Otherwise a bright key's halo would
         // be painted over the neighbour drawn after it, and the light would look clipped.
-        foreach (var key in _profile.Keys)
+        foreach (var key in _keyboard.Keys)
         {
             var colour = ColourOf(key);
 
@@ -328,9 +328,9 @@ public sealed class KeyboardPreview : FrameworkElement
         // One shape for the whole board, so it is clipped to each key in turn and painted in that
         // key's colour — the legend has to light up with its own key, not with the board.
         var legend = LegendGeometry();
-        var mapping = legend is null ? null : _profile.Legend;
+        var mapping = legend is null ? null : _keyboard.Legend;
 
-        foreach (var key in _profile.Keys)
+        foreach (var key in _keyboard.Keys)
         {
             var mapped = key.Row.HasValue && key.Column.HasValue;
             var colour = ColourOf(key);
@@ -382,13 +382,13 @@ public sealed class KeyboardPreview : FrameworkElement
     /// </para>
     /// <para>
     /// This is the only way the volume dial and the media strip appear at all. Neither carries
-    /// addressable lighting, so no device profile ever described them, and a keyboard drawn from
-    /// key rectangles alone simply had a hole where they belong.
+    /// addressable lighting, so nothing that describes the lighting mentions them, and a keyboard
+    /// drawn from key rectangles alone has a hole where they belong.
     /// </para>
     /// </remarks>
     private void DrawChassis(DrawingContext context, double scale, double offsetX, double offsetY)
     {
-        if (_profile?.Legend is not { Chassis: { Count: > 0 } shapes } mapping)
+        if (_keyboard?.Legend is not { Chassis: { Count: > 0 } shapes } mapping)
         {
             return;
         }
@@ -699,8 +699,8 @@ public sealed class KeyboardPreview : FrameworkElement
 
             // Widened along the key's own outline rather than around its bounding box. On the
             // L-shaped Enter the two are not the same shape at all: the bounding box covers the
-            // missing corner as well, so the Enter used to cast its light over the key beside it
-            // and the step showed up as a bright smear between the two.
+            // missing corner as well, so an Enter glowing around its box casts light over the key
+            // beside it and the step shows up as a bright smear between the two.
             var pen = new Pen(brush, spread * 2)
             {
                 LineJoin = PenLineJoin.Round,
@@ -727,10 +727,10 @@ public sealed class KeyboardPreview : FrameworkElement
     /// smaller than single characters. The only per-key adjustment left is shrinking a legend
     /// that genuinely will not fit.
     /// </remarks>
-    private static TypeScale TypeSizes(DeviceProfile profile, double scale)
+    private static TypeScale TypeSizes(AttachedKeyboard keyboard, double scale)
     {
         // An ordinary key: the shortest one, since every key is at least one unit tall.
-        var unit = profile.Keys.Count > 0 ? profile.Keys.Min(k => k.Height) : 19;
+        var unit = keyboard.Keys.Count > 0 ? keyboard.Keys.Min(k => k.Height) : 19;
         var glyph = unit * scale * 0.46;
 
         // The ratios come from measuring the product photograph against screenshots of this
@@ -767,7 +767,7 @@ public sealed class KeyboardPreview : FrameworkElement
         }
 
         // Anything more unusual falls back to a union. Not beautiful, but correct, and it means
-        // an exotic contributed profile still draws rather than failing.
+        // an unusually shaped key still draws rather than failing.
         Geometry? combined = null;
 
         foreach (var rect in areas)
@@ -999,8 +999,8 @@ public sealed class KeyboardPreview : FrameworkElement
             // one happens to carry a second legend. Otherwise Q, E and M - the letters with an
             // AltGr character - would ride higher than the letters beside them.
             //
-            // Words sit on that baseline too. Centring them, which is what they used to do,
-            // dropped "strg" and "enter" below the letters around them - and below where they
+            // Words sit on that baseline too, rather than in the middle of the key. Centring
+            // them drops "strg" and "enter" below the letters around them - and below where they
             // belong: on these keyboards the LED sits at the top of the switch, so the legend is
             // printed high on the cap to catch it. Measured against the vendor's own drawing,
             // the middle of a legend sits at 0.40 of the key's height rather than at 0.50.
@@ -1141,9 +1141,9 @@ public sealed class KeyboardPreview : FrameworkElement
     }
 
     /// <summary>Fits the profile's canvas into the control, keeping its proportions.</summary>
-    private (double Scale, double OffsetX, double OffsetY) Layout(DeviceProfile profile)
+    private (double Scale, double OffsetX, double OffsetY) Layout(AttachedKeyboard keyboard)
     {
-        if (profile.Canvas.Width <= 0 || profile.Canvas.Height <= 0)
+        if (keyboard.Canvas.Width <= 0 || keyboard.Canvas.Height <= 0)
         {
             return (1, 0, 0);
         }
@@ -1154,11 +1154,11 @@ public sealed class KeyboardPreview : FrameworkElement
             Math.Max(1, RenderSize.Height - 2 * margin));
 
         var scale = Math.Min(
-            available.Width / profile.Canvas.Width,
-            available.Height / profile.Canvas.Height);
+            available.Width / keyboard.Canvas.Width,
+            available.Height / keyboard.Canvas.Height);
 
-        var offsetX = (RenderSize.Width - profile.Canvas.Width * scale) / 2;
-        var offsetY = (RenderSize.Height - profile.Canvas.Height * scale) / 2;
+        var offsetX = (RenderSize.Width - keyboard.Canvas.Width * scale) / 2;
+        var offsetY = (RenderSize.Height - keyboard.Canvas.Height * scale) / 2;
 
         return (scale, offsetX, offsetY);
     }

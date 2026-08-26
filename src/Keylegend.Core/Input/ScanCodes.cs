@@ -8,8 +8,7 @@ namespace Keylegend.Core.Input;
 /// <remarks>
 /// The table follows the US layout, matching the naming convention used for key ids. Where a
 /// physical layout disagrees — on ISO keyboards the tall Enter covers the position ANSI uses
-/// for backslash — the device profile carries an explicit <c>scanCode</c> that wins over this
-/// table.
+/// for backslash — the key carries an explicit <c>scanCode</c> that wins over this table.
 /// </remarks>
 public static class ScanCodes
 {
@@ -101,8 +100,8 @@ public static class ScanCodes
 
     /// <summary>
     /// Looks up the scan code for a key id. Unknown ids return <c>false</c> rather than
-    /// throwing: a device profile may legitimately contain keys we cannot type with, such as
-    /// media keys or macro keys.
+    /// throwing: a keyboard may legitimately have keys nothing can be typed with, such as media
+    /// keys or macro keys.
     /// </summary>
     public static bool TryGet(string keyId, out ushort scanCode)
     {

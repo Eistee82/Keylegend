@@ -71,8 +71,8 @@ public sealed record MatrixSize(int Rows, int Columns);
 /// <param name="Path">
 /// The outline itself, in SVG path syntax, in the coordinates of the drawing it came from.
 /// </param>
-/// <param name="ScaleX">Multiply a drawing x by this to reach a profile x.</param>
-/// <param name="ScaleY">Multiply a drawing y by this to reach a profile y.</param>
+/// <param name="ScaleX">Multiply a drawing x by this to reach a keyboard x.</param>
+/// <param name="ScaleY">Multiply a drawing y by this to reach a keyboard y.</param>
 /// <param name="OffsetX">Then add this.</param>
 /// <param name="OffsetY">Then add this.</param>
 /// <param name="DrawnKeys">
@@ -88,13 +88,13 @@ public sealed record MatrixSize(int Rows, int Columns);
 /// holding every character on the board. There is no per-key division in it to recover, and none
 /// is needed — the path already sits at the right places in the drawing's own coordinates, so the
 /// same mapping that carries the key geometry across carries the legends with it. That mapping is
-/// the four numbers here, so that whoever draws this needs nothing but the profile.
+/// the four numbers here, so that whoever draws this needs nothing but the keyboard.
 /// </para>
 /// <para>
 /// This is never written to a file. It is read from the vendor's own installation at runtime and
 /// held for as long as the program runs, which is what keeps it clear of the MIT licence: nothing
-/// is copied into this repository. It follows that a profile on disk never has one, and that
-/// everything downstream must work without it.
+/// is copied into this repository. A machine without the vendor's software therefore reaches this
+/// as <c>null</c>, and everything downstream has to work without it.
 /// </para>
 /// </remarks>
 public sealed record LegendDrawing(
@@ -126,7 +126,7 @@ public enum ChassisLayer
 /// An outline and a layer, nothing more. What it is drawn in is the program's business: the
 /// vendor's own greys are read only to work out which shape sits on top of which. This is how the
 /// dial and the media strip along the top right of a board come to appear at all — they carry no
-/// addressable lighting, so no profile ever described them.
+/// addressable lighting, so nothing that describes the lighting mentions them.
 /// </remarks>
 public sealed record ChassisShape(string Path, ChassisLayer Layer);
 
@@ -140,7 +140,16 @@ public sealed record ChassisShape(string Path, ChassisLayer Layer);
 /// states — there is no version, no origin and no flag for how much of it to trust, because there
 /// is no file and nobody writing one by hand.
 /// </remarks>
-public sealed record DeviceProfile(
+/// <param name="Name">The model, as the lighting service names it.</param>
+/// <param name="PhysicalLayout">Which shape of board it is — <c>ISO-DE</c>, <c>ANSI</c>.</param>
+/// <param name="Canvas">The surface the key coordinates are in.</param>
+/// <param name="Matrix">How large the lighting matrix is on this model.</param>
+/// <param name="Keys">Every key the hardware reports, placed and mapped to a cell.</param>
+/// <param name="Legend">
+/// The printed characters and the casing, from the vendor's drawing. <c>null</c> where that
+/// drawing is not on the machine.
+/// </param>
+public sealed record AttachedKeyboard(
     string Name,
     string PhysicalLayout,
     Canvas Canvas,

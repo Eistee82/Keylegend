@@ -40,14 +40,14 @@ public class ScanCodesTests
     [Fact]
     public void UnknownKeysReturnFalseRatherThanThrowing()
     {
-        // Device profiles may legitimately contain macro or media keys we cannot type with.
+        // A keyboard may legitimately have macro or media keys nothing can be typed with.
         Assert.False(ScanCodes.TryGet("Keyboard_Macro1", out _));
     }
 
     [Fact]
-    public void EveryTypingKeyInTheShippedProfileResolves()
+    public void EveryTypingKeyOnTheMeasuredKeyboardResolves()
     {
-        // Catches the table and the shipped profiles drifting apart.
+        // Catches the table and the measured keyboard drifting apart.
         var measured = MeasuredKeys.Load();
 
         var unresolved = measured

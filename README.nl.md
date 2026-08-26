@@ -5,7 +5,7 @@
 [English](README.md) · [Deutsch](README.de.md) · [Español](README.es.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Nederlands](README.nl.md) ·
 [Polski](README.pl.md) · [Português](README.pt.md) · [Русский](README.ru.md) · [Українська](README.uk.md) · [简体中文](README.zh-cn.md)
 
-> **Versie 1.0.0.** Verlichting, interface, gamedetectie en toepassingsprofielen werken.
+> **Versie 1.1.0.** Verlichting, interface, gamedetectie en toepassingsprofielen werken.
 > [Download het installatieprogramma of de draagbare kopie](https://github.com/Eistee82/Keylegend/releases/latest),
 > of bouw vanuit de broncode. Zie [CHANGELOG.md](CHANGELOG.md).
 
@@ -80,8 +80,8 @@ niets met de hand te installeren. Anders pak je een bestand:
 
 | Bestand | Wat het is |
 |---|---|
-| `Keylegend-1.0.0-setup.exe` | Installeert voor de huidige gebruiker — geen beheerdersrechten. Menu-item in Start, en een verwijdering die ook het opstartitem weghaalt. |
-| `Keylegend-1.0.0-portable.zip` | Hetzelfde programma, om uit te pakken. Houd de map `devices` naast het uitvoerbare bestand. |
+| `Keylegend-1.1.0-setup.exe` | Installeert voor de huidige gebruiker — geen beheerdersrechten. Menu-item in Start, en een verwijdering die ook het opstartitem weghaalt. |
+| `Keylegend-1.1.0-portable.zip` | Hetzelfde programma, om uit te pakken. Houd de taalmappen (`de`, `fr`, …) naast het uitvoerbare bestand, anders valt de interface terug op Engels. |
 
 Beide zijn niet ondertekend, dus Windows noemt de uitgever onbekend — een certificaat kost per
 jaar meer dan dit project heeft. Elke uitgave bevat `SHA256SUMS.txt` om de download te
@@ -101,12 +101,13 @@ een constante van het Chroma-protocol, identiek op elk model — daarom heeft oo
 per model nodig. Getoetst aan het enige met de hand gekalibreerde toetsenbord: alle 105 toetsen
 kloppen.
 
-`physicalLayout` beschrijft de *vorm* van het toetsenbord, niet de taal waarin je typt. Welk teken
+De **fysieke indeling** beschrijft de *vorm* van het toetsenbord, niet de taal waarin je typt. Welk teken
 een toets oplevert wordt tijdens het draaien aan Windows gevraagd, dus een Duits toetsenbord werkt
 ook goed met Windows op US of Dvorak.
 
 **Vereist Razer Synapse**, geïnstalleerd en actief, met het toetsenbord aangesloten. Daar wordt het
 toetsenbord beschreven en daar staat de tekening.
+
 ## Documentatie
 
 | Onderwerp | |
@@ -128,7 +129,7 @@ tekst de juiste. Correcties zijn welkom, zie [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ```bash
 git clone https://github.com/Eistee82/Keylegend.git
-cd keylegend
+cd Keylegend
 dotnet build
 dotnet test
 ```

@@ -5,7 +5,7 @@
 [English](README.md) · [Deutsch](README.de.md) · [Español](README.es.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Nederlands](README.nl.md) ·
 [Polski](README.pl.md) · [Português](README.pt.md) · [Русский](README.ru.md) · [Українська](README.uk.md) · [简体中文](README.zh-cn.md)
 
-> **Version 1.0.0.** Lighting, interface, game detection and application profiles all work.
+> **Version 1.1.0.** Lighting, interface, game detection and application profiles all work.
 > [Download the installer or the portable copy](https://github.com/Eistee82/Keylegend/releases/latest),
 > or build from source. See [CHANGELOG.md](CHANGELOG.md).
 
@@ -77,8 +77,8 @@ no prerequisite to install by hand. Otherwise, take a file:
 
 | File | What it is |
 |---|---|
-| `Keylegend-1.0.0-setup.exe` | Installs for the current user — no administrator rights. Start menu entry, and a clean uninstall that also removes the autostart entry. |
-| `Keylegend-1.0.0-portable.zip` | The same program, to unpack and run. Keep the `devices` folder next to the executable. |
+| `Keylegend-1.1.0-setup.exe` | Installs for the current user — no administrator rights. Start menu entry, and a clean uninstall that also removes the autostart entry. |
+| `Keylegend-1.1.0-portable.zip` | The same program, to unpack and run. Keep the language folders (`de`, `fr`, …) next to the executable, or the interface falls back to English. |
 
 Both are unsigned, so Windows will call the publisher unknown — a certificate costs more per year
 than this project has. Each release ships `SHA256SUMS.txt` if you would like to check the download
@@ -97,12 +97,13 @@ That is a constant of the Chroma protocol, identical on every model, which is wh
 needs no per-model table either. Checked against the one keyboard this was calibrated on by hand,
 all 105 keys agree.
 
-`physicalLayout` describes the *shape* of the keyboard, not the language you type in. Which
+The **physical layout** describes the *shape* of the keyboard, not the language you type in. Which
 character a key produces is asked of Windows at run time, so a German keyboard is served correctly
 even with Windows set to US or Dvorak.
 
 **Requires Razer Synapse**, installed and running, with the keyboard connected. That is where the
 keyboard is described and where its drawing is kept.
+
 ## Documentation
 
 | Topic | |
@@ -128,7 +129,7 @@ English text is the one that is right. Corrections are welcome, see
 
 ```bash
 git clone https://github.com/Eistee82/Keylegend.git
-cd keylegend
+cd Keylegend
 dotnet build
 dotnet test
 ```

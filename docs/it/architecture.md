@@ -6,7 +6,7 @@ Tutta la logica decisionale è un **calcolo puro**, senza accesso a Windows, all
 system:
 
 ```
-(stato della tastiera, profilo di dispositivo, profilo di applicazione, impostazioni dei colori) → colore per tasto
+(stato della tastiera, tastiera collegata, profilo di applicazione, impostazioni dei colori) → colore per tasto
 ```
 
 Ne discendono due conseguenze, ed entrambe spiegano perché il progetto ha questa forma:
@@ -21,7 +21,7 @@ Tutto ciò che parla con il mondo esterno sta in sottili adattatori attorno a qu
 
 | Progetto | Contiene | Può dipendere da |
 |---|---|---|
-| `Keylegend.Core` | profili di dispositivo, categorie, insiemi di scorciatoie, il compositore di fotogrammi, la macchina a stati della sessione | nulla di specifico per una piattaforma |
+| `Keylegend.Core` | la tastiera collegata, categorie, insiemi di scorciatoie, il compositore di fotogrammi, la macchina a stati della sessione | nulla di specifico per una piattaforma |
 | `Keylegend.Windows` | stato della tastiera, risoluzione dei caratteri, finestra in primo piano | API di Windows |
 | `Keylegend.Chroma` | client REST per l'SDK Chroma, battito | rete |
 | `Keylegend.Engine` | il ciclo che legge la tastiera, compone un fotogramma e lo invia | Core, Chroma, Windows |
@@ -140,6 +140,7 @@ tasto e nient'altro si muove. Svuotare un livello intero non è possibile di pro
 
 Un profilo che non nomina alcun livello restituisce il catalogo generale invariato; il caso
 frequente non alloca dunque nulla.
+
 ### Scorciatoie ed evidenziazioni portano un'etichetta
 
 L'etichetta dice che cosa fa il comando: «Duplica livello», non «Ctrl+J». L'hardware non la mostra
@@ -177,6 +178,7 @@ tavolozza cambia di nuovo, cioè esattamente quando serve.
 Il prezzo è che chi ha scelto di proposito uno di quei colori lo perde. È il verso giusto: una
 persona risceglie un colore, contro tutti gli utenti che si tengono una tavolozza che nessuno ha
 scelto.
+
 ## Parlare con la tastiera
 
 L'SDK Chroma viene raggiunto tramite la sua interfaccia REST locale. I colori sono interi
@@ -186,6 +188,36 @@ vita con un battito.
 Misurato sulla macchina di sviluppo: creare una sessione richiede 60–125 ms, il primo fotogramma
 dopo aver preso il comando da un effetto di Chroma Studio in corso circa 500 ms, e ogni fotogramma
 successivo intorno ai 2 ms.
+
+### Ogni risposta dice 200, quindi decide il corpo
+
+Il servizio risponde **a tutto** con HTTP 200, comprese le richieste che ha scartato. Un fotogramma
+con la dimensione di matrice sbagliata torna così:
+
+```json
+{"error":"expecting a 2 dimensional array of 6 (rows) x 22 (columns) elements with integer values","result":87}
+```
+
+con stato 200. Controllare solo il codice di stato segnala quindi un successo per fotogrammi che la
+tastiera non ha mai mostrato: un fallimento silenzioso, indistinguibile da un'illuminazione che
+semplicemente non cambia.
+
+Perciò decide `result` nel corpo: zero è successo, qualunque altra cosa è un rifiuto. Dove il
+servizio fornisce un `error` in chiaro viene ripreso così com'è, perché nomina il difetto reale
+meglio di qualsiasi formulazione inventata qui. I codici su cui un utente può intervenire vengono
+tradotti:
+
+| Codice | Significato |
+|---|---|
+| 4309 | Chroma è disattivato per questo dispositivo in Synapse |
+| 1152 | un'altra applicazione tiene la sessione |
+| 1167 | nessun dispositivo Chroma collegato |
+| 5 | l'accesso è stato negato |
+| 87 | la richiesta era malformata |
+| 50 | la richiesta non è supportata |
+
+Un avvio di sessione riuscito non porta alcun `result` — restituisce invece i dati della sessione —,
+quindi la sua assenza conta come successo.
 
 ### Con quale frequenza vengono inviati i fotogrammi
 
@@ -221,3 +253,13 @@ Ciò che funziona è inviare per tre motivi distinti a tre ritmi diversi:
 Keylegend prende il comando alla prima battuta e rilascia la tastiera dopo un periodo di
 inattività configurabile, così che il tuo effetto di Chroma Studio ritorni. Il costo di risveglio
 di circa 500 ms si paga quindi solo dopo una pausa vera, mai mentre si scrive.
+
+Una sola copia di Keylegend guida la tastiera. Due aprirebbero due sessioni per lo stesso
+dispositivo; il servizio lo assegna a una delle due, e l'altra non illumina nulla pur continuando a
+riportare successo — che è esattamente l'aspetto di un programma che ha smesso di funzionare in
+silenzio. Cosa faccia un secondo avvio dipende da ciò che è già in esecuzione. Lo stesso programma
+dallo stesso posto significa che qualcuno ha fatto doppio clic sull'icona mentre stava nell'area di
+notifica: compare la sua finestra e il secondo avvio si ritira, quindi non viene terminato nulla e
+l'illuminazione non lampeggia. Tutto il resto — una versione precedente, o la stessa da un'altra
+cartella — viene sostituito: le si chiede di uscire, restituisce la sua sessione, e viene terminata
+d'ufficio solo se non risponde entro due secondi.

@@ -6,7 +6,7 @@ Toute la logique de décision est un **calcul pur**, sans accès à Windows, au 
 de fichiers :
 
 ```
-(état du clavier, profil de périphérique, profil d'application, réglages de couleur) → couleur par touche
+(état du clavier, clavier connecté, profil d'application, réglages de couleur) → couleur par touche
 ```
 
 Deux conséquences en découlent, et toutes deux expliquent la forme de cette conception :
@@ -21,7 +21,7 @@ Tout ce qui parle au monde extérieur se trouve dans de fins adaptateurs autour 
 
 | Projet | Contient | Peut dépendre de |
 |---|---|---|
-| `Keylegend.Core` | profils de périphérique, catégories, jeux de raccourcis, compositeur d'images, automate de session | rien de spécifique à une plateforme |
+| `Keylegend.Core` | le clavier connecté, catégories, jeux de raccourcis, compositeur d'images, automate de session | rien de spécifique à une plateforme |
 | `Keylegend.Windows` | état du clavier, résolution des caractères, fenêtre au premier plan | API Windows |
 | `Keylegend.Chroma` | client REST pour le SDK Chroma, battement de cœur | réseau |
 | `Keylegend.Engine` | la boucle qui lit le clavier, compose une image et l'envoie | Core, Chroma, Windows |
@@ -141,6 +141,7 @@ impossible.
 
 Un profil qui ne nomme aucune couche renvoie le catalogue général inchangé ; le cas courant
 n'alloue donc rien.
+
 ### Raccourcis et mises en évidence portent une étiquette
 
 L'étiquette dit ce que fait la commande — « Dupliquer le calque », pas « Ctrl+J ». Le matériel ne
@@ -178,6 +179,7 @@ nouveau, c'est-à-dire précisément quand on en a besoin.
 Le prix est que celui qui a choisi exprès l'une de ces couleurs la perd. C'est le bon sens de
 l'échange : une personne rechoisit une couleur, contre tous les utilisateurs gardant une palette que
 personne n'a choisie.
+
 ## Parler au clavier
 
 Le SDK Chroma est adressé par son interface REST locale. Les couleurs sont des entiers encodés en
@@ -187,6 +189,36 @@ par un battement de cœur.
 Mesuré sur la machine de développement : créer une session prend 60 à 125 ms, la première image
 après avoir repris la main sur un effet Chroma Studio en cours environ 500 ms, et chaque image
 suivante autour de 2 ms.
+
+### Chaque réponse dit 200, c'est donc le corps qui tranche
+
+Le service répond **à tout** par HTTP 200, y compris aux requêtes qu'il a jetées. Une image dont la
+taille de matrice est fausse revient ainsi :
+
+```json
+{"error":"expecting a 2 dimensional array of 6 (rows) x 22 (columns) elements with integer values","result":87}
+```
+
+avec un statut 200. Ne vérifier que le code de statut signale donc un succès pour des images que le
+clavier n'a jamais affichées : un échec silencieux, impossible à distinguer d'un éclairage qui
+simplement ne change pas.
+
+C'est donc `result`, dans le corps, qui tranche : zéro pour un succès, toute autre valeur pour un
+refus. Là où le service fournit un `error` en clair, il est repris tel quel, car il nomme le défaut
+réel mieux que n'importe quelle formulation inventée ici. Les codes sur lesquels un utilisateur
+peut agir sont traduits :
+
+| Code | Signification |
+|---|---|
+| 4309 | Chroma est désactivé pour ce périphérique dans Synapse |
+| 1152 | une autre application détient la session |
+| 1167 | aucun périphérique Chroma n'est connecté |
+| 5 | l'accès a été refusé |
+| 87 | la requête était mal formée |
+| 50 | la requête n'est pas prise en charge |
+
+Une ouverture de session réussie ne porte aucun `result` — elle renvoie les détails de la session —,
+son absence compte donc comme un succès.
 
 ### À quelle fréquence les images sont envoyées
 
@@ -221,3 +253,13 @@ Ce qui marche, c'est d'envoyer pour trois raisons distinctes à trois cadences d
 Keylegend prend la main à la première frappe et libère le clavier après une durée d'inactivité
 configurable, si bien que votre propre effet Chroma Studio revient. Le coût de réveil d'environ
 500 ms n'est donc payé qu'après une vraie pause, jamais pendant la frappe.
+
+Une seule copie de Keylegend pilote le clavier. Deux ouvriraient deux sessions pour le même
+périphérique ; le service le donne à l'une d'elles, et l'autre n'éclaire rien tout en continuant à
+signaler des succès — ce qui ressemble exactement à un programme qui a discrètement cessé de
+fonctionner. Ce que fait un second démarrage dépend de ce qui tourne déjà. Le même programme depuis
+le même endroit signifie que quelqu'un a double-cliqué sur l'icône pendant qu'il était dans la zone
+de notification : sa fenêtre apparaît et le second démarrage se retire, donc rien n'est arrêté et
+l'éclairage ne clignote pas. Tout le reste — une version antérieure, ou la même depuis un autre
+dossier — est remplacé : il lui est demandé de partir, elle rend sa session, et elle n'est arrêtée
+d'office que si elle ne répond pas en deux secondes.

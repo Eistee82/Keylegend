@@ -71,7 +71,7 @@ public class LightingEngineTests
             => new("a", KeyCategory.Lowercase);
     }
 
-    private static DeviceProfile Profile() => new(
+    private static AttachedKeyboard Keyboard() => new(
         Name: "Test",
         PhysicalLayout: "ISO-DE",
         Canvas: new Canvas(500, 200), Matrix: new MatrixSize(6, 22),
@@ -107,7 +107,7 @@ public class LightingEngineTests
     {
         var chroma = new FakeChroma();
         var keys = new FakeKeys();
-        var engine = new LightingEngine(Profile(), chroma, keys, new FakeResolver());
+        var engine = new LightingEngine(Keyboard(), chroma, keys, new FakeResolver());
 
         await RunUntilAsync(engine, () => chroma.FramesSent > 0, "a frame to be sent",
             () => keys.Down = true);
@@ -119,11 +119,11 @@ public class LightingEngineTests
     public async Task StaysIdleWhileNothingHappens()
     {
         var chroma = new FakeChroma();
-        var engine = new LightingEngine(Profile(), chroma, new FakeKeys(), new FakeResolver());
+        var engine = new LightingEngine(Keyboard(), chroma, new FakeKeys(), new FakeResolver());
 
         using var stopping = new CancellationTokenSource();
         var running = engine.RunAsync(stopping.Token);
-        await Task.Delay(200);
+        await Task.Delay(200, TestContext.Current.CancellationToken);
         await stopping.CancelAsync();
         await running;
 
@@ -136,7 +136,7 @@ public class LightingEngineTests
     {
         var chroma = new FakeChroma();
         var keys = new FakeKeys();
-        var engine = new LightingEngine(Profile(), chroma, keys, new FakeResolver())
+        var engine = new LightingEngine(Keyboard(), chroma, keys, new FakeResolver())
         {
             Settings = new EngineSettings { IdleTimeout = TimeSpan.FromMilliseconds(150) }
         };
@@ -158,7 +158,7 @@ public class LightingEngineTests
     {
         var chroma = new FakeChroma();
         var keys = new FakeKeys { Down = true };
-        var engine = new LightingEngine(Profile(), chroma, keys, new FakeResolver());
+        var engine = new LightingEngine(Keyboard(), chroma, keys, new FakeResolver());
         var published = 0;
         engine.FrameComposed += _ => published++;
 
@@ -172,7 +172,7 @@ public class LightingEngineTests
     {
         var chroma = new FakeChroma { FailNextSendWith = new ChromaException("service gone") };
         var keys = new FakeKeys { Down = true };
-        var engine = new LightingEngine(Profile(), chroma, keys, new FakeResolver());
+        var engine = new LightingEngine(Keyboard(), chroma, keys, new FakeResolver());
         var reported = new List<string?>();
         engine.Fault += reported.Add;
 
@@ -192,7 +192,7 @@ public class LightingEngineTests
     {
         var chroma = new FakeChroma { FailNextSendWith = new ChromaException("service gone") };
         var keys = new FakeKeys { Down = true };
-        var engine = new LightingEngine(Profile(), chroma, keys, new FakeResolver());
+        var engine = new LightingEngine(Keyboard(), chroma, keys, new FakeResolver());
         var reported = new List<string?>();
         engine.Fault += reported.Add;
 
@@ -210,7 +210,7 @@ public class LightingEngineTests
     {
         var chroma = new FakeChroma();
         var keys = new FakeKeys { Down = true };
-        var engine = new LightingEngine(Profile(), chroma, keys, new FakeResolver());
+        var engine = new LightingEngine(Keyboard(), chroma, keys, new FakeResolver());
 
         await RunUntilAsync(
             engine,
@@ -229,7 +229,7 @@ public class LightingEngineTests
     public void PreviewComposesWithoutSending()
     {
         var chroma = new FakeChroma();
-        var engine = new LightingEngine(Profile(), chroma, new FakeKeys(), new FakeResolver());
+        var engine = new LightingEngine(Keyboard(), chroma, new FakeKeys(), new FakeResolver());
 
         var frame = engine.Preview(KeyboardState.Empty);
 
@@ -240,7 +240,7 @@ public class LightingEngineTests
     [Fact]
     public void ChangingTheIdleTimeoutKeepsTheCurrentState()
     {
-        var engine = new LightingEngine(Profile(), new FakeChroma(), new FakeKeys(), new FakeResolver());
+        var engine = new LightingEngine(Keyboard(), new FakeChroma(), new FakeKeys(), new FakeResolver());
         engine.Pause();
 
         engine.Settings = engine.Settings with { IdleTimeout = TimeSpan.FromSeconds(5) };

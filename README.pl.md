@@ -5,7 +5,7 @@
 [English](README.md) · [Deutsch](README.de.md) · [Español](README.es.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Nederlands](README.nl.md) ·
 [Polski](README.pl.md) · [Português](README.pt.md) · [Русский](README.ru.md) · [Українська](README.uk.md) · [简体中文](README.zh-cn.md)
 
-> **Wersja 1.0.0.** Podświetlenie, interfejs, wykrywanie gier i profile aplikacji działają.
+> **Wersja 1.1.0.** Podświetlenie, interfejs, wykrywanie gier i profile aplikacji działają.
 > [Pobierz instalator albo wersję przenośną](https://github.com/Eistee82/Keylegend/releases/latest),
 > albo zbuduj ze źródeł. Zobacz [CHANGELOG.md](CHANGELOG.md).
 
@@ -80,8 +80,8 @@ nic do ręcznej instalacji. W przeciwnym razie weź plik:
 
 | Plik | Co to jest |
 |---|---|
-| `Keylegend-1.0.0-setup.exe` | Instaluje dla bieżącego użytkownika — bez uprawnień administratora. Wpis w menu Start i odinstalowanie, które usuwa także wpis autostartu. |
-| `Keylegend-1.0.0-portable.zip` | Ten sam program do rozpakowania. Katalog `devices` musi zostać obok pliku wykonywalnego. |
+| `Keylegend-1.1.0-setup.exe` | Instaluje dla bieżącego użytkownika — bez uprawnień administratora. Wpis w menu Start i odinstalowanie, które usuwa także wpis autostartu. |
+| `Keylegend-1.1.0-portable.zip` | Ten sam program do rozpakowania. Katalogi językowe (`de`, `fr`, …) muszą zostać obok pliku wykonywalnego, inaczej interfejs wróci do angielskiego. |
 
 Żaden z nich nie jest podpisany, więc Windows uzna wydawcę za nieznanego — certyfikat kosztuje
 rocznie więcej, niż ten projekt ma. Każde wydanie zawiera `SHA256SUMS.txt` do sprawdzenia pobranego
@@ -99,12 +99,13 @@ Jedyne, czego rysunek nie mówi, to do której komórki macierzy podświetlenia 
 stała protokołu Chroma, identyczna w każdym modelu — dlatego również Synapse nie potrzebuje tabeli na
 model. Sprawdzone wobec jedynej ręcznie skalibrowanej klawiatury: wszystkie 105 klawiszy się zgadza.
 
-`physicalLayout` opisuje *kształt* klawiatury, nie język, w którym piszesz. O to, jaki znak daje
+**Układ fizyczny** opisuje *kształt* klawiatury, nie język, w którym piszesz. O to, jaki znak daje
 klawisz, pyta się Windows w trakcie działania, więc niemiecka klawiatura działa poprawnie także przy
 Windows ustawionym na US lub Dvoraka.
 
 **Wymaga Razer Synapse**, zainstalowanego i uruchomionego, z podłączoną klawiaturą. Tam klawiatura
 jest opisana i tam znajduje się jej rysunek.
+
 ## Dokumentacja
 
 | Temat | |
@@ -126,7 +127,7 @@ angielski. Poprawki są mile widziane, zobacz [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ```bash
 git clone https://github.com/Eistee82/Keylegend.git
-cd keylegend
+cd Keylegend
 dotnet build
 dotnet test
 ```

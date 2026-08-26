@@ -139,6 +139,18 @@
   <data name="StartupNoKeyboard" xml:space="preserve">
     <value>Geen Razer-toetsenbord gevonden. Keylegend leest het aangesloten toetsenbord uit Razer Synapse, dus Synapse moet geïnstalleerd zijn en draaien, met het toetsenbord aangesloten.</value>
   </data>
+
+  <data name="StartupNoDrawing" xml:space="preserve">
+    <value>Razer Synapse kent uw toetsenbord, maar bewaart er geen tekening van, en uit die tekening haalt Keylegend de vorm van de toetsen en hun opdruk. Open Synapse eenmaal met het toetsenbord aangesloten, zodat het de tekening ophaalt, en start Keylegend opnieuw.</value>
+  </data>
+
+  <data name="StartupDrawingUnreadable" xml:space="preserve">
+    <value>Razer Synapse heeft een tekening van uw toetsenbord, maar Keylegend kon die niet lezen — mogelijk heeft Razer de opzet gewijzigd. Meld het op https://github.com/Eistee82/Keylegend/issues, met vermelding van uw toetsenbordmodel.</value>
+  </data>
+
+  <data name="StartupAlreadyRunning" xml:space="preserve">
+    <value>Er draait al een kopie van Keylegend die geen plaats heeft gemaakt voor deze. Sluit die af in Taakbeheer en start Keylegend opnieuw.</value>
+  </data>
   <data name="ColoursCategoriesHeading" xml:space="preserve">
     <value>Toetscategorieën</value>
   </data>
@@ -459,9 +471,6 @@
   </data>
   <data name="TrayTooltipPaused" xml:space="preserve">
     <value>Keylegend — gepauzeerd</value>
-  </data>
-  <data name="TrayBalloonText" xml:space="preserve">
-    <value>Draait nog in het systeemvak.</value>
   </data>
   <data name="CommonReset" xml:space="preserve">
     <value>Herstellen</value>

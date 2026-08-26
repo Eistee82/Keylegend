@@ -6,7 +6,7 @@ The entire decision logic is a **pure calculation** with no access to Windows, t
 the file system:
 
 ```
-(keyboard state, device profile, application profile, colour settings) → colour per key
+(keyboard state, attached keyboard, application profile, colour settings) → colour per key
 ```
 
 Two things follow from this, and both are the reason the design is shaped this way:
@@ -21,7 +21,7 @@ Everything that talks to the outside world sits in thin adapters around that cor
 
 | Project | Contains | May depend on |
 |---|---|---|
-| `Keylegend.Core` | device profiles, categories, shortcut sets, the frame composer, session state machine | nothing platform-specific |
+| `Keylegend.Core` | the attached keyboard, categories, shortcut sets, the frame composer, session state machine | nothing platform-specific |
 | `Keylegend.Windows` | keyboard state, character resolution, foreground window | Windows APIs |
 | `Keylegend.Chroma` | REST client for the Chroma SDK, heartbeat | network |
 | `Keylegend.Engine` | the loop that reads the keyboard, composes a frame and sends it | Core, Chroma, Windows |
@@ -89,10 +89,10 @@ The one thing neither the description nor the drawing states is which cell of th
 key belongs to. That is `StandardKeyMatrix`, the protocol's own `RZKEY` table, identical on every
 model — which is why Synapse needs no per-model table for it either.
 
-**So no device profile is shipped at all.** There is no folder of them, no file to write for a new
-keyboard, and no list of supported models. The one profile ever calibrated by hand is kept as test
-data, and `FromDrawingTests` checks the whole assembly against it: same keys, and every key on the
-cell that was measured at the hardware.
+**So nothing describing a keyboard is shipped at all.** There is no folder of such files, nothing
+to write for a new keyboard, and no list of supported models. The one keyboard measured by hand is
+kept as test data, and `FromDrawingTests` checks the whole assembly against it: same keys, and
+every key on the cell that was measured at the hardware.
 
 ## Application profiles
 
@@ -215,6 +215,7 @@ defect better than any wording invented here. The codes a user can act on are tr
 | 4309 | Chroma is switched off for this device in Synapse |
 | 1152 | another application is holding the session |
 | 1167 | no Chroma device is connected |
+| 5 | access was denied |
 | 87 | the request was malformed |
 | 50 | the request is not supported |
 
@@ -253,3 +254,12 @@ What works is sending for three distinct reasons at three different rates:
 Keylegend takes over on the first keypress and releases the keyboard after a configurable idle
 period, so your own Chroma Studio effect returns. The ~500 ms wake-up cost is therefore paid
 only after a real pause, never while typing.
+
+Only one copy of Keylegend drives the keyboard. Two would open two sessions for the same device;
+the service gives it to one of them, and the other lights nothing while still reporting success —
+which looks exactly like a program that has quietly stopped working. What a second start does
+depends on what is already running. The same program from the same place means somebody
+double-clicked the icon while it sat in the notification area: its window comes up and the second
+start bows out, so nothing is killed and the lighting does not blink. Anything else — an older
+version, or the same one from another folder — is superseded: it is asked to quit, hands its
+session back, and is ended outright only if it does not answer within two seconds.

@@ -103,6 +103,7 @@ A version 2 file lists every colour, the untouched ones included, which pins the
 improved shipped colour reaches nobody who has run the program before. A colour equal to the
 palette of that version is therefore read as a default and dropped on migration; anything else is
 your choice and is kept.
+
 ## Behaviour
 
 | Setting | Meaning |

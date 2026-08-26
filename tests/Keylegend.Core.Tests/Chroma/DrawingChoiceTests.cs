@@ -148,7 +148,7 @@ public class DrawingChoiceTests
 
         Assert.NotNull(drawing);
 
-        var built = AttachedDeviceProfile.FromDrawing(device, drawing);
+        var built = AttachedKeyboardBuilder.FromDrawing(device, drawing);
 
         Assert.NotNull(built);
         Assert.Equal("ISO-DE", built.PhysicalLayout);

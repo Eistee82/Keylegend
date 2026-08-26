@@ -5,13 +5,26 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+
+    <!--
+      xUnit v3 test projects are executables: the assembly hosts its own runner rather than
+      being loaded by an external one. That is what makes Assert.Skip possible, and Assert.Skip
+      is why this project is on v3 at all - see the note in MAINTAINING.md about the tests that
+      need the vendor's files.
+
+      "dotnet test" reaches that runner through global.json at the repository root, which names
+      it for the whole solution; the .NET 10 SDK no longer runs a project built this way through
+      the older VSTest path at all.
+    -->
+    <OutputType>Exe</OutputType>
+    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="coverlet.collector" Version="6.0.4" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
-    <PackageReference Include="xunit" Version="2.9.3" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
+    <PackageReference Include="xunit.v3" Version="4.0.0" />
+
+    <!-- Writes the run as a .trx file, which is what continuous integration keeps. -->
+    <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" Version="2.3.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +45,13 @@
     <ProjectReference Include="..\..\src\Keylegend.Core\Keylegend.Core.csproj" />
     <ProjectReference Include="..\..\src\Keylegend.Chroma\Keylegend.Chroma.csproj" />
     <ProjectReference Include="..\..\src\Keylegend.Engine\Keylegend.Engine.csproj" />
+
+    <!--
+      The application itself, for the sake of one thing: the verify switch, which answers whether
+      a published copy carries what it needs. It is the check the release build runs against a
+      packaged tree, and until now it was the only piece of behaviour with no test at all.
+    -->
+    <ProjectReference Include="..\..\src\Keylegend.App\Keylegend.App.csproj" />
   </ItemGroup>
 
 </Project>

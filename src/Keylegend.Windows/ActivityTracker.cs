@@ -16,15 +16,15 @@ public sealed class ActivityTracker
     private readonly int[] _virtualKeys;
 
     /// <summary>
-    /// Watches the keys the device profile actually has, rather than sweeping all 256 codes.
+    /// Watches the keys the attached keyboard actually has, rather than sweeping all 256 codes.
     /// </summary>
-    public ActivityTracker(DeviceProfile profile)
+    public ActivityTracker(AttachedKeyboard keyboard)
     {
-        ArgumentNullException.ThrowIfNull(profile);
+        ArgumentNullException.ThrowIfNull(keyboard);
 
         var keys = new HashSet<int>();
 
-        foreach (var key in profile.Keys)
+        foreach (var key in keyboard.Keys)
         {
             var scanCode = key.ScanCode is { } given
                 ? (ushort)given

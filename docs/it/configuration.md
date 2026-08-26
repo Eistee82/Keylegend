@@ -104,6 +104,7 @@ Un file della versione 2 elenca tutti i colori, compresi quelli che nessuno ha t
 fissa la tavolozza: un colore di serie migliorato non raggiunge nessuno che abbia già avviato il
 programma. Un colore uguale alla tavolozza di quella versione viene perciò letto come valore
 predefinito e scartato nella migrazione; tutto il resto è una sua scelta e resta.
+
 ## Comportamento
 
 | Impostazione | Significato |

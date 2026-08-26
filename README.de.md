@@ -5,7 +5,7 @@
 [English](README.md) · [Deutsch](README.de.md) · [Español](README.es.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Nederlands](README.nl.md) ·
 [Polski](README.pl.md) · [Português](README.pt.md) · [Русский](README.ru.md) · [Українська](README.uk.md) · [简体中文](README.zh-cn.md)
 
-> **Version 1.0.0.** Beleuchtung, Oberfläche, Spielerkennung und Anwendungsprofile funktionieren.
+> **Version 1.1.0.** Beleuchtung, Oberfläche, Spielerkennung und Anwendungsprofile funktionieren.
 > [Installer oder portable Fassung herunterladen](https://github.com/Eistee82/Keylegend/releases/latest),
 > oder selbst übersetzen. Siehe [CHANGELOG.md](CHANGELOG.md).
 
@@ -82,8 +82,8 @@ also nichts von Hand zu installieren. Sonst eine Datei nehmen:
 
 | Datei | Was es ist |
 |---|---|
-| `Keylegend-1.0.0-setup.exe` | Installiert für den aktuellen Benutzer — keine Administratorrechte nötig. Startmenüeintrag, und eine Deinstallation, die auch den Autostart-Eintrag entfernt. |
-| `Keylegend-1.0.0-portable.zip` | Dasselbe Programm zum Entpacken. Der Ordner `devices` muss neben der ausführbaren Datei bleiben. |
+| `Keylegend-1.1.0-setup.exe` | Installiert für den aktuellen Benutzer — keine Administratorrechte nötig. Startmenüeintrag, und eine Deinstallation, die auch den Autostart-Eintrag entfernt. |
+| `Keylegend-1.1.0-portable.zip` | Dasselbe Programm zum Entpacken. Die Sprachordner (`de`, `fr`, …) müssen neben der ausführbaren Datei bleiben, sonst erscheint die Oberfläche auf Englisch. |
 
 Beide sind nicht signiert, Windows meldet daher einen unbekannten Herausgeber — ein Zertifikat
 kostet im Jahr mehr, als dieses Projekt hat. Jede Veröffentlichung enthält `SHA256SUMS.txt` zum
@@ -103,12 +103,13 @@ ist eine Konstante des Chroma-Protokolls und auf jedem Modell dieselbe — desha
 Synapse keine Modelltabelle. Gegen die eine von Hand kalibrierte Tastatur geprüft: alle 105 Tasten
 stimmen.
 
-`physicalLayout` beschreibt die *Form* der Tastatur, nicht die Sprache, in der du schreibst. Welches
+Das **physische Layout** beschreibt die *Form* der Tastatur, nicht die Sprache, in der du schreibst. Welches
 Zeichen eine Taste erzeugt, wird zur Laufzeit bei Windows erfragt — eine deutsche Tastatur wird also
 auch dann richtig bedient, wenn Windows auf US oder Dvorak steht.
 
 **Setzt Razer Synapse voraus**, installiert und gestartet, mit angeschlossener Tastatur. Dort wird
 die Tastatur beschrieben, und dort liegt ihre Zeichnung.
+
 ## Dokumentation
 
 | Thema | |
@@ -134,7 +135,7 @@ der englische Text. Korrekturen sind willkommen, siehe [CONTRIBUTING.md](CONTRIB
 
 ```bash
 git clone https://github.com/Eistee82/Keylegend.git
-cd keylegend
+cd Keylegend
 dotnet build
 dotnet test
 ```

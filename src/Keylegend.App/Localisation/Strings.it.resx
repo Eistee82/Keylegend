@@ -139,6 +139,18 @@
   <data name="StartupNoKeyboard" xml:space="preserve">
     <value>Nessuna tastiera Razer trovata. Keylegend legge la tastiera collegata da Razer Synapse, quindi Synapse deve essere installato e in esecuzione, con la tastiera collegata.</value>
   </data>
+
+  <data name="StartupNoDrawing" xml:space="preserve">
+    <value>Razer Synapse conosce la tastiera ma non ne conserva alcun disegno, ed è dal disegno che Keylegend ricava la forma dei tasti e i caratteri stampati su di essi. Apri Synapse una volta con la tastiera collegata, così che lo scarichi, poi riavvia Keylegend.</value>
+  </data>
+
+  <data name="StartupDrawingUnreadable" xml:space="preserve">
+    <value>Razer Synapse ha un disegno della tastiera, ma Keylegend non è riuscito a interpretarlo: forse Razer ha cambiato il formato. Segnalalo su https://github.com/Eistee82/Keylegend/issues indicando il modello della tastiera.</value>
+  </data>
+
+  <data name="StartupAlreadyRunning" xml:space="preserve">
+    <value>Un'altra copia di Keylegend è già in esecuzione e non ha lasciato spazio a questa. Chiudila da Gestione attività, poi riavvia Keylegend.</value>
+  </data>
   <data name="ColoursCategoriesHeading" xml:space="preserve">
     <value>Categorie di tasti</value>
   </data>
@@ -459,9 +471,6 @@
   </data>
   <data name="TrayTooltipPaused" xml:space="preserve">
     <value>Keylegend — in pausa</value>
-  </data>
-  <data name="TrayBalloonText" xml:space="preserve">
-    <value>Ancora in esecuzione nell'area di notifica.</value>
   </data>
   <data name="CommonReset" xml:space="preserve">
     <value>Reimposta</value>

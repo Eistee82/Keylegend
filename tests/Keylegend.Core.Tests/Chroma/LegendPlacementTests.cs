@@ -6,19 +6,24 @@ namespace Keylegend.Core.Tests.Chroma;
 
 /// <summary>
 /// Checks that each printed legend is matched to the key it belongs to. Skips without the
-/// vendor's software, like the rest of the drawing tests.
+/// vendor's software, like the rest of the drawing tests — see <see cref="VendorFiles"/>.
 /// </summary>
 public class LegendPlacementTests
 {
-    private static (DeviceProfile Composed, SdkDeviceDescription Device)? Attached()
+    /// <summary>
+    /// The attached keyboard as this machine's drawing describes it. Skips the calling test if
+    /// there is no drawing here.
+    /// </summary>
+    private static (AttachedKeyboard Composed, SdkDeviceDescription Device) Attached()
     {
         var device = DeathStalker();
+        var drawing = SvgLayoutSource.Find(device);
 
-        if (SvgLayoutSource.Find(device) is not { } drawing
-            || AttachedDeviceProfile.FromDrawing(device, drawing) is not { } built)
-        {
-            return null;
-        }
+        Assert.SkipWhen(drawing is null, VendorFiles.NoDrawingForTheDevice);
+
+        var built = AttachedKeyboardBuilder.FromDrawing(device, drawing);
+
+        Assert.NotNull(built);
 
         return (built, device);
     }
@@ -44,10 +49,7 @@ public class LegendPlacementTests
     [Fact]
     public void TheGermanDrawingIsTheOneChosen()
     {
-        if (Attached() is not { } attached)
-        {
-            return;
-        }
+        var attached = Attached();
 
         var drawing = SvgLayoutSource.Find(DeathStalker());
 
@@ -59,10 +61,7 @@ public class LegendPlacementTests
     [Fact]
     public void EveryKeyThatCanBeMatchedIsMatched()
     {
-        if (Attached() is not { } attached)
-        {
-            return;
-        }
+        var attached = Attached();
 
         var drawn = attached.Composed.Legend?.DrawnKeys;
 
@@ -86,10 +85,7 @@ public class LegendPlacementTests
     [Fact]
     public void NoLegendIsMatchedToTheWrongRow()
     {
-        if (Attached() is not { } attached)
-        {
-            return;
-        }
+        var attached = Attached();
 
         var legend = attached.Composed.Legend;
 

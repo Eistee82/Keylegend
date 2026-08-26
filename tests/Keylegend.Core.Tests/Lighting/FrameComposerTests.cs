@@ -31,7 +31,7 @@ public class FrameComposerTests
                 : KeyMeaning.Unassigned;
     }
 
-    private static DeviceProfile ProfileWith(params (string Id, int Row, int Column)[] keys)
+    private static AttachedKeyboard KeyboardWith(params (string Id, int Row, int Column)[] keys)
         => new(
             Name: "Test",
             PhysicalLayout: "ISO-DE",
@@ -48,7 +48,7 @@ public class FrameComposerTests
     [Fact]
     public void ColoursALetterByItsCategory()
     {
-        var profile = ProfileWith(("Keyboard_A", 3, 2));
+        var profile = KeyboardWith(("Keyboard_A", 3, 2));
         var resolver = new FakeResolver().Set("Keyboard_A", new KeyMeaning("a", KeyCategory.Lowercase));
         var composer = new FrameComposer(profile, resolver);
         var frame = composer.CreateFrame();
@@ -61,7 +61,7 @@ public class FrameComposerTests
     [Fact]
     public void ShiftChangesTheColourBecauseItChangesTheCharacter()
     {
-        var profile = ProfileWith(("Keyboard_A", 3, 2));
+        var profile = KeyboardWith(("Keyboard_A", 3, 2));
         var resolver = new FakeResolver()
             .Set("Keyboard_A", new KeyMeaning("a", KeyCategory.Lowercase))
             .Set("Keyboard_A", new KeyMeaning("A", KeyCategory.Uppercase), shift: true);
@@ -77,7 +77,7 @@ public class FrameComposerTests
     public void ShiftDoesNotBlankUnassignedKeys()
     {
         // Regression guard: Shift must not be treated as a filtering modifier.
-        var profile = ProfileWith(("Keyboard_A", 3, 2), ("Keyboard_F5", 0, 7));
+        var profile = KeyboardWith(("Keyboard_A", 3, 2), ("Keyboard_F5", 0, 7));
         var resolver = new FakeResolver()
             .Set("Keyboard_A", new KeyMeaning("A", KeyCategory.Uppercase), shift: true)
             .Set("Keyboard_F5", new KeyMeaning("", KeyCategory.Control), shift: true);
@@ -92,7 +92,7 @@ public class FrameComposerTests
     [Fact]
     public void NumLockChangesTheNumpadBetweenDigitsAndNavigation()
     {
-        var profile = ProfileWith(("Keyboard_Num7", 2, 18));
+        var profile = KeyboardWith(("Keyboard_Num7", 2, 18));
         var resolver = new FakeResolver()
             .Set("Keyboard_Num7", new KeyMeaning(null, KeyCategory.Control))
             .Set("Keyboard_Num7", new KeyMeaning("7", KeyCategory.Digit), numLock: true);
@@ -111,7 +111,7 @@ public class FrameComposerTests
     [InlineData(false)]
     public void LockKeysShowTheirOwnState(bool on)
     {
-        var profile = ProfileWith(("Keyboard_CapsLock", 3, 1));
+        var profile = KeyboardWith(("Keyboard_CapsLock", 3, 1));
         var composer = new FrameComposer(profile, new FakeResolver());
         var frame = composer.CreateFrame();
 
@@ -125,7 +125,7 @@ public class FrameComposerTests
     {
         // Rule 1 outranks rule 2: losing sight of Caps Lock because Ctrl is held would
         // defeat the point of showing it at all.
-        var profile = ProfileWith(("Keyboard_CapsLock", 3, 1));
+        var profile = KeyboardWith(("Keyboard_CapsLock", 3, 1));
         var composer = new FrameComposer(profile, new FakeResolver());
         var frame = composer.CreateFrame();
 
@@ -137,7 +137,7 @@ public class FrameComposerTests
     [Fact]
     public void AltGrLightsOnlyKeysThatCarryAnAltGrCharacter()
     {
-        var profile = ProfileWith(("Keyboard_Q", 2, 2), ("Keyboard_A", 3, 2));
+        var profile = KeyboardWith(("Keyboard_Q", 2, 2), ("Keyboard_A", 3, 2));
         var resolver = new FakeResolver()
             .Set("Keyboard_Q", new KeyMeaning("@", KeyCategory.Symbol), altGr: true);
         // Keyboard_A deliberately has no AltGr meaning.
@@ -156,7 +156,7 @@ public class FrameComposerTests
         // Regression guard. A key with no AltGr assignment reports "no character", which the
         // resolver classifies as Control - the same as Escape or an arrow key genuinely is.
         // Accepting that as "assigned" lit every key on the AltGr layer, defeating its purpose.
-        var profile = ProfileWith(
+        var profile = KeyboardWith(
             ("Keyboard_Q", 2, 2),        // has an AltGr character
             ("Keyboard_A", 3, 2),        // has none - reports no character
             ("Keyboard_Escape", 0, 1),   // genuinely a control key
@@ -184,7 +184,7 @@ public class FrameComposerTests
     {
         // Letter shortcuts are looked up by the character a key types, so the resolver has to
         // supply it - exactly as the real one does.
-        var profile = ProfileWith(("Keyboard_E", 2, 4), ("Keyboard_V", 4, 6), ("Keyboard_J", 3, 8));
+        var profile = KeyboardWith(("Keyboard_E", 2, 4), ("Keyboard_V", 4, 6), ("Keyboard_J", 3, 8));
         var resolver = new FakeResolver()
             .Set("Keyboard_E", new KeyMeaning("e", KeyCategory.Lowercase))
             .Set("Keyboard_V", new KeyMeaning("v", KeyCategory.Lowercase))
@@ -205,7 +205,7 @@ public class FrameComposerTests
     {
         // On a German keyboard the key identified as Keyboard_Y types z. Ctrl+Z must light
         // that key, not the one identified as Keyboard_Z - which types y there.
-        var profile = ProfileWith(("Keyboard_Y", 2, 7), ("Keyboard_Z", 4, 3));
+        var profile = KeyboardWith(("Keyboard_Y", 2, 7), ("Keyboard_Z", 4, 3));
         var resolver = new FakeResolver()
             .Set("Keyboard_Y", new KeyMeaning("z", KeyCategory.Lowercase))   // German Z
             .Set("Keyboard_Z", new KeyMeaning("y", KeyCategory.Lowercase));  // German Y
@@ -224,7 +224,7 @@ public class FrameComposerTests
     [Fact]
     public void CtrlAltShowsItsOwnSetRatherThanTheAltGrLayer()
     {
-        var profile = ProfileWith(("Keyboard_Delete", 2, 15));
+        var profile = KeyboardWith(("Keyboard_Delete", 2, 15));
         var composer = new FrameComposer(profile, new FakeResolver());
         var frame = composer.CreateFrame();
 
@@ -240,7 +240,7 @@ public class FrameComposerTests
     [Fact]
     public void BrightnessScalesEveryColour()
     {
-        var profile = ProfileWith(("Keyboard_A", 3, 2));
+        var profile = KeyboardWith(("Keyboard_A", 3, 2));
         var resolver = new FakeResolver().Set("Keyboard_A", new KeyMeaning("a", KeyCategory.Lowercase));
         var composer = new FrameComposer(profile, resolver);
         var frame = composer.CreateFrame();
@@ -256,7 +256,7 @@ public class FrameComposerTests
     {
         // With Num Lock on, Shift suspends it - so the pad must show the navigation colour
         // even though the lock is on.
-        var profile = ProfileWith(("Keyboard_Num7", 2, 18));
+        var profile = KeyboardWith(("Keyboard_Num7", 2, 18));
         var resolver = new FakeResolver()
             .Set("Keyboard_Num7", new KeyMeaning("7", KeyCategory.Digit), numLock: true)
             .Set("Keyboard_Num7", new KeyMeaning(null, KeyCategory.Control), shift: true);
@@ -272,7 +272,7 @@ public class FrameComposerTests
     public void FunctionKeysGetTheirOwnColourRatherThanTheControlColour()
     {
         // Function keys produce no character, so their category cannot come from one.
-        var profile = ProfileWith(("Keyboard_F5", 0, 7), ("Keyboard_Escape", 0, 1));
+        var profile = KeyboardWith(("Keyboard_F5", 0, 7), ("Keyboard_Escape", 0, 1));
         var resolver = new FakeResolver()
             .Set("Keyboard_F5", new KeyMeaning(null, KeyCategory.Control))
             .Set("Keyboard_Escape", new KeyMeaning("", KeyCategory.Control));
@@ -290,7 +290,7 @@ public class FrameComposerTests
     public void FunctionKeysStillFollowShortcutSetsUnderAModifier()
     {
         // Alt+F4 must show as a window command, not as the function-key colour.
-        var profile = ProfileWith(("Keyboard_F4", 0, 6));
+        var profile = KeyboardWith(("Keyboard_F4", 0, 6));
         var composer = new FrameComposer(profile, new FakeResolver());
         var frame = composer.CreateFrame();
 
@@ -302,7 +302,7 @@ public class FrameComposerTests
     [Fact]
     public void AnApplicationProfilePinsItsKeysOverTheCategoryColours()
     {
-        var profile = ProfileWith(("Keyboard_W", 2, 3), ("Keyboard_X", 4, 4));
+        var profile = KeyboardWith(("Keyboard_W", 2, 3), ("Keyboard_X", 4, 4));
         var resolver = new FakeResolver()
             .Set("Keyboard_W", new KeyMeaning("w", KeyCategory.Lowercase))
             .Set("Keyboard_X", new KeyMeaning("x", KeyCategory.Lowercase));
@@ -320,8 +320,8 @@ public class FrameComposerTests
     public void ProfileHighlightsDoNotOverrideTheLockDisplay()
     {
         // Rule 1 stays on top: knowing whether Caps Lock is on matters in a game too.
-        var deviceProfile = ProfileWith(("Keyboard_CapsLock", 3, 1));
-        var composer = new FrameComposer(deviceProfile, new FakeResolver());
+        var keyboard = KeyboardWith(("Keyboard_CapsLock", 3, 1));
+        var composer = new FrameComposer(keyboard, new FakeResolver());
         var frame = composer.CreateFrame();
 
         var gameProfile = GameProfile() with
@@ -341,9 +341,9 @@ public class FrameComposerTests
     public void ProfileHighlightsGiveWayToAModifierLayer()
     {
         // Holding Windows should show Windows shortcuts, not the game highlights.
-        var deviceProfile = ProfileWith(("Keyboard_E", 2, 4));
+        var keyboard = KeyboardWith(("Keyboard_E", 2, 4));
         var resolver = new FakeResolver().Set("Keyboard_E", new KeyMeaning("e", KeyCategory.Lowercase));
-        var composer = new FrameComposer(deviceProfile, resolver);
+        var composer = new FrameComposer(keyboard, resolver);
         var frame = composer.CreateFrame();
 
         composer.Compose(
@@ -373,7 +373,7 @@ public class FrameComposerTests
     [Fact]
     public void KeysWithoutAMatrixCellAreSkipped()
     {
-        var profile = new DeviceProfile(
+        var profile = new AttachedKeyboard(
             "Test", "ISO-DE",
             new Canvas(500, 200), new MatrixSize(6, 22),
             [new KeyDefinition("Keyboard_Macro1", 0, 0, 19, 19, null, null)]);

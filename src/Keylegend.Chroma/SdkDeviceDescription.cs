@@ -60,8 +60,8 @@ public sealed record SdkDeviceDescription(
 
     /// <summary>
     /// Reads every keyboard description found, newest first. Returns an empty list when the SDK
-    /// is not installed or nothing is plugged in; that is a reason to fall back to a shipped
-    /// profile, never a reason to fail.
+    /// is not installed or nothing is plugged in — which the caller has to treat as "no keyboard
+    /// to light", because there is nothing shipped here to fall back on.
     /// </summary>
     public static IReadOnlyList<SdkDeviceDescription> ReadAll(IEnumerable<string>? directories = null)
     {

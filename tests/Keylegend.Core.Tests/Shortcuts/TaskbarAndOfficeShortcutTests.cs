@@ -163,7 +163,7 @@ public class TaskbarAndOfficeShortcutTests
     [Fact]
     public void TheNumPadStaysDarkOnTheTaskbarLayerWithNumLockOn()
     {
-        var profile = new DeviceProfile(
+        var profile = new AttachedKeyboard(
             Name: "Test",
             PhysicalLayout: "ISO-DE",
             Canvas: new Canvas(500, 200), Matrix: new MatrixSize(6, 22),

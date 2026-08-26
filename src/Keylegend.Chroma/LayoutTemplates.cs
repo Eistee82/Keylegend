@@ -8,10 +8,10 @@ namespace Keylegend.Chroma;
 /// reports.
 /// </summary>
 /// <remarks>
-/// The service states the physical layout outright, as a number, which removes the guesswork the
-/// program used to do: it no longer has to infer German from what Windows reports, and it cannot
-/// take a German board for a US one. All that is left to do with the number is give it a name —
-/// choosing a file by it stopped being necessary once the vendor's drawing supplied the geometry.
+/// The service states the physical layout outright, as a number, so nothing here has to infer
+/// German from what Windows reports and nothing can take a German board for a US one. All this
+/// does with the number is give it a name: the geometry comes from the vendor's drawing, so no
+/// file is chosen by it.
 /// </remarks>
 public static class LayoutTemplates
 {

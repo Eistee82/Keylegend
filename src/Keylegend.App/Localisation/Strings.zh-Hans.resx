@@ -138,6 +138,18 @@
   <data name="StartupNoKeyboard" xml:space="preserve">
     <value>未找到 Razer 键盘。Keylegend 通过 Razer Synapse 读取已连接的键盘，因此需要安装并运行 Synapse，且键盘已插入。</value>
   </data>
+
+  <data name="StartupNoDrawing" xml:space="preserve">
+    <value>Razer Synapse 认识你的键盘，但没有保存它的图纸，而 Keylegend 正是从图纸中获取按键的形状和键帽上的字符。请在键盘已连接的情况下打开一次 Synapse，让它下载图纸，然后重新启动 Keylegend。</value>
+  </data>
+
+  <data name="StartupDrawingUnreadable" xml:space="preserve">
+    <value>Razer Synapse 有你键盘的图纸，但 Keylegend 无法解析——Razer 可能更改了图纸的格式。请在 https://github.com/Eistee82/Keylegend/issues 反馈，并注明你的键盘型号。</value>
+  </data>
+
+  <data name="StartupAlreadyRunning" xml:space="preserve">
+    <value>已有另一个 Keylegend 副本在运行，并且没有为这个副本让位。请在任务管理器中结束它，然后重新启动 Keylegend。</value>
+  </data>
   <data name="ColoursCategoriesHeading" xml:space="preserve">
     <value>按键类别</value>
   </data>
@@ -458,9 +470,6 @@
   </data>
   <data name="TrayTooltipPaused" xml:space="preserve">
     <value>Keylegend — 已暂停</value>
-  </data>
-  <data name="TrayBalloonText" xml:space="preserve">
-    <value>仍在通知区域中运行。</value>
   </data>
   <data name="CommonReset" xml:space="preserve">
     <value>重置</value>

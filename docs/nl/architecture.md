@@ -6,7 +6,7 @@ De hele beslislogica is een **zuivere berekening**, zonder toegang tot Windows, 
 bestandssysteem:
 
 ```
-(toetsenbordtoestand, apparaatprofiel, toepassingsprofiel, kleurinstellingen) → kleur per toets
+(toetsenbordtoestand, aangesloten toetsenbord, toepassingsprofiel, kleurinstellingen) → kleur per toets
 ```
 
 Daaruit volgen twee dingen, en beide verklaren waarom het ontwerp deze vorm heeft:
@@ -22,7 +22,7 @@ Alles wat met de buitenwereld praat, zit in dunne adapters rond die kern.
 
 | Project | Bevat | Mag afhangen van |
 |---|---|---|
-| `Keylegend.Core` | apparaatprofielen, categorieën, sneltoetssets, de beeldsamensteller, de toestandsmachine van de sessie | niets platformspecifieks |
+| `Keylegend.Core` | het aangesloten toetsenbord, categorieën, sneltoetssets, de beeldsamensteller, de toestandsmachine van de sessie | niets platformspecifieks |
 | `Keylegend.Windows` | toetsenbordtoestand, tekenresolutie, voorgrondvenster | Windows-API's |
 | `Keylegend.Chroma` | REST-client voor de Chroma SDK, hartslag | netwerk |
 | `Keylegend.Engine` | de lus die het toetsenbord leest, een beeld samenstelt en verstuurt | Core, Chroma, Windows |
@@ -137,6 +137,7 @@ beweegt niets anders. Een hele laag leegmaken is met opzet niet mogelijk.
 
 Een profiel dat geen enkele laag noemt geeft de algemene catalogus onveranderd terug; het
 gebruikelijke geval reserveert dus niets.
+
 ### Sneltoetsen en accenten dragen een label
 
 Het label zegt wat de opdracht doet — «Laag dupliceren», niet «Ctrl+J». De hardware toont het
@@ -173,6 +174,7 @@ dat is precies wanneer ze nodig is.
 
 De prijs is dat wie een van die kleuren met opzet koos, haar verliest. Dat is de goede kant op: één
 persoon kiest een kleur opnieuw, tegenover alle gebruikers die een palet houden dat niemand koos.
+
 ## Praten met het toetsenbord
 
 De Chroma SDK wordt via zijn lokale REST-interface aangesproken. Kleuren zijn in BGR gecodeerde
@@ -181,6 +183,36 @@ een hartslag in leven worden gehouden.
 
 Gemeten op de ontwikkelmachine: een sessie aanmaken duurt 60 tot 125 ms, het eerste beeld na het
 overnemen van een lopend Chroma Studio-effect ongeveer 500 ms, en elk beeld daarna rond de 2 ms.
+
+### Elk antwoord zegt 200, dus beslist de body
+
+De dienst beantwoordt **alles** met HTTP 200, ook verzoeken die hij heeft weggegooid. Een beeld met
+de verkeerde matrixafmeting komt zo terug:
+
+```json
+{"error":"expecting a 2 dimensional array of 6 (rows) x 22 (columns) elements with integer values","result":87}
+```
+
+met status 200. Wie alleen de statuscode controleert, meldt dus succes voor beelden die het
+toetsenbord nooit heeft getoond: een stille mislukking, niet te onderscheiden van verlichting die
+simpelweg niet verandert.
+
+Daarom beslist `result` in de body: nul is succes, al het andere is een afwijzing. Waar de dienst
+een `error` in gewone taal meelevert, wordt die ongewijzigd overgenomen, want die benoemt het
+werkelijke gebrek beter dan welke hier bedachte formulering ook. De codes waar een gebruiker iets
+mee kan, worden vertaald:
+
+| Code | Betekenis |
+|---|---|
+| 4309 | Chroma is voor dit apparaat uitgeschakeld in Synapse |
+| 1152 | een andere toepassing houdt de sessie vast |
+| 1167 | er is geen Chroma-apparaat aangesloten |
+| 5 | de toegang is geweigerd |
+| 87 | het verzoek was onjuist opgebouwd |
+| 50 | het verzoek wordt niet ondersteund |
+
+Een geslaagde sessieopbouw draagt helemaal geen `result` — die levert in plaats daarvan de
+sessiegegevens —, dus het ontbreken ervan telt als succes.
 
 ### Hoe vaak beelden worden verstuurd
 
@@ -215,3 +247,13 @@ Wat wél werkt is sturen om drie verschillende redenen op drie verschillende tem
 Keylegend neemt het bij de eerste toetsaanslag over en laat het toetsenbord na een instelbare
 periode van stilte los, zodat je eigen Chroma Studio-effect terugkomt. De wektijd van ongeveer
 500 ms wordt dus alleen na een echte pauze betaald, nooit tijdens het typen.
+
+Slechts één kopie van Keylegend stuurt het toetsenbord aan. Twee zouden twee sessies voor hetzelfde
+apparaat openen; de dienst geeft het aan één ervan, en de andere verlicht niets terwijl ze succes
+blijft melden — wat er precies uitziet als een programma dat stilletjes is opgehouden te werken. Wat
+een tweede start doet, hangt af van wat er al draait. Hetzelfde programma van dezelfde plek betekent
+dat iemand op het pictogram heeft geklikt terwijl het in het systeemvak stond: dan komt dat venster
+op en trekt de tweede start zich terug, dus er wordt niets afgesloten en de verlichting knippert
+niet. Al het andere — een oudere versie, of dezelfde uit een andere map — wordt vervangen: er wordt
+gevraagd te stoppen, de sessie wordt teruggegeven, en pas als er binnen twee seconden geen antwoord
+komt wordt zonder meer beëindigd.

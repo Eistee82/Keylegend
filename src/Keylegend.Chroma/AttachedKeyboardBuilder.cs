@@ -4,12 +4,12 @@ using Keylegend.Core.Input;
 namespace Keylegend.Chroma;
 
 /// <summary>
-/// Builds the profile for the keyboard that is actually plugged in, instead of choosing a
-/// shipped one for a model somebody guessed at.
+/// Describes the keyboard that is actually plugged in, from what the machine already knows about
+/// it.
 /// </summary>
 /// <remarks>
 /// <para>
-/// Three things make up a profile, and each now comes from where it is actually known:
+/// Three things make up that description, and each comes from where it is known:
 /// </para>
 /// <list type="bullet">
 /// <item><description>
@@ -28,33 +28,38 @@ namespace Keylegend.Chroma;
 /// </description></item>
 /// </list>
 /// <para>
-/// So no profile is shipped at all any more. The per-model files that used to carry
-/// <c>row</c>/<c>column</c> values were made redundant by the second point — those values had been
-/// derived from device firmware, which describes how a board is <em>wired</em> rather than how a
-/// custom frame is addressed, and on 202 of 458 of them the two disagreed. The generic layouts
-/// that replaced them were made redundant by the third: they supplied geometry and legends, and
-/// the drawing supplies both, for the right model and in the right language.
+/// Nothing describing a keyboard is shipped with the program, because none of the three needs to
+/// be: two are constants of the protocol and the vendor's own software, and the third is a file
+/// that installation already holds. A table per model would restate them and go stale.
 /// </para>
 /// <para>
-/// The one profile ever calibrated against hardware is kept as test data, and it is what all of
-/// this is checked against: <c>FromDrawingTests</c> builds a profile from the drawing and compares
-/// it against that measurement, key for key and cell for cell.
+/// Note which sources are <em>not</em> used for the second point. The vendor's own cell
+/// coordinates — <c>LedInputMap</c> in the device description, <c>data-row</c> and
+/// <c>data-col</c> in the drawing — describe how a board is <em>wired</em>, not how a custom
+/// frame is addressed, and they disagree with what the lighting protocol actually does on nearly
+/// half the keys. Confirmed at the hardware: addressed through the protocol, cell (1,1) lights
+/// the key left of <c>1</c>, not <c>1</c>. <see cref="StandardKeyMatrix"/> is the authority here;
+/// a vendor table that looks like a shortcut is not one.
+/// </para>
+/// <para>
+/// One keyboard was measured against real hardware, key by key, and that measurement is kept as
+/// test data. It is the yardstick for all of this: <c>FromDrawingTests</c> builds a keyboard from
+/// the drawing and compares it against the measurement, key for key and cell for cell.
 /// </para>
 /// </remarks>
-public static class AttachedDeviceProfile
+public static class AttachedKeyboardBuilder
 {
     /// <summary>
-    /// Builds the attached keyboard's profile from the vendor's drawing.
+    /// Describes the attached keyboard from the vendor's drawing of it.
     /// </summary>
     /// <param name="device">What the lighting service says about the attached keyboard.</param>
     /// <param name="drawing">The vendor's drawing of that model, in that physical layout.</param>
     /// <remarks>
     /// <para>
-    /// Everything a profile used to carry is in the drawing: the keys and their names, their
-    /// geometry, the casing, the printed legends, and — just past the closing tag — which physical
-    /// layout it is for. The matrix cell of each key comes from <c>RZKEY</c>, which is a constant
-    /// of the SDK, and its scan code from its id. So a file per model, or per layout, restates what
-    /// is already there.
+    /// The drawing carries the keys and their names, their geometry, the casing, the printed
+    /// legends, and — just past the closing tag — which physical layout it is for. The matrix
+    /// cell of each key comes from <c>RZKEY</c>, which is a constant of the SDK, and its scan
+    /// code from its id. Between them that is the whole keyboard.
     /// </para>
     /// <para>
     /// Returns <c>null</c> if the drawing cannot be understood — no key of it resolving to a known
@@ -62,7 +67,7 @@ public static class AttachedDeviceProfile
     /// falling back, which is why this does not throw.
     /// </para>
     /// </remarks>
-    public static DeviceProfile? FromDrawing(SdkDeviceDescription device, SvgKeyboardLayout drawing)
+    public static AttachedKeyboard? FromDrawing(SdkDeviceDescription device, SvgKeyboardLayout drawing)
     {
         ArgumentNullException.ThrowIfNull(device);
         ArgumentNullException.ThrowIfNull(drawing);
@@ -109,7 +114,7 @@ public static class AttachedDeviceProfile
 
         var name = string.IsNullOrWhiteSpace(device.ProductName) ? "Keyboard" : device.ProductName;
 
-        var bare = new DeviceProfile(
+        var bare = new AttachedKeyboard(
             Name: name,
             PhysicalLayout: LayoutTemplates.NameOf(device.LayoutId, iso, japanese),
             Canvas: new Canvas(drawing.Width, drawing.Height),
@@ -148,7 +153,7 @@ public static class AttachedDeviceProfile
     /// that many unreported keys are kept.
     /// </remarks>
     private static List<KeyDefinition> KeysTheDeviceHas(
-        DeviceProfile profile, SdkDeviceDescription device)
+        AttachedKeyboard profile, SdkDeviceDescription device)
     {
         var reported = Reported(device);
         var kept = new List<KeyDefinition>(profile.Keys.Count);
@@ -204,21 +209,21 @@ public static class AttachedDeviceProfile
     /// </summary>
     /// <remarks>
     /// <para>
-    /// The shipped layouts describe a shape of keyboard — full-size, tenkeyless — and a model
-    /// that departs from it is drawn wrong: a macro column is missing, a dial is not there, a
-    /// key is the wrong width. The vendor's drawing has the real measurements for the attached
-    /// model, and taking them is what makes an undrawn keyboard appear as itself.
+    /// A generic shape of keyboard — full-size, tenkeyless — draws a model that departs from it
+    /// wrong: a macro column is missing, a dial is not there, a key is the wrong width. The
+    /// vendor's drawing has the real measurements for the attached model, and taking them is what
+    /// makes a keyboard appear as itself.
     /// </para>
     /// <para>
     /// Matching is positional because the two sides name keys differently — the drawing says
-    /// <c>Caps</c> and <c>NumPad0</c>, the profile says <c>Keyboard_CapsLock</c> and
+    /// <c>Caps</c> and <c>NumPad0</c>, this program says <c>Keyboard_CapsLock</c> and
     /// <c>Keyboard_Num0</c>. Reading positions off a picture is reliable in a way that
     /// reconciling two naming schemes is not. A key whose place has no counterpart keeps what it
     /// had, so a drawing that turns out to describe something else leaves the layout intact
     /// rather than scrambling it.
     /// </para>
     /// </remarks>
-    private static DeviceProfile WithGeometryOf(DeviceProfile layout, SvgKeyboardLayout drawing)
+    private static AttachedKeyboard WithGeometryOf(AttachedKeyboard layout, SvgKeyboardLayout drawing)
     {
         // Both sides describe the same keyboard, but not on the same canvas: the vendor's drawing
         // includes the casing around the keys, the profile does not, and the two are not even the
@@ -292,12 +297,11 @@ public static class AttachedDeviceProfile
                 continue;
             }
 
-            // A key drawn as several rectangles takes them all. Fitting our own two into the
-            // outline's bounding box — which this did first — put the step in the wrong place:
-            // the drawing's lower half of the Enter is the taller one, so its step sits at 46.7 %
-            // of the height, while a layout on the standard grid has two equal halves and puts it
-            // at 50 %. The step was visibly off and the halves no longer met, which showed up as
-            // a seam in the glow beside the Enter.
+            // A key drawn as several rectangles takes them all, rather than two of our own
+            // fitted into its bounding box. Fitting puts the step in the wrong place: the
+            // drawing's lower half of the Enter is the taller one, so its step sits at 46.7 % of
+            // the height, while two halves of equal height put it at 50 %. The step then sits
+            // visibly wrong and the halves do not meet — a seam in the glow beside the Enter.
             if (match.Parts is { Count: > 0 })
             {
                 var rectangles = match.Rectangles()
@@ -398,7 +402,7 @@ public static class AttachedDeviceProfile
         // laying it over the layout produces something that could not be drawn — keys on top of
         // one another — the drawn geometry is kept. Better a keyboard of roughly the right shape
         // than one that cannot be shown at all.
-        return DeviceProfileValidator.Validate(measured).Count == 0
+        return AttachedKeyboardValidator.Validate(measured).Count == 0
             ? measured
             : layout with { Legend = legend };
     }

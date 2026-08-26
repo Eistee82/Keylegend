@@ -31,28 +31,29 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Test
-        # The tests that read the vendor's drawings skip themselves where its software is not
-        # installed, which is the case on a runner. What still runs there is everything that
-        # reasons about a drawing rather than reading one.
-        run: dotnet test --configuration Release --no-build --verbosity normal --logger "trx;LogFileName=results.trx"
+        # The tests that read the vendor's drawings report themselves as skipped here: a runner
+        # has no Razer Synapse, so there is nothing for them to read. Nineteen of them, and the
+        # run says so by name rather than counting them as passes. What still runs is everything
+        # that reasons about a drawing rather than reading one.
+        run: dotnet test --configuration Release --no-build --verbosity normal --report-trx --report-trx-filename results.trx
 
       - name: Publish test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-results
-          path: '**/TestResults/*.trx'
+          path: 'TestResults/*.trx'
           if-no-files-found: ignore
 
   package:
     name: Package
     runs-on: windows-latest
 
-    # Everything the release does, on every change rather than only at a tag. The defect this
-    # step exists for was invisible until something was actually packaged: the console tool was
-    # called keylegend.exe — the same file name as the application on a case-insensitive
-    # filesystem — so publishing both into one directory shipped a release with no interface.
-    # It showed up in neither a build nor a test. Finding it at a tag would mean finding it late.
+    # Everything the release does, on every change rather than only at a tag. Packaging has its
+    # own class of defect, invisible to a build and to a test: two executables that collide on a
+    # case-insensitive filesystem and overwrite each other, or data a project file does not carry
+    # into the package. Both have happened here. Finding them at a tag would mean finding them
+    # late, so the package is assembled and verified on every change.
     steps:
       - name: Check out
         uses: actions/checkout@v4
@@ -120,6 +121,13 @@ jobs:
             }
             if ($text -notmatch "(?m)^PackageVersion:\s*$([regex]::Escape($version))\s*`$") {
               $problems += "$($file.Name): PackageVersion does not match Directory.Build.props ($version)"
+            }
+
+            # A winget-pkgs moderator asked for DisplayVersion to go: it only repeated
+            # PackageVersion, which is what winget assumes when the entry leaves it out
+            # (microsoft/winget-pkgs#422422). Cheaper to catch here than in review there.
+            if ($text -match '(?m)^\s*DisplayVersion:') {
+              $problems += "$($file.Name): DisplayVersion is back - it only repeats PackageVersion"
             }
           }
 

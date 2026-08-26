@@ -13,17 +13,17 @@ namespace Keylegend.Core.Lighting;
 /// </summary>
 public sealed class FrameComposer
 {
-    private readonly DeviceProfile _profile;
+    private readonly AttachedKeyboard _keyboard;
     private readonly IKeyResolver _resolver;
 
-    public FrameComposer(DeviceProfile profile, IKeyResolver resolver)
+    public FrameComposer(AttachedKeyboard keyboard, IKeyResolver resolver)
     {
-        _profile = profile ?? throw new ArgumentNullException(nameof(profile));
+        _keyboard = keyboard ?? throw new ArgumentNullException(nameof(keyboard));
         _resolver = resolver ?? throw new ArgumentNullException(nameof(resolver));
     }
 
     /// <summary>Creates a frame sized for this device.</summary>
-    public LedFrame CreateFrame() => new(_profile.Matrix.Rows, _profile.Matrix.Columns);
+    public LedFrame CreateFrame() => new(_keyboard.Matrix.Rows, _keyboard.Matrix.Columns);
 
     /// <summary>
     /// Fills <paramref name="target"/> according to the three rules, in order of precedence:
@@ -71,11 +71,11 @@ public sealed class FrameComposer
         // layer for as long as that program is in front.
         var filtering = state.HasFilteringModifier || hasSet;
 
-        foreach (var key in _profile.Keys)
+        foreach (var key in _keyboard.Keys)
         {
             if (key.Row is not { } row || key.Column is not { } column)
             {
-                // No LED mapped yet - calibration has not covered this key.
+                // A key with no cell: the protocol has no position for it, so it cannot light.
                 continue;
             }
 

@@ -106,9 +106,9 @@ public sealed record SvgKeyboardLayout(
         RegexOptions.Compiled);
 
     // Most keys are rectangles. The ISO Enter is not: it is L-shaped, so the drawing gives it a
-    // path instead, carrying the same data- attributes as every other key. Reading only
-    // rectangles lost exactly one key on every ISO keyboard, and losing one key was enough for
-    // the geometry hand-off to fall back to the shipped layout every time.
+    // path instead, carrying the same data- attributes as every other key. Both are read, because
+    // reading only rectangles loses exactly one key on every ISO keyboard — and one missing key
+    // is enough to make the whole drawing unusable.
     private static readonly Regex KeyPattern = new(
         @"<(rect|path)\s+id=""led-\d+""([^>]*)>",
         RegexOptions.Compiled);
@@ -120,7 +120,7 @@ public sealed record SvgKeyboardLayout(
     /// <summary>
     /// Reads a drawing. Returns <c>null</c> for anything that is not one — the source is another
     /// program's asset and may change shape without warning, and a keyboard drawn from a
-    /// half-understood file would be worse than the shipped layout it replaces.
+    /// half-understood file would be worse than none at all.
     /// </summary>
     public static SvgKeyboardLayout? Parse(string svg)
     {
@@ -343,11 +343,11 @@ public sealed record SvgKeyboardLayout(
     /// </summary>
     /// <remarks>
     /// <para>
-    /// The bounding box alone is not enough for the L-shaped Enter. Fitting our own two rectangles
-    /// into it looked right and was not: the drawing puts the step at 46.7 % of the key's height
-    /// because its lower half is the taller one, while a layout drawn on the standard grid has two
-    /// halves of equal height and so puts it at 50 %. The step visibly sat wrong, and the halves
-    /// no longer met, which showed as a seam in the glow between Enter and the key beside it.
+    /// The bounding box alone is not enough for the L-shaped Enter. Fitting two rectangles of
+    /// our own into it looks right and is not: the drawing puts the step at 46.7 % of the key's
+    /// height because its lower half is the taller one, while two halves of equal height put it
+    /// at 50 %. The step then sits visibly wrong and the halves do not meet, which shows as a
+    /// seam in the glow between Enter and the key beside it.
     /// </para>
     /// <para>
     /// So the outline is taken apart instead. Its own edges form a grid; each cell of that grid is

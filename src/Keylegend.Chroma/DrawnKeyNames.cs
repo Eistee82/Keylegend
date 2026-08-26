@@ -14,8 +14,9 @@ namespace Keylegend.Chroma;
 /// Three names mean different keys on different layouts, which is why each one maps to a list
 /// rather than a single id and the first that the layout actually has wins. <c>Backslash</c> is
 /// the key after the left Shift on ISO and the one above Enter on ANSI; <c>Extra1</c> is the extra
-/// key beside Enter that ANSI does not have at all. Guessing either from the picture is what
-/// positional matching used to do, and it is exactly where it went wrong.
+/// key beside Enter that ANSI does not have at all. Both are named in the drawing, and taking
+/// the name is the point: guessing either from where it sits in the picture is exactly where
+/// matching by position goes wrong.
 /// </para>
 /// <para>
 /// One entry is not a translation but a correction: the vendor calls the key right of the right

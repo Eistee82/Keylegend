@@ -21,8 +21,9 @@ namespace Keylegend.Chroma;
 /// French, Spanish and so on — and they cannot be told apart from the outside, because they
 /// differ only in the outlines of the printed legends. But their <em>geometry is identical</em>:
 /// all eighteen layouts checked carried byte-identical key rectangles. So the right shape can be
-/// had without knowing which language a drawing is for, and the legends keep coming from the
-/// shipped layout as before.
+/// had without knowing which language a drawing is for — and the language is then settled
+/// separately, from the layout number the service states, because the shape alone cannot settle
+/// it. Matching on shape and stopping there puts Italian legends on a German board.
 /// </para>
 /// </remarks>
 public static class SvgLayoutSource

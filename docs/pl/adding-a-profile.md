@@ -40,7 +40,7 @@ Przy każdym wpisie trzeba zapytać, o co tak naprawdę chodzi:
 
 - **Gdzie leży ręka → pozycja.** Wyróżnienie dla WASD dotyczy kształtu, jaki układają palce, a nie
   liter. `Keyboard_W`, `Keyboard_A`, `Keyboard_S`, `Keyboard_D` są wszędzie właściwymi klawiszami.
-- **Jakie jest polecenie → znak.** `Ctrl+Z` znaczy „klawisz, który pisze z". Zapisane jako pozycja,
+- **Jakie jest polecenie → znak.** `Ctrl+Z` znaczy „klawisz, który pisze z”. Zapisane jako pozycja,
   cofnij i ponów wyglądają na niemieckiej klawiaturze na zamienione.
 - **Klawisze, które nic nie piszą → znowu pozycja.** Esc, Tab, Enter, Backspace, strzałki i
   klawisze funkcyjne nie mają znaku, więc `shortcuts.keys` nazywa je po identyfikatorze bez

@@ -103,6 +103,7 @@ Um ficheiro da versão 2 lista todas as cores, incluindo as que ninguém tocou, 
 paleta: uma cor de origem melhorada não chega a ninguém que já tenha executado o programa. Uma cor
 igual à paleta dessa versão é por isso lida como valor predefinido e descartada na migração; todo o
 resto é a sua escolha e mantém-se.
+
 ## Comportamento
 
 | Definição | Significado |

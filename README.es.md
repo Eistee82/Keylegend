@@ -5,7 +5,7 @@
 [English](README.md) · [Deutsch](README.de.md) · [Español](README.es.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Nederlands](README.nl.md) ·
 [Polski](README.pl.md) · [Português](README.pt.md) · [Русский](README.ru.md) · [Українська](README.uk.md) · [简体中文](README.zh-cn.md)
 
-> **Versión 1.0.0.** La iluminación, la interfaz, la detección de juegos y los perfiles de
+> **Versión 1.1.0.** La iluminación, la interfaz, la detección de juegos y los perfiles de
 > aplicación funcionan. [Descarga el instalador o la copia portátil](https://github.com/Eistee82/Keylegend/releases/latest),
 > o compila desde el código. Véase [CHANGELOG.md](CHANGELOG.md).
 
@@ -80,8 +80,8 @@ queda ningún requisito por instalar a mano. Si no, coge un archivo:
 
 | Archivo | Qué es |
 |---|---|
-| `Keylegend-1.0.0-setup.exe` | Se instala para el usuario actual: sin permisos de administrador. Entrada en el menú Inicio y una desinstalación que también quita la entrada de inicio automático. |
-| `Keylegend-1.0.0-portable.zip` | El mismo programa, para descomprimir. Mantén la carpeta `devices` junto al ejecutable. |
+| `Keylegend-1.1.0-setup.exe` | Se instala para el usuario actual: sin permisos de administrador. Entrada en el menú Inicio y una desinstalación que también quita la entrada de inicio automático. |
+| `Keylegend-1.1.0-portable.zip` | El mismo programa, para descomprimir. Mantén las carpetas de idioma (`de`, `fr`, …) junto al ejecutable; si no, la interfaz aparecerá en inglés. |
 
 Ninguno está firmado, así que Windows dirá que el editor es desconocido: un certificado cuesta al
 año más de lo que tiene este proyecto. Cada versión incluye `SHA256SUMS.txt` para comprobar la
@@ -101,12 +101,13 @@ es una constante del protocolo Chroma, idéntica en todos los modelos, y por eso
 necesita una tabla por modelo. Comprobado contra el único teclado calibrado a mano: las 105 teclas
 coinciden.
 
-`physicalLayout` describe la *forma* del teclado, no el idioma con el que escribes. Qué carácter
+La **disposición física** describe la *forma* del teclado, no el idioma con el que escribes. Qué carácter
 produce una tecla se consulta a Windows en tiempo de ejecución, así que un teclado alemán funciona
 correctamente incluso con Windows configurado en US o Dvorak.
 
 **Requiere Razer Synapse**, instalado y en ejecución, con el teclado conectado. Ahí se describe el
 teclado y ahí está su dibujo.
+
 ## Documentación
 
 | Tema | |
@@ -129,7 +130,7 @@ texto en inglés es el correcto. Las correcciones son bienvenidas, véase
 
 ```bash
 git clone https://github.com/Eistee82/Keylegend.git
-cd keylegend
+cd Keylegend
 dotnet build
 dotnet test
 ```

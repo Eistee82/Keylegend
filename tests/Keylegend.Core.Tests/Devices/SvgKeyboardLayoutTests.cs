@@ -91,7 +91,7 @@ public class SvgKeyboardLayoutTests
 
     /// <summary>
     /// The source belongs to another program and can change without warning. Anything not
-    /// understood must be refused, so the shipped layout stays in charge.
+    /// understood must be refused outright rather than half read.
     /// </summary>
     [Theory]
     [InlineData("")]
@@ -117,8 +117,8 @@ public class SvgKeyboardLayoutTests
 
     /// <summary>
     /// The ISO Enter is L-shaped, so the drawing gives it a path rather than a rectangle. Reading
-    /// only rectangles lost exactly one key on every ISO keyboard — and one missing key was enough
-    /// for the geometry hand-off to discard the whole drawing and keep the shipped layout.
+    /// only rectangles loses exactly one key on every ISO keyboard — and one missing key is enough
+    /// for the whole drawing to be discarded.
     /// </summary>
     [Fact]
     public void ReadsTheLShapedEnterFromItsOutline()

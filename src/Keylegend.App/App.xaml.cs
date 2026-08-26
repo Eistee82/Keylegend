@@ -19,6 +19,7 @@ public partial class App : Application
     private LightingEngine? _engine;
     private Task? _running;
     private TrayIcon? _tray;
+    private SingleInstance? _instance;
 
     protected override void OnStartup(StartupEventArgs e)
     {
@@ -33,63 +34,106 @@ public partial class App : Application
         }
 
         // Started by Windows at logon rather than by hand: come up in the notification area,
-        // with no window and no balloon in the way of whatever the user is doing.
+        // with no window in the way of whatever the user is doing.
         var minimised = Autostart.StartsMinimised(e.Args);
+
+        // Only one copy may drive the keyboard. Two of them open two Chroma sessions for the
+        // same device, the service gives it to one, and the other lights nothing while reporting
+        // success — which looks like a program that has quietly stopped working.
+        //
+        // What to do about it depends on what is running. This very program from this very path
+        // means somebody double-clicked the icon while it sat in the notification area: they want
+        // the window, so it is asked for and this start bows out, leaving the lighting alone.
+        // Anything else — an older version, or another folder — is superseded by this start.
+        //
+        // After --verify, which has to keep working while a copy runs: the release build calls it
+        // against a packaged tree.
+        try
+        {
+            _instance = SingleInstance.Claim("Keylegend");
+        }
+        catch (InvalidOperationException)
+        {
+            MessageBox.Show(
+                Texts.Get("StartupAlreadyRunning"), "Keylegend",
+                MessageBoxButton.OK, MessageBoxImage.Warning);
+            Shutdown(1);
+            return;
+        }
+
+        if (!_instance.Owns)
+        {
+            // A logon start asks for nothing, so it says nothing: the copy already running is
+            // doing the job, and a window appearing by itself is what --minimized exists to
+            // prevent.
+            if (!minimised)
+            {
+                _instance.AskRunningCopyToShow();
+            }
+
+            _instance.Dispose();
+            _instance = null;
+            Shutdown(0);
+            return;
+        }
 
         // The lighting, not the window, is the program. Without this a start with no window
         // would count as "no windows left" and end the process before it ever lit anything.
         ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-        DeviceProfile profile;
+        AttachedKeyboard keyboard;
         try
         {
             // Ask the lighting service what is actually plugged in. It knows the model by name,
-            // states the physical layout outright, and lists the keys the hardware really has —
-            // all three of which the program used to infer. Where it answers, the profile is
-            // built for that keyboard rather than chosen for a guessed one.
-            profile = FromAttachedDevice()
-                ?? throw new DeviceProfileException(Texts.Get("StartupNoKeyboard"));
+            // states the physical layout outright, and lists the keys the hardware really has.
+            // So the keyboard this program lights is described from the hardware, never guessed.
+            keyboard = FromAttachedDevice();
 
-            var problems = DeviceProfileValidator.Validate(profile);
+            var problems = AttachedKeyboardValidator.Validate(keyboard);
             if (problems.Count > 0)
             {
-                throw new DeviceProfileException(
-                    "The device profile has problems:" + Environment.NewLine + "  " +
+                throw new AttachedKeyboardException(
+                    "The attached keyboard could not be described:" + Environment.NewLine + "  " +
                     string.Join(Environment.NewLine + "  ", problems));
             }
         }
-        catch (DeviceProfileException ex)
+        catch (AttachedKeyboardException ex)
         {
             MessageBox.Show(ex.Message, "Keylegend", MessageBoxButton.OK, MessageBoxImage.Error);
             Shutdown(1);
             return;
         }
 
-        static DeviceProfile? FromAttachedDevice()
+        // Three ways this can fail and there is nothing shipped here to fall back on, so each
+        // says which one it was. They call for different things of the user, and one message
+        // covering all three would send two thirds of the people who see it the wrong way.
+        static AttachedKeyboard FromAttachedDevice()
         {
-            // Without the vendor's software there is nothing to read, and nothing to fall back
-            // on either: the keyboard it describes and the drawing it keeps are where the profile
-            // comes from. The caller says so and stops.
+            // What the lighting service says is plugged in. Absent when Synapse is not installed
+            // or not running, or when no Razer keyboard is connected.
             var attached = SdkDeviceDescription.ReadAll().FirstOrDefault();
 
             if (attached is null || attached.Keys.Count == 0)
             {
-                return null;
+                throw new AttachedKeyboardException(Texts.Get("StartupNoKeyboard"));
             }
 
-            // The vendor's own drawing of the attached model. Everything a profile used to carry
-            // is in it: the keys and their names, their real sizes, the casing, and the legends
-            // printed on the caps in the right language. What it does not carry — which cell each
-            // key lights — is a constant of the protocol.
-            var drawing = SvgLayoutSource.Find(attached);
+            // The vendor's own drawing of the attached model. It carries the keys and their
+            // names, their real sizes, the casing, and the legends printed on the caps in the
+            // right language. What it does not carry — which cell each key lights — is a constant
+            // of the protocol.
+            //
+            // Missing is its own case, and not the same as "no keyboard": Synapse is running and
+            // has named the device. The drawing lives in the cache of its web interface, which
+            // fills when that interface shows the device — so opening Synapse once is the fix,
+            // and saying "connect your keyboard" would be plainly wrong.
+            var drawing = SvgLayoutSource.Find(attached)
+                ?? throw new AttachedKeyboardException(Texts.Get("StartupNoDrawing"));
 
-            if (drawing is not null
-                && AttachedDeviceProfile.FromDrawing(attached, drawing) is { } drawn)
-            {
-                return drawn;
-            }
-
-            return null;
+            // Present but not understood is a third thing again, and nothing the user can act on:
+            // the file is there and we cannot read it, which means the format moved under us.
+            return AttachedKeyboardBuilder.FromDrawing(attached, drawing)
+                ?? throw new AttachedKeyboardException(Texts.Get("StartupDrawingUnreadable"));
         }
 
         var resolver = new WindowsKeyResolver();
@@ -101,9 +145,9 @@ public partial class App : Application
         var foreground = new ForegroundWatcher();
 
         _engine = new LightingEngine(
-            profile,
+            keyboard,
             _chroma,
-            new WindowsKeyStateSource(profile),
+            new WindowsKeyStateSource(keyboard),
             resolver,
             clock: null,
             foreground: () =>
@@ -155,6 +199,22 @@ public partial class App : Application
         {
             window.Show();
         }
+
+        // The other side of the same arrangement, both halves of it. A start of this same
+        // program wants the window; a different one wants the keyboard, and gets it by this copy
+        // leaving through Shutdown — which hands the Chroma session back, so the keyboard returns
+        // to the vendor effect instead of freezing on our last frame.
+        _instance?.WhenAskedToShow(
+            () => Dispatcher.Invoke(() =>
+            {
+                window.Show();
+                window.WindowState = WindowState.Normal;
+                window.Activate();
+            }),
+            _stopping.Token);
+
+        _instance?.WhenAskedToQuit(
+            () => Dispatcher.Invoke(() => Shutdown()), _stopping.Token);
     }
 
     protected override void OnExit(ExitEventArgs e)
@@ -175,6 +235,11 @@ public partial class App : Application
         _tray?.Dispose();
         _chroma?.DisposeAsync().AsTask().Wait(TimeSpan.FromSeconds(2));
         _http?.Dispose();
+
+        // Last, and deliberately so: releasing the claim is what lets a waiting copy start, and
+        // it must not start while this one still holds the Chroma session.
+        _instance?.Dispose();
+
         _stopping.Dispose();
 
         base.OnExit(e);

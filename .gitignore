@@ -40,11 +40,5 @@ $RECYCLE.BIN/
 *.local.json
 .claude/settings.local.json
 
-# Calibration output, written next to the binaries
-calibration-findings.txt
-
-# Backups written by tools/apply-calibration.ps1
-*.json.bak
-
 # Release artefacts, produced by tools/build-release.ps1
 out/

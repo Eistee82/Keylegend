@@ -1,50 +1,55 @@
 namespace Keylegend.Core.Devices;
 
 /// <summary>
-/// Checks a device profile for the mistakes that actually happen when someone contributes
-/// a new keyboard by hand: duplicate keys, two keys driving the same LED, cells outside the
-/// matrix, or geometry that has drifted off the canvas.
+/// Checks a described keyboard for the mistakes a bad reading produces: duplicate keys, two keys
+/// driving the same LED, cells outside the matrix, or geometry that has drifted off the canvas.
 /// </summary>
-public static class DeviceProfileValidator
+/// <remarks>
+/// The keyboard is assembled at run time from the vendor's drawing, so nobody types these numbers
+/// and nobody proof-reads them either. What this catches is a drawing read wrongly — and it has
+/// caught exactly that: keys overlapping on the canvas after the L-shaped Enter kept its own size
+/// while its neighbours took the drawing's.
+/// </remarks>
+public static class AttachedKeyboardValidator
 {
     /// <summary>
-    /// Returns one message per problem found. An empty result means the profile is usable.
+    /// Returns one message per problem found. An empty result means the keyboard is usable.
     /// </summary>
-    public static IReadOnlyList<string> Validate(DeviceProfile profile)
+    public static IReadOnlyList<string> Validate(AttachedKeyboard keyboard)
     {
-        ArgumentNullException.ThrowIfNull(profile);
+        ArgumentNullException.ThrowIfNull(keyboard);
 
         var problems = new List<string>();
 
-        if (string.IsNullOrWhiteSpace(profile.Name))
+        if (string.IsNullOrWhiteSpace(keyboard.Name))
         {
             problems.Add("name must not be empty.");
         }
 
-        if (profile.Canvas.Width <= 0 || profile.Canvas.Height <= 0)
+        if (keyboard.Canvas.Width <= 0 || keyboard.Canvas.Height <= 0)
         {
             problems.Add("canvas width and height must both be positive.");
         }
 
-        if (profile.Matrix.Rows <= 0 || profile.Matrix.Columns <= 0)
+        if (keyboard.Matrix.Rows <= 0 || keyboard.Matrix.Columns <= 0)
         {
             problems.Add("matrix rows and columns must both be positive.");
         }
 
-        if (profile.Keys.Count == 0)
+        if (keyboard.Keys.Count == 0)
         {
-            problems.Add("profile contains no keys.");
+            problems.Add("the keyboard has no keys.");
             return problems;
         }
 
-        foreach (var duplicate in profile.Keys
+        foreach (var duplicate in keyboard.Keys
                      .GroupBy(k => k.Id, StringComparer.Ordinal)
                      .Where(g => g.Count() > 1))
         {
             problems.Add($"key id '{duplicate.Key}' appears {duplicate.Count()} times; ids must be unique.");
         }
 
-        foreach (var key in profile.Keys)
+        foreach (var key in keyboard.Keys)
         {
             if (key.Width <= 0 || key.Height <= 0)
             {
@@ -54,8 +59,8 @@ public static class DeviceProfileValidator
             foreach (var area in key.Areas())
             {
                 if (area.X < 0 || area.Y < 0 ||
-                    area.X + area.Width > profile.Canvas.Width + Tolerance ||
-                    area.Y + area.Height > profile.Canvas.Height + Tolerance)
+                    area.X + area.Width > keyboard.Canvas.Width + Tolerance ||
+                    area.Y + area.Height > keyboard.Canvas.Height + Tolerance)
                 {
                     problems.Add($"key '{key.Id}' lies outside the canvas.");
                     break;
@@ -71,28 +76,29 @@ public static class DeviceProfileValidator
                 }
             }
 
-            // A key may legitimately have no cell yet - that is what calibration is for.
-            // But half a coordinate is always a mistake.
+            // A key may legitimately have no cell: the protocol addresses fewer positions than a
+            // keyboard has keys. But half a coordinate is always a mistake.
             if (key.Row.HasValue != key.Column.HasValue)
             {
                 problems.Add($"key '{key.Id}' has only one of row/column set; specify both or neither.");
                 continue;
             }
 
-            if (key.Row is { } row && (row < 0 || row >= profile.Matrix.Rows))
+            if (key.Row is { } row && (row < 0 || row >= keyboard.Matrix.Rows))
             {
-                problems.Add($"key '{key.Id}' has row {row}, outside 0..{profile.Matrix.Rows - 1}.");
+                problems.Add($"key '{key.Id}' has row {row}, outside 0..{keyboard.Matrix.Rows - 1}.");
             }
 
-            if (key.Column is { } column && (column < 0 || column >= profile.Matrix.Columns))
+            if (key.Column is { } column && (column < 0 || column >= keyboard.Matrix.Columns))
             {
-                problems.Add($"key '{key.Id}' has column {column}, outside 0..{profile.Matrix.Columns - 1}.");
+                problems.Add($"key '{key.Id}' has column {column}, outside 0..{keyboard.Matrix.Columns - 1}.");
             }
         }
 
-        // Two keys drawn on top of each other. Always a mistake, and an easy one to make by
-        // hand: one wrong width and everything after it on the row slides under its neighbour.
-        var rectangles = profile.Keys
+        // Two keys drawn on top of each other. Always a mistake, and the one that actually
+        // happened: one wrong width and everything after it on the row slides under its
+        // neighbour.
+        var rectangles = keyboard.Keys
             .SelectMany(key => key.Areas().Select(area => (key.Id, area)))
             .ToList();
 
@@ -122,7 +128,7 @@ public static class DeviceProfileValidator
             }
         }
 
-        foreach (var collision in profile.Keys
+        foreach (var collision in keyboard.Keys
                      .Where(k => k.Row.HasValue && k.Column.HasValue)
                      .GroupBy(k => (k.Row!.Value, k.Column!.Value))
                      .Where(g => g.Count() > 1))

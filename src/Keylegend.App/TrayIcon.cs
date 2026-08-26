@@ -79,7 +79,9 @@ public sealed class TrayIcon : IDisposable
 
         OnStateChanged(engine.State);
 
-        // Closing the window keeps the lighting running; only Quit really exits.
+        // Closing the window keeps the lighting running; only Quit really exits. Silently: the
+        // icon in the notification area says the program is still there, and a balloon on every
+        // close says the same thing again to somebody who already knows.
         _window.Closing += (_, e) =>
         {
             if (_quitting)
@@ -89,11 +91,6 @@ public sealed class TrayIcon : IDisposable
 
             e.Cancel = true;
             _window.Hide();
-            _icon.ShowBalloonTip(
-                2000,
-                "Keylegend",
-                Texts.Get("TrayBalloonText"),
-                Forms.ToolTipIcon.Info);
         };
     }
 

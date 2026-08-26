@@ -5,7 +5,7 @@
 [English](README.md) · [Deutsch](README.de.md) · [Español](README.es.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Nederlands](README.nl.md) ·
 [Polski](README.pl.md) · [Português](README.pt.md) · [Русский](README.ru.md) · [Українська](README.uk.md) · [简体中文](README.zh-cn.md)
 
-> **版本 1.0.0。** 灯光、界面、游戏检测和应用程序配置均已可用。
+> **版本 1.1.0。** 灯光、界面、游戏检测和应用程序配置均已可用。
 > [下载安装程序或免安装版](https://github.com/Eistee82/Keylegend/releases/latest)，也可以从源码构建。
 > 参见 [CHANGELOG.md](CHANGELOG.md)。
 
@@ -67,8 +67,8 @@ winget install Eistee82.Keylegend
 
 | 文件 | 是什么 |
 |---|---|
-| `Keylegend-1.0.0-setup.exe` | 为当前用户安装，无需管理员权限。会创建开始菜单项；卸载时一并移除开机启动项。 |
-| `Keylegend-1.0.0-portable.zip` | 同一个程序，解压即用。请把 `devices` 文件夹留在可执行文件旁边。 |
+| `Keylegend-1.1.0-setup.exe` | 为当前用户安装，无需管理员权限。会创建开始菜单项；卸载时一并移除开机启动项。 |
+| `Keylegend-1.1.0-portable.zip` | 同一个程序，解压即用。请把语言文件夹（`de`、`fr` 等）留在可执行文件旁边，否则界面会回退为英文。 |
 
 两者均未签名，因此 Windows 会提示发布者未知——证书的年费高于本项目所能负担。每个版本都附带
 `SHA256SUMS.txt` 供校验下载，生成它的构建日志也是公开的。
@@ -82,10 +82,11 @@ winget install Eistee82.Keylegend
 图形唯一没有说明的，是每个按键属于灯光矩阵的哪个单元。那是 Chroma 协议的常量，在所有型号上都相同——这也是
 Synapse 本身同样不需要按型号建表的原因。对照唯一一台手工校准过的键盘检验：全部 105 个按键一致。
 
-`physicalLayout` 描述键盘的*形状*，而不是你输入的语言。某个键产生什么字符是在运行时向 Windows 询问的，
+**物理布局**描述键盘的*形状*，而不是你输入的语言。某个键产生什么字符是在运行时向 Windows 询问的，
 因此即使 Windows 设为 US 或 Dvorak，德语键盘仍能正确工作。
 
 **需要 Razer Synapse**，已安装并正在运行，且键盘已连接。键盘的描述来自那里，它的图形也存放在那里。
+
 ## 文档
 
 | 主题 | |
@@ -107,7 +108,7 @@ Synapse 本身同样不需要按型号建表的原因。对照唯一一台手工
 
 ```bash
 git clone https://github.com/Eistee82/Keylegend.git
-cd keylegend
+cd Keylegend
 dotnet build
 dotnet test
 ```

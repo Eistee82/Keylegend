@@ -61,6 +61,11 @@ dotnet test
 
 CI runs the same two commands on Windows for every pull request.
 
+Nineteen tests report as **skipped** unless Razer Synapse is installed: they read the vendor's own
+keyboard drawings, which cannot be copied into this repository. `506 passed` and `487 passed, 19
+skipped` are both green runs — the second is what a machine without Synapse looks like, and it is
+not a fault.
+
 ## Commit messages and pull requests
 
 Describe what changed and why. If a change alters observable behaviour, add an entry under

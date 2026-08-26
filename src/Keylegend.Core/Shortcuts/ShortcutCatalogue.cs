@@ -148,13 +148,13 @@ public sealed class ShortcutCatalogue
     /// </summary>
     /// <remarks>
     /// <para>
-    /// This used to replace the whole layer, and that was wrong in a way that was easy to miss. A
-    /// profile naming Ctrl does not mean "Ctrl means nothing else here" — it means "Ctrl also
-    /// means this". Replacing threw away everything the profile happened not to repeat, and what
-    /// it threw away most often was the clipboard: Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+Z, Ctrl+Y and
-    /// Ctrl+A went dark in a browser, in Slack, in Teams, in a terminal — programs one does
-    /// nothing but type and paste in. Twenty-nine of the fifty-one shipped profiles were affected,
-    /// and the twenty-two that were not had simply repeated those six entries by hand.
+    /// Laid over, never replacing, and the difference is easy to miss. A profile naming Ctrl does
+    /// not mean "Ctrl means nothing else here" — it means "Ctrl also means this". Replacing the
+    /// layer throws away everything the profile happens not to repeat, and what that costs most
+    /// often is the clipboard: Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+Z, Ctrl+Y and Ctrl+A go dark in a
+    /// browser, in Slack, in Teams, in a terminal — programs one does nothing but type and paste
+    /// in. Twenty-nine of the fifty-one shipped profiles would lose them; the twenty-two that
+    /// would not had simply repeated those six entries by hand.
     /// </para>
     /// <para>
     /// Layering keeps the ability to <em>change</em> a meaning, which is what a profile is for:
