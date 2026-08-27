@@ -34,16 +34,6 @@ public static class DefaultShortcuts
                     ["s"] = new(FunctionGroup.Search, "Search"),
                     ["q"] = new(FunctionGroup.Search, "Search"),
                     ["t"] = new(FunctionGroup.Window, "Cycle through taskbar apps"),
-                    ["1"] = new(FunctionGroup.File, "Open the first taskbar app"),
-                    ["2"] = new(FunctionGroup.File, "Open the second taskbar app"),
-                    ["3"] = new(FunctionGroup.File, "Open the third taskbar app"),
-                    ["4"] = new(FunctionGroup.File, "Open the fourth taskbar app"),
-                    ["5"] = new(FunctionGroup.File, "Open the fifth taskbar app"),
-                    ["6"] = new(FunctionGroup.File, "Open the sixth taskbar app"),
-                    ["7"] = new(FunctionGroup.File, "Open the seventh taskbar app"),
-                    ["8"] = new(FunctionGroup.File, "Open the eighth taskbar app"),
-                    ["9"] = new(FunctionGroup.File, "Open the ninth taskbar app"),
-                    ["0"] = new(FunctionGroup.File, "Open the tenth taskbar app"),
 
                     // Windows and desktop
                     ["d"] = new(FunctionGroup.Window, "Show the desktop"),
@@ -59,9 +49,11 @@ public static class DefaultShortcuts
                     ["u"] = new(FunctionGroup.System, "Open accessibility settings"),
                     ["l"] = new(FunctionGroup.System, "Lock the computer"),
                     ["b"] = new(FunctionGroup.System, "Focus the notification area"),
+                    ["o"] = new(FunctionGroup.System, "Lock the device orientation"),
 
                     // Tools and input
                     ["v"] = new(FunctionGroup.Tools, "Clipboard history"),
+                    ["f"] = new(FunctionGroup.Tools, "Open the Feedback Hub"),
                     ["."] = new(FunctionGroup.Tools, "Emoji panel"),
                     ["h"] = new(FunctionGroup.Tools, "Start dictation"),
                     ["g"] = new(FunctionGroup.Tools, "Open the Game Bar"),
@@ -74,48 +66,124 @@ public static class DefaultShortcuts
                     ["+"] = new(FunctionGroup.View, "Magnifier: zoom in"),
                     ["-"] = new(FunctionGroup.View, "Magnifier: zoom out")
                 },
-                keys: new()
-                {
-                    ["Keyboard_Tab"] = new(FunctionGroup.Window, "Task view"),
-                    ["Keyboard_Home"] = new(FunctionGroup.Window, "Minimise everything but this window"),
-                    ["Keyboard_ArrowLeft"] = new(FunctionGroup.Window, "Snap the window left"),
-                    ["Keyboard_ArrowRight"] = new(FunctionGroup.Window, "Snap the window right"),
-                    ["Keyboard_ArrowUp"] = new(FunctionGroup.Window, "Maximise the window"),
-                    ["Keyboard_ArrowDown"] = new(FunctionGroup.Window, "Restore or minimise the window"),
-                    ["Keyboard_PauseBreak"] = new(FunctionGroup.System, "Open system properties"),
-                    ["Keyboard_NumPlus"] = new(FunctionGroup.View, "Magnifier: zoom in"),
-                    ["Keyboard_NumMinus"] = new(FunctionGroup.View, "Magnifier: zoom out"),
-                    ["Keyboard_Escape"] = new(FunctionGroup.View, "Close the magnifier")
-                }),
+                keys: WithTaskbarPositions(
+                    new()
+                    {
+                        ["Keyboard_Tab"] = new(FunctionGroup.Window, "Task view"),
+                        ["Keyboard_Home"] = new(FunctionGroup.Window, "Minimise everything but this window"),
+                        ["Keyboard_ArrowLeft"] = new(FunctionGroup.Window, "Snap the window left"),
+                        ["Keyboard_ArrowRight"] = new(FunctionGroup.Window, "Snap the window right"),
+                        ["Keyboard_ArrowUp"] = new(FunctionGroup.Window, "Maximise the window"),
+                        ["Keyboard_ArrowDown"] = new(FunctionGroup.Window, "Restore or minimise the window"),
+                        ["Keyboard_PauseBreak"] = new(FunctionGroup.System, "Open system properties"),
+                        ["Keyboard_PrintScreen"] = new(FunctionGroup.Tools, "Save a full-screen screenshot"),
+                        ["Keyboard_NumPlus"] = new(FunctionGroup.View, "Magnifier: zoom in"),
+                        ["Keyboard_NumMinus"] = new(FunctionGroup.View, "Magnifier: zoom out"),
+                        ["Keyboard_Escape"] = new(FunctionGroup.View, "Close the magnifier")
+                    },
+                    FunctionGroup.File,
+                    "Open the {0} taskbar app")),
 
             // ---------------------------------------------------------------- Windows + Shift
             [ModifierKeys.LeftWin | ModifierKeys.LeftShift] = Set(
                 characters: new()
                 {
                     ["s"] = new(FunctionGroup.Tools, "Snip part of the screen"),
-                    ["m"] = new(FunctionGroup.Window, "Restore minimised windows")
+                    ["r"] = new(FunctionGroup.Tools, "Record part of the screen"),
+                    ["t"] = new(FunctionGroup.Tools, "Copy text out of an image"),
+                    ["m"] = new(FunctionGroup.Window, "Restore minimised windows"),
+                    ["a"] = new(FunctionGroup.System, "Focus the Windows tip"),
+                    ["v"] = new(FunctionGroup.System, "Cycle through notifications")
                 },
-                keys: new()
-                {
-                    ["Keyboard_ArrowLeft"] = new(FunctionGroup.Window, "Move the window to the left monitor"),
-                    ["Keyboard_ArrowRight"] = new(FunctionGroup.Window, "Move the window to the right monitor"),
-                    ["Keyboard_ArrowUp"] = new(FunctionGroup.Window, "Stretch the window to full height"),
-                    ["Keyboard_ArrowDown"] = new(FunctionGroup.Window, "Restore the window height")
-                }),
+                keys: WithTaskbarPositions(
+                    new()
+                    {
+                        ["Keyboard_Space"] = new(FunctionGroup.System, "Previous input language"),
+                        ["Keyboard_Enter"] = new(FunctionGroup.Window, "Make a UWP app full screen"),
+                        ["Keyboard_ArrowLeft"] = new(FunctionGroup.Window, "Move the window to the left monitor"),
+                        ["Keyboard_ArrowRight"] = new(FunctionGroup.Window, "Move the window to the right monitor"),
+                        ["Keyboard_ArrowUp"] = new(FunctionGroup.Window, "Stretch the window to full height"),
+                        ["Keyboard_ArrowDown"] = new(FunctionGroup.Window, "Restore the window height")
+                    },
+                    FunctionGroup.File,
+                    "Start a new instance of the {0} taskbar app")),
 
             // ---------------------------------------------------------------- Windows + Ctrl
             [ModifierKeys.LeftWin | ModifierKeys.LeftCtrl] = Set(
                 characters: new()
                 {
-                    ["d"] = new(FunctionGroup.Window, "Add a virtual desktop")
+                    ["d"] = new(FunctionGroup.Window, "Add a virtual desktop"),
+                    ["c"] = new(FunctionGroup.View, "Turn colour filters on or off"),
+                    ["f"] = new(FunctionGroup.Search, "Search for computers on the network"),
+                    ["q"] = new(FunctionGroup.Tools, "Open Quick Assist"),
+                    ["o"] = new(FunctionGroup.System, "Show or hide the on-screen keyboard"),
+                    ["v"] = new(FunctionGroup.System, "Open the sound output settings")
                 },
-                keys: new()
+                keys: WithTaskbarPositions(
+                    new()
+                    {
+                        ["Keyboard_Space"] = new(FunctionGroup.System, "Switch back to the previous input method"),
+                        ["Keyboard_F4"] = new(FunctionGroup.Window, "Close the virtual desktop"),
+                        ["Keyboard_ArrowLeft"] = new(FunctionGroup.Navigation, "Previous virtual desktop"),
+                        ["Keyboard_ArrowRight"] = new(FunctionGroup.Navigation, "Next virtual desktop"),
+                        ["Keyboard_Enter"] = new(FunctionGroup.System, "Turn Narrator on or off")
+                    },
+                    FunctionGroup.Window,
+                    "Switch to the last window of the {0} taskbar app")),
+
+            // ---------------------------------------------------------------- Windows + Alt
+            [ModifierKeys.LeftWin | ModifierKeys.LeftAlt] = Set(
+                characters: new()
                 {
-                    ["Keyboard_F4"] = new(FunctionGroup.Window, "Close the virtual desktop"),
-                    ["Keyboard_ArrowLeft"] = new(FunctionGroup.Navigation, "Previous virtual desktop"),
-                    ["Keyboard_ArrowRight"] = new(FunctionGroup.Navigation, "Next virtual desktop"),
-                    ["Keyboard_Enter"] = new(FunctionGroup.System, "Turn Narrator on or off")
-                }),
+                    ["b"] = new(FunctionGroup.View, "Turn HDR on or off"),
+                    ["d"] = new(FunctionGroup.System, "Show or hide the date and time"),
+                    ["h"] = new(FunctionGroup.Tools, "Move focus to the keyboard while dictating"),
+                    ["k"] = new(FunctionGroup.Tools, "Mute or unmute the microphone"),
+
+                    // Game Bar, which registers these system-wide rather than Windows itself.
+                    ["r"] = new(FunctionGroup.Tools, "Start or stop recording"),
+                    ["g"] = new(FunctionGroup.Tools, "Record the last thirty seconds")
+                },
+                keys: WithTaskbarPositions(
+                    new()
+                    {
+                        ["Keyboard_Enter"] = new(FunctionGroup.System, "Open taskbar settings"),
+                        ["Keyboard_ArrowUp"] = new(FunctionGroup.Window, "Snap the window to the top half"),
+                        ["Keyboard_ArrowDown"] = new(FunctionGroup.Window, "Snap the window to the bottom half")
+                    },
+                    FunctionGroup.File,
+                    "Open the jump list of the {0} taskbar app")),
+
+            // ------------------------------------------------------- Windows + Ctrl + Shift
+            [ModifierKeys.LeftWin | ModifierKeys.LeftCtrl | ModifierKeys.LeftShift] = Set(
+                characters: new()
+                {
+                    ["b"] = new(FunctionGroup.System, "Restart the graphics driver")
+                },
+                keys: WithTaskbarPositions(
+                    new(),
+                    FunctionGroup.System,
+                    "Open the {0} taskbar app as administrator")),
+
+            // ------------------------------------------- Windows + Ctrl + Alt + Shift (Office)
+            // Not Windows' own: Microsoft 365 registers these system-wide when it is installed,
+            // which is why they are absent from a machine without it. They are listed anyway —
+            // a layer that lights nothing is the correct picture on such a machine, and the
+            // application profile mechanism cannot help here because these fire from anywhere.
+            [ModifierKeys.LeftWin | ModifierKeys.LeftCtrl | ModifierKeys.LeftAlt | ModifierKeys.LeftShift] = Set(
+                characters: new()
+                {
+                    ["w"] = new(FunctionGroup.File, "Open Word"),
+                    ["x"] = new(FunctionGroup.File, "Open Excel"),
+                    ["p"] = new(FunctionGroup.File, "Open PowerPoint"),
+                    ["n"] = new(FunctionGroup.File, "Open OneNote"),
+                    ["o"] = new(FunctionGroup.File, "Open Outlook"),
+                    ["t"] = new(FunctionGroup.File, "Open Teams"),
+                    ["d"] = new(FunctionGroup.File, "Open OneDrive"),
+                    ["l"] = new(FunctionGroup.Tools, "Open LinkedIn in the browser"),
+                    ["y"] = new(FunctionGroup.Tools, "Open Viva Engage in the browser")
+                },
+                keys: new()),
 
             // ---------------------------------------------------------------- Alt
             [ModifierKeys.LeftAlt] = Set(
@@ -241,4 +309,50 @@ public static class DefaultShortcuts
         => new(
             new Dictionary<string, Shortcut>(characters, StringComparer.OrdinalIgnoreCase),
             new Dictionary<string, Shortcut>(keys, StringComparer.Ordinal));
+
+    /// <summary>The top-row digits, in taskbar order: position ten is the <c>0</c> key.</summary>
+    private static readonly string[] TaskbarKeys =
+    [
+        "Keyboard_1", "Keyboard_2", "Keyboard_3", "Keyboard_4", "Keyboard_5",
+        "Keyboard_6", "Keyboard_7", "Keyboard_8", "Keyboard_9", "Keyboard_0"
+    ];
+
+    private static readonly string[] Ordinals =
+    [
+        "first", "second", "third", "fourth", "fifth",
+        "sixth", "seventh", "eighth", "ninth", "tenth"
+    ];
+
+    /// <summary>
+    /// Adds the ten taskbar-position commands to a layer, addressed by key position.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// These are the one deliberate exception to listing digits by the character they type, and
+    /// the reason is Windows itself: the commands are bound to the virtual keys VK_1 to VK_0,
+    /// not to the character produced. Two things follow, and listing by character got both
+    /// wrong.
+    /// </para>
+    /// <para>
+    /// On a French layout the top-row key types <c>&amp;</c> unmodified and still opens the first
+    /// taskbar app, so a lookup for <c>"1"</c> would never find it. And the num pad's <c>1</c>
+    /// types the same character as the top row while opening nothing at all, so with Num Lock on
+    /// a lookup by character lit a key that has no command. Position is unambiguous on every
+    /// layout and avoids both.
+    /// </para>
+    /// </remarks>
+    private static Dictionary<string, Shortcut> WithTaskbarPositions(
+        Dictionary<string, Shortcut> keys,
+        FunctionGroup group,
+        string labelFormat)
+    {
+        for (var position = 0; position < TaskbarKeys.Length; position++)
+        {
+            keys[TaskbarKeys[position]] = new(
+                group,
+                string.Format(labelFormat, Ordinals[position]));
+        }
+
+        return keys;
+    }
 }

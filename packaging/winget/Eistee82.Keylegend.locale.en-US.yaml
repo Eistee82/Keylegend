@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.12.0.schema.json
 
 PackageIdentifier: Eistee82.Keylegend
-PackageVersion: 1.0.0
+PackageVersion: 1.1.0
 PackageLocale: en-US
 Publisher: Keylegend contributors
 PublisherUrl: https://github.com/Eistee82
@@ -36,7 +36,7 @@ Tags:
 - backlight
 - productivity
 - utility
-ReleaseNotesUrl: https://github.com/Eistee82/Keylegend/releases/tag/v1.0.0
+ReleaseNotesUrl: https://github.com/Eistee82/Keylegend/releases/tag/v1.1.0
 Documentations:
 - DocumentLabel: Documentation
   DocumentUrl: https://github.com/Eistee82/Keylegend/tree/main/docs/en

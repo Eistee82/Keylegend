@@ -59,10 +59,9 @@ public class NumpadKeysTests
     public void EveryNumpadKeyInTheShippedProfileIsCovered()
     {
         // Catches a profile listing a number pad key the table does not know about.
-        var profile = Core.Devices.DeviceProfileLoader.Load(
-            TestPaths.ShippedProfile("razer-deathstalker-v2-de"));
+        var measured = MeasuredKeys.Load();
 
-        var missing = profile.Keys
+        var missing = measured
             .Where(k => k.Id.StartsWith("Keyboard_Num", StringComparison.Ordinal))
             .Where(k => k.Id != "Keyboard_NumLock")     // the toggle itself is not a pad key
             .Where(k => !NumpadKeys.IsNumpadKey(k.Id))

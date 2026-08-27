@@ -34,11 +34,8 @@
   <data name="TabSettings" xml:space="preserve">
     <value>Налаштування</value>
   </data>
-  <data name="StatusDeviceVerified" xml:space="preserve">
-    <value>{0} · клавіш: {1} · відповідність перевірено на пристрої</value>
-  </data>
-  <data name="StatusDeviceNotVerified" xml:space="preserve">
-    <value>{0} · клавіш: {1} · відповідність ще не перевірено</value>
+  <data name="StatusDevice" xml:space="preserve">
+    <value>{0} · клавіш: {1}</value>
   </data>
   <data name="StatusProfileLabel" xml:space="preserve">
     <value>профіль: {0}</value>
@@ -138,6 +135,21 @@
   </data>
   <data name="KeyboardNoProfile" xml:space="preserve">
     <value>Профіль пристрою не завантажено</value>
+  </data>
+  <data name="StartupNoKeyboard" xml:space="preserve">
+    <value>Клавіатуру Razer не знайдено. Keylegend отримує дані про підключену клавіатуру з Razer Synapse, тому Synapse має бути встановлений і запущений, а клавіатура підключена.</value>
+  </data>
+
+  <data name="StartupNoDrawing" xml:space="preserve">
+    <value>Razer Synapse знає вашу клавіатуру, але не зберігає її креслення, а саме з нього Keylegend бере форму клавіш і нанесені на них символи. Відкрийте Synapse один раз із під'єднаною клавіатурою, щоб він завантажив креслення, і запустіть Keylegend знову.</value>
+  </data>
+
+  <data name="StartupDrawingUnreadable" xml:space="preserve">
+    <value>У Razer Synapse є креслення вашої клавіатури, але Keylegend не зміг його розібрати — можливо, Razer змінив формат. Повідомте про це на https://github.com/Eistee82/Keylegend/issues, вказавши модель клавіатури.</value>
+  </data>
+
+  <data name="StartupAlreadyRunning" xml:space="preserve">
+    <value>Уже працює інша копія Keylegend, і вона не поступилася місцем цій. Завершіть її в диспетчері задач і запустіть Keylegend знову.</value>
   </data>
   <data name="ColoursCategoriesHeading" xml:space="preserve">
     <value>Категорії клавіш</value>
@@ -454,11 +466,11 @@
   <data name="TrayTooltipIdle" xml:space="preserve">
     <value>Keylegend — простій</value>
   </data>
+  <data name="TrayTooltipTrouble" xml:space="preserve">
+    <value>Keylegend — підсвітка не працює</value>
+  </data>
   <data name="TrayTooltipPaused" xml:space="preserve">
     <value>Keylegend — призупинено</value>
-  </data>
-  <data name="TrayBalloonText" xml:space="preserve">
-    <value>Далі працює в області сповіщень.</value>
   </data>
   <data name="CommonReset" xml:space="preserve">
     <value>Скинути</value>

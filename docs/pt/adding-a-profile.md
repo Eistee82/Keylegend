@@ -34,11 +34,11 @@ O que se segue é a parte que corre mal mesmo depois de o formato ter sido lido.
 
 ## 3. Posições e carateres não são a mesma coisa
 
-Os identificadores de tecla vêm do perfil de dispositivo e nomeiam **posições americanas**.
-`Keyboard_Y` é a tecla física que escreve `Y` num teclado americano — num alemão, essa tecla
-escreve `Z`. O formato tem portanto duas maneiras de nomear uma tecla, e escolher a errada produz
-um perfil visivelmente errado em qualquer esquema não americano, parecendo perfeito na máquina onde
-foi escrito.
+Os identificadores de tecla vêm da tabela do protocolo de iluminação e nomeiam **posições
+americanas**. `Keyboard_Y` é a tecla física que escreve `Y` num teclado americano — num alemão,
+essa tecla escreve `Z`. O formato tem portanto duas maneiras de nomear uma tecla, e escolher a
+errada produz um perfil visivelmente errado em qualquer esquema não americano, parecendo perfeito
+na máquina onde foi escrito.
 
 A pergunta a fazer em cada entrada é sobre o que ela é realmente:
 
@@ -93,9 +93,9 @@ dotnet test
 ```
 
 Os testes de perfis verificam cada ficheiro sob `profiles/`: o identificador é único e coincide com
-o nome do ficheiro, `kind` coincide com a pasta, cada identificador de tecla existe num perfil de
-dispositivo incluído, as cores são interpretáveis, os grupos e as combinações de modificadores são
-válidos e escritos na forma canónica, cada atalho traz etiqueta, nenhuma tecla de letra está sob
+o nome do ficheiro, `kind` coincide com a pasta, cada identificador de tecla existe na tabela da
+matriz, as cores são interpretáveis, os grupos e as combinações de modificadores são válidos e
+escritos na forma canónica, cada atalho traz etiqueta, nenhuma tecla de letra está sob
 `shortcuts.keys` (o lugar dela é `characters`), nenhum perfil está vazio, e não há dois perfis a
 reivindicar o mesmo executável sem se distinguirem por `titleContains`.
 

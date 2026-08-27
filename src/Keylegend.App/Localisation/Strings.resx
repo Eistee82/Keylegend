@@ -86,11 +86,8 @@
   </data>
 
   <!-- Header and status line -->
-  <data name="StatusDeviceVerified" xml:space="preserve">
-    <value>{0} · {1} keys · mapping verified on hardware</value>
-  </data>
-  <data name="StatusDeviceNotVerified" xml:space="preserve">
-    <value>{0} · {1} keys · mapping not yet verified</value>
+  <data name="StatusDevice" xml:space="preserve">
+    <value>{0} · {1} keys</value>
   </data>
   <data name="StatusProfileLabel" xml:space="preserve">
     <value>profile: {0}</value>
@@ -196,6 +193,21 @@
   </data>
   <data name="KeyboardNoProfile" xml:space="preserve">
     <value>No device profile loaded</value>
+  </data>
+  <data name="StartupNoKeyboard" xml:space="preserve">
+    <value>No Razer keyboard found. Keylegend reads the attached keyboard from Razer Synapse, so Synapse has to be installed and running, with the keyboard plugged in.</value>
+  </data>
+
+  <data name="StartupNoDrawing" xml:space="preserve">
+    <value>Razer Synapse knows your keyboard but keeps no drawing of it, and that drawing is where Keylegend takes the shape of the keys and their printed characters from. Open Synapse once with the keyboard connected, so that it fetches the drawing, then start Keylegend again.</value>
+  </data>
+
+  <data name="StartupDrawingUnreadable" xml:space="preserve">
+    <value>Razer Synapse has a drawing of your keyboard, but Keylegend could not make sense of it — Razer may have changed how those files look. Please report it at https://github.com/Eistee82/Keylegend/issues, naming your keyboard model.</value>
+  </data>
+
+  <data name="StartupAlreadyRunning" xml:space="preserve">
+    <value>Another copy of Keylegend is already running and would not make way for this one. End it in Task Manager, then start Keylegend again.</value>
   </data>
 
   <!-- Colours tab -->
@@ -524,11 +536,11 @@
   <data name="TrayTooltipIdle" xml:space="preserve">
     <value>Keylegend — idle</value>
   </data>
+  <data name="TrayTooltipTrouble" xml:space="preserve">
+    <value>Keylegend — lighting not working</value>
+  </data>
   <data name="TrayTooltipPaused" xml:space="preserve">
     <value>Keylegend — paused</value>
-  </data>
-  <data name="TrayBalloonText" xml:space="preserve">
-    <value>Still running in the notification area.</value>
   </data>
 
   <!-- Shared by more than one area -->

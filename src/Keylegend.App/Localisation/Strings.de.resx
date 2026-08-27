@@ -37,11 +37,8 @@
   </data>
 
   <!-- Kopfzeile und Statuszeile -->
-  <data name="StatusDeviceVerified" xml:space="preserve">
-    <value>{0} · {1} Tasten · Zuordnung an der Hardware geprüft</value>
-  </data>
-  <data name="StatusDeviceNotVerified" xml:space="preserve">
-    <value>{0} · {1} Tasten · Zuordnung noch nicht geprüft</value>
+  <data name="StatusDevice" xml:space="preserve">
+    <value>{0} · {1} Tasten</value>
   </data>
   <data name="StatusProfileLabel" xml:space="preserve">
     <value>Profil: {0}</value>
@@ -147,6 +144,21 @@
   </data>
   <data name="KeyboardNoProfile" xml:space="preserve">
     <value>Kein Geräteprofil geladen</value>
+  </data>
+  <data name="StartupNoKeyboard" xml:space="preserve">
+    <value>Keine Razer-Tastatur gefunden. Keylegend liest die angeschlossene Tastatur aus Razer Synapse — Synapse muss also installiert und gestartet sein und die Tastatur angesteckt.</value>
+  </data>
+
+  <data name="StartupNoDrawing" xml:space="preserve">
+    <value>Razer Synapse kennt Ihre Tastatur, hält aber keine Zeichnung von ihr — und aus der nimmt Keylegend die Form der Tasten und ihre Beschriftung. Öffnen Sie Synapse einmal mit angeschlossener Tastatur, damit es die Zeichnung lädt, und starten Sie Keylegend erneut.</value>
+  </data>
+
+  <data name="StartupDrawingUnreadable" xml:space="preserve">
+    <value>Razer Synapse hat eine Zeichnung Ihrer Tastatur, aber Keylegend konnte sie nicht lesen — möglicherweise hat Razer das Format geändert. Bitte melden Sie das unter https://github.com/Eistee82/Keylegend/issues und nennen Sie Ihr Tastaturmodell.</value>
+  </data>
+
+  <data name="StartupAlreadyRunning" xml:space="preserve">
+    <value>Es läuft bereits eine Kopie von Keylegend, die für diese nicht Platz gemacht hat. Beenden Sie sie im Task-Manager und starten Sie Keylegend erneut.</value>
   </data>
 
   <!-- Reiter „Farben“ -->
@@ -475,11 +487,11 @@
   <data name="TrayTooltipIdle" xml:space="preserve">
     <value>Keylegend — ruhend</value>
   </data>
+  <data name="TrayTooltipTrouble" xml:space="preserve">
+    <value>Keylegend — Beleuchtung gestört</value>
+  </data>
   <data name="TrayTooltipPaused" xml:space="preserve">
     <value>Keylegend — pausiert</value>
-  </data>
-  <data name="TrayBalloonText" xml:space="preserve">
-    <value>Läuft im Infobereich weiter.</value>
   </data>
 
   <!-- Von mehreren Bereichen genutzt -->

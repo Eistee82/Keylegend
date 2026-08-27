@@ -4,85 +4,303 @@
   "id": "firefox",
   "name": "Mozilla Firefox",
   "kind": "app",
-
   "match": {
-    "processes": ["firefox"],
+    "processes": [
+      "firefox"
+    ],
     "priority": 10
   },
-
+  "highlights": {
+    "Keyboard_F5": {
+      "colour": "#00FF00",
+      "label": "Reload page"
+    },
+    "Keyboard_F3": {
+      "colour": "#FFFF00",
+      "label": "Find in page"
+    },
+    "Keyboard_F11": {
+      "colour": "#FF00FF",
+      "label": "Full screen"
+    },
+    "Keyboard_F12": {
+      "colour": "#FF8C00",
+      "label": "Developer tools"
+    },
+    "Keyboard_F1": {
+      "colour": "#00FFFF",
+      "label": "Firefox help"
+    },
+    "Keyboard_F7": {
+      "colour": "#0000FF",
+      "label": "Caret browsing on or off"
+    },
+    "Keyboard_Escape": {
+      "colour": "#FF0000",
+      "label": "Stop loading"
+    }
+  },
   "shortcuts": {
     "Ctrl": {
       "characters": {
-        "t": { "group": "Window", "label": "New tab" },
-        "w": { "group": "Window", "label": "Close tab" },
-        "n": { "group": "Window", "label": "New window" },
-        "l": { "group": "Navigation", "label": "Focus address bar" },
-        "k": { "group": "Search", "label": "Focus search bar" },
-        "r": { "group": "Navigation", "label": "Reload page" },
-        "f": { "group": "Search", "label": "Find in page" },
-        "g": { "group": "Search", "label": "Find next match" },
-        "d": { "group": "File", "label": "Bookmark this page" },
-        "j": { "group": "Tools", "label": "Downloads" },
-        "h": { "group": "Tools", "label": "History sidebar" },
-        "b": { "group": "Tools", "label": "Bookmarks sidebar" },
-        "u": { "group": "Tools", "label": "View page source" },
-        "p": { "group": "File", "label": "Print" },
-        "s": { "group": "File", "label": "Save page as" },
-        "o": { "group": "File", "label": "Open file" },
-        "+": { "group": "View", "label": "Zoom in" },
-        "-": { "group": "View", "label": "Zoom out" },
-        "0": { "group": "View", "label": "Reset zoom" },
-        "1": { "group": "Window", "label": "Go to tab 1" },
-        "2": { "group": "Window", "label": "Go to tab 2" },
-        "3": { "group": "Window", "label": "Go to tab 3" },
-        "4": { "group": "Window", "label": "Go to tab 4" },
-        "5": { "group": "Window", "label": "Go to tab 5" },
-        "6": { "group": "Window", "label": "Go to tab 6" },
-        "7": { "group": "Window", "label": "Go to tab 7" },
-        "8": { "group": "Window", "label": "Go to tab 8" },
-        "9": { "group": "Window", "label": "Go to last tab" }
+        "t": {
+          "group": "Window",
+          "label": "New tab"
+        },
+        "w": {
+          "group": "Window",
+          "label": "Close tab"
+        },
+        "n": {
+          "group": "Window",
+          "label": "New window"
+        },
+        "l": {
+          "group": "Navigation",
+          "label": "Focus address bar"
+        },
+        "k": {
+          "group": "Search",
+          "label": "Focus search bar"
+        },
+        "r": {
+          "group": "Navigation",
+          "label": "Reload page"
+        },
+        "f": {
+          "group": "Search",
+          "label": "Find in page"
+        },
+        "g": {
+          "group": "Search",
+          "label": "Find next match"
+        },
+        "d": {
+          "group": "File",
+          "label": "Bookmark this page"
+        },
+        "j": {
+          "group": "Tools",
+          "label": "Downloads"
+        },
+        "h": {
+          "group": "Tools",
+          "label": "History sidebar"
+        },
+        "b": {
+          "group": "Tools",
+          "label": "Bookmarks sidebar"
+        },
+        "u": {
+          "group": "Tools",
+          "label": "View page source"
+        },
+        "p": {
+          "group": "File",
+          "label": "Print"
+        },
+        "s": {
+          "group": "File",
+          "label": "Save page as"
+        },
+        "o": {
+          "group": "File",
+          "label": "Open file"
+        },
+        "+": {
+          "group": "View",
+          "label": "Zoom in"
+        },
+        "-": {
+          "group": "View",
+          "label": "Zoom out"
+        },
+        "0": {
+          "group": "View",
+          "label": "Reset zoom"
+        },
+        "1": {
+          "group": "Window",
+          "label": "Go to tab 1"
+        },
+        "2": {
+          "group": "Window",
+          "label": "Go to tab 2"
+        },
+        "3": {
+          "group": "Window",
+          "label": "Go to tab 3"
+        },
+        "4": {
+          "group": "Window",
+          "label": "Go to tab 4"
+        },
+        "5": {
+          "group": "Window",
+          "label": "Go to tab 5"
+        },
+        "6": {
+          "group": "Window",
+          "label": "Go to tab 6"
+        },
+        "7": {
+          "group": "Window",
+          "label": "Go to tab 7"
+        },
+        "8": {
+          "group": "Window",
+          "label": "Go to tab 8"
+        },
+        "9": {
+          "group": "Window",
+          "label": "Go to last tab"
+        }
       },
       "keys": {
-        "Keyboard_Tab": { "group": "Window", "label": "Cycle through tabs" },
-        "Keyboard_PageDown": { "group": "Window", "label": "Next tab" },
-        "Keyboard_PageUp": { "group": "Window", "label": "Previous tab" },
-        "Keyboard_F4": { "group": "Window", "label": "Close tab" },
-        "Keyboard_Enter": { "group": "Navigation", "label": "Complete address with www. and .com" }
+        "Keyboard_Tab": {
+          "group": "Window",
+          "label": "Cycle through tabs"
+        },
+        "Keyboard_PageDown": {
+          "group": "Window",
+          "label": "Next tab"
+        },
+        "Keyboard_PageUp": {
+          "group": "Window",
+          "label": "Previous tab"
+        },
+        "Keyboard_F4": {
+          "group": "Window",
+          "label": "Close tab"
+        },
+        "Keyboard_F5": {
+          "group": "Navigation",
+          "label": "Reload ignoring cached content"
+        },
+        "Keyboard_Enter": {
+          "group": "Navigation",
+          "label": "Complete address with www. and .com"
+        }
       }
     },
-
     "Ctrl+Shift": {
       "characters": {
-        "t": { "group": "Window", "label": "Reopen closed tab" },
-        "p": { "group": "Window", "label": "New private window" },
-        "w": { "group": "Window", "label": "Close window" },
-        "o": { "group": "Tools", "label": "Bookmarks library" },
-        "h": { "group": "Tools", "label": "History library" },
-        "a": { "group": "Tools", "label": "Add-ons manager" },
-        "i": { "group": "Tools", "label": "Developer tools" },
-        "k": { "group": "Tools", "label": "Web console" },
-        "m": { "group": "Tools", "label": "Responsive design mode" },
-        "b": { "group": "View", "label": "Show or hide bookmarks toolbar" },
-        "r": { "group": "Navigation", "label": "Reload ignoring cached content" },
-        "d": { "group": "File", "label": "Bookmark all open tabs" },
-        "g": { "group": "Search", "label": "Find previous match" }
+        "t": {
+          "group": "Window",
+          "label": "Reopen closed tab"
+        },
+        "p": {
+          "group": "Window",
+          "label": "New private window"
+        },
+        "w": {
+          "group": "Window",
+          "label": "Close window"
+        },
+        "o": {
+          "group": "Tools",
+          "label": "Bookmarks library"
+        },
+        "h": {
+          "group": "Tools",
+          "label": "History library"
+        },
+        "a": {
+          "group": "Tools",
+          "label": "Add-ons manager"
+        },
+        "i": {
+          "group": "Tools",
+          "label": "Developer tools"
+        },
+        "c": {
+          "group": "Tools",
+          "label": "Inspect an element"
+        },
+        "e": {
+          "group": "Tools",
+          "label": "Developer tools, on the network panel"
+        },
+        "y": {
+          "group": "Tools",
+          "label": "Show or hide the downloads sidebar"
+        },
+        "s": {
+          "group": "Tools",
+          "label": "Take a screenshot"
+        },
+        "v": {
+          "group": "Edit",
+          "label": "Paste without formatting"
+        },
+        "k": {
+          "group": "Tools",
+          "label": "Web console"
+        },
+        "m": {
+          "group": "Tools",
+          "label": "Responsive design mode"
+        },
+        "b": {
+          "group": "View",
+          "label": "Show or hide bookmarks toolbar"
+        },
+        "r": {
+          "group": "Navigation",
+          "label": "Reload ignoring cached content"
+        },
+        "d": {
+          "group": "File",
+          "label": "Bookmark all open tabs"
+        },
+        "g": {
+          "group": "Search",
+          "label": "Find previous match"
+        }
       },
       "keys": {
-        "Keyboard_Tab": { "group": "Window", "label": "Cycle backwards through tabs" },
-        "Keyboard_Delete": { "group": "System", "label": "Clear recent history" },
-        "Keyboard_PageUp": { "group": "Window", "label": "Move tab left" },
-        "Keyboard_PageDown": { "group": "Window", "label": "Move tab right" }
+        "Keyboard_Tab": {
+          "group": "Window",
+          "label": "Cycle backwards through tabs"
+        },
+        "Keyboard_Delete": {
+          "group": "System",
+          "label": "Clear recent history"
+        },
+        "Keyboard_PageUp": {
+          "group": "Window",
+          "label": "Move tab left"
+        },
+        "Keyboard_PageDown": {
+          "group": "Window",
+          "label": "Move tab right"
+        },
+        "Keyboard_Enter": {
+          "group": "Navigation",
+          "label": "Complete address with www. and .org"
+        }
       }
     },
-
     "Alt": {
       "characters": {
-        "d": { "group": "Navigation", "label": "Focus address bar" }
+        "d": {
+          "group": "Navigation",
+          "label": "Focus address bar"
+        }
       },
       "keys": {
-        "Keyboard_ArrowLeft": { "group": "Navigation", "label": "Back" },
-        "Keyboard_ArrowRight": { "group": "Navigation", "label": "Forward" },
-        "Keyboard_Home": { "group": "Navigation", "label": "Open home page" }
+        "Keyboard_ArrowLeft": {
+          "group": "Navigation",
+          "label": "Back"
+        },
+        "Keyboard_ArrowRight": {
+          "group": "Navigation",
+          "label": "Forward"
+        },
+        "Keyboard_Home": {
+          "group": "Navigation",
+          "label": "Open home page"
+        }
       }
     }
   }

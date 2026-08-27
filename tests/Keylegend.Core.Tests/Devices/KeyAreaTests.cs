@@ -32,42 +32,42 @@ public class KeyAreaTests
     public void APartOutsideTheCanvasIsRejected()
     {
         // Parts are validated like the main area, or a typo would draw off-screen unnoticed.
-        var profile = ProfileWith(Key([new KeyArea(400, 20, 200, 19)]));
+        var profile = KeyboardWith(Key([new KeyArea(400, 20, 200, 19)]));
 
-        Assert.Contains(DeviceProfileValidator.Validate(profile), p => p.Contains("outside the canvas"));
+        Assert.Contains(AttachedKeyboardValidator.Validate(profile), p => p.Contains("outside the canvas"));
     }
 
     [Fact]
     public void APartWithNoSizeIsRejected()
     {
-        var profile = ProfileWith(Key([new KeyArea(10, 1, 0, 19)]));
+        var profile = KeyboardWith(Key([new KeyArea(10, 1, 0, 19)]));
 
-        Assert.Contains(DeviceProfileValidator.Validate(profile), p => p.Contains("non-positive size"));
+        Assert.Contains(AttachedKeyboardValidator.Validate(profile), p => p.Contains("non-positive size"));
     }
 
     [Fact]
     public void AValidComposedKeyPasses()
     {
-        var profile = ProfileWith(Key([new KeyArea(5, 1, 35, 19)]));
+        var profile = KeyboardWith(Key([new KeyArea(5, 1, 35, 19)]));
 
-        Assert.Empty(DeviceProfileValidator.Validate(profile));
+        Assert.Empty(AttachedKeyboardValidator.Validate(profile));
     }
 
     [Fact]
-    public void TheShippedProfileDrawsEnterAsOneKey()
+    public void TheMeasuredKeyboardDrawsEnterAsOneKey()
     {
         // The upper half of the ISO Enter drives no LED on this model, so it is part of the
         // Enter key rather than a key of its own - otherwise the interface shows a key that
         // does not exist.
-        var profile = DeviceProfileLoader.Load(TestPaths.ShippedProfile("razer-deathstalker-v2-de"));
+        var measured = MeasuredKeys.Load();
 
-        Assert.DoesNotContain(profile.Keys, k => k.Id == "Keyboard_Backslash");
+        Assert.DoesNotContain(measured, k => k.Id == "Keyboard_Backslash");
 
-        var enter = profile.Keys.Single(k => k.Id == "Keyboard_Enter");
+        var enter = measured.Single(k => k.Id == "Keyboard_Enter");
         Assert.Equal(2, enter.Areas().Count());
     }
 
-    private static DeviceProfile ProfileWith(params KeyDefinition[] keys)
-        => new(1, "Test", "Test", "T1", "ISO-DE", "device.png",
-            new Canvas(500, 200), new MatrixSize(6, 22), true, keys);
+    private static AttachedKeyboard KeyboardWith(params KeyDefinition[] keys)
+        => new("Test", "ISO-DE",
+            new Canvas(500, 200), new MatrixSize(6, 22), keys);
 }

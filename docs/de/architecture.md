@@ -6,7 +6,7 @@ Die gesamte Entscheidungslogik ist eine **reine Berechnung** ohne Zugriff auf Wi
 oder Dateisystem:
 
 ```
-(Tastaturzustand, Geräteprofil, Anwendungsprofil, Farbeinstellungen) → Farbe je Taste
+(Tastaturzustand, angeschlossene Tastatur, Anwendungsprofil, Farbeinstellungen) → Farbe je Taste
 ```
 
 Daraus folgen zwei Eigenschaften, und sie sind der Grund für diesen Zuschnitt:
@@ -22,9 +22,10 @@ Alles, was mit der Außenwelt spricht, liegt in dünnen Adaptern darum herum.
 
 | Projekt | Enthält | Darf abhängen von |
 |---|---|---|
-| `Keylegend.Core` | Geräteprofile, Kategorien, Kürzelsätze, Bilderzeugung, Zustandsautomat | nichts Plattformspezifischem |
+| `Keylegend.Core` | die angeschlossene Tastatur, Kategorien, Kürzelsätze, Bilderzeugung, Zustandsautomat | nichts Plattformspezifischem |
 | `Keylegend.Windows` | Tastaturzustand, Zeichenermittlung, Vordergrundfenster | Windows-Schnittstellen |
 | `Keylegend.Chroma` | REST-Anbindung an das Chroma SDK, Heartbeat | Netzwerk |
+| `Keylegend.Engine` | die Schleife, die die Tastatur liest, ein Bild erzeugt und es sendet | Core, Chroma, Windows |
 | `Keylegend.App` | WPF-Oberfläche, Tray-Symbol, Konfigurationsablage | allem Vorgenannten |
 
 `Keylegend.Core` darf die anderen niemals referenzieren. Wenn eine Änderung das nötig zu machen
@@ -63,34 +64,43 @@ deshalb funktioniert jedes Tastaturlayout ohne Anpassung.
 
 ### Welche Tastatur angeschlossen ist
 
-Das Chroma-SDK kann es nicht sagen. Seine REST-Schnittstelle hat keinen Abfrage-Endpunkt — der
-Aufbau einer Sitzung liefert eine Kennung und eine URI zurück, und ein `GET` auf diese URI wird
-mit „Not Supported" beantwortet. Die native DLL bietet `QueryDevice`, das aber beantwortet nur
-„ist *diese* GUID vorhanden?", ein Modell nach dem anderen; die Anfrage nach einer Liste
-angeschlossener Geräte liegt im aktivsten Community-Wrapper seit 2016 unbeantwortet.
+Razer Synapse wird gefragt, denn es weiß es bereits. Es schreibt eine Beschreibung jedes
+angeschlossenen Geräts nach `…\Razer Chroma SDK\Devices\<guid>.json`: das Modell mit Namen, das
+physische Layout als Zahl, die Matrixgröße und den Scancode jeder Taste, die die Hardware wirklich
+hat. `SdkDeviceDescription` liest das. Nichts an der Tastatur wird erschlossen — nicht das
+Modell, nicht das Layout, nicht welche Tasten es gibt.
 
-Windows beantwortet sie in einem Aufruf. `ConnectedKeyboards` fragt Raw Input nach den
-angeschlossenen Geräten und liest aus deren Namen die USB-Hersteller- und Produktkennung heraus
-— `1532:0295` bei einer DeathStalker V2. Ein Geräteprofil mit passendem `usb`-Paar gewinnt dann
-ohne Weiteres.
+Die eigenen Schnittstellen des Chroma SDK können das nicht beantworten. Der REST-Weg hat keinen
+Abfragepunkt — eine Sitzung anzulegen gibt eine Kennung und eine URI zurück, und ein `GET` darauf
+antwortet „Not Supported“. Die native DLL bietet `QueryDevice`, das aber nur „ist *diese* GUID
+vorhanden?“ beantwortet, ein Modell auf einmal; die Bitte um eine Liste angeschlossener Geräte
+liegt im aktivsten Community-Wrapper seit 2016 offen.
 
-Zwei Dinge verdienen Genauigkeit. Raw Input wird hier **ausschließlich zum Aufzählen von
-Geräten** verwendet, niemals um Eingaben von ihnen zu empfangen: Tastaturen aufzulisten heißt
-nicht, sie abzuhören, und die Zusage weiter oben bleibt unangetastet. Und ein Hersteller
-verwendet dieselbe Produktkennung über alle Layouts hinweg, die Erkennung engt die Auswahl also
-auf ein *Modell* ein; welche ISO- oder ANSI-Variante davon gilt, entscheidet danach das aktive
-Windows-Tastaturlayout — als Hinweis und nur zum Auflösen dieses Gleichstands.
+Wie die Tastatur *aussieht*, kommt aus derselben Installation. Synapses Oberfläche ist eine
+Web-Anwendung, und die Zeichnungen, die sie für ein Gerät lädt, bleiben in ihrem Cache: Tastenrechtecke
+mit Namen, die Form des Gehäuses samt Drehregler und Medienleiste, und die Umrisse der Zeichen, die
+auf den Kappen stehen. `SvgLayoutSource` findet die zum angeschlossenen Modell und physischen Layout
+— genau, nicht nach Form: jede Zeichnung wird neben einem Konfigurationsobjekt ausgeliefert, das
+beides nennt, und die Layout-Kennung darin ist dieselbe Zahl, die der Dienst meldet.
 
-Das wiegt schwerer, als es aussieht. Solange ein einziges Profil mitgeliefert wurde, war „die
-erste gefundene Datei" dasselbe wie „die richtige". Bei zweiunddreißig war es ein 60-%-Layout,
-das zwei Drittel einer Vollformat-Tastatur dunkel ließ — ein Profil, das eine Taste nicht
-erwähnt, kann sie auch nicht beleuchten.
+Übernommen werden nur Maße und Umrisse. Razers Farben und Gestaltung bleiben unbeachtet, und nichts
+von der Zeichnung liegt in diesem Repository — sie wird zur Laufzeit aus der Installation gelesen,
+die sie ohnehin schon hat.
+
+Das Einzige, was weder Beschreibung noch Zeichnung sagt, ist die Zelle der Beleuchtungsmatrix zu
+jeder Taste. Das ist `StandardKeyMatrix`, die `RZKEY`-Tabelle des Protokolls, auf jedem Modell
+dieselbe — weshalb auch Synapse dafür keine Modelltabelle braucht.
+
+**Es wird also überhaupt keine Tastaturbeschreibung mitgeliefert.** Es gibt keinen Ordner dafür,
+keine Datei, die man für eine neue Tastatur schreiben müsste, und keine Liste unterstützter
+Modelle. Die eine von Hand vermessene Tastatur bleibt als Testdatum, und `FromDrawingTests` prüft
+den ganzen Aufbau dagegen: dieselben Tasten, und jede auf der Zelle, die an der Hardware gemessen
+wurde.
 
 ## Anwendungsprofile
 
 Ein Profil bindet Beleuchtungsregeln an ein Programm. Rund neunzig werden mitgeliefert, und die
-Entscheidungen dahinter sind erwähnenswert, weil jede davon nicht die erste, sondern die zweite
-Antwort war.
+Entscheidungen dahinter sind erwähnenswert, weil keine davon die naheliegende Antwort ist.
 
 ### Profile sind Daten, kein Code
 
@@ -102,13 +112,13 @@ ein neues Programm Code erfordern, wäre das Format falsch.
 
 ### Eingebettet statt lose auf der Platte
 
-Geräteprofile liegen neben der ausführbaren Datei, Anwendungsprofile nicht. Dafür gibt es drei
-Gründe, und jeder einzelne würde genügen. Eine Einzeldatei-Fassung trägt die Profile mit sich,
-ohne einen Ordner, der verlorengehen kann. Auf der Platte lässt sich nichts versehentlich
-ändern, und erst das gibt dem „auf den mitgelieferten Stand zurücksetzen“ überhaupt eine
-Bedeutung — der mitgelieferte Stand muss unerreichbar sein, um ein Stand zu sein, auf den sich
-zurücksetzen lohnt. Und ein Profil, das nicht lesbar ist, wird zum Fehler beim Bauen statt zu
-einem Programm, das stillschweigend keine Profile hat.
+Anwendungsprofile sind in die Assembly kompiliert und liegen nicht als Dateien neben der
+ausführbaren Datei. Dafür gibt es drei Gründe, und jeder einzelne würde genügen. Eine Einzeldatei-
+Fassung trägt die Profile mit sich, ohne einen Ordner, der verlorengehen kann. Auf der Platte lässt
+sich nichts versehentlich ändern, und erst das gibt dem „auf den mitgelieferten Stand zurücksetzen“
+überhaupt eine Bedeutung — der mitgelieferte Stand muss unerreichbar sein, um ein Stand zu sein,
+auf den sich zurücksetzen lohnt. Und ein Profil, das nicht lesbar ist, wird zum Fehler beim Bauen
+statt zu einem Programm, das stillschweigend keine Profile hat.
 
 ### Überschrieben wird abschnittsweise
 
@@ -119,7 +129,7 @@ Fassung ein Profil noch verbessern kann, das jemand teilweise bearbeitet hat. Di
 diese Mechanik und darf sich nach der Auslieferung nie mehr ändern — eine Umbenennung macht die
 Änderungen eines Anwenders heimatlos.
 
-Die Feinheit wurde gegen beide naheliegenden Alternativen gewählt:
+Die Feinheit hält gegen beide naheliegenden Alternativen:
 
 - **Je Feld** wirkt aufgeräumter und erzeugt Zustände, die niemand eingerichtet hat. Wer `W`
   umfärbt und dann eine Fassung übernimmt, die `Q` ergänzt, bekommt eine Mischung, die er nie
@@ -130,14 +140,22 @@ Die Feinheit wurde gegen beide naheliegenden Alternativen gewählt:
 Ein Abschnitt ist die Feinheit, zu der die Änderung noch einen Satz hat: Du hast die
 Hervorhebungen bearbeitet, also gehören die Hervorhebungen jetzt dir.
 
-### Ein Profil ersetzt nur die Ebenen, die es nennt
+### Ein Profil wird über den allgemeinen Satz gelegt, Eintrag für Eintrag
 
-Kürzel sind nach Modifier-Kombination abgelegt und werden über den allgemeinen Satz gelegt,
-nicht an dessen Stelle gesetzt. Photoshop weiß, was `Strg` in Photoshop bedeutet; über
-`Windows+E` weiß es nichts, denn das vergibt Windows systemweit und es trifft zu, gleich was im
-Vordergrund ist. Den ganzen Satz zu ersetzen machte ein Profil für Tatsachen zuständig, zu
-denen es keine Meinung hat. Nennt ein Profil keine einzige Ebene, wird der allgemeine Satz
-unverändert zurückgegeben, sodass der Normalfall nichts kostet.
+Kürzel sind nach Modifier-Kombination geordnet, und die Einträge eines Profils legen sich über die
+allgemeinen statt an ihre Stelle — eintragsweise, nicht ebenenweise. Photoshop weiß, was `Strg+J`
+in Photoshop bedeutet; es weiß nichts über `Windows+E`, das Windows systemweit vergibt, und nichts
+über `Strg+C`, das überall gilt, wo eine Schreibmarke steht.
+
+Ebenenweise hieße, dass ein Profil, das `Strg` für seine eigenen Befehle nennt, die ganze Ebene
+mitnimmt, und die Zwischenablage ist der Preis dafür: Kopieren, Einfügen, Ausschneiden, Rückgängig
+und Alles-markieren gehen im Browser aus, im Chat-Programm, im Terminal — Programmen, in denen man
+kaum etwas anderes tut als schreiben und einfügen. Eintragsweise gewinnt, wer eine Taste nennt, für
+diese Taste, und sonst bewegt sich nichts. Eine Ebene komplett zu leeren, ist bewusst nicht
+möglich.
+
+Ein Profil, das keine Ebene nennt, gibt den allgemeinen Katalog unverändert zurück; der häufige
+Fall belegt also keinen Speicher.
 
 ### Kürzel und Hervorhebungen tragen eine Beschriftung
 
@@ -150,16 +168,32 @@ neunzig Profilen ist sie der einzige Weg, überhaupt zu beurteilen, ob ein Eintr
 
 ### Umstellung einer Einstellungsdatei der Version 1
 
-Version 1 speicherte Profile vollständig, ohne Kennung und ohne jeden Vermerk, woher ein Profil
-stammt. Genau das behebt das neue Format: Eine Überschreibung braucht eine Kennung, an der sie
-hängt, und ein Zurücksetzen muss wissen, dass es eine mitgelieferte Fassung gibt, auf die
-zurückgesetzt werden kann.
+Eine Datei der Version 1 speichert Profile vollständig, ohne Kennung und ohne jeden Vermerk, woher
+ein Profil stammt. Eine Überschreibung braucht aber eine Kennung, an der sie hängt, und ein
+Zurücksetzen muss wissen, dass es eine mitgelieferte Fassung gibt — eine solche Datei kann daher
+nicht sagen, welche ihrer Einträge mitgelieferte sind.
 
-Für die Umstellung folgt daraus, dass eine alte Datei nicht sagen kann, welche ihrer Einträge
-einmal mitgeliefert waren. Also werden alle zu eigenen Profilen. Das bewahrt jede Änderung, die
-jemand vorgenommen hat, um den Preis, dass das mitgelieferte Profil neben der übernommenen
-Fassung steht, bis eines von beiden entfernt wird. Das ist der richtige Tausch, denn die andere
-Lesart würde stillschweigend Arbeit löschen.
+Also werden alle zu eigenen Profilen. Das bewahrt jede Änderung, die jemand vorgenommen hat, um den
+Preis, dass das mitgelieferte Profil neben der übernommenen Fassung steht, bis eines von beiden
+entfernt wird — der richtige Tausch, denn die andere Lesart löscht stillschweigend Arbeit.
+
+### Umstellung einer Einstellungsdatei der Version 2
+
+Eine Datei der Version 2 führt jede Farbe auf, auch die unberührten, und kann deshalb nicht sagen,
+welche ihrer Einträge Entscheidungen sind und welche zurückgespiegelte Vorgaben. Alle zu befolgen
+nagelt die Palette fest: eine verbesserte mitgelieferte Farbe erreicht dann niemanden, der das
+Programm jemals gestartet hat.
+
+Version 3 schreibt nur, was von der mitgelieferten Palette abweicht; ein Eintrag in der Datei
+bedeutet damit, dass jemand ihn gewählt hat. Die Umstellung einer älteren Datei muss diese
+Unterscheidung erraten, und die Annahme ist: ein Eintrag, der der Palette jener Fassung entspricht,
+ist eine Vorgabe, alles andere eine Wahl. `PaletteBeforeFormat3` hält diese Palette als eingefrorene
+Kopie, statt die aktuelle zu lesen — dieser Vergleich ist in dem Moment bedeutungslos, in dem sich
+die Palette erneut ändert, also genau dann, wenn er gebraucht wird.
+
+Der Preis ist, dass jemand, der eine dieser Farben bewusst gewählt hat, sie verliert. Das ist die
+richtige Richtung: eine Person wählt eine Farbe erneut, gegen alle Nutzer, die eine Palette
+behalten, die niemand gewählt hat.
 
 ## Ansteuerung der Tastatur
 
@@ -194,6 +228,7 @@ Nutzer etwas anfangen kann, werden übersetzt:
 | 4309 | Chroma ist für dieses Gerät in Synapse abgeschaltet |
 | 1152 | eine andere Anwendung hält die Sitzung |
 | 1167 | kein Chroma-Gerät angeschlossen |
+| 5 | der Zugriff wurde verweigert |
 | 87 | die Anfrage war fehlerhaft |
 | 50 | die Anfrage wird nicht unterstützt |
 
@@ -202,18 +237,17 @@ Sitzungsdaten —, deshalb zählt dessen Fehlen als Erfolg.
 
 ### Wie oft Bilder gesendet werden
 
-Das wirkt wie eine Nebensache und ist keine. Beide naheliegenden Antworten sind falsch, und
-beide wurden ausprobiert.
+Das wirkt wie eine Nebensache und ist keine: beide naheliegenden Antworten sind falsch.
 
 **Nur bei Änderung senden** lässt die Übernahme verhungern. Ein gewöhnlicher Tastendruck ändert
-den Tastaturzustand nicht — das tun nur Modifier und Lock-Tasten —, also entstand bei einer
-Übernahme genau ein Bild. Chroma verwirft Bilder, solange es die Kontrolle noch übernimmt, und
-meldet dafür Erfolg. Dieses eine Bild konnte damit spurlos verschwinden und die Tastatur blieb
-auf dem vorherigen Effekt eingefroren, bis der Anwender zufällig einen Modifier drückte.
+den Tastaturzustand nicht — das tun nur Modifier und Lock-Tasten —, also ist eine Übernahme genau
+ein Bild. Chroma verwirft Bilder, solange es die Kontrolle noch übernimmt, und meldet dafür Erfolg.
+Dieses eine Bild kann damit spurlos verschwinden und die Tastatur bleibt auf dem vorherigen Effekt,
+bis der Anwender zufällig einen Modifier drückt.
 
 **So schnell wie möglich senden** zerstört die Reaktionsfähigkeit. Die Bilder stauen sich in der
 Schnittstelle, und eine Zustandsänderung wartet dann hinter allem bereits Gesendeten — ein
-Druck auf die Umschalttaste brauchte sichtbar ein bis zwei Sekunden.
+Druck auf die Umschalttaste braucht sichtbar ein bis zwei Sekunden.
 
 Was funktioniert: aus drei verschiedenen Anlässen mit drei verschiedenen Raten senden.
 
@@ -234,3 +268,13 @@ Was funktioniert: aus drei verschiedenen Anlässen mit drei verschiedenen Raten 
 Keylegend übernimmt beim ersten Tastendruck und gibt die Tastatur nach einer einstellbaren
 Ruhezeit wieder frei, sodass dein eigener Chroma-Studio-Effekt zurückkehrt. Die rund 500 ms
 Anlaufzeit fallen daher nur nach einer echten Pause an, nie während des Tippens.
+
+Nur eine Kopie von Keylegend steuert die Tastatur. Zwei würden zwei Sitzungen für dasselbe Gerät
+öffnen; der Dienst gibt es einer davon, und die andere beleuchtet nichts, meldet aber weiter Erfolg
+— was genau so aussieht wie ein Programm, das stillschweigend aufgehört hat zu arbeiten. Was ein
+zweiter Start bewirkt, hängt davon ab, was bereits läuft. Dasselbe Programm vom selben Ort heißt:
+jemand hat das Symbol angeklickt, während es im Infobereich saß. Dann kommt dessen Fenster hoch und
+der zweite Start tritt ab — nichts wird beendet, und die Beleuchtung flackert nicht. Alles andere —
+eine ältere Fassung oder dieselbe aus einem anderen Ordner — wird abgelöst: sie wird gebeten zu
+gehen, gibt ihre Sitzung zurück und wird nur dann hart beendet, wenn sie binnen zwei Sekunden nicht
+antwortet.

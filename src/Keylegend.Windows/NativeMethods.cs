@@ -66,24 +66,6 @@ internal static class NativeMethods
         uint wFlags,
         IntPtr dwhkl);
 
-    // Raw Input, used only to ask which keyboards are attached — never to receive input from
-    // them. ConnectedKeyboards reads the device names and nothing else, which is what keeps the
-    // "no keyboard hooks, ever" promise intact: listing devices is not listening to them.
-    //
-    // The Chroma SDK cannot answer this. Its REST interface is organised by device class, and a
-    // session hands back an id and a URI, nothing about the hardware behind them.
-    [DllImport("user32.dll", SetLastError = true)]
-    public static extern uint GetRawInputDeviceList(
-        IntPtr pRawInputDeviceList, ref uint puiNumDevices, uint cbSize);
-
-    [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-    public static extern uint GetRawInputDeviceInfoW(
-        IntPtr hDevice, uint uiCommand, IntPtr pData, ref uint pcbSize);
-
-    [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-    public static extern uint GetRawInputDeviceInfoW(
-        IntPtr hDevice, uint uiCommand, StringBuilder pData, ref uint pcbSize);
-
     [DllImport("user32.dll")]
     public static extern IntPtr GetForegroundWindow();
 

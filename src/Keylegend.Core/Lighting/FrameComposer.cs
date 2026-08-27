@@ -13,17 +13,17 @@ namespace Keylegend.Core.Lighting;
 /// </summary>
 public sealed class FrameComposer
 {
-    private readonly DeviceProfile _profile;
+    private readonly AttachedKeyboard _keyboard;
     private readonly IKeyResolver _resolver;
 
-    public FrameComposer(DeviceProfile profile, IKeyResolver resolver)
+    public FrameComposer(AttachedKeyboard keyboard, IKeyResolver resolver)
     {
-        _profile = profile ?? throw new ArgumentNullException(nameof(profile));
+        _keyboard = keyboard ?? throw new ArgumentNullException(nameof(keyboard));
         _resolver = resolver ?? throw new ArgumentNullException(nameof(resolver));
     }
 
     /// <summary>Creates a frame sized for this device.</summary>
-    public LedFrame CreateFrame() => new(_profile.Matrix.Rows, _profile.Matrix.Columns);
+    public LedFrame CreateFrame() => new(_keyboard.Matrix.Rows, _keyboard.Matrix.Columns);
 
     /// <summary>
     /// Fills <paramref name="target"/> according to the three rules, in order of precedence:
@@ -53,14 +53,29 @@ public sealed class FrameComposer
         var effectiveShortcuts = profile?.ApplyShortcuts(shortcuts) ?? shortcuts;
 
         // Only looked up once per frame rather than per key.
-        effectiveShortcuts.TryGetSet(state, out var shortcutSet);
-        var filtering = state.HasFilteringModifier;
+        var hasSet = effectiveShortcuts.TryGetSet(state, out var shortcutSet);
 
-        foreach (var key in _profile.Keys)
+        // Whether to show only the keys that carry a command. Two ways to get there, and the
+        // second is what lets a program define its own layers.
+        //
+        // Ctrl, Alt, Win and AltGr filter whether or not anything is assigned under them: holding
+        // Ctrl with nothing bound is a dark keyboard, which is the honest answer. Shift does not,
+        // because Shift normally changes which character a key types — a keyboard that went dark
+        // on Shift would lose the uppercase display for nothing.
+        //
+        // But Shift is only "not a modifier" for text. For functions it plainly is one, and games
+        // use it that way — sprint, walk, secondary fire — as they use the bare keys, where WASD
+        // means direction rather than letters. So a layer that somebody has actually defined
+        // filters too. Nothing changes by default, because no shipped layer is keyed on Shift or
+        // on no modifier at all; an application profile that defines one turns it into a function
+        // layer for as long as that program is in front.
+        var filtering = state.HasFilteringModifier || hasSet;
+
+        foreach (var key in _keyboard.Keys)
         {
             if (key.Row is not { } row || key.Column is not { } column)
             {
-                // No LED mapped yet - calibration has not covered this key.
+                // A key with no cell: the protocol has no position for it, so it cannot light.
                 continue;
             }
 

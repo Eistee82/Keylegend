@@ -29,7 +29,7 @@
   Take the hash from a local file instead of downloading. For a dry run before the release exists.
 
 .EXAMPLE
-  tools\winget-manifest.ps1 -Version 1.0.0
+  tools\winget-manifest.ps1 -Version 1.1.0
 #>
 param(
     [Parameter(Mandatory)] [string] $Version,
@@ -71,7 +71,6 @@ foreach ($file in Get-ChildItem $folder -Filter *.yaml) {
     $text = Get-Content $file.FullName -Raw
 
     $text = $text -replace '(?m)^PackageVersion:\s*.+$', "PackageVersion: $Version"
-    $text = $text -replace '(?m)^(\s*)DisplayVersion:\s*.+$', "`$1DisplayVersion: $Version"
     $text = $text -replace '(?m)^ReleaseDate:\s*.+$', "ReleaseDate: $released"
     $text = $text -replace '(?m)^(\s*)InstallerUrl:\s*.+$', "`$1InstallerUrl: $url"
     $text = $text -replace '(?m)^(\s*)InstallerSha256:\s*.+$', "`$1InstallerSha256: $hash"

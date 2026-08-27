@@ -34,11 +34,8 @@
   <data name="TabSettings" xml:space="preserve">
     <value>Ustawienia</value>
   </data>
-  <data name="StatusDeviceVerified" xml:space="preserve">
-    <value>{0} · {1} klawiszy · przypisanie sprawdzone na sprzęcie</value>
-  </data>
-  <data name="StatusDeviceNotVerified" xml:space="preserve">
-    <value>{0} · {1} klawiszy · przypisanie jeszcze niesprawdzone</value>
+  <data name="StatusDevice" xml:space="preserve">
+    <value>{0} · {1} klawiszy</value>
   </data>
   <data name="StatusProfileLabel" xml:space="preserve">
     <value>profil: {0}</value>
@@ -138,6 +135,21 @@
   </data>
   <data name="KeyboardNoProfile" xml:space="preserve">
     <value>Nie wczytano profilu urządzenia</value>
+  </data>
+  <data name="StartupNoKeyboard" xml:space="preserve">
+    <value>Nie znaleziono klawiatury Razer. Keylegend odczytuje podłączoną klawiaturę z Razer Synapse, więc Synapse musi być zainstalowany i uruchomiony, a klawiatura podłączona.</value>
+  </data>
+
+  <data name="StartupNoDrawing" xml:space="preserve">
+    <value>Razer Synapse zna twoją klawiaturę, ale nie przechowuje jej rysunku, a to z rysunku Keylegend bierze kształt klawiszy i ich opisy. Otwórz Synapse raz z podłączoną klawiaturą, aby pobrał rysunek, a potem uruchom Keylegend ponownie.</value>
+  </data>
+
+  <data name="StartupDrawingUnreadable" xml:space="preserve">
+    <value>Razer Synapse ma rysunek twojej klawiatury, ale Keylegend nie zdołał go odczytać — być może Razer zmienił format. Zgłoś to na https://github.com/Eistee82/Keylegend/issues, podając model klawiatury.</value>
+  </data>
+
+  <data name="StartupAlreadyRunning" xml:space="preserve">
+    <value>Inna kopia Keylegend już działa i nie ustąpiła miejsca tej. Zakończ ją w Menedżerze zadań, a potem uruchom Keylegend ponownie.</value>
   </data>
   <data name="ColoursCategoriesHeading" xml:space="preserve">
     <value>Kategorie klawiszy</value>
@@ -454,11 +466,11 @@
   <data name="TrayTooltipIdle" xml:space="preserve">
     <value>Keylegend — bezczynny</value>
   </data>
+  <data name="TrayTooltipTrouble" xml:space="preserve">
+    <value>Keylegend — podświetlenie nie działa</value>
+  </data>
   <data name="TrayTooltipPaused" xml:space="preserve">
     <value>Keylegend — wstrzymany</value>
-  </data>
-  <data name="TrayBalloonText" xml:space="preserve">
-    <value>Nadal działa w obszarze powiadomień.</value>
   </data>
   <data name="CommonReset" xml:space="preserve">
     <value>Resetuj</value>

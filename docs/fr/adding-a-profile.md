@@ -34,7 +34,7 @@ Ce qui suit est la partie qui déraille même quand le format a été lu.
 
 ## 3. Positions et caractères ne sont pas la même chose
 
-Les identifiants de touche viennent du profil de périphérique et nomment des **positions
+Les identifiants de touche viennent de la table du protocole d'éclairage et nomment des **positions
 américaines**. `Keyboard_Y` est la touche physique qui écrit `Y` sur un clavier américain — sur un
 clavier allemand, cette touche écrit `Z`. Le format offre donc deux façons de nommer une touche, et
 choisir la mauvaise produit un profil visiblement faux sur toute disposition non américaine tout en
@@ -98,11 +98,11 @@ dotnet test
 
 Les tests de profils vérifient chaque fichier sous `profiles/` : l'identifiant est unique et
 correspond au nom du fichier, `kind` correspond au dossier, chaque identifiant de touche existe
-dans un profil de périphérique fourni, les couleurs se lisent, les groupes et les combinaisons de
-modificateurs sont valides et écrits sous leur forme canonique, chaque raccourci porte une
-étiquette, aucune touche de lettre ne figure sous `shortcuts.keys` (sa place est sous
-`characters`), aucun profil n'est vide, et deux profils ne revendiquent pas un même exécutable
-sans se distinguer par `titleContains`.
+dans la table de matrice, les couleurs se lisent, les groupes et les combinaisons de modificateurs
+sont valides et écrits sous leur forme canonique, chaque raccourci porte une étiquette, aucune
+touche de lettre ne figure sous `shortcuts.keys` (sa place est sous `characters`), aucun profil
+n'est vide, et deux profils ne revendiquent pas un même exécutable sans se distinguer par
+`titleContains`.
 
 Une chose n'est délibérément **pas** vérifiée : la même étiquette apparaissant deux fois sous un
 même modificateur. Cela ressemblait à un moyen d'attraper les copier-coller et attrapait en fait

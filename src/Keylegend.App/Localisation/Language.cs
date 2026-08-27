@@ -123,6 +123,39 @@ public sealed class Texts : INotifyPropertyChanged
     /// <summary>Looks up a text without binding to it, for messages built in code.</summary>
     public static string Get(string key) => Instance[key];
 
+    /// <summary>
+    /// Whether this copy of the program actually carries the texts for a language.
+    /// </summary>
+    /// <remarks>
+    /// Asked without walking to the parent culture, which is the whole point: a lookup falls back
+    /// to English on its own, so a missing translation shows as English rather than as an error.
+    /// That is right at run time and wrong when checking a package — the language would silently
+    /// be gone. English itself lives in the main assembly and is present whenever the program is.
+    /// </remarks>
+    public static bool Carries(LanguageChoice choice)
+    {
+        if (choice is LanguageChoice.Automatic or LanguageChoice.English)
+        {
+            return true;
+        }
+
+        if (!Cultures.TryGetValue(choice, out var name))
+        {
+            return false;
+        }
+
+        try
+        {
+            return Resources.GetResourceSet(
+                CultureInfo.GetCultureInfo(name), createIfNotExists: true, tryParents: false)
+                is not null;
+        }
+        catch (MissingManifestResourceException)
+        {
+            return false;
+        }
+    }
+
     /// <summary>Looks up a text and fills in its placeholders.</summary>
     public static string Get(string key, params object?[] arguments)
         => string.Format(Instance.Culture, Instance[key], arguments);

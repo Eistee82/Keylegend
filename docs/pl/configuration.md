@@ -45,9 +45,10 @@ Rozpoznawanie odbywa się po nazwie pliku wykonywalnego. Gdy pasuje więcej niż
 ten, który wskazuje program — gra z własnym profilem zachowuje go więc, choć wykrywanie gier też się
 odzywa. Priorytet rozstrzyga tylko pozostałe remisy.
 
-Profil zastępuje wyłącznie te warstwy modyfikatorów, które sam wymienia. Photoshop zastępuje
-warstwę Ctrl, bo Ctrl znaczy tam inne polecenia; `Win+E` nadal otwiera Eksploratora, bo Windows
-przypisuje tę kombinację w skali systemu i obowiązuje ona niezależnie od tego, co jest na wierzchu.
+Profil nakłada się na zestaw ogólny, wpis po wpisie. Photoshop mówi, co znaczy tam `Ctrl+J`;
+`Ctrl+C` nadal kopiuje, bo profil wymieniający warstwę Ctrl nie twierdzi, że Ctrl nie znaczy nic
+innego. A `Win+E` nadal otwiera Eksploratora, bo Windows przypisuje to połączenie w całym systemie i
+obowiązuje ono niezależnie od tego, co jest na wierzchu.
 
 ### Co zawiera profil
 
@@ -57,7 +58,7 @@ przypisuje tę kombinację w skali systemu i obowiązuje ona niezależnie od teg
 | Wyróżnienia | Klawisze przypięte do stałego koloru niezależnie od wytwarzanego znaku — WASD w grze, klawisze narzędzi w edytorze obrazu |
 | Skróty | Zamienniki poszczególnych warstw modyfikatorów: który klawisz niesie które polecenie pod `Ctrl`, kolorowany według grupy funkcji |
 
-Wyróżnienia i skróty niosą też etykietę mówiącą, co robi polecenie — „Powiel warstwę", „Skok". Nic
+Wyróżnienia i skróty niosą też etykietę mówiącą, co robi polecenie — „Powiel warstwę”, „Skok”. Nic
 z tego nie jest widoczne na klawiaturze; diody pokazują wyłącznie kolor. Etykieta pojawia się w
 podglądzie wewnątrz aplikacji, a przy dziewięćdziesięciu profilach to jedyny sposób, by w ogóle
 sprawdzić, czy wpis jest poprawny.
@@ -90,11 +91,17 @@ jako plik — zobacz [Dodawanie profilu](adding-a-profile.md).
 
 ### Format pliku ustawień
 
-`settings.json` niesie `formatVersion` 2. Starsze pliki są migrowane przy wczytaniu: wersja 1 nie
-znała ani identyfikatorów, ani pochodzenia profilu, więc nie potrafi powiedzieć, które z jej wpisów
-były kiedyś dostarczone. Wszystkie stają się profilami użytkownika. Nic nie ginie, ale dostarczone
-profile pojawiają się obok, więc na początku mogą być dwa wpisy dla tego samego programu; zbędny
-można usunąć albo ukryć.
+`settings.json` niesie `formatVersion` 3. Starsze pliki są migrowane przy wczytaniu.
+
+Plik wersji 1 nie zna ani identyfikatorów, ani pochodzenia profilu, więc nie potrafi powiedzieć,
+które z jego wpisów są dostarczone. Wszystkie stają się profilami użytkownika. Nic nie ginie, ale
+dostarczone profile pojawiają się obok, więc na początku mogą być dwa wpisy dla tego samego
+programu; zbędny można usunąć albo ukryć.
+
+Plik wersji 2 wymienia wszystkie kolory, także nietknięte, i tym samym przypina paletę: poprawiony
+dostarczony kolor nie dociera do nikogo, kto uruchomił program wcześniej. Kolor równy palecie tamtej
+wersji jest więc przy migracji czytany jako wartość domyślna i porzucany; wszystko inne jest
+Państwa wyborem i zostaje.
 
 ## Zachowanie
 
@@ -124,7 +131,7 @@ tego ręcznie zmieniony plik najpewniej i tak chce.
 
 Przetłumaczone są menu i objaśnienia. Dwie rzeczy **nie** są, obie celowo:
 
-- **Opisy klawiszy** na rysowanej klawiaturze. Pochodzą z profilu urządzenia i muszą pasować do
+- **Opisy klawiszy** na rysowanej klawiaturze. Pochodzą z rysunku Razera i muszą pasować do
   klawiatury przed tobą, a nie do języka menu — niemiecka klawiatura ISO pokazuje `strg` i `entf`
   niezależnie od tego, czy interfejs chodzi po angielsku.
 - **Nazwy modyfikatorów** (Shift, Ctrl, Alt, AltGr, Num Lock …). Te same nazwy wytwarza mechanizm
@@ -134,15 +141,25 @@ Przetłumaczone są menu i objaśnienia. Dwie rzeczy **nie** są, obie celowo:
 Wszystko bez tłumaczenia cofa się do angielskiego, więc niedokończony plik językowy kosztuje
 brakujące wiersze, a nie cały interfejs.
 
-## Kalibracja
+## Gdy podświetlenie nie działa
 
-Kalibracja to tryb wiersza poleceń, a nie strona ustawień:
+Rozmowa z usługą Chroma może się nie udać: usługa jest zatrzymana, Synapse zamknięto, inny program
+trzyma sesję. Keylegend próbuje dalej, z rosnącą przerwą między próbami, i mówi przy tym, co jest
+nie tak:
 
-```bash
-keylegend-cli --profile devices/<katalog>/device.json --calibrate
-```
+- wiersz stanu na dole okna niesie powód, w barwie amber zamiast zwykłej szarości
+- obszar powiadomień mówi to w swojej podpowiedzi, żeby zamknięte okno tego nie ukryło
+- jedna chmurka to ogłasza — raz na awarię, a nie raz na próbę
 
-Zapala jeden klawisz naraz i go nazywa, żeby profil urządzenia dało się sprawdzić na prawdziwym
-sprzęcie. Ustalenia zapisywane są na bieżąco do `calibration-findings.txt`, a
-`tools/apply-calibration.ps1` przenosi je z powrotem do profilu. Zobacz
-[Dodawanie i poprawianie klawiatury](adding-a-keyboard.md).
+Wszystkie trzy znikają, gdy tylko znów przejdzie klatka. Jeśli nie pojawia się nic, a klawiatura
+nadal nie świeci, program nie działa — poszukaj jego ikony w obszarze powiadomień.
+
+## Gdy świecą nie te klawisze
+
+Klawiatura w oknie to klawiatura na biurku: obie wypełnia ten sam kod, więc okno pokazuje, jak sprzęt
+powinien wyglądać. Sprawdzeniem jest przystawienie jednej do drugiej.
+
+Do której komórki macierzy podświetlenia należy klawisz, to jedyna rzecz, której nie mówi ani
+Synapse, ani rysunek — pochodzi z tabeli samego protokołu Chroma. Jeśli więc na sprzęcie świeci inny
+klawisz niż w oknie, ta tabela jest błędna dla twojego modelu. Wtedy warto założyć zgłoszenie z
+nazwą klawiatury i klawisza.

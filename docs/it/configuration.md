@@ -45,10 +45,10 @@ Il riconoscimento avviene per nome dell'eseguibile. Quando corrispondono più pr
 che nomina il programma: un gioco con un profilo proprio lo conserva quindi anche se scatta pure
 il rilevamento dei giochi. La priorità scioglie solo i pareggi rimanenti.
 
-Un profilo sostituisce soltanto i livelli di modificatori che nomina lui stesso. Photoshop
-sostituisce il livello Ctrl, perché lì Ctrl significa altri comandi; `Win+E` apre ancora Esplora
-file, perché Windows assegna quella combinazione a livello di sistema e vale qualunque cosa ci sia
-davanti.
+Un profilo si sovrappone all'insieme generale, voce per voce. Photoshop dice cosa significa lì
+`Ctrl+J`; `Ctrl+C` copia ancora, perché un profilo che nomina il livello Ctrl non sta affermando che
+Ctrl non significhi nient'altro. E `Win+E` apre ancora Esplora file, perché Windows assegna quella
+combinazione a livello di sistema e vale qualunque cosa sia in primo piano.
 
 ### Che cosa contiene un profilo
 
@@ -93,11 +93,17 @@ vedi [Aggiungere un profilo](adding-a-profile.md).
 
 ### Formato del file delle impostazioni
 
-`settings.json` porta `formatVersion` 2. I file più vecchi vengono migrati al caricamento: la
-versione 1 non conosceva né identificatori né la provenienza di un profilo, e non può quindi dire
-quali delle sue voci fossero un tempo incluse. Tutte diventano profili utente. Non si perde nulla,
-ma i profili inclusi compaiono accanto, quindi all'inizio possono esserci due voci per lo stesso
-programma; quella di troppo si può eliminare o nascondere.
+`settings.json` porta `formatVersion` 3. I file più vecchi vengono migrati al caricamento.
+
+Un file della versione 1 non conosce né identificatori né la provenienza di un profilo, e non può
+quindi dire quali delle sue voci siano quelle incluse. Tutte diventano profili utente. Non si perde
+nulla, ma i profili inclusi compaiono accanto, quindi all'inizio possono esserci due voci per lo
+stesso programma; quella di troppo si può eliminare o nascondere.
+
+Un file della versione 2 elenca tutti i colori, compresi quelli che nessuno ha toccato, e con questo
+fissa la tavolozza: un colore di serie migliorato non raggiunge nessuno che abbia già avviato il
+programma. Un colore uguale alla tavolozza di quella versione viene perciò letto come valore
+predefinito e scartato nella migrazione; tutto il resto è una sua scelta e resta.
 
 ## Comportamento
 
@@ -127,8 +133,7 @@ avviarsi, che è ciò che un file modificato a mano con ogni probabilità vuole 
 
 Ciò che è tradotto sono i menu e le spiegazioni. Due cose **non** lo sono, entrambe di proposito:
 
-- **Le diciture dei tasti** sulla tastiera raffigurata. Vengono dal profilo di dispositivo e devono
-  corrispondere alla tastiera che hai davanti, non alla lingua dei menu: una tastiera ISO tedesca
+- **Le diciture dei tasti** sulla tastiera raffigurata. Vengono dal disegno di Razer e devono corrispondere alla tastiera che hai davanti, non alla lingua dei menu: una tastiera ISO tedesca
   mostra `strg` ed `entf` che l'interfaccia sia in inglese o meno.
 - **I nomi dei modificatori** (Shift, Ctrl, Alt, Alt Gr, Bloc Num …). Gli stessi nomi li produce il
   meccanismo delle scorciatoie per gli elenchi dei livelli, che sta fuori dalla traduzione; mezza
@@ -137,15 +142,26 @@ Ciò che è tradotto sono i menu e le spiegazioni. Due cose **non** lo sono, ent
 Tutto ciò che non ha traduzione ricade sull'inglese, così un file di lingua incompiuto costa le
 righe che gli mancano e non l'intera interfaccia.
 
-## Calibrazione
+## Se l'illuminazione non funziona
 
-La calibrazione è una modalità da riga di comando, non una pagina delle impostazioni:
+Il dialogo con il servizio Chroma può fallire: il servizio è fermo, Synapse è stato chiuso, un altro
+programma tiene la sessione. Keylegend continua a riprovare, con una pausa crescente fra i
+tentativi, e mentre lo fa dice che cosa non va:
 
-```bash
-keylegend-cli --profile devices/<cartella>/device.json --calibrate
-```
+- la riga di stato in fondo alla finestra porta il motivo, in ambra invece del solito grigio
+- l'area di notifica lo dice nel suo suggerimento, così una finestra chiusa non lo nasconde
+- un fumetto lo annuncia, una volta per guasto e non una volta per tentativo
 
-Accende un tasto alla volta e lo nomina, così che un profilo di dispositivo possa essere
-verificato su hardware reale. I riscontri vengono scritti man mano in `calibration-findings.txt`, e
-`tools/apply-calibration.ps1` li riscrive nel profilo. Vedi
-[Aggiungere o correggere una tastiera](adding-a-keyboard.md).
+Tutti e tre spariscono appena passa di nuovo un fotogramma. Se non compare nulla e la tastiera
+continua a non accendersi, il programma non è in esecuzione: cerca la sua icona nell'area di
+notifica.
+
+## Se si accendono i tasti sbagliati
+
+La tastiera nella finestra è la tastiera sulla scrivania: le riempie lo stesso codice, quindi la
+finestra mostra come dovrebbe apparire l'hardware. La verifica è tenere le due accanto.
+
+A quale cella della matrice di illuminazione appartenga un tasto è l'unica cosa che né Synapse né il
+disegno dicono: viene dalla tabella del protocollo Chroma stesso. Se dunque sull'hardware si accende
+un tasto diverso da quello acceso nella finestra, quella tabella è sbagliata per il suo modello.
+Vale la pena aprire una segnalazione che dica quale tastiera e quale tasto.

@@ -10,7 +10,7 @@ on:
       version:
         description: 'Version to build, without the leading v'
         required: true
-        default: '1.0.0'
+        default: '1.1.0'
 
 permissions:
   contents: write     # needed to create the release
@@ -19,6 +19,11 @@ jobs:
   release:
     name: Build and publish
     runs-on: windows-latest
+
+    # A secret cannot be read in an `if:`, but an environment variable can. This is the
+    # switch that decides whether the installer gets signed - see the signing step below.
+    env:
+      SIGNPATH_API_TOKEN: ${{ secrets.SIGNPATH_API_TOKEN }}
 
     steps:
       - name: Check out
@@ -58,10 +63,74 @@ jobs:
         shell: pwsh
         run: ./tools/build-release.ps1 -Version ${{ steps.version.outputs.version }}
 
+      # Also the vehicle for signing: SignPath fetches this artifact from GitHub, signs what
+      # its artifact configuration names, and hands it back. Hence the id.
       - name: Upload artefacts
+        id: artefacts
         uses: actions/upload-artifact@v4
         with:
           name: keylegend-${{ steps.version.outputs.version }}
+          path: |
+            out/*.exe
+            out/*.zip
+            out/SHA256SUMS.txt
+          if-no-files-found: error
+
+      # Unsigned, a brand-new installer is condemned by Windows Defender as Wacatac.B!ml the
+      # first time anybody downloads it through a browser - measured, not assumed: the same
+      # commit built twice was cleared offline and condemned on download, while the very same
+      # Keylegend.exe inside the portable zip was never touched. Signing is what stops that.
+      #
+      # Skipped while no credentials are stored, so the workflow still builds and releases
+      # without them. When it does run and fails, the run fails with it: an unsigned
+      # installer going out unnoticed is the thing this exists to prevent.
+      - name: Sign the installer
+        id: signing
+        if: env.SIGNPATH_API_TOKEN != ''
+        uses: SignPath/github-action-submit-signing-request@v2
+        with:
+          connector-url: ${{ vars.SIGNPATH_CONNECTOR_URL }}
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG }}
+          signing-policy-slug: ${{ vars.SIGNPATH_POLICY_SLUG }}
+          artifact-configuration-slug: ${{ vars.SIGNPATH_ARTIFACT_CONFIGURATION_SLUG }}
+          github-artifact-id: ${{ steps.artefacts.outputs.artifact-id }}
+          wait-for-completion: true
+          output-artifact-directory: signed
+
+      # The signature changes the bytes, so every checksum from the build is now wrong. They
+      # are written again from the files that will actually be published - and the signature
+      # is verified first, because a signing step that quietly returned the original file
+      # would leave everything looking finished and fix nothing.
+      - name: Checksum the signed files
+        if: steps.signing.outcome == 'success'
+        shell: pwsh
+        run: |
+          Copy-Item signed\* out\ -Force -Recurse
+
+          $installer = "out\Keylegend-${{ steps.version.outputs.version }}-setup.exe"
+          $signature = Get-AuthenticodeSignature $installer
+          if ($signature.Status -ne 'Valid') {
+            throw "$installer came back $($signature.Status), not Valid - refusing to publish it."
+          }
+          Write-Host "Signed by $($signature.SignerCertificate.Subject)"
+
+          $sums = 'out\SHA256SUMS.txt'
+          Remove-Item $sums -Force -ErrorAction SilentlyContinue
+          Get-ChildItem out -File |
+              Where-Object { $_.Extension -in '.zip', '.exe' } |
+              ForEach-Object { '{0}  {1}' -f (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower(), $_.Name } |
+              Tee-Object -FilePath $sums |
+              ForEach-Object { Write-Host "  $_" }
+
+      # So the attached artefact is the one that was published, not the unsigned original.
+      - name: Replace the artefact with the signed one
+        if: steps.signing.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: keylegend-${{ steps.version.outputs.version }}
+          overwrite: true
           path: |
             out/*.exe
             out/*.zip
@@ -80,9 +149,24 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           $tag = '${{ github.ref_name }}'
-          $draft = gh release view $tag --json isDraft --jq '.isDraft' 2>$null
 
-          if ($LASTEXITCODE -eq 0 -and $draft -eq 'false') {
+          # gh exits 1 for two very different things: there is no release for this tag yet,
+          # which is what every first release looks like, and it could not ask at all - no
+          # network, a rejected token. Only the first may continue. Treating the second as
+          # "nothing there" would overwrite exactly the published release this step guards.
+          # Actions also appends `exit $LASTEXITCODE` to every pwsh step, so the code has to
+          # be read once and cleared, or the ordinary case fails the step.
+          $ErrorActionPreference = 'continue'
+          $answer = (gh release view $tag --json isDraft --jq '.isDraft' 2>&1 | Out-String).Trim()
+          $code = $LASTEXITCODE
+          $ErrorActionPreference = 'stop'
+          $global:LASTEXITCODE = 0
+
+          if ($code -ne 0 -and $answer -notmatch 'release not found') {
+            throw "Could not ask GitHub whether $tag already has a release: $answer"
+          }
+
+          if ($code -eq 0 -and $answer -eq 'false') {
             Write-Host "::warning::$tag is already published. Leaving it untouched."
             Write-Host "To replace it, delete the release first, or tag a new version."
             "skip=true" >> $env:GITHUB_OUTPUT
@@ -110,8 +194,7 @@ jobs:
             autostart from within the application, and removes both on uninstall.
 
             **`Keylegend-${{ steps.version.outputs.version }}-portable.zip`** is the same
-            program to unpack and run wherever you like. Keep the `devices` folder next to the
-            executable; without it Keylegend has no keyboard to describe.
+            program to unpack and run wherever you like.
 
             ### Requirements
 
@@ -133,8 +216,9 @@ jobs:
 
             ### Which keyboards work
 
-            One profile has been verified on hardware — the Razer DeathStalker V2 in the German
-            ISO layout. The other thirty-one are generated from standard key dimensions: their
-            geometry is exact, their LED mapping is an educated guess. If yours lights the wrong
-            keys, correcting it takes about ten minutes and no programming. See
-            [docs/en/adding-a-keyboard.md](https://github.com/Eistee82/Keylegend/blob/main/docs/en/adding-a-keyboard.md).
+            Every Razer Chroma keyboard. Keylegend asks Razer Synapse which one is plugged in and
+            reads Razer's own drawing of that model, so there is no list to be on. Which cell of
+            the lighting matrix each key belongs to comes from the Chroma protocol's own table,
+            confirmed by hand on a DeathStalker V2 in ISO-DE and correct by inference elsewhere.
+            If yours lights the wrong keys, the window shows which key should be lit instead —
+            please open an issue saying which.

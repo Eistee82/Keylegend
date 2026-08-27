@@ -18,7 +18,7 @@ namespace Keylegend.Engine;
 /// </remarks>
 public sealed class LightingEngine
 {
-    private readonly DeviceProfile _profile;
+    private readonly AttachedKeyboard _keyboard;
     private readonly IChromaClient _chroma;
     private readonly IKeyStateSource _keys;
     private readonly FrameComposer _composer;
@@ -34,20 +34,20 @@ public sealed class LightingEngine
     /// can be exercised without a desktop.
     /// </param>
     public LightingEngine(
-        DeviceProfile profile,
+        AttachedKeyboard keyboard,
         IChromaClient chroma,
         IKeyStateSource keys,
         IKeyResolver resolver,
         Func<DateTimeOffset>? clock = null,
         Func<ForegroundContext>? foreground = null)
     {
-        _profile = profile ?? throw new ArgumentNullException(nameof(profile));
+        _keyboard = keyboard ?? throw new ArgumentNullException(nameof(keyboard));
         _chroma = chroma ?? throw new ArgumentNullException(nameof(chroma));
         _keys = keys ?? throw new ArgumentNullException(nameof(keys));
         _clock = clock ?? (() => DateTimeOffset.UtcNow);
         _foreground = foreground;
 
-        _composer = new FrameComposer(profile, resolver ?? throw new ArgumentNullException(nameof(resolver)));
+        _composer = new FrameComposer(keyboard, resolver ?? throw new ArgumentNullException(nameof(resolver)));
         _frame = _composer.CreateFrame();
         _session = new SessionManager(_settings.IdleTimeout, _clock);
     }
@@ -92,8 +92,17 @@ public sealed class LightingEngine
     /// <summary>Raised on take-over and hand-back.</summary>
     public event Action<LightingState>? StateChanged;
 
-    /// <summary>Reports a problem talking to Chroma. The engine keeps running regardless.</summary>
-    public event Action<string>? Warning;
+    /// <summary>
+    /// Raised when talking to Chroma fails, and again with <c>null</c> once it works. The engine
+    /// keeps running and retrying either way, so the interface can say what is wrong and then take
+    /// it back without either side tracking the other.
+    /// </summary>
+    /// <remarks>
+    /// Both edges matter. A message that appears and never clears reads as broken long after the
+    /// lighting has recovered, and a keyboard that goes dark with nothing said reads as this
+    /// program having stopped for no reason.
+    /// </remarks>
+    public event Action<string?>? Fault;
 
     public void Pause() => _session.Pause();
 
@@ -107,6 +116,7 @@ public sealed class LightingEngine
         _session.StateChanged += OnSessionStateChanged;
 
         var connected = false;
+        var faulted = false;
         var backoff = TimeSpan.FromSeconds(1);
         var lastSent = DateTimeOffset.MinValue;
         var takeoverAt = DateTimeOffset.MinValue;
@@ -157,12 +167,19 @@ public sealed class LightingEngine
                             lastSent = _clock();
                             _repaint = false;
 
+                            if (faulted)
+                            {
+                                faulted = false;
+                                Fault?.Invoke(null);
+                            }
+
                             FrameComposed?.Invoke(_frame);
                         }
                     }
                     catch (ChromaException ex)
                     {
-                        Warning?.Invoke($"{ex.Message} Retrying in {backoff.TotalSeconds:N0} s.");
+                        faulted = true;
+                        Fault?.Invoke($"{ex.Message} Retrying in {backoff.TotalSeconds:N0} s.");
                         connected = false;
                         await _chroma.DisconnectAsync(CancellationToken.None);
                         await Task.Delay(backoff, cancellationToken);
@@ -233,7 +250,7 @@ public sealed class LightingEngine
     }
 
     /// <summary>The device this engine drives.</summary>
-    public DeviceProfile Profile => _profile;
+    public AttachedKeyboard Keyboard => _keyboard;
 
     private void OnSessionStateChanged(LightingState state) => StateChanged?.Invoke(state);
 }

@@ -5,11 +5,12 @@ body:
   - type: markdown
     attributes:
       value: |
-        Before filing: if the **wrong keys light up**, that is most likely an unverified device
-        profile rather than a defect. Thirty-one of the thirty-two shipped profiles have their
-        LED mapping inferred rather than confirmed. Correcting one needs no programming and takes
-        about ten minutes — see
-        [adding-a-keyboard.md](https://github.com/Eistee82/Keylegend/blob/main/docs/en/adding-a-keyboard.md).
+        Before filing: if the **wrong keys light up**, compare the keyboard in the window with the
+        one on your desk — both are filled by the same code, so the window is what the hardware
+        should look like. Which cell of the lighting matrix a key belongs to comes from the Chroma
+        protocol's own table, confirmed by hand on one keyboard only — a DeathStalker V2 in ISO-DE.
+        On any other model it is correct by inference, and your report is what turns that into a
+        measurement. Please say which key is wrong and which key lights up instead.
 
   - type: textarea
     id: what
@@ -51,6 +52,6 @@ body:
     id: version
     attributes:
       label: Keylegend version
-      placeholder: 1.0.0
+      placeholder: 1.1.0
     validations:
       required: true

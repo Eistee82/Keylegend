@@ -18,7 +18,7 @@
     while a *different* application holds the foreground. That is what makes the second half —
     a profile per application — recordable at all.
 
-  The frames land in the output directory, numbered in order. tools\build-demo-gif.py assembles
+  The frames land in the output directory, numbered in order. tools\build-demo.py assembles
   them.
 
   Run it on a machine with the hardware if you can: the header then reads "verified on hardware"
@@ -322,4 +322,4 @@ if ($previousLanguage -ge 0) {
 }
 
 Write-Host ("`n{0} frames written to {1}" -f $script:frame, (Resolve-Path $Output))
-Write-Host "Assemble them with: python tools\build-demo-gif.py --frames $Output"
+Write-Host "Assemble them with: python tools\build-demo.py --frames $Output"

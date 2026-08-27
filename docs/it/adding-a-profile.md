@@ -34,11 +34,11 @@ Quel che segue è la parte che va storta anche quando il formato è stato letto.
 
 ## 3. Posizioni e caratteri non sono la stessa cosa
 
-Gli identificatori dei tasti vengono dal profilo di dispositivo e nominano **posizioni
-americane**. `Keyboard_Y` è il tasto fisico che scrive `Y` su una tastiera americana; su una
-tedesca quel tasto scrive `Z`. Il formato offre quindi due modi di nominare un tasto, e sceglierne
-uno sbagliato produce un profilo visibilmente errato su ogni layout non americano, pur sembrando
-perfetto sulla macchina su cui è stato scritto.
+Gli identificatori dei tasti vengono dalla tabella del protocollo di illuminazione e nominano
+**posizioni americane**. `Keyboard_Y` è il tasto fisico che scrive `Y` su una tastiera americana;
+su una tedesca quel tasto scrive `Z`. Il formato offre quindi due modi di nominare un tasto, e
+sceglierne uno sbagliato produce un profilo visibilmente errato su ogni layout non americano, pur
+sembrando perfetto sulla macchina su cui è stato scritto.
 
 La domanda da porsi per ogni voce è di che cosa si tratti davvero:
 
@@ -93,12 +93,11 @@ dotnet test
 ```
 
 I test dei profili controllano ogni file sotto `profiles/`: l'identificatore è univoco e
-corrisponde al nome del file, `kind` corrisponde alla cartella, ogni identificatore di tasto
-esiste in un profilo di dispositivo incluso, i colori si interpretano, i gruppi e le combinazioni
-di modificatori sono validi e scritti in forma canonica, ogni scorciatoia porta un'etichetta,
-nessun tasto lettera sta sotto `shortcuts.keys` (il suo posto è sotto `characters`), nessun
-profilo è vuoto, e non ci sono due profili che rivendicano lo stesso eseguibile senza distinguersi
-tramite `titleContains`.
+corrisponde al nome del file, `kind` corrisponde alla cartella, ogni identificatore di tasto esiste
+nella tabella della matrice, i colori si interpretano, i gruppi e le combinazioni di modificatori
+sono validi e scritti in forma canonica, ogni scorciatoia porta un'etichetta, nessun tasto lettera
+sta sotto `shortcuts.keys` (il suo posto è sotto `characters`), nessun profilo è vuoto, e non ci
+sono due profili che rivendicano lo stesso eseguibile senza distinguersi tramite `titleContains`.
 
 Una cosa **non** viene deliberatamente controllata: la stessa etichetta che compare due volte
 sotto uno stesso modificatore. Sembrava un modo per cogliere sviste da copia e incolla e coglieva

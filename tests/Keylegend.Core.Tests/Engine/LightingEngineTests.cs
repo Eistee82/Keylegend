@@ -71,10 +71,10 @@ public class LightingEngineTests
             => new("a", KeyCategory.Lowercase);
     }
 
-    private static DeviceProfile Profile() => new(
-        FormatVersion: 1, Name: "Test", Vendor: "Test", Model: "T1",
-        PhysicalLayout: "ISO-DE", Image: "device.png",
-        Canvas: new Canvas(500, 200), Matrix: new MatrixSize(6, 22), Verified: true,
+    private static AttachedKeyboard Keyboard() => new(
+        Name: "Test",
+        PhysicalLayout: "ISO-DE",
+        Canvas: new Canvas(500, 200), Matrix: new MatrixSize(6, 22),
         Keys: [new KeyDefinition("Keyboard_A", 0, 0, 19, 19, 3, 2)]);
 
     /// <summary>Runs the engine until <paramref name="check"/> holds, or fails after a timeout.</summary>
@@ -107,7 +107,7 @@ public class LightingEngineTests
     {
         var chroma = new FakeChroma();
         var keys = new FakeKeys();
-        var engine = new LightingEngine(Profile(), chroma, keys, new FakeResolver());
+        var engine = new LightingEngine(Keyboard(), chroma, keys, new FakeResolver());
 
         await RunUntilAsync(engine, () => chroma.FramesSent > 0, "a frame to be sent",
             () => keys.Down = true);
@@ -119,11 +119,11 @@ public class LightingEngineTests
     public async Task StaysIdleWhileNothingHappens()
     {
         var chroma = new FakeChroma();
-        var engine = new LightingEngine(Profile(), chroma, new FakeKeys(), new FakeResolver());
+        var engine = new LightingEngine(Keyboard(), chroma, new FakeKeys(), new FakeResolver());
 
         using var stopping = new CancellationTokenSource();
         var running = engine.RunAsync(stopping.Token);
-        await Task.Delay(200);
+        await Task.Delay(200, TestContext.Current.CancellationToken);
         await stopping.CancelAsync();
         await running;
 
@@ -136,7 +136,7 @@ public class LightingEngineTests
     {
         var chroma = new FakeChroma();
         var keys = new FakeKeys();
-        var engine = new LightingEngine(Profile(), chroma, keys, new FakeResolver())
+        var engine = new LightingEngine(Keyboard(), chroma, keys, new FakeResolver())
         {
             Settings = new EngineSettings { IdleTimeout = TimeSpan.FromMilliseconds(150) }
         };
@@ -158,7 +158,7 @@ public class LightingEngineTests
     {
         var chroma = new FakeChroma();
         var keys = new FakeKeys { Down = true };
-        var engine = new LightingEngine(Profile(), chroma, keys, new FakeResolver());
+        var engine = new LightingEngine(Keyboard(), chroma, keys, new FakeResolver());
         var published = 0;
         engine.FrameComposed += _ => published++;
 
@@ -168,18 +168,41 @@ public class LightingEngineTests
     }
 
     [Fact]
-    public async Task SurvivesAChromaFailureAndRetries()
+    public async Task SurvivesAChromaFailureAndSaysSo()
     {
         var chroma = new FakeChroma { FailNextSendWith = new ChromaException("service gone") };
         var keys = new FakeKeys { Down = true };
-        var engine = new LightingEngine(Profile(), chroma, keys, new FakeResolver());
-        var warnings = new List<string>();
-        engine.Warning += warnings.Add;
+        var engine = new LightingEngine(Keyboard(), chroma, keys, new FakeResolver());
+        var reported = new List<string?>();
+        engine.Fault += reported.Add;
 
-        await RunUntilAsync(engine, () => warnings.Count > 0, "a warning to be reported");
+        await RunUntilAsync(engine, () => reported.Count > 0, "a fault to be reported");
 
-        // The engine must not die on it.
-        Assert.NotEmpty(warnings);
+        // The engine must not die on it, and it must name the reason.
+        Assert.Contains("service gone", reported[0]);
+    }
+
+    /// <summary>
+    /// The second edge, which is the one a user notices when it is missing: a fault that is never
+    /// withdrawn leaves the interface complaining about a keyboard that has been working for
+    /// minutes.
+    /// </summary>
+    [Fact]
+    public async Task WithdrawsTheFaultOnceTheLightingWorksAgain()
+    {
+        var chroma = new FakeChroma { FailNextSendWith = new ChromaException("service gone") };
+        var keys = new FakeKeys { Down = true };
+        var engine = new LightingEngine(Keyboard(), chroma, keys, new FakeResolver());
+        var reported = new List<string?>();
+        engine.Fault += reported.Add;
+
+        await RunUntilAsync(
+            engine,
+            () => reported.Contains(null),
+            "the fault to be withdrawn after recovery");
+
+        Assert.NotNull(reported[0]);      // said what was wrong
+        Assert.Contains(null, reported);  // and took it back
     }
 
     [Fact]
@@ -187,7 +210,7 @@ public class LightingEngineTests
     {
         var chroma = new FakeChroma();
         var keys = new FakeKeys { Down = true };
-        var engine = new LightingEngine(Profile(), chroma, keys, new FakeResolver());
+        var engine = new LightingEngine(Keyboard(), chroma, keys, new FakeResolver());
 
         await RunUntilAsync(
             engine,
@@ -206,7 +229,7 @@ public class LightingEngineTests
     public void PreviewComposesWithoutSending()
     {
         var chroma = new FakeChroma();
-        var engine = new LightingEngine(Profile(), chroma, new FakeKeys(), new FakeResolver());
+        var engine = new LightingEngine(Keyboard(), chroma, new FakeKeys(), new FakeResolver());
 
         var frame = engine.Preview(KeyboardState.Empty);
 
@@ -217,7 +240,7 @@ public class LightingEngineTests
     [Fact]
     public void ChangingTheIdleTimeoutKeepsTheCurrentState()
     {
-        var engine = new LightingEngine(Profile(), new FakeChroma(), new FakeKeys(), new FakeResolver());
+        var engine = new LightingEngine(Keyboard(), new FakeChroma(), new FakeKeys(), new FakeResolver());
         engine.Pause();
 
         engine.Settings = engine.Settings with { IdleTimeout = TimeSpan.FromSeconds(5) };

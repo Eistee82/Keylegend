@@ -15,7 +15,7 @@ namespace Keylegend.Core.Configuration;
 /// </remarks>
 public sealed record StoredSettings
 {
-    public int FormatVersion { get; init; } = 2;
+    public int FormatVersion { get; init; } = 3;
 
     public int IdleTimeoutSeconds { get; init; } = 60;
 
@@ -90,7 +90,7 @@ public sealed record StoredSettings
     public List<StoredShortcutSet> Shortcuts { get; init; } = [];
 
     /// <summary>Highest version this build understands.</summary>
-    public const int SupportedFormatVersion = 2;
+    public const int SupportedFormatVersion = 3;
 
     /// <summary>Captures the current runtime state for saving.</summary>
     public static StoredSettings From(
@@ -118,8 +118,8 @@ public sealed record StoredSettings
             StartWithWindows = startWithWindows,
             UseApplicationProfiles = useApplicationProfiles,
             Language = language ?? "Automatic",
-            CategoryColours = scheme.Categories.ToDictionary(e => e.Key.ToString(), e => e.Value.ToString()),
-            GroupColours = scheme.Groups.ToDictionary(e => e.Key.ToString(), e => e.Value.ToString()),
+            CategoryColours = Changed(scheme.Categories, ColourScheme.Default.Categories),
+            GroupColours = Changed(scheme.Groups, ColourScheme.Default.Groups),
             LockColours = new Dictionary<string, StoredLockColours>
             {
                 ["NumLock"] = StoredLockColours.From(scheme.NumLock),
@@ -129,33 +129,155 @@ public sealed record StoredSettings
             UserProfiles = [.. profiles.UserProfiles],
             ProfileOverrides = [.. profiles.Overrides],
             HiddenProfiles = [.. profiles.Hidden],
-            Shortcuts = shortcuts is null
-                ? []
-                : [.. shortcuts.Sets.Select(e => StoredShortcutSet.From(e.Key, e.Value))]
+            Shortcuts = shortcuts is null ? [] : Changed(shortcuts)
         };
     }
 
     /// <summary>
-    /// Rebuilds the shortcut sets, or returns the shipped ones if nothing was saved.
+    /// The shortcut layers that differ from the shipped ones — the only ones worth writing down.
     /// </summary>
-    public ShortcutCatalogue ToShortcutCatalogue()
+    /// <remarks>
+    /// Saving every layer would quietly freeze the untouched ones: a file listing Win+Shift
+    /// exactly as it shipped is indistinguishable from one where somebody meant it that way, so
+    /// later additions to that layer could never appear. Writing only what was actually changed
+    /// keeps the rest open to improvement.
+    /// </remarks>
+    /// <summary>
+    /// The colours that differ from the shipped palette, and only those.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Writing all of them was the same fault the shortcut sets had, left in one place after being
+    /// fixed in the other, and it has the same consequence: a file that states every colour states
+    /// the shipped ones too, so it pins them. Improving the palette then reaches nobody who has
+    /// ever run the program — their settings quietly override it with what the palette used to be.
+    /// </para>
+    /// <para>
+    /// It surfaced when the Tools colour was changed from a pale blue to orange because the pale
+    /// one was reported as looking white on the hardware. The new colour did not appear. The
+    /// setting was not wrong, and neither was the palette; the file simply remembered a default
+    /// as though it were a decision.
+    /// </para>
+    /// </remarks>
+    private static Dictionary<string, string> Changed<TKey>(
+        IReadOnlyDictionary<TKey, RgbColor> current,
+        IReadOnlyDictionary<TKey, RgbColor> shipped)
+        where TKey : notnull
     {
-        if (Shortcuts.Count == 0)
+        var changed = new Dictionary<string, string>();
+
+        foreach (var (key, colour) in current)
         {
-            return DefaultShortcuts.Create();
+            if (!shipped.TryGetValue(key, out var original) || original != colour)
+            {
+                changed[key.ToString()!] = colour.ToString();
+            }
         }
 
-        var sets = new Dictionary<ModifierKeys, ShortcutSet>();
+        return changed;
+    }
+
+    private static List<StoredShortcutSet> Changed(ShortcutCatalogue shortcuts)
+    {
+        var shipped = DefaultShortcuts.Create().Sets;
+        var changed = new List<StoredShortcutSet>();
+
+        foreach (var (modifiers, set) in shortcuts.Sets)
+        {
+            if (!shipped.TryGetValue(modifiers, out var original) || !Same(original, set))
+            {
+                changed.Add(StoredShortcutSet.From(modifiers, set));
+            }
+        }
+
+        return changed;
+    }
+
+    /// <summary>Whether two shortcut sets say the same thing.</summary>
+    private static bool Same(ShortcutSet first, ShortcutSet second)
+        => Same(first.Characters, second.Characters) && Same(first.Keys, second.Keys);
+
+    private static bool Same(
+        IReadOnlyDictionary<string, Shortcut> first,
+        IReadOnlyDictionary<string, Shortcut> second)
+    {
+        if (first.Count != second.Count)
+        {
+            return false;
+        }
+
+        foreach (var (key, value) in first)
+        {
+            if (!second.TryGetValue(key, out var other) || other != value)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// Rebuilds the shortcut sets: the shipped ones, with any layer the user changed laid over
+    /// them.
+    /// </summary>
+    /// <remarks>
+    /// The saved layers are an overlay, not a replacement. Replacing would freeze anyone who has
+    /// ever saved settings at the shortcuts of that day: a layer added later — Win+Alt, say —
+    /// could never reach them, because their file says nothing about it and the shipped sets
+    /// would be discarded wholesale. What somebody edited stays edited; everything else keeps
+    /// improving with the program.
+    /// </remarks>
+    public ShortcutCatalogue ToShortcutCatalogue()
+    {
+        var shipped = DefaultShortcuts.Create().Sets;
+        var sets = new Dictionary<ModifierKeys, ShortcutSet>(shipped);
 
         foreach (var stored in Shortcuts)
         {
             if (stored.ToRuntime() is { } entry)
             {
-                sets[entry.Modifiers] = entry.Set;
+                sets[entry.Modifiers] = shipped.TryGetValue(entry.Modifiers, out var original)
+                    ? WithLabelsFrom(entry.Set, original)
+                    : entry.Set;
             }
         }
 
-        return sets.Count > 0 ? new ShortcutCatalogue(sets) : DefaultShortcuts.Create();
+        return new ShortcutCatalogue(sets);
+    }
+
+    /// <summary>
+    /// Fills in labels a saved set is missing from the shipped one.
+    /// </summary>
+    /// <remarks>
+    /// Older files recorded only which group a shortcut belonged to, not what it does. Reading
+    /// one back therefore produced a keyboard that lit correctly but could no longer say what
+    /// any of it meant, and saving again wrote the emptiness back — the text was gone for good.
+    /// Where the shipped set still knows the wording for a shortcut, it is used; anything the
+    /// user actually typed wins over it.
+    /// </remarks>
+    private static ShortcutSet WithLabelsFrom(ShortcutSet saved, ShortcutSet shipped)
+        => new(
+            Merge(saved.Characters, shipped.Characters, StringComparer.OrdinalIgnoreCase),
+            Merge(saved.Keys, shipped.Keys, StringComparer.Ordinal));
+
+    private static Dictionary<string, Shortcut> Merge(
+        IReadOnlyDictionary<string, Shortcut> saved,
+        IReadOnlyDictionary<string, Shortcut> shipped,
+        StringComparer comparer)
+    {
+        var merged = new Dictionary<string, Shortcut>(comparer);
+
+        foreach (var (key, shortcut) in saved)
+        {
+            merged[key] = string.IsNullOrEmpty(shortcut.Label)
+                && shipped.TryGetValue(key, out var known)
+                && known.Group == shortcut.Group
+                    ? shortcut with { Label = known.Label }
+                    : shortcut;
+        }
+
+        return merged;
     }
 
     /// <summary>
@@ -168,9 +290,18 @@ public sealed record StoredSettings
         var categories = new Dictionary<KeyCategory, RgbColor>(ColourScheme.Default.Categories);
         var groups = new Dictionary<FunctionGroup, RgbColor>(ColourScheme.Default.Groups);
 
+        // A file written before format 3 listed every colour, the untouched ones included, so it
+        // cannot say which were decisions. What it can be compared against is the palette of the
+        // time: an entry matching that was a default being echoed back, not a choice, and
+        // honouring it would pin the old palette forever. Entries that differ are kept, because
+        // those are the ones somebody actually set.
+        var echoesDefaults = FormatVersion < 3;
+
         foreach (var (name, hex) in CategoryColours)
         {
-            if (Enum.TryParse<KeyCategory>(name, out var category) && TryColour(hex, out var colour))
+            if (Enum.TryParse<KeyCategory>(name, out var category)
+                && TryColour(hex, out var colour)
+                && !(echoesDefaults && PaletteBeforeFormat3.WasCategoryDefault(category, colour)))
             {
                 categories[category] = colour;
             }
@@ -178,7 +309,9 @@ public sealed record StoredSettings
 
         foreach (var (name, hex) in GroupColours)
         {
-            if (Enum.TryParse<FunctionGroup>(name, out var group) && TryColour(hex, out var colour))
+            if (Enum.TryParse<FunctionGroup>(name, out var group)
+                && TryColour(hex, out var colour)
+                && !(echoesDefaults && PaletteBeforeFormat3.WasGroupDefault(group, colour)))
             {
                 groups[group] = colour;
             }

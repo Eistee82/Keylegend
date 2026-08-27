@@ -125,6 +125,19 @@ public class ColourSchemeTests
     {
         var groups = ColourScheme.Default.Groups.ToArray();
 
+        // Every hue has to be a hue. One group may be white — Navigation is — and white is told
+        // apart from any saturated colour; what cannot be told apart is white from nearly-white.
+        var pale = groups
+            .Where(g => ColourScheme.Saturation(g.Value) > 0.02
+                     && ColourScheme.Saturation(g.Value) < ColourScheme.MinimumSaturation)
+            .Select(g => $"{g.Key} {g.Value} at saturation {ColourScheme.Saturation(g.Value):N2}")
+            .ToArray();
+
+        Assert.True(
+            pale.Length == 0,
+            "Neither white nor a colour, so it reads as a tinted white on a lit keycap:"
+            + Environment.NewLine + "  " + string.Join(Environment.NewLine + "  ", pale));
+
         foreach (var a in groups)
         {
             foreach (var b in groups)
@@ -134,12 +147,49 @@ public class ColourSchemeTests
                     continue;
                 }
 
-                var distance = ColourScheme.Distance(a.Value, b.Value);
+                var white = ColourScheme.Saturation(a.Value) <= 0.02
+                         || ColourScheme.Saturation(b.Value) <= 0.02;
+
+                if (white)
+                {
+                    // A grey against a hue: the difference is the saturation, and the check above
+                    // has already established that both are at one end of it.
+                    continue;
+                }
+
+                var apart = ColourScheme.HueDistance(a.Value, b.Value);
 
                 Assert.True(
-                    distance >= ColourScheme.MinimumCategoryDistance,
-                    $"{a.Key} {a.Value} and {b.Key} {b.Value} are only {distance:N0} apart.");
+                    apart >= ColourScheme.MinimumHueSeparation,
+                    $"{a.Key} {a.Value} and {b.Key} {b.Value} are only {apart:N0} degrees apart.");
             }
         }
+    }
+
+    /// <summary>
+    /// Why the group palette is checked by hue and saturation rather than by distance.
+    /// </summary>
+    /// <remarks>
+    /// The pale blue that Tools used to be passed the distance check comfortably and was reported
+    /// from the hardware as looking white. The orange that replaced it fails that same check
+    /// against yellow and is easy to tell apart. So the measure was the thing that was wrong, and
+    /// this records both halves of the evidence so the lesson is not undone by a tidy-up.
+    /// </remarks>
+    [Fact]
+    public void DistanceAloneWouldHaveAcceptedThePaleBlueAndRejectedTheOrange()
+    {
+        var white = new RgbColor(255, 255, 255);
+        var paleBlue = new RgbColor(128, 128, 255);
+        var yellow = new RgbColor(255, 255, 0);
+        var orange = new RgbColor(255, 140, 0);
+
+        // What distance says: the unreadable pair is fine, the readable one is not.
+        Assert.True(ColourScheme.Distance(paleBlue, white) >= ColourScheme.MinimumCategoryDistance);
+        Assert.True(ColourScheme.Distance(orange, yellow) < ColourScheme.MinimumCategoryDistance);
+
+        // What saturation and hue say, which is the other way round and matches the keyboard.
+        Assert.True(ColourScheme.Saturation(paleBlue) < ColourScheme.MinimumSaturation);
+        Assert.True(ColourScheme.Saturation(orange) >= ColourScheme.MinimumSaturation);
+        Assert.True(ColourScheme.HueDistance(orange, yellow) >= ColourScheme.MinimumHueSeparation);
     }
 }

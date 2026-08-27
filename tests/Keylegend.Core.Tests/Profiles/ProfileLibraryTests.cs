@@ -426,12 +426,12 @@ public class ProfileLibraryTests
     // ---------------------------------------------------------------- shortcut layering
 
     /// <summary>
-    /// A profile says what Ctrl means inside that program. It has nothing to say about Win+E,
-    /// which Windows assigns and which stays true whatever is in front — so layers the profile
-    /// does not mention must survive.
+    /// A profile says what Ctrl also means inside that program. It has nothing to say about
+    /// Win+E, which Windows assigns and which stays true whatever is in front — so layers the
+    /// profile does not mention must survive whole.
     /// </summary>
     [Fact]
-    public void AProfileReplacesOnlyTheShortcutLayersItDefines()
+    public void LayersAProfileDoesNotMentionSurviveUntouched()
     {
         var general = new ShortcutCatalogue(new Dictionary<ModifierKeys, ShortcutSet>
         {
@@ -445,6 +445,96 @@ public class ProfileLibraryTests
 
         Assert.Equal("Save document", effective.Sets[ModifierKeys.LeftCtrl].Characters["s"].Label);
         Assert.Equal("Open Explorer", effective.Sets[ModifierKeys.LeftWin].Characters["e"].Label);
+    }
+
+    /// <summary>
+    /// A profile naming Ctrl does not mean "Ctrl means nothing else here". Everything it does not
+    /// name has to show through.
+    /// </summary>
+    /// <remarks>
+    /// This is the one that was wrong, and the clipboard is how it showed: a browser profile names
+    /// Ctrl for its tabs and its address bar and says nothing about Ctrl+C, so copy, paste, cut,
+    /// undo, redo and select-all went dark in a program one does little but type and paste in.
+    /// </remarks>
+    [Fact]
+    public void AProfileDoesNotBlankTheEntriesItLeavesUnmentioned()
+    {
+        var general = new ShortcutCatalogue(new Dictionary<ModifierKeys, ShortcutSet>
+        {
+            [ModifierKeys.LeftCtrl] = Set(
+                ("c", FunctionGroup.Edit, "Copy"),
+                ("v", FunctionGroup.Edit, "Paste"),
+                ("s", FunctionGroup.File, "Save"))
+        });
+
+        var profile = Shipped() with
+        {
+            Shortcuts = Shortcuts(("t", FunctionGroup.Window, "New tab"))
+        };
+
+        var effective = profile.ApplyShortcuts(general).Sets[ModifierKeys.LeftCtrl];
+
+        Assert.Equal("New tab", effective.Characters["t"].Label);
+        Assert.Equal("Copy", effective.Characters["c"].Label);
+        Assert.Equal("Paste", effective.Characters["v"].Label);
+        Assert.Equal("Save", effective.Characters["s"].Label);
+    }
+
+    /// <summary>
+    /// And it keeps what a profile is for: naming a key changes what it means in that program.
+    /// </summary>
+    [Fact]
+    public void AProfileStillChangesTheEntriesItDoesName()
+    {
+        var general = new ShortcutCatalogue(new Dictionary<ModifierKeys, ShortcutSet>
+        {
+            [ModifierKeys.LeftCtrl] = Set(("d", FunctionGroup.View, "Bookmark or duplicate"))
+        });
+
+        var profile = Shipped() with
+        {
+            Shortcuts = Shortcuts(("d", FunctionGroup.File, "Bookmark this page"))
+        };
+
+        var effective = profile.ApplyShortcuts(general).Sets[ModifierKeys.LeftCtrl];
+
+        Assert.Equal("Bookmark this page", effective.Characters["d"].Label);
+        Assert.Equal(FunctionGroup.File, effective.Characters["d"].Group);
+    }
+
+    /// <summary>Keys addressed by position layer the same way as characters.</summary>
+    [Fact]
+    public void KeysByPositionLayerToo()
+    {
+        var general = new ShortcutCatalogue(new Dictionary<ModifierKeys, ShortcutSet>
+        {
+            [ModifierKeys.LeftCtrl] = new(
+                new Dictionary<string, Shortcut>(StringComparer.OrdinalIgnoreCase),
+                new Dictionary<string, Shortcut>(StringComparer.Ordinal)
+                {
+                    ["Keyboard_Home"] = new(FunctionGroup.Navigation, "Start of document"),
+                    ["Keyboard_End"] = new(FunctionGroup.Navigation, "End of document")
+                })
+        });
+
+        var profile = Shipped() with
+        {
+            Shortcuts = new Dictionary<ModifierKeys, ShortcutSet>
+            {
+                [ModifierKeys.LeftCtrl] = new(
+                    new Dictionary<string, Shortcut>(StringComparer.OrdinalIgnoreCase),
+                    new Dictionary<string, Shortcut>(StringComparer.Ordinal)
+                    {
+                        ["Keyboard_Tab"] = new(FunctionGroup.Window, "Next tab")
+                    })
+            }
+        };
+
+        var effective = profile.ApplyShortcuts(general).Sets[ModifierKeys.LeftCtrl];
+
+        Assert.Equal("Next tab", effective.Keys["Keyboard_Tab"].Label);
+        Assert.Equal("Start of document", effective.Keys["Keyboard_Home"].Label);
+        Assert.Equal("End of document", effective.Keys["Keyboard_End"].Label);
     }
 
     [Fact]

@@ -3,21 +3,25 @@
 Thanks for considering a contribution. There are three kinds of help that are especially
 valuable, and two of them need no programming at all.
 
-## 1. Device profiles (no programming required)
+## 1. Confirming a keyboard (no programming required)
 
-Keylegend describes keyboards as **data**. Adding support for a new keyboard means writing
-two files, not writing code:
+There is nothing to write for a new keyboard. Keylegend asks Razer Synapse which one is
+plugged in and reads Razer's own drawing of that model, so support for a keyboard is not something
+this repository can carry or lack.
 
-- `devices/<vendor>-<model>-<layout>/device.json`
-- `devices/<vendor>-<model>-<layout>/device.png`
+What it cannot do by itself is confirm that the lighting lands on the right keys. Which cell of the
+matrix a key belongs to comes from the Chroma protocol's own table, and that table is checked by hand
+against exactly one keyboard — a DeathStalker V2 in ISO-DE. Every other model is correct by
+inference.
 
-The step-by-step guide is in [docs/en/adding-a-keyboard.md](docs/en/adding-a-keyboard.md).
-The application includes a calibration mode that lights up matrix cells one at a time, so you
-can work out the mapping by watching your own keyboard rather than by guessing.
+Checking it needs no special mode, because the window already shows what the hardware should look
+like: the keyboard on screen and the keyboard on the desk are filled by the same code. Hold the two
+side by side.
 
-Please state in the pull request **which keyboard and which physical layout** (ISO/ANSI/JIS
-and language) you verified the profile against. A photo of the keyboard lit by the
-calibration mode is welcome but not required.
+If a key lights up on the hardware while a different one is lit in the window, that is worth an
+issue — please say **which keyboard and which physical layout** (ISO/ANSI/JIS and language), and
+which key is wrong. A photo is welcome but not required. A report that everything matched is just as
+useful: it turns an inference into a confirmed model.
 
 ## 2. Translations
 
@@ -57,6 +61,11 @@ dotnet test
 
 CI runs the same two commands on Windows for every pull request.
 
+Nineteen tests report as **skipped** unless Razer Synapse is installed: they read the vendor's own
+keyboard drawings, which cannot be copied into this repository. `506 passed` and `487 passed, 19
+skipped` are both green runs — the second is what a machine without Synapse looks like, and it is
+not a fault.
+
 ## Commit messages and pull requests
 
 Describe what changed and why. If a change alters observable behaviour, add an entry under
@@ -73,5 +82,5 @@ covers this project.
 
 That means everything you contribute has to be yours to license. In practice the one thing this
 rules out is **artwork you did not make**: a keyboard vendor's product render, a press photo, a
-logo. Device profiles need no picture — the preview is drawn from the geometry — so the question
-usually does not arise. See [NOTICE.md](NOTICE.md).
+logo. Nothing here needs a picture — the preview is drawn from Razer's own drawing on your machine
+— so the question usually does not arise. See [NOTICE.md](NOTICE.md).

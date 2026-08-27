@@ -40,14 +40,5 @@ $RECYCLE.BIN/
 *.local.json
 .claude/settings.local.json
 
-# Calibration output, written next to the binaries
-calibration-findings.txt
-
-# Backups written by tools/apply-calibration.ps1
-*.json.bak
-
-# Preview pictures written by tools/preview-layout.py, next to the profile they show.
-devices/**/preview*.svg
-
 # Release artefacts, produced by tools/build-release.ps1
 out/

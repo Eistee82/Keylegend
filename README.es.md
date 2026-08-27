@@ -5,7 +5,7 @@
 [English](README.md) · [Deutsch](README.de.md) · [Español](README.es.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Nederlands](README.nl.md) ·
 [Polski](README.pl.md) · [Português](README.pt.md) · [Русский](README.ru.md) · [Українська](README.uk.md) · [简体中文](README.zh-cn.md)
 
-> **Versión 1.0.0.** La iluminación, la interfaz, la detección de juegos y los perfiles de
+> **Versión 1.1.0.** La iluminación, la interfaz, la detección de juegos y los perfiles de
 > aplicación funcionan. [Descarga el instalador o la copia portátil](https://github.com/Eistee82/Keylegend/releases/latest),
 > o compila desde el código. Véase [CHANGELOG.md](CHANGELOG.md).
 
@@ -64,7 +64,7 @@ modificadores y de los bloqueos; nunca intercepta, reenvía ni registra pulsacio
 
 - Windows 10 u 11
 - Razer Synapse con el servicio Chroma SDK en marcha
-- Un teclado compatible con Chroma que tenga un perfil de dispositivo (véase más abajo)
+- Un teclado Razer Chroma, conectado (véase más abajo)
 - El runtime de .NET 10
 
 ## Instalación
@@ -80,8 +80,8 @@ queda ningún requisito por instalar a mano. Si no, coge un archivo:
 
 | Archivo | Qué es |
 |---|---|
-| `Keylegend-1.0.0-setup.exe` | Se instala para el usuario actual: sin permisos de administrador. Entrada en el menú Inicio y una desinstalación que también quita la entrada de inicio automático. |
-| `Keylegend-1.0.0-portable.zip` | El mismo programa, para descomprimir. Mantén la carpeta `devices` junto al ejecutable. |
+| `Keylegend-1.1.0-setup.exe` | Se instala para el usuario actual: sin permisos de administrador. Entrada en el menú Inicio y una desinstalación que también quita la entrada de inicio automático. |
+| `Keylegend-1.1.0-portable.zip` | El mismo programa, para descomprimir. Mantén las carpetas de idioma (`de`, `fr`, …) junto al ejecutable; si no, la interfaz aparecerá en inglés. |
 
 Ninguno está firmado, así que Windows dirá que el editor es desconocido: un certificado cuesta al
 año más de lo que tiene este proyecto. Cada versión incluye `SHA256SUMS.txt` para comprobar la
@@ -89,40 +89,31 @@ descarga, y el registro de compilación que la produjo es público.
 
 ## Teclados compatibles
 
-La compatibilidad con un teclado es **un dato, no código**. Un teclado es un archivo en
-`devices/`: `device.json`, con la geometría de las teclas y la correspondencia entre teclas y
-celdas de la matriz Chroma.
+**Cualquier teclado Razer Chroma.** No hay lista ni un archivo por modelo, porque Keylegend no
+necesita reconocer tu teclado: lo pregunta. Razer Synapse describe el que está conectado — el modelo
+por su nombre, la distribución física como número y las teclas que el hardware tiene realmente. El
+propio dibujo de Razer para ese modelo aporta el resto: los tamaños reales de las teclas, la carcasa
+con su rueda y sus teclas multimedia, y los contornos de los caracteres impresos, en el idioma
+correcto.
 
-Se incluyen treinta y dos perfiles. Uno de ellos se ha recorrido en hardware real; los demás se
-generan a partir de las dimensiones normalizadas, lo que hace su geometría exacta y su
-correspondencia de LED una conjetura fundada.
+Lo único que el dibujo no dice es a qué celda de la matriz de iluminación pertenece cada tecla. Eso
+es una constante del protocolo Chroma, idéntica en todos los modelos, y por eso Synapse tampoco
+necesita una tabla por modelo. Comprobado contra el único teclado calibrado a mano: las 105 teclas
+coinciden.
 
-| Teclado | Distribución | Estado |
-|---|---|---|
-| Razer DeathStalker V2 | ISO-DE | **verificado en hardware** |
-| Razer DeathStalker V2, BlackWidow V4, Huntsman V3 Pro, Ornata V3 | ANSI-US, ISO-DE | generado |
-| Formato completo, 105/104 teclas | ANSI-US, ISO-DE, ISO-UK, ISO-FR, ISO-ES, ISO-IT, ISO-NORDIC, ISO-PT, ISO-CH, ISO-RU, ISO-PL, JIS-JP, ABNT2-BR | generado |
-| Tenkeyless | ANSI-US, ISO-DE, ISO-UK, ISO-FR | generado |
-| 75 %, 65 %, 60 % | ANSI-US, ISO-DE | generado |
+La **disposición física** describe la *forma* del teclado, no el idioma con el que escribes. Qué carácter
+produce una tecla se consulta a Windows en tiempo de ejecución, así que un teclado alemán funciona
+correctamente incluso con Windows configurado en US o Dvorak.
 
-`physicalLayout` describe la *forma* del teclado, no el idioma en que escribes. Qué carácter
-produce cada tecla se le pregunta a Windows sobre la marcha, así que un perfil ISO-ES sirve para
-un teclado español tanto si Windows está en español como en inglés o en Dvorak.
-
-**¿Se te encienden las teclas equivocadas?** Eso es justo lo que significa «generado», y
-corregirlo no requiere programar: unos diez minutos con el modo de calibración. Véase
-[docs/es/adding-a-keyboard.md](docs/es/adding-a-keyboard.md). Las correcciones son tan bienvenidas
-como los perfiles nuevos y convierten una conjetura en un perfil `verified` para todos los que
-tengan ese teclado.
+**Requiere Razer Synapse**, instalado y en ejecución, con el teclado conectado. Ahí se describe el
+teclado y ahí está su dibujo.
 
 ## Documentación
 
 | Tema | |
 |---|---|
 | Arquitectura | cómo se decide el coloreado y por qué no hay ningún hook de teclado |
-| Añadir o corregir un teclado | perfiles de dispositivo, calibración y qué hacer cuando se encienden las teclas equivocadas |
 | Añadir un perfil | coloreado por aplicación |
-| Formato de perfil de dispositivo | cada campo, en detalle |
 | Configuración | ajustes, archivo de ajustes, inicio automático |
 
 Disponible en once idiomas:
@@ -139,31 +130,22 @@ texto en inglés es el correcto. Las correcciones son bienvenidas, véase
 
 ```bash
 git clone https://github.com/Eistee82/Keylegend.git
-cd keylegend
+cd Keylegend
 dotnet build
 dotnet test
 ```
 
-Se producen dos programas. **`Keylegend.exe`** (`src/Keylegend.App`) es la aplicación: ventana,
-icono en el área de notificación, ajustes. Es la que quieres para el uso normal.
-
-**`keylegend-cli.exe`** (`src/Keylegend.Host`) es un controlador de consola con los diagnósticos:
-
-| Comando | Qué hace |
-|---|---|
-| `keylegend-cli` | Ejecuta la iluminación. Toma el mando en la primera pulsación y lo devuelve tras 10 s de inactividad. |
-| `keylegend-cli --idle 30` | Lo mismo, con un tiempo de inactividad de 30 segundos. |
-| `keylegend-cli --once 10` | Pinta el estado actual una vez y lo mantiene diez segundos. Buena primera comprobación. |
-| `keylegend-cli --calibrate` | Enciende las teclas de una en una para verificar un perfil de dispositivo. |
-| `keylegend-cli --dump-layout` | Imprime a qué resuelve cada tecla: normal / Mayús / Alt Gr. |
-| `keylegend-cli --watch-foreground` | Informa de lo que ve la detección de juegos cuando cambian las ventanas. |
-| `keylegend-cli --profile <ruta>` | Usa un `device.json` concreto. |
+`Keylegend.exe` (`src/Keylegend.App`) es todo el programa: ventana, icono en el área de
+notificación, ajustes. El único conmutador que conviene conocer: `--verify` comprueba que una copia
+lleve los perfiles incluidos y los once idiomas, escribe lo que encuentra en la ruta indicada a
+continuación y responde mediante su código de salida. Es lo que el script de publicación ejecuta
+contra una copia empaquetada.
 
 Los ajustes residen en `%APPDATA%\Keylegend\settings.json` y los escribe la aplicación.
 
 ## Contribuir
 
-Los informes de error, los perfiles de dispositivo y las traducciones son bienvenidos: véase
+Los informes de error, los perfiles de aplicación y las traducciones son bienvenidos: véase
 [CONTRIBUTING.md](CONTRIBUTING.md) y [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
 ## Licencia
@@ -180,9 +162,9 @@ RAZER y RAZER CHROMA son marcas comerciales o marcas registradas de Razer Inc. S
 proyecto, tal como permite el uso referencial. Keylegend es un proyecto independiente, mantenido
 por la comunidad.
 
-Lo mismo vale para cualquier otro nombre de este repositorio. Los perfiles de aplicación y de
-juego nombran cerca de noventa programas —Photoshop, Visual Studio Code, Excel, Elden Ring y
-otros— y los perfiles de dispositivo nombran fabricantes y modelos de teclado. Son marcas de sus
-respectivos titulares y aparecen solo para indicar a qué programa o a qué teclado corresponde
-algo. Keylegend no está asociado con ninguno de ellos y no contiene su código ni sus recursos
-gráficos. Véase [NOTICE.md](NOTICE.md).
+Lo mismo vale para cualquier otro nombre de este repositorio. Los perfiles de aplicación y de juego
+nombran cerca de noventa programas —Photoshop, Visual Studio Code, Excel, Elden Ring y otros— y la
+documentación nombra fabricantes y modelos de teclado. Son marcas de sus respectivos titulares y
+aparecen solo para indicar a qué programa o a qué teclado corresponde algo. Keylegend no está
+asociado con ninguno de ellos y no contiene su código ni sus recursos gráficos. Véase
+[NOTICE.md](NOTICE.md).

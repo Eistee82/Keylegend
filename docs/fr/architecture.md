@@ -6,7 +6,7 @@ Toute la logique de décision est un **calcul pur**, sans accès à Windows, au 
 de fichiers :
 
 ```
-(état du clavier, profil de périphérique, profil d'application, réglages de couleur) → couleur par touche
+(état du clavier, clavier connecté, profil d'application, réglages de couleur) → couleur par touche
 ```
 
 Deux conséquences en découlent, et toutes deux expliquent la forme de cette conception :
@@ -21,9 +21,10 @@ Tout ce qui parle au monde extérieur se trouve dans de fins adaptateurs autour 
 
 | Projet | Contient | Peut dépendre de |
 |---|---|---|
-| `Keylegend.Core` | profils de périphérique, catégories, jeux de raccourcis, compositeur d'images, automate de session | rien de spécifique à une plateforme |
+| `Keylegend.Core` | le clavier connecté, catégories, jeux de raccourcis, compositeur d'images, automate de session | rien de spécifique à une plateforme |
 | `Keylegend.Windows` | état du clavier, résolution des caractères, fenêtre au premier plan | API Windows |
 | `Keylegend.Chroma` | client REST pour le SDK Chroma, battement de cœur | réseau |
+| `Keylegend.Engine` | la boucle qui lit le clavier, compose une image et l'envoie | Core, Chroma, Windows |
 | `Keylegend.App` | interface WPF, icône de notification, stockage de la configuration | tout ce qui précède |
 
 `Keylegend.Core` ne doit jamais référencer les autres. Si une modification semble l'exiger,
@@ -61,11 +62,31 @@ C'est pourquoi Maj, Verr Maj et Verr Num ne demandent aucun traitement particuli
 touche renvoie simplement `A` au lieu de `a` et atterrit d'elle-même dans la catégorie
 « majuscule ». C'est aussi pourquoi n'importe quelle disposition fonctionne sans modification.
 
+### Quel clavier est branché
+
+On le demande à Razer Synapse, puisqu'il le sait déjà. Il écrit une description de chaque
+périphérique branché dans `…\Razer Chroma SDK\Devices\<guid>.json` : le modèle par son nom, la
+disposition physique sous forme de nombre, la taille de la matrice et le code de balayage de chaque
+touche que le matériel possède réellement. `SdkDeviceDescription` lit cela, et rien du clavier n'est déduit.
+
+L'apparence du clavier vient de la même installation. L'interface de Synapse est une application
+web, et les dessins qu'elle charge pour un périphérique restent dans son cache : rectangles de
+touches nommés, forme du châssis avec la molette de volume et la bande multimédia, et contours des
+caractères imprimés sur les touches. `SvgLayoutSource` trouve celui du modèle et de la disposition
+branchés exactement, et non d'après la forme, car chaque dessin est livré à côté d'un objet de
+configuration qui nomme les deux.
+
+Seules les mesures et les contours sont repris ; les couleurs et le style de Razer sont ignorés, et
+rien de ce matériel n'est copié dans ce dépôt.
+
+La seule chose qu'aucun des deux n'indique est à quelle cellule de la matrice d'éclairage appartient
+une touche. C'est `StandardKeyMatrix`, la table `RZKEY` du protocole lui-même, identique sur chaque
+modèle.
+
 ## Profils d'application
 
 Un profil lie des règles d'éclairage à un programme. Une petite centaine est fournie, et les
-décisions qui les sous-tendent méritent d'être énoncées, car chacune fut la deuxième réponse et
-non la première.
+décisions qui les sous-tendent méritent d'être énoncées, car aucune n'est la réponse évidente.
 
 ### Les profils sont des données, pas du code
 
@@ -77,12 +98,12 @@ application demandait du code, le format serait mauvais.
 
 ### Intégrés à l'assembly plutôt que posés sur le disque
 
-Les profils de périphérique sont à côté de l'exécutable ; ceux des applications non. Trois
-raisons, dont chacune suffirait. Une version en fichier unique les emporte sans dossier à perdre.
-Rien sur le disque ne peut être modifié par accident, et c'est précisément ce qui donne un sens à
-« rétablir la version fournie » — la version fournie doit être hors d'atteinte pour valoir la
-peine d'y revenir. Et un profil qui ne compile pas devient une erreur de compilation plutôt qu'un
-programme silencieusement dépourvu de profils.
+Les profils d'application sont compilés dans l'assembly plutôt que posés en fichiers à côté de
+l'exécutable. Trois raisons, dont chacune suffirait. Une version en fichier unique les emporte sans
+dossier à perdre. Rien sur le disque ne peut être modifié par accident, et c'est précisément ce qui
+donne un sens à « rétablir la version fournie » — la version fournie doit être hors d'atteinte pour
+valoir la peine d'y revenir. Et un profil qui ne compile pas devient une erreur de compilation
+plutôt qu'un programme silencieusement dépourvu de profils.
 
 ### Les remplacements se font par section
 
@@ -93,7 +114,7 @@ peut encore améliorer un profil que quelqu'un a partiellement modifié. L'ident
 pour cela et ne doit jamais changer une fois publié — le renommer orpheline les modifications de
 quelqu'un.
 
-La granularité a été choisie contre les deux autres possibilités évidentes :
+La granularité tient contre les deux autres possibilités évidentes :
 
 - **Par champ** paraît plus propre et produit des états que personne n'a configurés. Recolorez
   `W`, prenez ensuite une mise à jour qui ajoute `Q`, et le résultat est un mélange que
@@ -104,14 +125,22 @@ La granularité a été choisie contre les deux autres possibilités évidentes 
 Une section est la granularité à laquelle le changement tient encore en une phrase : vous avez
 modifié les mises en évidence, elles sont donc à vous désormais.
 
-### Un profil ne remplace que les couches qu'il nomme
+### Un profil se superpose à l'ensemble général, entrée par entrée
 
-Les raccourcis sont indexés par combinaison de modificateurs et posés par-dessus le catalogue
-général, non substitués à lui. Photoshop sait ce que `Ctrl` veut dire dans Photoshop ; il ne sait
-rien de `Win+E`, que Windows attribue à l'échelle du système et qui reste vrai quoi qu'il y ait
-devant. Remplacer tout le catalogue rendrait un profil responsable de faits sur lesquels il n'a
-aucun avis. Un profil qui ne nomme aucune couche renvoie le catalogue général inchangé, si bien
-que le cas courant n'alloue rien.
+Les raccourcis sont indexés par combinaison de modificateurs, et les entrées d'un profil se posent
+sur les générales au lieu de les remplacer — entrée par entrée, et non couche par couche. Photoshop
+sait ce que signifie `Ctrl+J` dans Photoshop ; il ne sait rien de `Win+E`, que Windows attribue à
+l'échelle du système, ni de `Ctrl+C`, qui vaut partout où il y a un curseur de texte.
+
+Par couche signifierait qu'un profil nommant `Ctrl` pour ses propres commandes emporte la couche
+entière, et le presse-papiers est ce que cela coûte : copier, coller, couper, annuler et tout
+sélectionner s'éteignent dans un navigateur, dans un client de messagerie, dans un terminal — des
+programmes où l'on ne fait guère autre chose que taper et coller. Par entrée, qui nomme une touche
+l'emporte pour cette touche et rien d'autre ne bouge. Vider une couche entière est délibérément
+impossible.
+
+Un profil qui ne nomme aucune couche renvoie le catalogue général inchangé ; le cas courant
+n'alloue donc rien.
 
 ### Raccourcis et mises en évidence portent une étiquette
 
@@ -124,16 +153,32 @@ confronté à rien ; `"j": "Dupliquer le calque"` le peut.
 
 ### Migrer un fichier de paramètres au format 1
 
-Le format 1 stockait les profils entiers, sans identifiant et sans trace de leur provenance.
-C'est exactement ce que corrige le nouveau format : un remplacement a besoin d'un identifiant
-auquel s'attacher, et la réinitialisation a besoin de savoir qu'il existe une version fournie à
-laquelle revenir.
+Un fichier au format 1 stocke les profils entiers, sans identifiant et sans trace de leur
+provenance. Un remplacement a besoin d'un identifiant auquel s'attacher, et la réinitialisation a
+besoin de savoir qu'il existe une version fournie à laquelle revenir : un tel fichier ne peut donc
+pas dire lesquelles de ses entrées sont les entrées fournies.
 
-La conséquence pour la migration est qu'un ancien fichier ne peut pas dire lesquelles de ses
-entrées étaient jadis fournies. Toutes deviennent donc des profils utilisateur. Cela conserve
-chaque modification faite par quelqu'un, au prix de voir le profil fourni apparaître à côté de la
-copie migrée jusqu'à ce que l'un des deux soit supprimé — et c'est le bon compromis, car l'autre
-lecture supprimerait silencieusement du travail.
+Toutes deviennent donc des profils utilisateur. Cela conserve chaque modification faite par
+quelqu'un, au prix de voir le profil fourni apparaître à côté de la copie migrée jusqu'à ce que l'un
+des deux soit supprimé — le bon compromis, car l'autre lecture supprime silencieusement du travail.
+
+### Migrer un fichier de paramètres au format 2
+
+Un fichier au format 2 énumère toutes les couleurs, y compris celles que personne n'a touchées ; il
+ne peut donc pas dire lesquelles de ses entrées sont des décisions et lesquelles des valeurs par
+défaut renvoyées. Les respecter toutes fige la palette : une couleur fournie améliorée n'atteint
+alors personne ayant déjà lancé le programme.
+
+Le format 3 n'écrit que ce qui diffère de la palette fournie, de sorte qu'une entrée dans le fichier
+signifie que quelqu'un l'a choisie. Migrer un fichier plus ancien oblige à deviner cette
+distinction, et l'hypothèse est : une entrée égale à la palette de cette version est une valeur par
+défaut, toute autre est un choix. `PaletteBeforeFormat3` conserve cette palette en copie figée
+plutôt que de lire l'actuelle — cette comparaison perd tout sens au moment où la palette change de
+nouveau, c'est-à-dire précisément quand on en a besoin.
+
+Le prix est que celui qui a choisi exprès l'une de ces couleurs la perd. C'est le bon sens de
+l'échange : une personne rechoisit une couleur, contre tous les utilisateurs gardant une palette que
+personne n'a choisie.
 
 ## Parler au clavier
 
@@ -145,20 +190,49 @@ Mesuré sur la machine de développement : créer une session prend 60 à 125 ms
 après avoir repris la main sur un effet Chroma Studio en cours environ 500 ms, et chaque image
 suivante autour de 2 ms.
 
+### Chaque réponse dit 200, c'est donc le corps qui tranche
+
+Le service répond **à tout** par HTTP 200, y compris aux requêtes qu'il a jetées. Une image dont la
+taille de matrice est fausse revient ainsi :
+
+```json
+{"error":"expecting a 2 dimensional array of 6 (rows) x 22 (columns) elements with integer values","result":87}
+```
+
+avec un statut 200. Ne vérifier que le code de statut signale donc un succès pour des images que le
+clavier n'a jamais affichées : un échec silencieux, impossible à distinguer d'un éclairage qui
+simplement ne change pas.
+
+C'est donc `result`, dans le corps, qui tranche : zéro pour un succès, toute autre valeur pour un
+refus. Là où le service fournit un `error` en clair, il est repris tel quel, car il nomme le défaut
+réel mieux que n'importe quelle formulation inventée ici. Les codes sur lesquels un utilisateur
+peut agir sont traduits :
+
+| Code | Signification |
+|---|---|
+| 4309 | Chroma est désactivé pour ce périphérique dans Synapse |
+| 1152 | une autre application détient la session |
+| 1167 | aucun périphérique Chroma n'est connecté |
+| 5 | l'accès a été refusé |
+| 87 | la requête était mal formée |
+| 50 | la requête n'est pas prise en charge |
+
+Une ouverture de session réussie ne porte aucun `result` — elle renvoie les détails de la session —,
+son absence compte donc comme un succès.
+
 ### À quelle fréquence les images sont envoyées
 
-Cela ressemble à un détail et n'en est pas un ; les deux réponses évidentes sont fausses, et
-chacune a été essayée.
+Cela ressemble à un détail et n'en est pas un : les deux réponses évidentes sont fausses.
 
 **N'envoyer qu'au changement** affame la reprise en main. Une frappe ordinaire ne change pas
 l'état du clavier — seuls les modificateurs et les verrouillages le font —, si bien qu'une reprise
-ne produisait qu'une seule image. Chroma jette les images tant qu'il prend encore le contrôle, et
-signale un succès pour elles : cette unique image pouvait donc disparaître et laisser le clavier
-figé sur l'effet précédent jusqu'à ce que l'utilisateur appuie par hasard sur un modificateur.
+ne produit qu'une seule image. Chroma jette les images tant qu'il prend encore le contrôle, et
+signale un succès pour elles : cette unique image peut donc disparaître et laisser le clavier figé
+sur l'effet précédent jusqu'à ce que l'utilisateur appuie par hasard sur un modificateur.
 
 **Envoyer aussi vite que possible** ruine la réactivité. Les images s'accumulent dans l'interface,
-et un changement d'état attend alors derrière tout ce qui a déjà été envoyé — appuyer sur Maj
-mettait une seconde ou deux, visiblement, à s'afficher.
+et un changement d'état attend alors derrière tout ce qui a déjà été envoyé — appuyer sur Maj met
+une seconde ou deux, visiblement, à s'afficher.
 
 Ce qui marche, c'est d'envoyer pour trois raisons distinctes à trois cadences différentes :
 
@@ -179,3 +253,13 @@ Ce qui marche, c'est d'envoyer pour trois raisons distinctes à trois cadences d
 Keylegend prend la main à la première frappe et libère le clavier après une durée d'inactivité
 configurable, si bien que votre propre effet Chroma Studio revient. Le coût de réveil d'environ
 500 ms n'est donc payé qu'après une vraie pause, jamais pendant la frappe.
+
+Une seule copie de Keylegend pilote le clavier. Deux ouvriraient deux sessions pour le même
+périphérique ; le service le donne à l'une d'elles, et l'autre n'éclaire rien tout en continuant à
+signaler des succès — ce qui ressemble exactement à un programme qui a discrètement cessé de
+fonctionner. Ce que fait un second démarrage dépend de ce qui tourne déjà. Le même programme depuis
+le même endroit signifie que quelqu'un a double-cliqué sur l'icône pendant qu'il était dans la zone
+de notification : sa fenêtre apparaît et le second démarrage se retire, donc rien n'est arrêté et
+l'éclairage ne clignote pas. Tout le reste — une version antérieure, ou la même depuis un autre
+dossier — est remplacé : il lui est demandé de partir, elle rend sa session, et elle n'est arrêtée
+d'office que si elle ne répond pas en deux secondes.

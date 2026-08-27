@@ -17,15 +17,19 @@ internal static class TestPaths
         ?? throw new InvalidOperationException(
             "The RepositoryRoot assembly metadata is missing; check the test project file.");
 
-    public static string DevicesDirectory { get; } = Directory.Exists(Path.Combine(RepositoryRoot, "devices"))
-        ? Path.Combine(RepositoryRoot, "devices")
-        : throw new DirectoryNotFoundException($"No 'devices' folder under {RepositoryRoot}.");
-
     public static string ProfilesDirectory { get; } = Directory.Exists(Path.Combine(RepositoryRoot, "profiles"))
         ? Path.Combine(RepositoryRoot, "profiles")
         : throw new DirectoryNotFoundException($"No 'profiles' folder under {RepositoryRoot}.");
 
-    /// <summary>Path to the <c>device.json</c> of a shipped profile, by folder name.</summary>
-    public static string ShippedProfile(string folderName)
-        => Path.Combine(DevicesDirectory, folderName, "device.json");
+    /// <summary>
+    /// The hand-measured key table, under <c>tests/…/Fixtures</c>.
+    /// </summary>
+    /// <remarks>
+    /// Test data and nothing else: the program builds the attached keyboard at run time, so it
+    /// never reads a keyboard from a file. What this file holds is the measurement everything is
+    /// checked against — see <see cref="MeasuredKeys"/>.
+    /// </remarks>
+    public static string MeasuredKeys { get; } = Path.Combine(
+        RepositoryRoot, "tests", "Keylegend.Core.Tests", "Fixtures",
+        "razer-deathstalker-v2-de", "measured-keys.json");
 }

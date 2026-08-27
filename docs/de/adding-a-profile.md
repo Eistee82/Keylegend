@@ -33,11 +33,11 @@ Was folgt, ist der Teil, der auch dann schiefgeht, wenn das Format gelesen wurde
 
 ## 3. Position und Zeichen sind nicht dasselbe
 
-Tastenkennungen stammen aus dem Geräteprofil und bezeichnen **US-Positionen**. `Keyboard_Y` ist
-die physische Taste, die auf einer US-Tastatur `Y` tippt — auf einer deutschen tippt dieselbe
-Taste `Z`. Deshalb kennt das Format zwei Arten, eine Taste zu benennen, und die falsche zu
-wählen erzeugt ein Profil, das auf jedem Nicht-US-Layout sichtbar falsch ist, während es auf dem
-Rechner, auf dem es entstand, tadellos aussieht.
+Tastenkennungen stammen aus der Tabelle des Beleuchtungsprotokolls und bezeichnen **US-
+Positionen**. `Keyboard_Y` ist die physische Taste, die auf einer US-Tastatur `Y` tippt — auf einer
+deutschen tippt dieselbe Taste `Z`. Deshalb kennt das Format zwei Arten, eine Taste zu benennen,
+und die falsche zu wählen erzeugt ein Profil, das auf jedem Nicht-US-Layout sichtbar falsch ist,
+während es auf dem Rechner, auf dem es entstand, tadellos aussieht.
 
 Frag bei jedem Eintrag, worum es eigentlich geht:
 
@@ -95,12 +95,12 @@ ist das ein Zeichen dafür, dass der Eintrag noch nicht ins Profil gehört.
 dotnet test
 ```
 
-Die Profiltests prüfen jede Datei unter `profiles/`: Kennung eindeutig und gleich dem
-Dateinamen, `kind` passend zum Ordner, jede Tastenkennung im Geräteprofil vorhanden, Farben
-lesbar, Gruppen und Modifier-Kombinationen gültig und kanonisch geschrieben, jedes Kürzel
-beschriftet, kein Buchstabe unter `shortcuts.keys` (er gehört unter `characters`), kein Profil
-ohne Inhalt, und keine zwei Profile, die dieselbe Programmdatei beanspruchen, ohne sich durch
-`titleContains` zu unterscheiden.
+Die Profiltests prüfen jede Datei unter `profiles/`: Kennung eindeutig und gleich dem Dateinamen,
+`kind` passend zum Ordner, jede Tastenkennung in der Matrixtabelle vorhanden, Farben lesbar,
+Gruppen und Modifier-Kombinationen gültig und kanonisch geschrieben, jedes Kürzel beschriftet, kein
+Buchstabe unter `shortcuts.keys` (er gehört unter `characters`), kein Profil ohne Inhalt, und keine
+zwei Profile, die dieselbe Programmdatei beanspruchen, ohne sich durch `titleContains` zu
+unterscheiden.
 
 Absichtlich **nicht** geprüft wird, ob eine Beschriftung zweimal unter derselben Kombination
 vorkommt. Das sah nach einem Weg aus, Kopierfehler zu finden, und fand stattdessen echte

@@ -63,6 +63,11 @@ separately: editing the highlights freezes the highlights and leaves the shortcu
 this file, so improvements here still reach them. Keep that in mind when deciding which section
 a piece of information belongs in.
 
+**A profile adds to the general shortcuts rather than replacing them.** Naming the `Ctrl` layer
+does not claim that Ctrl means nothing else in this program — `Ctrl+C` still copies. So list what
+this program does *differently* or *in addition*, and leave the universal editing keys out; they
+arrive on their own.
+
 ## Fields
 
 | Field | Required | Meaning |
@@ -74,6 +79,8 @@ a piece of information belongs in.
 | `match.appliesToGames` | no | `true` only for the generic game profile. A named title must not set this. |
 | `match.priority` | no | Default `0`. Higher wins among profiles that match. A profile naming the process already outranks the generic game profile, so this is only for ties. |
 | `match.titleContains` | rarely | The profile applies only if the window title contains one of these, case-insensitively. See below — most profiles must not use it. |
+| `highlights` | no | Key id → fixed colour, optionally with a label. |
+| `shortcuts` | no | Modifier combination → the keys carrying a command under it. |
 
 ## `titleContains` — only for shared executable names
 
@@ -92,13 +99,11 @@ confident wrong answer, which is worse than no profile at all.
 Do not reach for this otherwise. Titles are localised, they change with the open document, and
 a matching rule nobody can read back is worse than no rule. If a profile needs more than "the
 title mentions Calc", it is solving the wrong problem.
-| `highlights` | no | Key id → fixed colour, optionally with a label. |
-| `shortcuts` | no | Modifier combination → the keys carrying a command under it. |
 
 ## Key ids — the position trap
 
-Key ids come from the device profile and follow **US positions**. `Keyboard_Y` is the physical
-key that types `Y` on a US keyboard — on a German one, that same key types `Z`.
+Key ids follow **US positions**, as the lighting protocol's own names do. `Keyboard_Y` is the
+physical key that types `Y` on a US keyboard — on a German one, that same key types `Z`.
 
 This is why the format has two different ways to name a key, and using the wrong one produces a
 profile that is visibly wrong on any non-US layout:
@@ -136,19 +141,68 @@ is not.
 If you cannot establish which way a particular program reads the keyboard, leave the `Y` and `Z`
 entries out. Every other letter is unaffected.
 
-The full list of valid key ids is in `devices/razer-deathstalker-v2-de/device.json`. A test
-rejects any id that is not in there.
+The valid key ids are the ones the lighting protocol knows, listed in
+`src/Keylegend.Core/Devices/StandardKeyMatrix.cs`. A test rejects any id that is not in there.
 
 ## Modifier combinations
 
-The keys of the `shortcuts` object. Exactly these eight, spelled exactly like this:
+The keys of the `shortcuts` object. Exactly these, spelled exactly like this:
 
 ```
-Win   Win+Shift   Win+Ctrl   Ctrl   Ctrl+Shift   Ctrl+Alt   Alt   AltGr
+None   Shift
+Win   Win+Shift   Win+Ctrl   Win+Alt   Win+Ctrl+Shift   Win+Ctrl+Alt+Shift
+Ctrl   Ctrl+Shift   Ctrl+Alt   Alt   AltGr
 ```
 
-The order matters — `Ctrl+Shift` is valid, `Shift+Ctrl` is not. Shift on its own is not a
-combination: it changes which character a key types rather than selecting a shortcut layer.
+The order matters — `Ctrl+Shift` is valid, `Shift+Ctrl` is not.
+
+`Win+Ctrl+Alt+Shift` is the layer Microsoft 365 registers for itself — Word, Excel, Teams and the
+rest. It is listed because it fires from anywhere, and it is legitimately empty on a machine with
+no Microsoft 365 installed.
+
+### `None` and `Shift` — for programs that do not use the keyboard for writing
+
+These two are different in kind from the rest, and a profile should reach for them only with
+reason.
+
+Holding Ctrl dims the keyboard and shows what Ctrl does, because Ctrl has no other meaning.
+Holding Shift does not, because Shift's usual job is to change which character a key types — going
+dark on Shift would cost the uppercase display and give nothing back. With no modifier held at all,
+the keyboard shows what its keys mean.
+
+That reasoning is about *writing*. A program may use the keyboard for functions instead, and then
+it does not hold: a game binds Shift to sprint and WASD to direction, where which letter a key
+types is beside the point entirely. So both layers exist, and **defining one turns it into a
+function layer for as long as that program is in front**:
+
+```json
+"shortcuts": {
+  "None": {
+    "characters": {
+      "w": { "group": "Navigation", "label": "Forward" },
+      "e": { "group": "Tools", "label": "Use" }
+    },
+    "keys": {
+      "Keyboard_Space": { "group": "Tools", "label": "Jump" }
+    }
+  },
+  "Shift": {
+    "characters": {
+      "w": { "group": "Navigation", "label": "Sprint" }
+    }
+  }
+}
+```
+
+Nothing shipped is keyed on either, so a keyboard shows what its keys mean until a profile says
+otherwise. Two things to weigh before it does:
+
+- **`None` takes over the resting keyboard.** Every key not named goes dark for as long as the
+  program is in front. Right for a game; wrong for anything you type in, including a game's own
+  chat window.
+- **A fixed colour may be what you want instead.** `highlights` marks keys without touching the
+  layers — `F5` in a browser, or WASD in a game — and it stays visible while you type. Use a layer
+  when the meaning depends on a modifier, and a highlight when it does not.
 
 ## Function groups
 
@@ -204,6 +258,6 @@ user has no way to tell. So:
 
 ## Checks
 
-`dotnet test` validates every file here: id unique and matching the file name, key ids present
-in the device profile, colours parsable, groups and modifier combinations valid, no character
-assigned twice within one combination, every shortcut labelled.
+`dotnet test` validates every file here: id unique and matching the file name, key ids present in
+the matrix table, colours parsable, groups and modifier combinations valid, no character assigned
+twice within one combination, every shortcut labelled.

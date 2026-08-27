@@ -19,6 +19,14 @@
     The same file again as a resource: the executable's icon is not readable from inside the
     process, so the window and the notification-area icon load it from here.
   -->
+  <!--
+    So that the tests can reach Verification, which is internal and belongs that way: the verify
+    switch is part of this executable, not an API. See VerificationTests.
+  -->
+  <ItemGroup>
+    <InternalsVisibleTo Include="Keylegend.Core.Tests" />
+  </ItemGroup>
+
   <ItemGroup>
     <Resource Include="keylegend.ico" />
 
@@ -47,22 +55,6 @@
     <ProjectReference Include="..\Keylegend.Chroma\Keylegend.Chroma.csproj" />
     <ProjectReference Include="..\Keylegend.Windows\Keylegend.Windows.csproj" />
     <ProjectReference Include="..\Keylegend.Engine\Keylegend.Engine.csproj" />
-  </ItemGroup>
-
-
-  <!--
-    The device profiles, copied next to the binaries. Without this a published copy has no
-    devices folder at all: DeviceProfileLocator walks up from the executable looking for one,
-    finds nothing outside the repository, and the application refuses to start. That is invisible
-    during development, where the repository's own folder is always a few levels up, and fatal
-    everywhere else.
-
-    Application profiles need no equivalent — they are embedded resources in Keylegend.Core.
-  -->
-  <ItemGroup>
-    <Content Include="..\..\devices\**\device.json"
-             Link="devices\%(RecursiveDir)%(Filename)%(Extension)"
-             CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

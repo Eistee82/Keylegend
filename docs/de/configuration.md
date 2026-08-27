@@ -46,10 +46,10 @@ Erkannt wird am Namen der ausführbaren Datei. Trifft mehr als ein Profil zu, ge
 das das Programm namentlich nennt — ein Spiel mit eigenem Profil behält seines also auch dann,
 wenn die Spielerkennung anschlägt. Bei Gleichstand entscheidet die Priorität.
 
-Ein Profil ersetzt nur die Modifier-Ebenen, die es selbst nennt. Photoshop ersetzt die
-Strg-Ebene, weil Strg dort andere Befehle bedeutet als sonst; `Windows+E` bleibt trotzdem
-„Explorer öffnen“, weil Windows diese Kombination systemweit vergibt und sie unabhängig davon
-zutrifft, was gerade im Vordergrund ist.
+Ein Profil wird über den allgemeinen Satz gelegt, Eintrag für Eintrag. Photoshop sagt, was dort
+`Strg+J` bedeutet; `Strg+C` kopiert weiterhin, denn ein Profil, das die Strg-Ebene nennt, behauptet
+nicht, Strg bedeute sonst nichts. Und `Windows+E` bleibt „Explorer öffnen“, weil Windows diese
+Kombination systemweit vergibt und sie unabhängig davon zutrifft, was im Vordergrund ist.
 
 ### Was in einem Profil steht
 
@@ -95,11 +95,17 @@ Datei ins Projekt — siehe [Profil hinzufügen](adding-a-profile.md).
 
 ### Format der Einstellungsdatei
 
-`settings.json` trägt `formatVersion` 2. Ältere Dateien werden beim Laden umgestellt: Version 1
-kannte weder Kennungen noch die Herkunft eines Profils und kann daher nicht sagen, welche ihrer
-Einträge einmal mitgeliefert waren. Alle werden deshalb zu eigenen Profilen. Es geht nichts
-verloren, aber die mitgelieferten Profile stehen daneben, sodass es zunächst zwei Einträge für
-dasselbe Programm geben kann; den überzähligen kannst du löschen oder ausblenden.
+`settings.json` trägt `formatVersion` 3. Ältere Dateien werden beim Laden umgestellt.
+
+Eine Datei der Version 1 kennt weder Kennungen noch die Herkunft eines Profils und kann daher nicht
+sagen, welche ihrer Einträge mitgelieferte sind. Alle werden deshalb zu eigenen Profilen. Es geht
+nichts verloren, aber die mitgelieferten Profile stehen daneben, sodass es zunächst zwei Einträge
+für dasselbe Programm geben kann; den überzähligen kannst du löschen oder ausblenden.
+
+Eine Datei der Version 2 führt jede Farbe auf, auch die unberührten, und nagelt damit die Palette
+fest: eine verbesserte mitgelieferte Farbe erreicht niemanden, der das Programm zuvor gestartet
+hat. Eine Farbe, die der Palette jener Fassung entspricht, wird bei der Umstellung deshalb als
+Vorgabe gelesen und verworfen; alles andere ist deine Wahl und bleibt.
 
 ## Verhalten
 
@@ -131,8 +137,7 @@ den Start zu verweigern — was eine von Hand bearbeitete Datei ohnehin am ehest
 Was übersetzt ist, sind die Menüs und Erklärungen. **Nicht** übersetzt sind zwei Dinge, und
 beides mit Absicht:
 
-- **Die Tastenbeschriftungen** auf der abgebildeten Tastatur. Sie stammen aus dem Geräteprofil
-  und müssen zu der Tastatur passen, die vor Ihnen steht — nicht zur Sprache der Menüs. Eine
+- **Die Tastenbeschriftungen** auf der abgebildeten Tastatur. Sie stammen aus Razers Zeichnung und müssen zu der Tastatur passen, die vor Ihnen steht — nicht zur Sprache der Menüs. Eine
   deutsche ISO-Tastatur zeigt `strg` und `entf`, gleichgültig ob die Oberfläche englisch läuft.
 - **Die Modifier-Namen** (Shift, Ctrl, Alt, AltGr, Num Lock …). Dieselben Namen erzeugt die
   Kürzelverwaltung für die Ebenenlisten, und die liegt außerhalb der Übersetzung; halb
@@ -141,15 +146,28 @@ beides mit Absicht:
 Fehlt eine Übersetzung, erscheint der englische Text. Eine unvollständige Sprachdatei kostet
 also die betroffenen Zeilen, nicht die ganze Oberfläche.
 
-## Kalibrierung
+## Wenn die Beleuchtung nicht funktioniert
 
-Die Kalibrierung ist ein Modus der Kommandozeile, keine Einstellungsseite:
+Das Gespräch mit dem Chroma-Dienst kann scheitern: der Dienst ist gestoppt, Synapse wurde
+geschlossen, ein anderes Programm hält die Sitzung. Keylegend versucht es weiter, mit wachsender
+Pause zwischen den Versuchen, und sagt dabei, was nicht stimmt:
 
-```bash
-keylegend-cli --profile devices/<ordner>/device.json --calibrate
-```
+- die Statuszeile am unteren Fensterrand trägt den Grund, in Amber statt im üblichen Grau
+- der Benachrichtigungsbereich sagt es in seinem Hinweistext, damit ein geschlossenes Fenster es
+  nicht verbirgt
+- eine Sprechblase meldet es, einmal je Störung und nicht einmal je Versuch
 
-Sie lässt eine Taste nach der anderen aufleuchten und benennt sie, damit ein Geräteprofil an
-echter Hardware überprüft werden kann. Die Befunde werden laufend in `calibration-findings.txt`
-geschrieben, und `tools/apply-calibration.ps1` trägt sie zurück ins Profil. Siehe
-[Tastatur hinzufügen oder korrigieren](adding-a-keyboard.md).
+Alle drei verschwinden, sobald wieder ein Bild durchkommt. Erscheint gar nichts und die Tastatur
+leuchtet dennoch nicht, läuft das Programm nicht — sieh im Benachrichtigungsbereich nach seinem
+Symbol.
+
+## Wenn die falschen Tasten leuchten
+
+Die Tastatur im Fenster ist die Tastatur auf dem Tisch: beide werden von demselben Code gefüllt,
+also zeigt das Fenster, wie die Hardware aussehen soll. Die Prüfung ist, beide nebeneinander zu
+halten.
+
+Welcher Zelle der Beleuchtungsmatrix eine Taste gehört, ist das Einzige, was weder Synapse noch die
+Zeichnung sagt — es kommt aus der Tabelle des Chroma-Protokolls. Leuchtet auf der Hardware also eine
+andere Taste als im Fenster, ist diese Tabelle für dein Modell falsch. Dann lohnt ein Bericht, der
+Tastatur und Taste nennt.

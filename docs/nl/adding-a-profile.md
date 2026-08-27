@@ -31,11 +31,11 @@ Wat volgt is het deel dat misgaat zelfs als het formaat gelezen is.
 
 ## 3. Posities en tekens zijn niet hetzelfde
 
-Toets-id's komen uit het apparaatprofiel en noemen **Amerikaanse posities**. `Keyboard_Y` is de
-fysieke toets die op een Amerikaans toetsenbord `Y` typt — op een Duits typt die toets `Z`. Het
-formaat kent dus twee manieren om een toets te benoemen, en de verkeerde kiezen levert een profiel
-op dat op elke niet-Amerikaanse indeling zichtbaar fout is terwijl het op de machine waarop het
-geschreven werd perfect lijkt.
+Toets-id's komen uit de tabel van het lichtprotocol en noemen **Amerikaanse posities**.
+`Keyboard_Y` is de fysieke toets die op een Amerikaans toetsenbord `Y` typt — op een Duits typt die
+toets `Z`. Het formaat kent dus twee manieren om een toets te benoemen, en de verkeerde kiezen
+levert een profiel op dat op elke niet-Amerikaanse indeling zichtbaar fout is terwijl het op de
+machine waarop het geschreven werd perfect lijkt.
 
 De vraag die je je per item moet stellen is waar het werkelijk over gaat:
 
@@ -92,11 +92,11 @@ dotnet test
 ```
 
 De profieltests controleren elk bestand onder `profiles/`: de id is uniek en komt overeen met de
-bestandsnaam, `kind` komt overeen met de map, elke toets-id bestaat in een meegeleverd
-apparaatprofiel, kleuren zijn te lezen, groepen en modificatiecombinaties zijn geldig en
-canoniek geschreven, elke sneltoets draagt een label, geen lettertoets staat onder
-`shortcuts.keys` (die hoort onder `characters`), geen profiel is leeg, en geen twee profielen
-eisen hetzelfde uitvoerbare bestand op zonder zich via `titleContains` te onderscheiden.
+bestandsnaam, `kind` komt overeen met de map, elke toets-id bestaat in de matrixtabel, kleuren zijn
+te lezen, groepen en modificatiecombinaties zijn geldig en canoniek geschreven, elke sneltoets
+draagt een label, geen lettertoets staat onder `shortcuts.keys` (die hoort onder `characters`),
+geen profiel is leeg, en geen twee profielen eisen hetzelfde uitvoerbare bestand op zonder zich via
+`titleContains` te onderscheiden.
 
 Eén ding wordt bewust **niet** gecontroleerd: hetzelfde label dat twee keer onder één
 modificatietoets voorkomt. Het leek een manier om knip-en-plakfouten te vangen en ving in plaats

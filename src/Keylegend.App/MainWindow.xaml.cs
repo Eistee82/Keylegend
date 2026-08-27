@@ -66,18 +66,18 @@ public partial class MainWindow : Window
         // language rather than in the one Windows happens to be set to.
         ShowLanguage(language);
 
-        var device = engine.Profile;
+        var device = engine.Keyboard;
         var labels = BuildLabels(device);
 
-        Preview.Profile = device;
+        Preview.Keyboard = device;
         Preview.SetLabels(labels);
-        ProfilePreview.Profile = device;
+        ProfilePreview.Keyboard = device;
         ProfilePreview.SetLabels(labels);
         ProfilePreview.KeyClicked += OnProfileKeyClicked;
         ProfilePreview.KeyRightClicked += OnProfileKeyCleared;
         ProfilePreview.KeyHovered += OnProfileKeyHovered;
 
-        ShortcutPreview.Profile = device;
+        ShortcutPreview.Keyboard = device;
         ShortcutPreview.SetLabels(labels);
         ShortcutPreview.KeyClicked += OnShortcutKeyClicked;
         ShortcutPreview.KeyRightClicked += OnShortcutKeyCleared;
@@ -113,7 +113,7 @@ public partial class MainWindow : Window
         // forwarding the frame - there is no second rendering path to keep in step.
         engine.FrameComposed += OnFrameComposed;
         engine.StateChanged += OnStateChanged;
-        engine.Warning += OnWarning;
+        engine.Fault += OnFault;
         engine.ProfileChanged += OnProfileChanged;
 
         UpdateStateLabel(engine.State);
@@ -131,11 +131,13 @@ public partial class MainWindow : Window
     /// The line under the device name. The layout and the key count come from the device, so
     /// only the words around them are localised.
     /// </summary>
-    private void ShowDevice(DeviceProfile device)
-        => DeviceDetail.Text = Texts.Get(
-            device.Verified ? "StatusDeviceVerified" : "StatusDeviceNotVerified",
-            device.PhysicalLayout,
-            device.Keys.Count);
+    /// <remarks>
+    /// The physical layout and the key count, because those are what tell one attached keyboard
+    /// from another. How confident the matrix mapping is does not appear, and has no reason to:
+    /// it comes from the lighting protocol's own table, the same on every model.
+    /// </remarks>
+    private void ShowDevice(AttachedKeyboard keyboard)
+        => DeviceDetail.Text = Texts.Get("StatusDevice", keyboard.PhysicalLayout, keyboard.Keys.Count);
 
     /// <summary>
     /// Rebuilds everything whose text was put together in code rather than bound.
@@ -147,7 +149,7 @@ public partial class MainWindow : Window
     /// </remarks>
     private void ShowTexts()
     {
-        ShowDevice(_engine.Profile);
+        ShowDevice(_engine.Keyboard);
         UpdateStateLabel(_engine.State);
         OnProfileChanged(_engine.ActiveProfile);
         BuildColourEditors();
@@ -161,14 +163,14 @@ public partial class MainWindow : Window
     /// Works out what is printed on each key.
     /// </summary>
     /// <remarks>
-    /// Three sources, in order. A label from the device profile wins — the text on a keycap
+    /// Three sources, in order. A label the attached keyboard carries wins — the text on a keycap
     /// belongs to the keyboard, not to the program's language, so a German board says "Strg"
     /// whatever language the interface speaks. Otherwise the characters the key types are asked
     /// from the active layout, in all three positions a keycap carries them. Only if neither
-    /// applies does a fallback name appear, which should be rare and signals a profile worth
-    /// improving.
+    /// applies does a fallback name appear, which should be rare: it means the drawing named a
+    /// key this program cannot place.
     /// </remarks>
-    private Dictionary<string, KeyLegend> BuildLabels(DeviceProfile profile)
+    private Dictionary<string, KeyLegend> BuildLabels(AttachedKeyboard keyboard)
     {
         var plain = new KeyboardState(Modifiers.None, new LockStates(true, false, false));
         var shift = new KeyboardState(Modifiers.LeftShift, new LockStates(true, false, false));
@@ -177,7 +179,7 @@ public partial class MainWindow : Window
 
         var legends = new Dictionary<string, KeyLegend>(StringComparer.Ordinal);
 
-        foreach (var key in profile.Keys)
+        foreach (var key in keyboard.Keys)
         {
             // A profile label wins for the main legend; the layout supplies it otherwise.
             var fromLayout = Printable(_resolver.Resolve(key.Id, key.ScanCode, plain));
@@ -287,8 +289,21 @@ public partial class MainWindow : Window
     private void OnStateChanged(LightingState state) =>
         Dispatcher.BeginInvoke(() => UpdateStateLabel(state));
 
-    private void OnWarning(string message) =>
-        Dispatcher.BeginInvoke(() => StatusLine.Text = message);
+    /// <summary>
+    /// Says what is wrong with the lighting, and takes it back when it is not wrong any more.
+    /// </summary>
+    /// <remarks>
+    /// The status line is styled as an aside, which is right for what it usually carries and wrong
+    /// for this: a keyboard that has gone dark while the program still looks fine is exactly the
+    /// case a user cannot diagnose. So a fault switches the line to amber, and clearing it puts the
+    /// line back rather than leaving a stale complaint behind.
+    /// </remarks>
+    private void OnFault(string? message) =>
+        Dispatcher.BeginInvoke(() =>
+        {
+            StatusLine.Text = message ?? string.Empty;
+            StatusLine.Style = (Style)FindResource(message is null ? "Muted" : "Trouble");
+        });
 
     private void OnProfileChanged(ApplicationProfile? profile) =>
         Dispatcher.BeginInvoke(() =>
@@ -1214,7 +1229,7 @@ public partial class MainWindow : Window
     /// </summary>
     private void RefreshProfilePreview()
     {
-        if (ProfilePreview.Profile is null)
+        if (ProfilePreview.Keyboard is null)
         {
             return;
         }
@@ -1305,7 +1320,7 @@ public partial class MainWindow : Window
             return tips;
         }
 
-        foreach (var key in _engine.Profile.Keys)
+        foreach (var key in _engine.Keyboard.Keys)
         {
             if (set.TryGet(key.Id, out var byPosition))
             {
@@ -1327,7 +1342,7 @@ public partial class MainWindow : Window
 
     private void OnTabChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (!_loading && ProfilePreview.Profile is not null)
+        if (!_loading && ProfilePreview.Keyboard is not null)
         {
             RefreshProfilePreview();
         }
@@ -1432,7 +1447,7 @@ public partial class MainWindow : Window
     /// </summary>
     private void RefreshShortcutPreview()
     {
-        if (ShortcutPreview.Profile is null)
+        if (ShortcutPreview.Keyboard is null)
         {
             return;
         }
@@ -1816,7 +1831,7 @@ public partial class MainWindow : Window
     {
         _engine.FrameComposed -= OnFrameComposed;
         _engine.StateChanged -= OnStateChanged;
-        _engine.Warning -= OnWarning;
+        _engine.Fault -= OnFault;
         _engine.ProfileChanged -= OnProfileChanged;
 
         base.OnClosed(e);

@@ -9,8 +9,8 @@ namespace Keylegend.Core.Profiles;
 /// </summary>
 /// <remarks>
 /// <para>
-/// Embedded rather than loaded from disk beside the executable, unlike device profiles. Three
-/// reasons, and all of them matter. A single-file release carries them with no loose folder to
+/// Embedded rather than loaded from a folder beside the executable. Three reasons, and all of
+/// them matter. A single-file release carries them with no loose folder to
 /// lose. Nothing on disk can be edited by accident, which is what makes "reset to shipped" mean
 /// something. And a missing file becomes a build error rather than a program that silently has
 /// no profiles.
