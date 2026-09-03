@@ -19,10 +19,10 @@
     "Keyboard_R": { "colour": "#FFC800", "label": "Rectangle" },
     "Keyboard_E": { "colour": "#FFC800", "label": "Ellipse" },
 
-    "Keyboard_P": { "colour": "#22CC66", "label": "Pencil" },
-    "Keyboard_B": { "colour": "#22CC66", "label": "Bezier pen" },
-    "Keyboard_C": { "colour": "#22CC66", "label": "Calligraphy" },
-    "Keyboard_T": { "colour": "#22CC66", "label": "Text" },
+    "Keyboard_P": { "colour": "#00FF64", "label": "Pencil" },
+    "Keyboard_B": { "colour": "#00FF64", "label": "Bezier pen" },
+    "Keyboard_C": { "colour": "#00FF64", "label": "Calligraphy" },
+    "Keyboard_T": { "colour": "#00FF64", "label": "Text" },
 
     "Keyboard_G": { "colour": "#B4B4B4", "label": "Gradient" },
     "Keyboard_D": { "colour": "#B4B4B4", "label": "Dropper" },

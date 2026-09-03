@@ -29,8 +29,8 @@
     "Keyboard_V": { "colour": "#FF8C00", "label": "Resource scanner" },
     "Keyboard_B": { "colour": "#FF8C00", "label": "Toggle flashlight" },
 
-    "Keyboard_Q": { "colour": "#64FF96", "label": "Build gun" },
-    "Keyboard_F": { "colour": "#64FF96", "label": "Dismantle mode" },
+    "Keyboard_Q": { "colour": "#00FF64", "label": "Build gun" },
+    "Keyboard_F": { "colour": "#00FF64", "label": "Dismantle mode" },
 
     "Keyboard_1": { "colour": "#00C8FF", "label": "Hotbar slot 1" },
     "Keyboard_2": { "colour": "#00C8FF", "label": "Hotbar slot 2" },

@@ -33,10 +33,10 @@
     "Keyboard_4": { "colour": "#00C8FF", "label": "Slot 4 — PDA" },
     "Keyboard_5": { "colour": "#00C8FF", "label": "Slot 5 — PDA" },
 
-    "Keyboard_E": { "colour": "#C864FF", "label": "Call for Medic" },
-    "Keyboard_X": { "colour": "#C864FF", "label": "Voice menu 2" },
-    "Keyboard_C": { "colour": "#C864FF", "label": "Voice menu 3" },
-    "Keyboard_U": { "colour": "#C864FF", "label": "Team chat" },
+    "Keyboard_E": { "colour": "#C800FF", "label": "Call for Medic" },
+    "Keyboard_X": { "colour": "#C800FF", "label": "Voice menu 2" },
+    "Keyboard_C": { "colour": "#C800FF", "label": "Voice menu 3" },
+    "Keyboard_U": { "colour": "#C800FF", "label": "Team chat" },
 
     "Keyboard_CommaAndLessThan": { "colour": "#B4B4B4", "label": "Change class" },
     "Keyboard_PeriodAndBiggerThan": { "colour": "#B4B4B4", "label": "Change team" },

@@ -236,14 +236,30 @@ Write labels in English. The interface is English; translation is a separate con
 ## Colours
 
 `#RRGGBB`. Highlight colours should form a small, readable set within one profile — a handful of
-groups, not thirty individual shades. Colours already used by the shipped game profile:
+groups, not thirty individual shades. The set the shipped profiles use:
 
 | Colour | Meaning |
 |---|---|
-| `#FF0000` | movement (WASD) |
+| `#FF0000` | movement, and destructive commands in a program |
 | `#FF8C00` | keys the same hand reaches without moving |
-| `#00C8FF` | selection — weapons, items, the number row |
-| `#B4B4B4` | menu, escape |
+| `#FFC800` | a program's second tool group, where one is not enough |
+| `#00FF64` | building and constructing — build menus, blueprints, placement |
+| `#00C8FF` | selection — weapons, items, tools, the number row |
+| `#C800FF` | abilities, spells, powers |
+| `#B4B4B4` | menu, escape — the one deliberate neutral |
+
+Pick from this set before inventing a shade. Two rules hold it together, and a test enforces
+both:
+
+- **Every colour is a saturated hue or the grey.** Nothing in between. A pale violet and a pale
+  mint were tried and had to be withdrawn: at 0.61 saturation a lit keycap shows a tinted white,
+  so beside `#B4B4B4` they read as "pink next to white" rather than as two meanings. Saturation,
+  not numeric distance, is what the eye measures a colour against white by.
+- **Every colour drives one channel to 255.** Dimming is the user's global setting; a profile
+  that ships a dim colour takes that choice away and gains nothing.
+
+Within one profile, two hues stay at least 25° apart on the colour wheel, and a hue stays clear
+of the grey by distance.
 
 ## Accuracy
 

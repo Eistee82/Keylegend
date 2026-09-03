@@ -11,7 +11,7 @@
   },
 
   "highlights": {
-    "Keyboard_Space": { "colour": "#22CC66", "label": "Play / pause" },
+    "Keyboard_Space": { "colour": "#00FF64", "label": "Play / pause" },
     "Keyboard_M": { "colour": "#FF8C00", "label": "Mute / unmute" }
   },
 

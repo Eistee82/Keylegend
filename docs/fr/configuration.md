@@ -115,6 +115,32 @@ abandonnée à la migration ; tout le reste est votre choix et est conservé.
 | Luminosité | Facteur global de 0 à 100 %, appliqué à chaque couleur au moment de composer l'image. |
 | Utiliser les profils d'application | Si les profils sont consultés du tout. Désactivé, les jeux par défaut s'appliquent partout, quoi qu'il y ait devant. |
 | Démarrer avec Windows | Inscrit l'application dans la clé `Run`, avec l'option `--minimized`. Démarré ainsi, Keylegend apparaît dans la zone de notification : pas de fenêtre, pas de bulle. Démarré à la main, il montre toujours sa fenêtre. Une entrée écrite par une version antérieure est mise à jour au démarrage suivant. |
+| Effet pendant la frappe | Comment l'éclairage répond à une frappe, *aucun* par défaut. Un seul à la fois ; les huit sont décrits ci-dessous. Sans effet, Keylegend ne regarde jamais quelles touches précises sont enfoncées, seulement si quelqu'un tape. |
+
+### Effets pendant la frappe
+
+Chaque effet est une courbe sur le temps écoulé depuis qu'une touche a été enfoncée ou relâchée,
+posée sur l'image terminée plutôt que mêlée à la décision de ce qu'une touche signifie : les
+couleurs disent toujours ce qu'elles disaient, et le clavier de la fenêtre montre la même chose
+que celui du bureau. Un effet qui éclaircit une touche le fait en y mêlant du blanc, jusqu'au
+blanc pur à pleine intensité — chaque couleur fournie pousse déjà un canal à 255, il n'existe pas
+de bleu plus lumineux. Les effets qui se déplacent reçoivent la distance d'un coin du clavier à
+l'autre, si bien qu'une onde traverse tout le clavier, quel qu'il soit.
+
+| Effet | Ce qui se passe |
+|---|---|
+| Fondu | La touche frappée s'éteint tant qu'elle est maintenue et retrouve sa couleur en une seconde une fois relâchée. |
+| Éclair | La touche frappée passe au blanc à pleine intensité et retombe aussitôt dans sa propre couleur, en moins d'un cinquième de seconde. |
+| Rémanence | La touche frappée reste lumineuse tant qu'elle est maintenue et s'éteint sur près d'une seconde après le relâchement — la trace que laisse la frappe. |
+| Impact | La touche frappée s'embrase, et les touches alentour, jusqu'à deux hauteurs et demie de touche, répondent un instant plus tard, les plus éloignées plus tard encore — comme si la frappe avait secoué le clavier. Terminé en un cinquième de seconde. |
+| Goutte d'eau | Un anneau lumineux étroit part de la touche frappée vers l'extérieur et s'estompe en chemin ; il traverse le clavier en moins d'une seconde. |
+| Onde sombre | Le même anneau, sombre : le clavier s'écarte autour de la frappe au lieu de s'allumer avec elle. |
+| Étincelles | Une frappe projette jusqu'à trois étincelles sur les touches voisines, jamais sur la touche frappée elle-même. Elles rougeoient et s'éteignent en une demi-seconde. L'endroit où elles tombent est le fait du hasard. |
+| Chaleur | Les touches chauffent à chaque frappe et refroidissent, perdant la moitié de leur chaleur toutes les quatre secondes ; une touche souvent utilisée rougeoie plus qu'une touche frappée une fois. Le seul effet qui conserve quelque chose entre deux frappes, et il ne le conserve qu'en mémoire : un nombre décroissant par touche, disparu dès que la touche est froide. |
+
+Le choix est conservé dans `settings.json` sous `Effect`, par nom — `None`, `Fade`, `Flash`,
+`Afterglow`, `Impact`, `Ripple`, `DarkWave`, `Sparks` ou `Heat`. Un nom inconnu du programme
+signifie aucun effet.
 
 ## Langue
 
@@ -144,6 +170,21 @@ deux délibérément :
 
 Tout ce qui n'a pas de traduction retombe sur l'anglais, si bien qu'un fichier de langue inachevé
 coûte les lignes qui lui manquent et non l'interface entière.
+
+## Si Synapse n'est pas encore lancé
+
+À l'ouverture de session, le logiciel de Razer et Keylegend démarrent en même temps, et la
+description du clavier connecté n'existe pas tant que la part de Razer n'est pas terminée. Keylegend
+n'y voit pas un échec. Son icône est dans la zone de notification avant même qu'il ne regarde, puis
+il continue de regarder : toutes les deux secondes tant qu'aucun clavier n'est nommé, avec une pause
+croissante allant jusqu'à une demi-minute tant qu'il ne manque que le dessin. L'éclairage démarre de
+lui-même dès qu'il y a quelque chose à éclairer.
+
+Un démarrage depuis la liste de démarrage de Windows n'ouvre aucune fenêtre pour cela : le clavier
+devant vous montre si cela fonctionne, et l'info-bulle de la zone de notification le dit en
+attendant. Un démarrage à la main affiche une petite fenêtre dès que le premier coup d'œil revient
+vide, indiquant ce qui manque et quand la dernière tentative a eu lieu. Fermer cette fenêtre ne
+change rien : la recherche se poursuit et Keylegend reste dans la zone de notification.
 
 ## Si l'éclairage ne fonctionne pas
 

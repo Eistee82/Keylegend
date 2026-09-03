@@ -91,8 +91,7 @@ public static class ScanCodes
         ["Keyboard_RightGui"] = ExtendedPrefix | 0x5C,
         ["Keyboard_Application"] = ExtendedPrefix | 0x5D,
 
-        // Pause reports an unusual sequence; the first code is enough to identify it.
-        ["Keyboard_PauseBreak"] = 0x45
+        ["Keyboard_PauseBreak"] = PauseSequence
     };
 
     /// <summary>All known mappings, for diagnostics and tests.</summary>
@@ -111,9 +110,11 @@ public static class ScanCodes
     }
 
     /// <summary>
-    /// The scan code Windows reports for the Pause key. It arrives as an <c>E1</c> sequence
-    /// rather than a plain code, and the table above lists it under <c>0x45</c> — the same code
-    /// Num Lock uses, which is why the two can only be told apart by that prefix.
+    /// The scan code for the Pause key: <c>0x1D</c>, left control's code, behind an <c>E1</c>
+    /// prefix that only Pause sends. That is how Windows itself names it — mapping it to a
+    /// virtual key answers <c>VK_PAUSE</c> — and it must not be filed under the <c>0x45</c> that
+    /// follows in the same sequence, because that is Num Lock's plain code and the two would be
+    /// one key.
     /// </summary>
-    public const ushort PauseSequence = 0x45;
+    public const ushort PauseSequence = 0xE11D;
 }

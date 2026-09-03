@@ -24,10 +24,10 @@
     "Keyboard_Space": { "colour": "#FF8C00", "label": "Jump" },
     "Keyboard_Tab": { "colour": "#FF8C00", "label": "Deploy Ghost" },
 
-    "Keyboard_Q": { "colour": "#C864FF", "label": "Grenade" },
-    "Keyboard_C": { "colour": "#C864FF", "label": "Melee" },
-    "Keyboard_F": { "colour": "#C864FF", "label": "Super" },
-    "Keyboard_V": { "colour": "#C864FF", "label": "Class ability" },
+    "Keyboard_Q": { "colour": "#C800FF", "label": "Grenade" },
+    "Keyboard_C": { "colour": "#C800FF", "label": "Melee" },
+    "Keyboard_F": { "colour": "#C800FF", "label": "Super" },
+    "Keyboard_V": { "colour": "#C800FF", "label": "Class ability" },
 
     "Keyboard_1": { "colour": "#00C8FF", "label": "Kinetic weapon" },
     "Keyboard_2": { "colour": "#00C8FF", "label": "Energy weapon" },

@@ -26,9 +26,9 @@
     "Keyboard_V": { "colour": "#FF8C00", "label": "Show path to objective" },
     "Keyboard_CapsLock": { "colour": "#FF8C00", "label": "Lock on" },
 
-    "Keyboard_R": { "colour": "#C864FF", "label": "Cast Revelio" },
-    "Keyboard_Q": { "colour": "#C864FF", "label": "Cast Protego" },
-    "Keyboard_X": { "colour": "#C864FF", "label": "Ancient magic" },
+    "Keyboard_R": { "colour": "#C800FF", "label": "Cast Revelio" },
+    "Keyboard_Q": { "colour": "#C800FF", "label": "Cast Protego" },
+    "Keyboard_X": { "colour": "#C800FF", "label": "Ancient magic" },
 
     "Keyboard_1": { "colour": "#00C8FF", "label": "Cast spell 1" },
     "Keyboard_2": { "colour": "#00C8FF", "label": "Cast spell 2" },

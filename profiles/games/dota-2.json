@@ -16,8 +16,8 @@
     "Keyboard_W": { "colour": "#FF0000", "label": "Ability 2" },
     "Keyboard_E": { "colour": "#FF0000", "label": "Ability 3" },
     "Keyboard_R": { "colour": "#FF0000", "label": "Ultimate ability" },
-    "Keyboard_D": { "colour": "#C864FF", "label": "Ability 5" },
-    "Keyboard_F": { "colour": "#C864FF", "label": "Ability 6" },
+    "Keyboard_D": { "colour": "#C800FF", "label": "Ability 5" },
+    "Keyboard_F": { "colour": "#C800FF", "label": "Ability 6" },
 
     "Keyboard_X": { "colour": "#00C8FF", "label": "Item slot 2" },
     "Keyboard_C": { "colour": "#00C8FF", "label": "Item slot 3" },

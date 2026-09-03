@@ -26,10 +26,10 @@
     "Keyboard_Space": { "colour": "#FF8C00", "label": "Jump" },
     "Keyboard_Tab": { "colour": "#FF8C00", "label": "Scoreboard" },
 
-    "Keyboard_Q": { "colour": "#C864FF", "label": "Ability 1" },
-    "Keyboard_E": { "colour": "#C864FF", "label": "Ability 2" },
-    "Keyboard_C": { "colour": "#C864FF", "label": "Ability 3" },
-    "Keyboard_X": { "colour": "#C864FF", "label": "Ultimate" },
+    "Keyboard_Q": { "colour": "#C800FF", "label": "Ability 1" },
+    "Keyboard_E": { "colour": "#C800FF", "label": "Ability 2" },
+    "Keyboard_C": { "colour": "#C800FF", "label": "Ability 3" },
+    "Keyboard_X": { "colour": "#C800FF", "label": "Ultimate" },
 
     "Keyboard_1": { "colour": "#00C8FF", "label": "Primary weapon" },
     "Keyboard_2": { "colour": "#00C8FF", "label": "Sidearm" },

@@ -18,8 +18,8 @@
     "Keyboard_H": { "colour": "#FF0000", "label": "Hold position" },
     "Keyboard_P": { "colour": "#FF0000", "label": "Patrol" },
 
-    "Keyboard_B": { "colour": "#64FF96", "label": "Build structure" },
-    "Keyboard_V": { "colour": "#64FF96", "label": "Build advanced structure" },
+    "Keyboard_B": { "colour": "#00FF64", "label": "Build structure" },
+    "Keyboard_V": { "colour": "#00FF64", "label": "Build advanced structure" },
 
     "Keyboard_1": { "colour": "#00C8FF", "label": "Control group 1" },
     "Keyboard_2": { "colour": "#00C8FF", "label": "Control group 2" },

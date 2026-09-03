@@ -141,13 +141,22 @@
   </data>
 
   <data name="StartupNoDrawing" xml:space="preserve">
-    <value>O Razer Synapse conhece o seu teclado, mas não guarda nenhum desenho dele, e é do desenho que o Keylegend tira a forma das teclas e os caracteres nelas impressos. Abra o Synapse uma vez com o teclado ligado, para que o transfira, e inicie o Keylegend de novo.</value>
+    <value>O Razer Synapse conhece o seu teclado, mas não guarda nenhum desenho dele, e é do desenho que o Keylegend tira a forma das teclas e os caracteres nelas impressos. Abra o Synapse uma vez com o teclado ligado, para que o transfira.</value>
   </data>
 
   <data name="StartupDrawingUnreadable" xml:space="preserve">
     <value>O Razer Synapse tem um desenho do seu teclado, mas o Keylegend não conseguiu interpretá-lo — talvez a Razer tenha mudado o formato. Comunique-o em https://github.com/Eistee82/Keylegend/issues, indicando o modelo do seu teclado.</value>
   </data>
 
+  <data name="WaitingHeading" xml:space="preserve">
+    <value>À espera do Razer Synapse</value>
+  </data>
+  <data name="WaitingRetrying" xml:space="preserve">
+    <value>O Keylegend continua à procura e começa a iluminar sozinho assim que o Synapse tiver o teclado. Pode fechar esta janela; o Keylegend permanece na área de notificação.</value>
+  </data>
+  <data name="WaitingLastAttempt" xml:space="preserve">
+    <value>Última tentativa: {0}</value>
+  </data>
   <data name="StartupAlreadyRunning" xml:space="preserve">
     <value>Já está em execução outra cópia do Keylegend que não deu lugar a esta. Termine-a no Gestor de Tarefas e volte a iniciar o Keylegend.</value>
   </data>
@@ -439,6 +448,39 @@
   <data name="SettingsOpenFolderButton" xml:space="preserve">
     <value>Abrir pasta</value>
   </data>
+  <data name="SettingsEffectHeading" xml:space="preserve">
+    <value>Efeito ao escrever</value>
+  </data>
+  <data name="SettingsEffectNote" xml:space="preserve">
+    <value>Um de cada vez. Sem efeito, o Keylegend nunca olha para que teclas concretas estão premidas, apenas se alguém está a escrever.</value>
+  </data>
+  <data name="EffectNone" xml:space="preserve">
+    <value>Nenhum</value>
+  </data>
+  <data name="EffectFade" xml:space="preserve">
+    <value>Desvanecer</value>
+  </data>
+  <data name="EffectFlash" xml:space="preserve">
+    <value>Clarão</value>
+  </data>
+  <data name="EffectAfterglow" xml:space="preserve">
+    <value>Brilho residual</value>
+  </data>
+  <data name="EffectImpact" xml:space="preserve">
+    <value>Impacto</value>
+  </data>
+  <data name="EffectRipple" xml:space="preserve">
+    <value>Gota de água</value>
+  </data>
+  <data name="EffectDarkWave" xml:space="preserve">
+    <value>Onda escura</value>
+  </data>
+  <data name="EffectSparks" xml:space="preserve">
+    <value>Faíscas</value>
+  </data>
+  <data name="EffectHeat" xml:space="preserve">
+    <value>Calor</value>
+  </data>
   <data name="SettingsLanguageHeading" xml:space="preserve">
     <value>Idioma</value>
   </data>
@@ -468,6 +510,9 @@
   </data>
   <data name="TrayTooltipTrouble" xml:space="preserve">
     <value>Keylegend — a iluminação não funciona</value>
+  </data>
+  <data name="TrayTooltipWaiting" xml:space="preserve">
+    <value>Keylegend — à espera do Razer Synapse</value>
   </data>
   <data name="TrayTooltipPaused" xml:space="preserve">
     <value>Keylegend — em pausa</value>

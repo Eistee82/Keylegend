@@ -113,6 +113,32 @@ resto é a sua escolha e mantém-se.
 | Brilho | Fator global de 0 a 100 %, aplicado a cada cor enquanto o fotograma é composto. |
 | Usar perfis de aplicação | Se os perfis são sequer consultados. Desligado, os conjuntos predefinidos valem em todo o lado, esteja o que estiver à frente. |
 | Arrancar com o Windows | Regista a aplicação na chave `Run`, com a opção `--minimized`. Arrancado assim, o Keylegend aparece na área de notificação: sem janela, sem balão. Arrancado à mão mostra sempre a janela. Uma entrada escrita por uma versão anterior é atualizada no arranque seguinte. |
+| Efeito ao escrever | Como a iluminação responde a uma tecla premida, *nenhum* por predefinição. Um de cada vez; os oito estão descritos abaixo. Sem efeito, o Keylegend nunca olha para que teclas concretas estão premidas, apenas se alguém está a escrever. |
+
+### Efeitos ao escrever
+
+Cada efeito é uma curva sobre o tempo decorrido desde que uma tecla foi premida ou largada,
+sobreposta à imagem terminada em vez de misturada na decisão sobre o que uma tecla significa: as
+cores continuam a dizer o que diziam, e o teclado na janela mostra o mesmo que o da secretária.
+Um efeito que clareia uma tecla fá-lo misturando branco, até ao branco puro na intensidade
+máxima — cada cor incluída já leva um canal a 255, por isso não há um azul mais brilhante. Os
+efeitos que viajam recebem a distância de um canto do teclado ao outro, de modo que uma onda
+atravessa o teclado inteiro, seja ele qual for.
+
+| Efeito | O que acontece |
+|---|---|
+| Desvanecer | A tecla premida apaga-se enquanto é mantida e recupera a sua cor num segundo depois de largada. |
+| Clarão | A tecla premida fica branca na intensidade máxima e cai de imediato na sua própria cor, em menos de um quinto de segundo. |
+| Brilho residual | A tecla premida mantém-se brilhante enquanto é mantida e apaga-se ao longo de quase um segundo depois de largada — o rasto que a escrita deixa. |
+| Impacto | A tecla premida acende-se, e as teclas à volta, até duas alturas e meia de tecla, respondem um instante depois, as mais afastadas ainda mais tarde — como se a tecla tivesse abanado o teclado. Termina num quinto de segundo. |
+| Gota de água | Um anel de luz estreito parte da tecla premida para fora e desvanece-se pelo caminho; atravessa o teclado em menos de um segundo. |
+| Onda escura | O mesmo anel, escuro: o teclado afasta-se à volta da tecla em vez de se acender com ela. |
+| Faíscas | Uma tecla premida lança até três faíscas para teclas próximas, nunca para a própria tecla premida. Brilham quentes e apagam-se em meio segundo. Onde caem é acaso. |
+| Calor | As teclas aquecem a cada toque e voltam a arrefecer, perdendo metade do calor a cada quatro segundos; uma tecla usada muitas vezes brilha mais quente do que uma premida uma vez. O único efeito que guarda algo entre toques, e guarda-o apenas em memória: um número por tecla que decai e desaparece assim que a tecla está fria. |
+
+A escolha fica em `settings.json` sob `Effect`, por nome — `None`, `Fade`, `Flash`,
+`Afterglow`, `Impact`, `Ripple`, `DarkWave`, `Sparks` ou `Heat`. Um nome que o programa não
+conhece significa nenhum efeito.
 
 ## Idioma
 
@@ -140,6 +166,20 @@ O que está traduzido são os menus e as explicações. Duas coisas **não** est
 
 Tudo o que não tem tradução recai no inglês, portanto um ficheiro de idioma por acabar custa as
 linhas que lhe faltam e não a interface inteira.
+
+## Se o Synapse ainda não está em execução
+
+Ao iniciar sessão, o software da Razer e o Keylegend arrancam ao mesmo tempo, e a descrição do
+teclado ligado só existe quando a parte da Razer estiver terminada. O Keylegend não toma isso por
+uma falha. O seu ícone está na área de notificação antes sequer de olhar, e depois continua a olhar:
+de dois em dois segundos enquanto nenhum teclado é nomeado, e com uma pausa crescente até meio
+minuto enquanto só falta o desenho. A iluminação começa sozinha assim que há algo para iluminar.
+
+Um arranque a partir da lista de arranque do Windows não abre nenhuma janela para isto: o teclado à
+sua frente mostra se funciona, e entretanto di-lo a dica na área de notificação. Um arranque à mão
+mostra uma pequena janela assim que o primeiro olhar sai vazio, dizendo o que falta e quando tentou
+pela última vez. Fechar essa janela não muda nada — a procura continua e o Keylegend permanece na
+área de notificação.
 
 ## Se a iluminação não funciona
 

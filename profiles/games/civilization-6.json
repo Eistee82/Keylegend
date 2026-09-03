@@ -14,14 +14,14 @@
   "highlights": {
     "Keyboard_Enter": { "colour": "#FF0000", "label": "Next turn" },
 
-    "Keyboard_B": { "colour": "#64FF96", "label": "Found city" },
-    "Keyboard_F": { "colour": "#64FF96", "label": "Fortify unit" },
-    "Keyboard_A": { "colour": "#64FF96", "label": "Attack" },
-    "Keyboard_R": { "colour": "#64FF96", "label": "Ranged attack" },
-    "Keyboard_E": { "colour": "#64FF96", "label": "Auto explore" },
-    "Keyboard_M": { "colour": "#64FF96", "label": "Move to" },
-    "Keyboard_Space": { "colour": "#64FF96", "label": "Skip unit turn" },
-    "Keyboard_Delete": { "colour": "#64FF96", "label": "Delete unit" },
+    "Keyboard_B": { "colour": "#00FF64", "label": "Found city" },
+    "Keyboard_F": { "colour": "#00FF64", "label": "Fortify unit" },
+    "Keyboard_A": { "colour": "#00FF64", "label": "Attack" },
+    "Keyboard_R": { "colour": "#00FF64", "label": "Ranged attack" },
+    "Keyboard_E": { "colour": "#00FF64", "label": "Auto explore" },
+    "Keyboard_M": { "colour": "#00FF64", "label": "Move to" },
+    "Keyboard_Space": { "colour": "#00FF64", "label": "Skip unit turn" },
+    "Keyboard_Delete": { "colour": "#00FF64", "label": "Delete unit" },
 
     "Keyboard_PeriodAndBiggerThan": { "colour": "#FF8C00", "label": "Next ready unit" },
     "Keyboard_CommaAndLessThan": { "colour": "#FF8C00", "label": "Previous ready unit" },

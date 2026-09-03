@@ -416,6 +416,116 @@ public class ShippedApplicationProfilesTests
     }
 
     /// <summary>
+    /// A highlight colour is either a hue or a deliberate grey. Nothing in between.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The failure this catches was reported from the hardware: several game profiles paired a
+    /// pale violet with the grey used for menu keys, and on lit keycaps the pair read as "pink
+    /// next to white" rather than as two meanings. Both colours were far apart by any numeric
+    /// distance; what they lacked was saturation, and saturation is what the eye compares a
+    /// colour against white by. The same reasoning already governs the group palette — see
+    /// <see cref="ColourScheme.MinimumSaturation"/> — and it holds for highlights for the same
+    /// reason.
+    /// </para>
+    /// <para>
+    /// Full brightness is checked with it. A colour meant to be seen should drive the LEDs as
+    /// hard as the hardware allows; dimming is the user's global setting, not a property of a
+    /// profile.
+    /// </para>
+    /// </remarks>
+    [Fact]
+    public void EveryHighlightColourIsEitherASaturatedHueOrAGrey()
+    {
+        var washedOut = new List<string>();
+
+        foreach (var profile in ShippedProfiles.All)
+        {
+            foreach (var colour in profile.Highlights.Values.Select(h => h.Colour).Distinct())
+            {
+                var saturation = ColourScheme.Saturation(colour);
+
+                if (saturation < NeutralSaturation)
+                {
+                    continue;      // a grey, and meant to be one
+                }
+
+                if (saturation < ColourScheme.MinimumSaturation)
+                {
+                    washedOut.Add(
+                        $"{profile.Id}: {Hex(colour)} has saturation {saturation:N2}, "
+                        + $"below {ColourScheme.MinimumSaturation:N2} — a tinted white on a keycap.");
+                }
+                else if (!ColourScheme.RunsAtFullBrightness(colour))
+                {
+                    washedOut.Add(
+                        $"{profile.Id}: {Hex(colour)} peaks at {Math.Max(colour.R, Math.Max(colour.G, colour.B))}, "
+                        + "so it is dimmer than the hardware can be.");
+                }
+            }
+        }
+
+        Assert.True(
+            washedOut.Count == 0,
+            $"{washedOut.Count} highlight colour(s) do not read as a colour:{Environment.NewLine}  "
+            + string.Join(Environment.NewLine + "  ", washedOut));
+    }
+
+    /// <summary>
+    /// Within one profile, any two highlight colours have to be told apart at a glance.
+    /// </summary>
+    /// <remarks>
+    /// Highlights are meanings — movement, slots, abilities, menus — and two of them in one
+    /// colour is a profile that says nothing. Hues are separated by angle, because that is what
+    /// survives a lit keycap; a grey against a hue is judged by the weighted distance instead,
+    /// there being no angle between them.
+    /// </remarks>
+    [Fact]
+    public void HighlightColoursWithinOneProfileAreToldApart()
+    {
+        var muddled = new List<string>();
+
+        foreach (var profile in ShippedProfiles.All)
+        {
+            var colours = profile.Highlights.Values.Select(h => h.Colour).Distinct().ToList();
+
+            for (var i = 0; i < colours.Count; i++)
+            {
+                for (var j = i + 1; j < colours.Count; j++)
+                {
+                    var (a, b) = (colours[i], colours[j]);
+                    var bothAreHues = ColourScheme.Saturation(a) >= NeutralSaturation
+                        && ColourScheme.Saturation(b) >= NeutralSaturation;
+
+                    if (bothAreHues)
+                    {
+                        var separation = ColourScheme.HueDistance(a, b);
+
+                        if (separation < ColourScheme.MinimumHueSeparation)
+                        {
+                            muddled.Add(
+                                $"{profile.Id}: {Hex(a)} and {Hex(b)} are {separation:N0}° apart.");
+                        }
+                    }
+                    else if (Distance(a, b) < 120)
+                    {
+                        muddled.Add(
+                            $"{profile.Id}: {Hex(a)} and {Hex(b)} are {Distance(a, b):N0} apart.");
+                    }
+                }
+            }
+        }
+
+        Assert.True(
+            muddled.Count == 0,
+            $"{muddled.Count} pair(s) of highlight colours are hard to tell apart:{Environment.NewLine}  "
+            + string.Join(Environment.NewLine + "  ", muddled));
+    }
+
+    /// <summary>Below this a colour is a grey, and its greyness is the point.</summary>
+    private const double NeutralSaturation = 0.1;
+
+    /// <summary>
     /// How far apart two lit colours look. Weighted towards the channels the eye reads as
     /// brightness, so a pale blue does not count as far from white just because its blue is high.
     /// </summary>

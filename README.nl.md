@@ -5,7 +5,7 @@
 [English](README.md) · [Deutsch](README.de.md) · [Español](README.es.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Nederlands](README.nl.md) ·
 [Polski](README.pl.md) · [Português](README.pt.md) · [Русский](README.ru.md) · [Українська](README.uk.md) · [简体中文](README.zh-cn.md)
 
-> **Versie 1.1.0.** Verlichting, interface, gamedetectie en toepassingsprofielen werken.
+> **Versie 1.2.0.** Verlichting, interface, gamedetectie en toepassingsprofielen werken.
 > [Download het installatieprogramma of de draagbare kopie](https://github.com/Eistee82/Keylegend/releases/latest),
 > of bouw vanuit de broncode. Zie [CHANGELOG.md](CHANGELOG.md).
 
@@ -39,6 +39,11 @@ zijn betekenis verandert:
   profiel dat een programma noemt gaat vóór het algemene gameprofiel. Bewerk er één en alleen het
   bewerkte deel volgt de meegeleverde versie niet meer; de rest blijft met latere releases
   verbeteren.
+- **De verlichting kan op het typen reageren.** Acht effecten om uit te kiezen, standaard *geen*:
+  de aangeslagen toets dooft en komt terug, flitst of gloeit na, een waterdruppel of een donkere
+  golf loopt over het toetsenbord, de toetsen eromheen trillen, er vliegen vonken, of toetsen
+  worden warm van het gebruik en koelen weer af. Over de kleuren gelegd, niet erdoorheen gemengd:
+  elke toets zegt nog steeds wat hij betekent.
 - **Het geeft de verlichting terug.** Na een instelbare periode zonder activiteit (standaard
   60 s) laat Keylegend het toetsenbord los, zodat je Chroma Studio-effect het weer overneemt.
 - **Elf talen.** Engels, Duits, Spaans, Frans, Italiaans, Nederlands, Pools, Portugees, Russisch,
@@ -56,9 +61,11 @@ Keylegend vraagt Windows welk teken elke toets in de huidige toetsenbordtoestand
 (`ToUnicodeEx`), leidt daaruit een categorie af, en stuurt de resulterende kleurenkaart naar de
 Razer Chroma SDK via diens lokale REST-interface.
 
-Het installeert bewust **geen** globale toetsenbordhook. Het leest alleen de *toestand* van
-modificatie- en vergrendeltoetsen; het onderschept, verstuurt of registreert nooit een
-toetsaanslag. Zie [docs/nl/architecture.md](docs/nl/architecture.md).
+Het installeert bewust **geen** globale toetsenbordhook. Het leest *toestanden* — of een toets op
+dit moment ingedrukt is — en onderschept, verstuurt of registreert nooit een toetsaanslag. Zonder
+gekozen typ-effect kijkt het alleen naar de toestand van modificatie- en vergrendeltoetsen; een
+typ-effect vraagt daarnaast welke toetsen van dit toetsenbord ingedrukt zijn, en niets verder.
+Zie [docs/nl/architecture.md](docs/nl/architecture.md).
 
 ## Vereisten
 
@@ -80,8 +87,8 @@ niets met de hand te installeren. Anders pak je een bestand:
 
 | Bestand | Wat het is |
 |---|---|
-| `Keylegend-1.1.0-setup.exe` | Installeert voor de huidige gebruiker — geen beheerdersrechten. Menu-item in Start, en een verwijdering die ook het opstartitem weghaalt. |
-| `Keylegend-1.1.0-portable.zip` | Hetzelfde programma, om uit te pakken. Houd de taalmappen (`de`, `fr`, …) naast het uitvoerbare bestand, anders valt de interface terug op Engels. |
+| `Keylegend-1.2.0-setup.exe` | Installeert voor de huidige gebruiker — geen beheerdersrechten. Menu-item in Start, en een verwijdering die ook het opstartitem weghaalt. |
+| `Keylegend-1.2.0-portable.zip` | Hetzelfde programma, om uit te pakken. Houd de taalmappen (`de`, `fr`, …) naast het uitvoerbare bestand, anders valt de interface terug op Engels. |
 
 Beide zijn niet ondertekend, dus Windows noemt de uitgever onbekend — een certificaat kost per
 jaar meer dan dit project heeft. Elke uitgave bevat `SHA256SUMS.txt` om de download te

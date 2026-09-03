@@ -116,6 +116,32 @@ Vorgabe gelesen und verworfen; alles andere ist deine Wahl und bleibt.
 | Helligkeit | Globaler Faktor von 0 bis 100 %, der beim Erzeugen des Farbbilds auf alle Farben angewandt wird. |
 | Anwendungsprofile verwenden | Ob Profile überhaupt herangezogen werden. Ausgeschaltet gelten überall die Standardsätze, unabhängig davon, was im Vordergrund ist. |
 | Mit Windows starten | Trägt die Anwendung im `Run`-Schlüssel ein, mit dem Schalter `--minimized`. So gestartet kommt Keylegend im Infobereich hoch: kein Fenster, keine Sprechblase. Von Hand gestartet zeigt es sein Fenster wie gewohnt. Ein Eintrag aus einer früheren Fassung wird beim nächsten Start aufgefrischt. |
+| Effekt beim Tippen | Wie die Beleuchtung auf einen Anschlag antwortet, Vorgabe *keiner*. Immer nur einer; die acht sind unten beschrieben. Ohne Effekt sieht Keylegend nie nach, welche einzelnen Tasten unten sind — nur, ob überhaupt getippt wird. |
+
+### Effekte beim Tippen
+
+Jeder Effekt ist eine Kurve über die Zeit seit dem Drücken oder Loslassen einer Taste und liegt
+über dem fertigen Bild, statt in die Entscheidung einzugehen, was eine Taste bedeutet: Die Farben
+sagen weiter, was sie sagten, und die Tastatur im Fenster zeigt dasselbe wie die auf dem Tisch.
+Ein Effekt, der eine Taste aufhellt, mischt Weiß hinein, bei voller Stärke bis zu reinem Weiß —
+jede mitgelieferte Farbe treibt ohnehin einen Kanal auf 255, ein helleres Blau gibt es nicht.
+Die Effekte, die wandern, bekommen die Strecke von einer Ecke des Bretts zur anderen, sodass eine
+Welle die ganze Tastatur überquert, welche Tastatur es auch ist.
+
+| Effekt | Was passiert |
+|---|---|
+| Faden | Die getippte Taste wird dunkel, solange sie gehalten wird, und kehrt nach dem Loslassen binnen einer Sekunde zu ihrer Farbe zurück. |
+| Aufblitzen | Die getippte Taste wird weiß in voller Helligkeit und fällt sofort in ihre eigene Farbe zurück, in weniger als einer Fünftelsekunde. |
+| Nachleuchten | Die getippte Taste bleibt hell, solange sie gehalten wird, und klingt nach dem Loslassen über knapp eine Sekunde ab — die Spur, die das Tippen hinterlässt. |
+| Einschlag | Die getippte Taste flackert auf, und die Tasten ringsum, bis zweieinhalb Tastenhöhen weit, antworten einen Augenblick später, die entfernteren noch später — als hätte der Anschlag das Brett erschüttert. Nach einer Fünftelsekunde vorbei. |
+| Wassertropfen | Ein schmaler heller Ring läuft von der getippten Taste nach außen und verblasst dabei; das Brett überquert er in unter einer Sekunde. |
+| Dunkle Welle | Derselbe Ring, dunkel: Das Brett weicht um den Anschlag zurück, statt mit ihm aufzuleuchten. |
+| Funken | Ein Anschlag wirft bis zu drei Funken auf Tasten in der Nähe, nie auf die getippte Taste selbst. Sie glühen warm auf und erlöschen binnen einer halben Sekunde. Wo sie landen, ist Zufall. |
+| Hitze | Tasten werden mit jedem Anschlag wärmer und kühlen wieder ab, alle vier Sekunden um die Hälfte; eine oft benutzte Taste glüht wärmer als eine einmal getippte. Der einzige Effekt, der zwischen zwei Anschlägen etwas behält, und er behält es nur im Arbeitsspeicher: eine abklingende Zahl je Taste, weg, sobald die Taste kalt ist. |
+
+Die Wahl steht in `settings.json` unter `Effect`, als Name — `None`, `Fade`, `Flash`,
+`Afterglow`, `Impact`, `Ripple`, `DarkWave`, `Sparks` oder `Heat`. Ein Name, den das Programm
+nicht kennt, bedeutet keinen Effekt.
 
 ## Sprache
 
@@ -145,6 +171,21 @@ beides mit Absicht:
 
 Fehlt eine Übersetzung, erscheint der englische Text. Eine unvollständige Sprachdatei kostet
 also die betroffenen Zeilen, nicht die ganze Oberfläche.
+
+## Wenn Synapse noch nicht läuft
+
+Beim Anmelden starten Razers Software und Keylegend gleichzeitig, und die Beschreibung der
+angeschlossenen Tastatur gibt es erst, wenn Razers Teil davon fertig ist. Keylegend hält das nicht
+für einen Fehler. Sein Symbol steht im Benachrichtigungsbereich, bevor es überhaupt nachsieht, und
+danach sieht es weiter nach — alle zwei Sekunden, solange gar keine Tastatur genannt ist, und mit
+wachsender Pause bis höchstens einer halben Minute, solange nur die Zeichnung fehlt. Die Beleuchtung
+beginnt von selbst, sobald es etwas zu beleuchten gibt.
+
+Ein Start aus der Windows-Autostartliste öffnet dafür kein Fenster: die Tastatur vor dir zeigt, ob
+es läuft, und der Hinweistext im Benachrichtigungsbereich sagt es unterdessen. Ein Start von Hand
+zeigt ein kleines Fenster, sobald der erste Blick leer ausgeht; es nennt, was fehlt, und wann
+zuletzt gesucht wurde. Dieses Fenster zu schließen ändert nichts — die Suche läuft weiter, und
+Keylegend bleibt im Benachrichtigungsbereich.
 
 ## Wenn die Beleuchtung nicht funktioniert
 

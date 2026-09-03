@@ -20,4 +20,6 @@ public sealed class WindowsKeyStateSource : IKeyStateSource
     public KeyboardState Read() => _reader.Read();
 
     public bool AnyKeyDown() => _activity.AnyKeyDown();
+
+    public IReadOnlyList<string> PressedKeys() => _activity.PressedKeys();
 }

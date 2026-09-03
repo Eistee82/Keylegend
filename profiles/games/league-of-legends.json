@@ -17,8 +17,8 @@
     "Keyboard_E": { "colour": "#FF0000", "label": "Ability E" },
     "Keyboard_R": { "colour": "#FF0000", "label": "Ultimate ability" },
 
-    "Keyboard_D": { "colour": "#C864FF", "label": "Summoner spell 1" },
-    "Keyboard_F": { "colour": "#C864FF", "label": "Summoner spell 2" },
+    "Keyboard_D": { "colour": "#C800FF", "label": "Summoner spell 1" },
+    "Keyboard_F": { "colour": "#C800FF", "label": "Summoner spell 2" },
 
     "Keyboard_1": { "colour": "#00C8FF", "label": "Item slot 1" },
     "Keyboard_2": { "colour": "#00C8FF", "label": "Item slot 2" },

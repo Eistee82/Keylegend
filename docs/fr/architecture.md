@@ -41,6 +41,15 @@ modificateurs maintenus, `GetKeyState` pour les verrouillages) environ soixante 
 et une nouvelle image n'est composée que si quelque chose a changé. Aucune frappe n'est jamais
 interceptée, transmise, journalisée ni conservée.
 
+Avec un effet de frappe choisi, la même interrogation est menée jusqu'aux touches que le clavier
+connecté annonce, au lieu de s'arrêter aux modificateurs. C'est la même question posée à plus de
+touches — celle-ci est-elle enfoncée à cet instant — et elle n'est posée que tant qu'un effet est
+choisi ; sans effet, les touches individuelles ne sont jamais regardées. Ce qui en est conservé est
+peu de chose et ne dure pas : `KeyActivity` retient quand chaque touche est descendue et remontée,
+et oublie une touche que personne n'a touchée depuis quelques secondes. La seule exception est
+l'effet de chaleur, qui garde par touche un nombre décroissant le temps qu'elle refroidisse — une
+trace de la frappe en mémoire, écrite nulle part et disparue avec le processus.
+
 ### Modificateurs gauche et droit
 
 Windows signale **Alt Gr comme Ctrl plus Alt droit**, et sur les dispositions allemandes
@@ -68,6 +77,15 @@ On le demande à Razer Synapse, puisqu'il le sait déjà. Il écrit une descript
 périphérique branché dans `…\Razer Chroma SDK\Devices\<guid>.json` : le modèle par son nom, la
 disposition physique sous forme de nombre, la taille de la matrice et le code de balayage de chaque
 touche que le matériel possède réellement. `SdkDeviceDescription` lit cela, et rien du clavier n'est déduit.
+
+Cette description est écrite au démarrage du logiciel de Razer et n'existe pas avant, ce qui, à
+l'ouverture de session, est une course que Keylegend peut perdre : sur la machine où cela a été
+développé, le fichier est apparu quatre-vingt-quinze secondes après le démarrage du système, et
+l'entrée de démarrage de Keylegend s'est déclenchée huit secondes plus tard. La recherche n'est donc
+pas une tentative unique dont l'échec met fin au programme. `AttachedKeyboardSearch` continue de
+chercher — rapidement tant qu'aucun appareil n'est nommé, avec une pause croissante tant qu'il ne
+manque que le dessin —, l'icône de la zone de notification est créée avant le premier coup d'œil, et
+le moteur est construit dès qu'un clavier apparaît.
 
 L'apparence du clavier vient de la même installation. L'interface de Synapse est une application
 web, et les dessins qu'elle charge pour un périphérique restent dans son cache : rectangles de

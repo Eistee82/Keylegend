@@ -141,13 +141,22 @@
   </data>
 
   <data name="StartupNoDrawing" xml:space="preserve">
-    <value>Razer Synapse kent uw toetsenbord, maar bewaart er geen tekening van, en uit die tekening haalt Keylegend de vorm van de toetsen en hun opdruk. Open Synapse eenmaal met het toetsenbord aangesloten, zodat het de tekening ophaalt, en start Keylegend opnieuw.</value>
+    <value>Razer Synapse kent uw toetsenbord, maar bewaart er geen tekening van, en uit die tekening haalt Keylegend de vorm van de toetsen en hun opdruk. Open Synapse eenmaal met het toetsenbord aangesloten, zodat het de tekening ophaalt.</value>
   </data>
 
   <data name="StartupDrawingUnreadable" xml:space="preserve">
     <value>Razer Synapse heeft een tekening van uw toetsenbord, maar Keylegend kon die niet lezen — mogelijk heeft Razer de opzet gewijzigd. Meld het op https://github.com/Eistee82/Keylegend/issues, met vermelding van uw toetsenbordmodel.</value>
   </data>
 
+  <data name="WaitingHeading" xml:space="preserve">
+    <value>Wachten op Razer Synapse</value>
+  </data>
+  <data name="WaitingRetrying" xml:space="preserve">
+    <value>Keylegend blijft zoeken en begint vanzelf te verlichten zodra Synapse het toetsenbord heeft. U kunt dit venster sluiten; Keylegend blijft in het systeemvak.</value>
+  </data>
+  <data name="WaitingLastAttempt" xml:space="preserve">
+    <value>Laatste poging: {0}</value>
+  </data>
   <data name="StartupAlreadyRunning" xml:space="preserve">
     <value>Er draait al een kopie van Keylegend die geen plaats heeft gemaakt voor deze. Sluit die af in Taakbeheer en start Keylegend opnieuw.</value>
   </data>
@@ -439,6 +448,39 @@
   <data name="SettingsOpenFolderButton" xml:space="preserve">
     <value>Map openen</value>
   </data>
+  <data name="SettingsEffectHeading" xml:space="preserve">
+    <value>Effect tijdens het typen</value>
+  </data>
+  <data name="SettingsEffectNote" xml:space="preserve">
+    <value>Eén tegelijk. Zonder effect kijkt Keylegend nooit welke afzonderlijke toetsen ingedrukt zijn, alleen of er getypt wordt.</value>
+  </data>
+  <data name="EffectNone" xml:space="preserve">
+    <value>Geen</value>
+  </data>
+  <data name="EffectFade" xml:space="preserve">
+    <value>Vervagen</value>
+  </data>
+  <data name="EffectFlash" xml:space="preserve">
+    <value>Flits</value>
+  </data>
+  <data name="EffectAfterglow" xml:space="preserve">
+    <value>Nagloed</value>
+  </data>
+  <data name="EffectImpact" xml:space="preserve">
+    <value>Inslag</value>
+  </data>
+  <data name="EffectRipple" xml:space="preserve">
+    <value>Waterdruppel</value>
+  </data>
+  <data name="EffectDarkWave" xml:space="preserve">
+    <value>Donkere golf</value>
+  </data>
+  <data name="EffectSparks" xml:space="preserve">
+    <value>Vonken</value>
+  </data>
+  <data name="EffectHeat" xml:space="preserve">
+    <value>Hitte</value>
+  </data>
   <data name="SettingsLanguageHeading" xml:space="preserve">
     <value>Taal</value>
   </data>
@@ -468,6 +510,9 @@
   </data>
   <data name="TrayTooltipTrouble" xml:space="preserve">
     <value>Keylegend — verlichting werkt niet</value>
+  </data>
+  <data name="TrayTooltipWaiting" xml:space="preserve">
+    <value>Keylegend — wacht op Razer Synapse</value>
   </data>
   <data name="TrayTooltipPaused" xml:space="preserve">
     <value>Keylegend — gepauzeerd</value>

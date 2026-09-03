@@ -2,6 +2,7 @@ using Keylegend.Chroma;
 using Keylegend.Core.Devices;
 using Keylegend.Core.Input;
 using Keylegend.Core.Lighting;
+using Keylegend.Core.Lighting.Effects;
 using Keylegend.Core.Profiles;
 using Keylegend.Core.Session;
 
@@ -26,6 +27,11 @@ public sealed class LightingEngine
     private readonly LedFrame _frame;
     private readonly Func<ForegroundContext>? _foreground;
 
+    // What the keystroke effects are made of. Both stay empty and untouched while no effect is
+    // chosen, which is also when the key state source is never asked to name anything.
+    private readonly KeyActivity _activity = new();
+    private readonly EffectLayer _effects;
+
     private SessionManager _session;
     private EngineSettings _settings = new();
 
@@ -48,6 +54,7 @@ public sealed class LightingEngine
         _foreground = foreground;
 
         _composer = new FrameComposer(keyboard, resolver ?? throw new ArgumentNullException(nameof(resolver)));
+        _effects = new EffectLayer(keyboard);
         _frame = _composer.CreateFrame();
         _session = new SessionManager(_settings.IdleTimeout, _clock);
     }
@@ -61,7 +68,17 @@ public sealed class LightingEngine
             ArgumentNullException.ThrowIfNull(value);
 
             var timeoutChanged = value.IdleTimeout != _settings.IdleTimeout;
+            var effectChanged = value.Effect != _settings.Effect;
             _settings = value;
+
+            if (effectChanged)
+            {
+                // Built here rather than per frame, and the layer clears both the effect being
+                // put down and the one being taken up — a half-finished ripple must not run on
+                // into whatever is chosen next.
+                _effects.Effect = KeyEffects.Create(value.Effect, _keyboard);
+                _activity.Clear();
+            }
 
             if (timeoutChanged)
             {
@@ -129,6 +146,11 @@ public sealed class LightingEngine
         var settleInterval = TimeSpan.FromMilliseconds(120);
         var refreshInterval = TimeSpan.FromMilliseconds(750);
 
+        // The fourth, and the only one that is not about the hand-over: while a keystroke effect
+        // is moving, the picture changes although nothing about the keyboard state does. Thirty
+        // a second reads as smooth and costs about two milliseconds each.
+        var effectInterval = TimeSpan.FromMilliseconds(33);
+
         try
         {
             while (!cancellationToken.IsCancellationRequested)
@@ -152,14 +174,39 @@ public sealed class LightingEngine
                             lastState = null;
                         }
 
+                        var now = _clock();
                         var current = _settings.OverrideState ?? _keys.Read();
                         var profile = SelectProfile();
-                        var changed = lastState != current || !ReferenceEquals(profile, lastProfile) || _repaint;
-                        var interval = _clock() - takeoverAt < settleWindow ? settleInterval : refreshInterval;
 
-                        if (changed || _clock() - lastSent >= interval)
+                        // Only while an effect is chosen. This is the whole of the promise that
+                        // the individual keys are otherwise never looked at.
+                        // Only while an effect is chosen. This is the whole of the promise that
+                        // the individual keys are otherwise never looked at.
+                        //
+                        // Every round, and not inside the sending below: what the effect has to
+                        // say is what decides whether a frame is sent at all. Advanced only while
+                        // sending, a keystroke waited for the next insurance frame — up to three
+                        // quarters of a second — before the lighting answered it.
+                        if (_effects.Effect is not null)
+                        {
+                            _activity.Observe(_keys.PressedKeys(), now);
+                            _effects.Advance(_activity, now);
+                        }
+
+                        var changed = lastState != current || !ReferenceEquals(profile, lastProfile) || _repaint;
+
+                        // A fourth rate, and the three that were there are untouched. An effect
+                        // is a change nothing else reports: the keyboard state does not move
+                        // while a fade runs, so without this the picture would jump from dark to
+                        // lit in one step at the next insurance frame.
+                        var interval = _effects.Animating
+                            ? effectInterval
+                            : now - takeoverAt < settleWindow ? settleInterval : refreshInterval;
+
+                        if (changed || _effects.Animating || now - lastSent >= interval)
                         {
                             _composer.Compose(_frame, current, _settings.Scheme, _settings.Shortcuts, profile);
+                            _effects.Paint(_frame, now);
                             lastProfile = profile;
                             await _chroma.SendAsync(_frame, cancellationToken);
 

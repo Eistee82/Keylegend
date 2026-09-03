@@ -11,10 +11,10 @@
   },
 
   "highlights": {
-    "Keyboard_Space": { "colour": "#22CC66", "label": "Play / stop" },
-    "Keyboard_P": { "colour": "#22CC66", "label": "Pause" },
-    "Keyboard_X": { "colour": "#22CC66", "label": "Play / stop and set cursor" },
-    "Keyboard_R": { "colour": "#FF3232", "label": "Record" },
+    "Keyboard_Space": { "colour": "#00FF64", "label": "Play / stop" },
+    "Keyboard_P": { "colour": "#00FF64", "label": "Pause" },
+    "Keyboard_X": { "colour": "#00FF64", "label": "Play / stop and set cursor" },
+    "Keyboard_R": { "colour": "#FF0000", "label": "Record" },
     "Keyboard_L": { "colour": "#00C8FF", "label": "Toggle looping" }
   },
 

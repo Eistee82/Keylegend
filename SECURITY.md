@@ -46,7 +46,7 @@ certificate costs a few hundred euros a year, which this project does not have. 
 carries `SHA256SUMS.txt` so a download can be checked against what the build produced:
 
 ```powershell
-Get-FileHash .\Keylegend-1.1.0-setup.exe -Algorithm SHA256
+Get-FileHash .\Keylegend-1.2.0-setup.exe -Algorithm SHA256
 ```
 
 Builds are produced by GitHub Actions from the tagged commit — the workflow is

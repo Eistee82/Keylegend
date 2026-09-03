@@ -23,9 +23,9 @@
     "Keyboard_R": { "colour": "#FF8C00", "label": "Tilt camera up" },
     "Keyboard_F": { "colour": "#FF8C00", "label": "Tilt camera down" },
 
-    "Keyboard_B": { "colour": "#64FF96", "label": "Bulldoze" },
-    "Keyboard_PageUp": { "colour": "#64FF96", "label": "Raise building elevation" },
-    "Keyboard_PageDown": { "colour": "#64FF96", "label": "Lower building elevation" },
+    "Keyboard_B": { "colour": "#00FF64", "label": "Bulldoze" },
+    "Keyboard_PageUp": { "colour": "#00FF64", "label": "Raise building elevation" },
+    "Keyboard_PageDown": { "colour": "#00FF64", "label": "Lower building elevation" },
 
     "Keyboard_Space": { "colour": "#00C8FF", "label": "Pause simulation" },
     "Keyboard_1": { "colour": "#00C8FF", "label": "Normal speed" },

@@ -21,6 +21,17 @@ public partial class App : Application
     private TrayIcon? _tray;
     private SingleInstance? _instance;
 
+    private MainWindow? _window;
+    private WaitingWindow? _waiting;
+
+    /// <summary>Whether the waiting window has been put on screen once already.</summary>
+    /// <remarks>
+    /// Once, and never again by itself. A user who closed it has said what they think of it, and
+    /// the search goes on for as long as the program runs — re-opening it on the next fruitless
+    /// look would put a window back on screen every few seconds.
+    /// </remarks>
+    private bool _offeredWaiting;
+
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
@@ -81,61 +92,133 @@ public partial class App : Application
         // would count as "no windows left" and end the process before it ever lit anything.
         ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
+        // Saved settings, or defaults where there are none. A damaged file costs the settings,
+        // not the program: loading reports the problem instead of throwing.
+        var store = new ConfigStore();
+        var (stored, loadProblem) = store.Load();
+
+        // The shipped profiles with the user's changes laid over them. Held here rather than
+        // rebuilt from the engine's catalogue, because the catalogue is the flattened result and
+        // no longer knows which parts the user overrode - which is what "reset" needs.
+        var library = stored.ToProfileLibrary();
+
+        // Unrecognised names fall back to following Windows rather than refusing to start, which
+        // is what a hand-edited settings file most likely wants anyway.
+        var language = Enum.TryParse<LanguageChoice>(stored.Language, out var choice)
+            ? choice
+            : LanguageChoice.Automatic;
+
+        // Chosen here rather than in the main window, which is no longer the first thing to
+        // speak: the notification area and the waiting window are on screen before it exists,
+        // and would otherwise say their piece in whatever language Windows is set to.
+        Texts.Instance.Use(language);
+
+        // Before the keyboard is so much as looked for, and that is the point. The vendor's
+        // software writes its description of the attached keyboard when it comes up at logon,
+        // which may well be after this program has started; the icon has to stand there through
+        // the whole wait, because an autostart that shows nothing looks like one that failed.
+        _tray = new TrayIcon(Shutdown);
+
+        _waiting = new WaitingWindow();
+        _tray.Watch(_waiting);
+
+        // Startup entries written before the switch existed still name the executable alone;
+        // bring them up to date so the next logon is quiet as well. Done before the keyboard is
+        // found, because it is true of this copy whether or not one ever turns up.
+        Autostart.Refresh(Environment.ProcessPath);
+
+        // The other side of the single-copy arrangement, both halves of it. A start of this same
+        // program wants the window — whichever window this copy currently has; a different one
+        // wants the keyboard, and gets it by this copy leaving through Shutdown, which hands the
+        // Chroma session back so the keyboard returns to the vendor effect instead of freezing
+        // on our last frame.
+        _instance.WhenAskedToShow(() => Dispatcher.Invoke(ShowWindow), _stopping.Token);
+        _instance.WhenAskedToQuit(() => Dispatcher.Invoke(() => Shutdown()), _stopping.Token);
+
+        _ = StartWhenThereIsAKeyboard(store, stored, library, language, loadProblem, minimised);
+    }
+
+    /// <summary>
+    /// Waits for the vendor's software to have a keyboard, then starts the lighting on it.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// This used to be one look, and a message box and an exit if it found nothing. That lost a
+    /// race it could not win: the lighting service writes its description of the attached
+    /// keyboard at logon, and on the machine this was measured on it did so ninety-five seconds
+    /// after the system came up — eight seconds before this program's own autostart entry fired.
+    /// Whichever of the two is slower that morning decided whether the program ran at all.
+    /// </para>
+    /// <para>
+    /// So it waits instead. Nothing is opened to make the point: the user can see whether it
+    /// works on the keyboard in front of them, and the notification area says the rest.
+    /// </para>
+    /// </remarks>
+    private async Task StartWhenThereIsAKeyboard(
+        ConfigStore store,
+        StoredSettings stored,
+        ProfileLibrary library,
+        LanguageChoice language,
+        string? loadProblem,
+        bool minimised)
+    {
+        var search = new AttachedKeyboardSearch();
+        search.Absent += find => Dispatcher.BeginInvoke(() => Waiting(find, minimised));
+
         AttachedKeyboard keyboard;
+
         try
         {
-            // Ask the lighting service what is actually plugged in. It knows the model by name,
-            // states the physical layout outright, and lists the keys the hardware really has.
-            // So the keyboard this program lights is described from the hardware, never guessed.
-            keyboard = FromAttachedDevice();
-
-            var problems = AttachedKeyboardValidator.Validate(keyboard);
-            if (problems.Count > 0)
-            {
-                throw new AttachedKeyboardException(
-                    "The attached keyboard could not be described:" + Environment.NewLine + "  " +
-                    string.Join(Environment.NewLine + "  ", problems));
-            }
+            // On a thread of its own: a look reads the lighting service's folder and, once that
+            // names a device, walks the vendor's drawing cache — thousands of files, and slow on
+            // a disk that has just been switched on. On the interface thread that alone would
+            // hold the notification-area icon back for as long as it took.
+            keyboard = await Task.Run(() => search.WaitAsync(_stopping.Token), _stopping.Token);
         }
-        catch (AttachedKeyboardException ex)
+        catch (OperationCanceledException)
         {
-            MessageBox.Show(ex.Message, "Keylegend", MessageBoxButton.OK, MessageBoxImage.Error);
-            Shutdown(1);
+            // Quit while waiting. There is nothing to start and nothing to say.
             return;
         }
 
-        // Three ways this can fail and there is nothing shipped here to fall back on, so each
-        // says which one it was. They call for different things of the user, and one message
-        // covering all three would send two thirds of the people who see it the wrong way.
-        static AttachedKeyboard FromAttachedDevice()
+        // Quit in the moment between the keyboard turning up and this arriving back on the
+        // interface thread. Building an engine and a window now would raise both after the
+        // program had already let go of everything they need.
+        if (_stopping.IsCancellationRequested)
         {
-            // What the lighting service says is plugged in. Absent when Synapse is not installed
-            // or not running, or when no Razer keyboard is connected.
-            var attached = SdkDeviceDescription.ReadAll().FirstOrDefault();
-
-            if (attached is null || attached.Keys.Count == 0)
-            {
-                throw new AttachedKeyboardException(Texts.Get("StartupNoKeyboard"));
-            }
-
-            // The vendor's own drawing of the attached model. It carries the keys and their
-            // names, their real sizes, the casing, and the legends printed on the caps in the
-            // right language. What it does not carry — which cell each key lights — is a constant
-            // of the protocol.
-            //
-            // Missing is its own case, and not the same as "no keyboard": Synapse is running and
-            // has named the device. The drawing lives in the cache of its web interface, which
-            // fills when that interface shows the device — so opening Synapse once is the fix,
-            // and saying "connect your keyboard" would be plainly wrong.
-            var drawing = SvgLayoutSource.Find(attached)
-                ?? throw new AttachedKeyboardException(Texts.Get("StartupNoDrawing"));
-
-            // Present but not understood is a third thing again, and nothing the user can act on:
-            // the file is there and we cannot read it, which means the format moved under us.
-            return AttachedKeyboardBuilder.FromDrawing(attached, drawing)
-                ?? throw new AttachedKeyboardException(Texts.Get("StartupDrawingUnreadable"));
+            return;
         }
 
+        Begin(keyboard, store, stored, library, language, loadProblem, minimised);
+    }
+
+    /// <summary>Says what the latest look was missing, and offers the window that says it.</summary>
+    private void Waiting(AttachedKeyboardFind find, bool minimised)
+    {
+        _waiting?.Report(find, DateTimeOffset.Now);
+
+        if (minimised || _offeredWaiting || _waiting is null)
+        {
+            return;
+        }
+
+        // Only on a start that asked for a window. A logon start asked for none, and one
+        // appearing over whatever the user is doing is exactly what --minimized exists to
+        // prevent — the notification area carries this instead.
+        _offeredWaiting = true;
+        _waiting.Show();
+    }
+
+    /// <summary>Everything that needs a keyboard, once there is one.</summary>
+    private void Begin(
+        AttachedKeyboard keyboard,
+        ConfigStore store,
+        StoredSettings stored,
+        ProfileLibrary library,
+        LanguageChoice language,
+        string? loadProblem,
+        bool minimised)
+    {
         var resolver = new WindowsKeyResolver();
         resolver.RefreshLayout();
 
@@ -154,18 +237,8 @@ public partial class App : Application
             {
                 var app = foreground.Read();
 
-                return new Core.Profiles.ForegroundContext(app.ProcessName, app.WindowTitle, app.LooksLikeGame);
+                return new ForegroundContext(app.ProcessName, app.WindowTitle, app.LooksLikeGame);
             });
-
-        // Saved settings, or defaults where there are none. A damaged file costs the settings,
-        // not the program: loading reports the problem instead of throwing.
-        var store = new ConfigStore();
-        var (stored, loadProblem) = store.Load();
-
-        // The shipped profiles with the user's changes laid over them. Held here rather than
-        // rebuilt from the engine's catalogue, because the catalogue is the flattened result and
-        // no longer knows which parts the user overrode - which is what "reset" needs.
-        var library = stored.ToProfileLibrary();
 
         _engine.Settings = _engine.Settings with
         {
@@ -173,48 +246,52 @@ public partial class App : Application
             Scheme = stored.ToColourScheme(),
             Profiles = library.Catalogue(),
             Shortcuts = stored.ToShortcutCatalogue(),
-            UseApplicationProfiles = stored.UseApplicationProfiles
+            UseApplicationProfiles = stored.UseApplicationProfiles,
+            Effect = stored.ToKeyEffect()
         };
 
         // The engine runs for the whole life of the application; the window only observes it.
         // That way closing the window to the tray does not interrupt the lighting.
         _running = _engine.RunAsync(_stopping.Token);
 
-        // Unrecognised names fall back to following Windows rather than refusing to start, which
-        // is what a hand-edited settings file most likely wants anyway.
-        var language = Enum.TryParse<Localisation.LanguageChoice>(stored.Language, out var choice)
-            ? choice
-            : Localisation.LanguageChoice.Automatic;
-
         var window = new MainWindow(
             _engine, resolver, store, library, language,
             stored.ToIdlePeriod(), stored.HandBackWhenIdle, loadProblem);
-        _tray = new TrayIcon(_engine, window, Shutdown);
 
-        // Startup entries written before the switch existed still name the executable alone;
-        // bring them up to date so the next logon is quiet as well.
-        Autostart.Refresh(Environment.ProcessPath);
+        _window = window;
+        _tray?.Watch(window);
+        _tray?.Drive(_engine);
 
-        if (!minimised)
+        // The real window takes the waiting one's place only where there was a place to take.
+        // Let go of by the notification area first, above, so that this closes it rather than
+        // hiding it.
+        var wasWaitingOnScreen = _waiting?.IsVisible == true;
+
+        _waiting?.Close();
+        _waiting = null;
+
+        // Somebody watching the waiting window gets the real one in its stead. Somebody who
+        // closed that window meant it, and somebody who started at logon asked for no window at
+        // all — both keep the notification area and a keyboard that simply starts working.
+        if (!minimised && (wasWaitingOnScreen || !_offeredWaiting))
         {
             window.Show();
         }
+    }
 
-        // The other side of the same arrangement, both halves of it. A start of this same
-        // program wants the window; a different one wants the keyboard, and gets it by this copy
-        // leaving through Shutdown — which hands the Chroma session back, so the keyboard returns
-        // to the vendor effect instead of freezing on our last frame.
-        _instance?.WhenAskedToShow(
-            () => Dispatcher.Invoke(() =>
-            {
-                window.Show();
-                window.WindowState = WindowState.Normal;
-                window.Activate();
-            }),
-            _stopping.Token);
+    /// <summary>Brings up whichever window this copy currently has.</summary>
+    private void ShowWindow()
+    {
+        var window = (Window?)_window ?? _waiting;
 
-        _instance?.WhenAskedToQuit(
-            () => Dispatcher.Invoke(() => Shutdown()), _stopping.Token);
+        if (window is null)
+        {
+            return;
+        }
+
+        window.Show();
+        window.WindowState = WindowState.Normal;
+        window.Activate();
     }
 
     protected override void OnExit(ExitEventArgs e)

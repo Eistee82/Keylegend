@@ -42,10 +42,10 @@
     "Keyboard_F3": { "colour": "#00C8FF", "label": "Autobuy" },
     "Keyboard_F4": { "colour": "#00C8FF", "label": "Rebuy" },
 
-    "Keyboard_C": { "colour": "#C864FF", "label": "Chat wheel 1" },
-    "Keyboard_V": { "colour": "#C864FF", "label": "Chat wheel 2" },
-    "Keyboard_T": { "colour": "#C864FF", "label": "Graffiti" },
-    "Keyboard_U": { "colour": "#C864FF", "label": "Team chat" },
+    "Keyboard_C": { "colour": "#C800FF", "label": "Chat wheel 1" },
+    "Keyboard_V": { "colour": "#C800FF", "label": "Chat wheel 2" },
+    "Keyboard_T": { "colour": "#C800FF", "label": "Graffiti" },
+    "Keyboard_U": { "colour": "#C800FF", "label": "Team chat" },
 
     "Keyboard_M": { "colour": "#B4B4B4", "label": "Team menu" },
     "Keyboard_Escape": { "colour": "#B4B4B4", "label": "Menu" }

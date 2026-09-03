@@ -190,9 +190,9 @@ public sealed record SdkDeviceDescription(
 
         // 0 is a plain scan code and 2 carries the E0 prefix. 4 is the E1 sequence, which only
         // Pause uses: it arrives as 0x1D, the code for left control, and is only Pause because
-        // of that prefix. It is reported under the code the scan code table lists it by, so that
-        // the key can be recognised at all. 16 marks a vendor key — fn and the media controls —
-        // which sends nothing and cannot be matched to a keyboard key.
+        // of that prefix. It is reported with that prefix, as the scan code table lists it, so
+        // that the key can be recognised at all. 16 marks a vendor key — fn and the media
+        // controls — which sends nothing and cannot be matched to a keyboard key.
         switch (flag)
         {
             case 0 or 2:

@@ -41,6 +41,15 @@ gehaltene Modifier, `GetKeyState` für Lock-Zustände), etwa sechzigmal je Sekun
 einer Änderung wird ein neues Bild erzeugt. Es wird kein Tastenanschlag abgefangen,
 weitergeleitet, protokolliert oder gespeichert.
 
+Mit gewähltem Tippeffekt wird dieselbe Abfrage bis zu den Tasten durchgezogen, die das
+angeschlossene Brett meldet, statt bei den Modifiern aufzuhören. Es ist dieselbe Frage an mehr
+Tasten — ist diese in diesem Augenblick unten — und sie wird nur gestellt, solange ein Effekt
+gewählt ist; ohne einen wird auf die einzelnen Tasten nie gesehen. Was davon bleibt, ist wenig und
+nicht von Dauer: `KeyActivity` hält fest, wann jede Taste unten war und wieder oben, und vergisst
+eine Taste, die seit Sekunden niemand angerührt hat. Die eine Ausnahme ist der Hitze-Effekt, der je
+Taste eine abklingende Zahl führt, solange sie zum Abkühlen braucht — eine Spur des Getippten im
+Speicher, nirgends geschrieben und mit dem Prozess vorbei.
+
 ### Linke und rechte Modifier
 
 Windows meldet **AltGr als Strg plus rechtes Alt**, und auf deutschen Layouts erzeugt Strg +
@@ -69,6 +78,15 @@ angeschlossenen Geräts nach `…\Razer Chroma SDK\Devices\<guid>.json`: das Mod
 physische Layout als Zahl, die Matrixgröße und den Scancode jeder Taste, die die Hardware wirklich
 hat. `SdkDeviceDescription` liest das. Nichts an der Tastatur wird erschlossen — nicht das
 Modell, nicht das Layout, nicht welche Tasten es gibt.
+
+Diese Beschreibung entsteht, wenn Razers Software hochkommt, und vorher gibt es sie nicht — beim
+Anmelden ist das ein Rennen, das Keylegend verlieren kann: auf dem Rechner, auf dem dies entwickelt
+wurde, erschien die Datei fünfundneunzig Sekunden nach dem Systemstart, und Keylegends eigener
+Autostarteintrag griff acht Sekunden später. Die Suche danach ist deshalb kein einzelner Versuch,
+dessen Fehlschlag das Programm beendet. `AttachedKeyboardSearch` sucht weiter — zügig, solange kein
+Gerät genannt ist, mit wachsender Pause, solange nur die Zeichnung fehlt —, das Symbol im
+Benachrichtigungsbereich entsteht vor dem ersten Blick, und der Motor wird gebaut, sobald eine
+Tastatur auftaucht.
 
 Die eigenen Schnittstellen des Chroma SDK können das nicht beantworten. Der REST-Weg hat keinen
 Abfragepunkt — eine Sitzung anzulegen gibt eine Kennung und eine URI zurück, und ein `GET` darauf

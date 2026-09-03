@@ -11,6 +11,7 @@ using Keylegend.Core.Configuration;
 using Keylegend.Core.Devices;
 using Keylegend.Core.Input;
 using Keylegend.Core.Lighting;
+using Keylegend.Core.Lighting.Effects;
 using Keylegend.Core.Profiles;
 using Keylegend.Core.Session;
 using Keylegend.Core.Shortcuts;
@@ -106,6 +107,7 @@ public partial class MainWindow : Window
         BrightnessSlider.Value = engine.Settings.Scheme.Brightness;
         BrightnessLabel.Text = $"{engine.Settings.Scheme.Brightness:P0}";
         ProfilesEnabledBox.IsChecked = engine.Settings.UseApplicationProfiles;
+        ShowEffect(engine.Settings.Effect);
         AutostartBox.IsChecked = Autostart.IsEnabled();
         UpdateHighlightSwatch();
 
@@ -1743,6 +1745,42 @@ public partial class MainWindow : Window
     }
 
     /// <summary>Selects the language shown in the interface and saves the choice.</summary>
+    /// <summary>
+    /// Switches the keystroke effect.
+    /// </summary>
+    /// <remarks>
+    /// Nothing is previewed here and nothing needs to be: the answer is on the keyboard under the
+    /// user's hands, and the picture in this window mirrors every frame that is sent. Choosing
+    /// "none" is the one setting that stops the program looking at the individual keys at all.
+    /// </remarks>
+    private void OnEffectChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (_loading || EffectBox.SelectedItem is not ComboBoxItem { Tag: string tag })
+        {
+            return;
+        }
+
+        if (!Enum.TryParse<KeyEffectKind>(tag, out var kind) || kind == _engine.Settings.Effect)
+        {
+            return;
+        }
+
+        _engine.Settings = _engine.Settings with { Effect = kind };
+        Save();
+    }
+
+    private void ShowEffect(KeyEffectKind kind)
+    {
+        foreach (var item in EffectBox.Items.OfType<ComboBoxItem>())
+        {
+            if (item.Tag is string tag && string.Equals(tag, kind.ToString(), StringComparison.Ordinal))
+            {
+                EffectBox.SelectedItem = item;
+                return;
+            }
+        }
+    }
+
     private void OnLanguageChanged(object sender, SelectionChangedEventArgs e)
     {
         if (_loading || LanguageBox.SelectedItem is not ComboBoxItem { Tag: string tag })
@@ -1822,7 +1860,8 @@ public partial class MainWindow : Window
             _engine.Settings.UseApplicationProfiles,
             _engine.Settings.Shortcuts,
             _language.ToString(),
-            HandsBack);
+            HandsBack,
+            _engine.Settings.Effect);
 
         return _store.Save(stored);
     }

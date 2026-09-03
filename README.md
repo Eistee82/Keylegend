@@ -5,7 +5,7 @@
 [English](README.md) · [Deutsch](README.de.md) · [Español](README.es.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Nederlands](README.nl.md) ·
 [Polski](README.pl.md) · [Português](README.pt.md) · [Русский](README.ru.md) · [Українська](README.uk.md) · [简体中文](README.zh-cn.md)
 
-> **Version 1.1.0.** Lighting, interface, game detection and application profiles all work.
+> **Version 1.2.0.** Lighting, interface, game detection and application profiles all work.
 > [Download the installer or the portable copy](https://github.com/Eistee82/Keylegend/releases/latest),
 > or build from source. See [CHANGELOG.md](CHANGELOG.md).
 
@@ -36,6 +36,10 @@ its meaning changes:
   Excel, Elden Ring and the rest take effect the moment the program has the focus, and a profile
   naming a program outranks the general game profile. Edit one and only the part you edited
   stops following the shipped version — the rest keeps improving with later releases.
+- **The lighting can answer the typing.** Eight effects to choose from, *none* by default:
+  the struck key fades, flashes or glows on, a water drop or a dark wave runs across the board,
+  the keys around it shake, sparks fly, or keys warm with use and cool down again. Laid over the
+  colours rather than mixed into them, so every key still says what it means.
 - **Gives the lighting back.** After a configurable idle period (60 s by default), Keylegend
   releases the keyboard so your Chroma Studio effect takes over again.
 - **Eleven languages.** English, German, Spanish, French, Italian, Dutch, Polish, Portuguese,
@@ -53,9 +57,11 @@ Keylegend asks Windows what character each key would produce in the current keyb
 (`ToUnicodeEx`), derives a category from that character, and sends the resulting colour map
 to the Razer Chroma SDK over its local REST interface.
 
-It deliberately does **not** install a global keyboard hook. It only reads modifier and lock
-*states*; it never intercepts, forwards or records keystrokes. See
-[docs/en/architecture.md](docs/en/architecture.md).
+It deliberately does **not** install a global keyboard hook. It reads key *states* — whether a key
+is down at this moment — and never intercepts, forwards or records keystrokes. With no typing effect
+chosen it looks at the modifier and lock states alone; a typing effect additionally asks which of
+this keyboard's own keys are down, and nothing further.
+See [docs/en/architecture.md](docs/en/architecture.md).
 
 ## Requirements
 
@@ -77,8 +83,8 @@ no prerequisite to install by hand. Otherwise, take a file:
 
 | File | What it is |
 |---|---|
-| `Keylegend-1.1.0-setup.exe` | Installs for the current user — no administrator rights. Start menu entry, and a clean uninstall that also removes the autostart entry. |
-| `Keylegend-1.1.0-portable.zip` | The same program, to unpack and run. Keep the language folders (`de`, `fr`, …) next to the executable, or the interface falls back to English. |
+| `Keylegend-1.2.0-setup.exe` | Installs for the current user — no administrator rights. Start menu entry, and a clean uninstall that also removes the autostart entry. |
+| `Keylegend-1.2.0-portable.zip` | The same program, to unpack and run. Keep the language folders (`de`, `fr`, …) next to the executable, or the interface falls back to English. |
 
 Both are unsigned, so Windows will call the publisher unknown — a certificate costs more per year
 than this project has. Each release ships `SHA256SUMS.txt` if you would like to check the download

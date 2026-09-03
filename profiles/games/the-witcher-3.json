@@ -27,12 +27,12 @@
     "Keyboard_X": { "colour": "#FF8C00", "label": "Call / stop horse" },
     "Keyboard_C": { "colour": "#FF8C00", "label": "Dive" },
 
-    "Keyboard_Q": { "colour": "#C864FF", "label": "Cast sign" },
-    "Keyboard_3": { "colour": "#C864FF", "label": "Select Aard" },
-    "Keyboard_4": { "colour": "#C864FF", "label": "Select Yrden" },
-    "Keyboard_5": { "colour": "#C864FF", "label": "Select Igni" },
-    "Keyboard_6": { "colour": "#C864FF", "label": "Select Quen" },
-    "Keyboard_7": { "colour": "#C864FF", "label": "Select Axii" },
+    "Keyboard_Q": { "colour": "#C800FF", "label": "Cast sign" },
+    "Keyboard_3": { "colour": "#C800FF", "label": "Select Aard" },
+    "Keyboard_4": { "colour": "#C800FF", "label": "Select Yrden" },
+    "Keyboard_5": { "colour": "#C800FF", "label": "Select Igni" },
+    "Keyboard_6": { "colour": "#C800FF", "label": "Select Quen" },
+    "Keyboard_7": { "colour": "#C800FF", "label": "Select Axii" },
 
     "Keyboard_1": { "colour": "#00C8FF", "label": "Draw steel sword" },
     "Keyboard_2": { "colour": "#00C8FF", "label": "Draw silver sword" },

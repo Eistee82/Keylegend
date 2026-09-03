@@ -115,6 +115,32 @@ laten vallen; al het andere is uw keuze en blijft.
 | Helderheid | Globale factor van 0 tot 100 %, toegepast op elke kleur terwijl het beeld wordt samengesteld. |
 | Toepassingsprofielen gebruiken | Of profielen überhaupt worden geraadpleegd. Uitgeschakeld gelden de standaardsets overal, wat er ook vooraan staat. |
 | Met Windows starten | Registreert de toepassing in de `Run`-sleutel, met de schakelaar `--minimized`. Zo gestart komt Keylegend in het systeemvak op: geen venster, geen ballon. Met de hand gestart toont het altijd zijn venster. Een item dat door een oudere versie is geschreven wordt bij de volgende start bijgewerkt. |
+| Effect tijdens het typen | Hoe de verlichting op een aanslag reageert, standaard *geen*. Eén tegelijk; de acht staan hieronder beschreven. Zonder effect kijkt Keylegend nooit welke afzonderlijke toetsen ingedrukt zijn, alleen of er getypt wordt. |
+
+### Effecten tijdens het typen
+
+Elk effect is een curve over de tijd sinds een toets werd ingedrukt of losgelaten, over het
+afgewerkte beeld gelegd in plaats van gemengd in de beslissing wat een toets betekent: de kleuren
+zeggen nog steeds wat ze zeiden, en het toetsenbord in het venster toont hetzelfde als dat op het
+bureau. Een effect dat een toets lichter maakt, mengt er wit in, tot zuiver wit op volle sterkte
+— elke meegeleverde kleur drijft al een kanaal naar 255, dus een feller blauw bestaat niet. De
+effecten die zich verplaatsen krijgen de afstand van de ene hoek van het bord naar de andere
+mee, zodat een golf het hele toetsenbord oversteekt, welk toetsenbord het ook is.
+
+| Effect | Wat er gebeurt |
+|---|---|
+| Vervagen | De aangeslagen toets dooft zolang hij wordt ingedrukt en komt na het loslaten binnen een seconde terug in zijn kleur. |
+| Flits | De aangeslagen toets wordt wit op volle sterkte en valt meteen terug in zijn eigen kleur, in minder dan een vijfde seconde. |
+| Nagloed | De aangeslagen toets blijft licht zolang hij wordt ingedrukt en dooft na het loslaten in bijna een seconde uit — het spoor dat typen achterlaat. |
+| Inslag | De aangeslagen toets licht op, en de toetsen eromheen, tot tweeënhalve toetshoogte ver, reageren een ogenblik later, de verdere nog later — alsof de aanslag het bord deed schudden. Na een vijfde seconde voorbij. |
+| Waterdruppel | Een smalle lichte ring loopt vanaf de aangeslagen toets naar buiten en vervaagt onderweg; het bord steekt hij in minder dan een seconde over. |
+| Donkere golf | Dezelfde ring, donker: het bord wijkt rond de aanslag in plaats van ermee op te lichten. |
+| Vonken | Een aanslag werpt tot drie vonken op toetsen in de buurt, nooit op de aangeslagen toets zelf. Ze gloeien warm op en doven binnen een halve seconde. Waar ze landen is toeval. |
+| Hitte | Toetsen worden bij elke aanslag warmer en koelen weer af, met elke vier seconden de helft; een vaak gebruikte toets gloeit warmer dan een die één keer is aangeslagen. Het enige effect dat tussen aanslagen iets bewaart, en het bewaart dat alleen in het geheugen: een wegebbend getal per toets, verdwenen zodra de toets koud is. |
+
+De keuze staat in `settings.json` onder `Effect`, als naam — `None`, `Fade`, `Flash`,
+`Afterglow`, `Impact`, `Ripple`, `DarkWave`, `Sparks` of `Heat`. Een naam die het programma niet
+kent, betekent geen effect.
 
 ## Taal
 
@@ -142,6 +168,21 @@ Wat vertaald is, zijn de menu's en de uitleg. Twee dingen zijn dat **niet**, bei
 
 Alles zonder vertaling valt terug op het Engels, zodat een onafgemaakt taalbestand de regels kost
 die het mist en niet de hele interface.
+
+## Als Synapse nog niet draait
+
+Bij het aanmelden starten Razers software en Keylegend tegelijk, en de beschrijving van het
+aangesloten toetsenbord bestaat pas als Razers deel daarvan klaar is. Keylegend houdt dat niet voor
+een fout. Zijn pictogram staat in het systeemvak voordat het ook maar kijkt, en daarna blijft het
+kijken — elke twee seconden zolang er geen toetsenbord wordt genoemd, en met een groeiende pauze tot
+hoogstens een halve minuut zolang alleen de tekening ontbreekt. De verlichting begint vanzelf zodra
+er iets te verlichten valt.
+
+Een start vanuit de opstartlijst van Windows opent hiervoor geen venster: het toetsenbord voor je
+laat zien of het werkt, en de tekstballon in het systeemvak zegt het ondertussen. Een start met de
+hand toont een klein venster zodra de eerste blik leeg uitvalt; het noemt wat ontbreekt en wanneer
+er voor het laatst is gezocht. Dat venster sluiten verandert niets — het zoeken gaat door en
+Keylegend blijft in het systeemvak.
 
 ## Als de verlichting niet werkt
 

@@ -41,6 +41,14 @@ modificadores premidos, `GetKeyState` para os bloqueios) cerca de sessenta vezes
 se compõe um novo fotograma quando algo mudou. Nenhuma tecla premida é alguma vez intercetada,
 reencaminhada, registada ou guardada.
 
+Com um efeito de escrita escolhido, a mesma sondagem é levada até às teclas que o teclado ligado
+anuncia, em vez de parar nos modificadores. É a mesma pergunta feita a mais teclas — esta está
+premida neste momento? — e só é feita enquanto houver um efeito escolhido; sem nenhum, as teclas
+concretas nunca são olhadas. O que fica é pouco e não dura: o `KeyActivity` guarda quando cada tecla
+desceu e subiu, e esquece uma tecla que ninguém toca há alguns segundos. A única exceção é o efeito
+de calor, que mantém por tecla um número decrescente enquanto ela arrefece — um rasto do que foi
+escrito em memória, escrito em lado nenhum e acabado com o processo.
+
 ### Modificadores esquerdo e direito
 
 O Windows reporta **Alt Gr como Ctrl mais Alt direito**, e nos esquemas alemães Ctrl + Alt esquerdo
@@ -68,6 +76,14 @@ Pergunta-se ao Razer Synapse, porque já sabe. Escreve uma descrição de cada d
 `…\Razer Chroma SDK\Devices\<guid>.json`: o modelo pelo nome, a disposição física como número, o
 tamanho da matriz e o código de varrimento de cada tecla que o hardware realmente tem.
 `SdkDeviceDescription` lê isso, e nada do teclado é deduzido.
+
+Essa descrição é escrita quando o software da Razer arranca e antes disso não existe, o que ao
+iniciar sessão é uma corrida que o Keylegend pode perder: na máquina onde isto foi desenvolvido, o
+ficheiro apareceu noventa e cinco segundos depois do arranque do sistema, e a entrada de arranque do
+próprio Keylegend disparou oito segundos mais tarde. Procurá-la não é, por isso, uma tentativa única
+cujo fracasso termina o programa. `AttachedKeyboardSearch` continua a procurar — depressa enquanto
+nenhum dispositivo é nomeado, com uma pausa crescente enquanto só falta o desenho —, o ícone da área
+de notificação nasce antes do primeiro olhar, e o motor é construído assim que um teclado aparece.
 
 O aspeto do teclado vem da mesma instalação. A interface do Synapse é uma aplicação web, e os
 desenhos que carrega para um dispositivo ficam na sua cache: retângulos de teclas com nome, a forma

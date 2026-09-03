@@ -11,7 +11,7 @@
   },
 
   "highlights": {
-    "Keyboard_Delete": { "colour": "#FF3232", "label": "Remove source" },
+    "Keyboard_Delete": { "colour": "#FF0000", "label": "Remove source" },
 
     "Keyboard_ArrowUp": { "colour": "#00C8FF", "label": "Nudge source up" },
     "Keyboard_ArrowDown": { "colour": "#00C8FF", "label": "Nudge source down" },

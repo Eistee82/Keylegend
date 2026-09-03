@@ -16,12 +16,12 @@
     "Keyboard_F": { "colour": "#00C8FF", "label": "Rectangle frame" },
     "Keyboard_M": { "colour": "#00C8FF", "label": "Rectangle" },
 
-    "Keyboard_P": { "colour": "#22CC66", "label": "Pen" },
-    "Keyboard_T": { "colour": "#22CC66", "label": "Type" },
-    "Keyboard_N": { "colour": "#22CC66", "label": "Pencil" },
-    "Keyboard_C": { "colour": "#22CC66", "label": "Scissors" },
-    "Keyboard_G": { "colour": "#22CC66", "label": "Gradient swatch" },
-    "Keyboard_I": { "colour": "#22CC66", "label": "Eyedropper" },
+    "Keyboard_P": { "colour": "#00FF64", "label": "Pen" },
+    "Keyboard_T": { "colour": "#00FF64", "label": "Type" },
+    "Keyboard_N": { "colour": "#00FF64", "label": "Pencil" },
+    "Keyboard_C": { "colour": "#00FF64", "label": "Scissors" },
+    "Keyboard_G": { "colour": "#00FF64", "label": "Gradient swatch" },
+    "Keyboard_I": { "colour": "#00FF64", "label": "Eyedropper" },
 
     "Keyboard_R": { "colour": "#FFC800", "label": "Rotate" },
     "Keyboard_S": { "colour": "#FFC800", "label": "Scale" },

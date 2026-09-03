@@ -22,10 +22,10 @@
     "Keyboard_Space": { "colour": "#FF8C00", "label": "Shoot nearest enemy" },
     "Keyboard_C": { "colour": "#FF8C00", "label": "Next weapon" },
 
-    "Keyboard_R": { "colour": "#64FF96", "label": "Rotate building" },
-    "Keyboard_Q": { "colour": "#64FF96", "label": "Pick building into cursor" },
-    "Keyboard_H": { "colour": "#64FF96", "label": "Flip blueprint horizontally" },
-    "Keyboard_V": { "colour": "#64FF96", "label": "Flip blueprint vertically" },
+    "Keyboard_R": { "colour": "#00FF64", "label": "Rotate building" },
+    "Keyboard_Q": { "colour": "#00FF64", "label": "Pick building into cursor" },
+    "Keyboard_H": { "colour": "#00FF64", "label": "Flip blueprint horizontally" },
+    "Keyboard_V": { "colour": "#00FF64", "label": "Flip blueprint vertically" },
 
     "Keyboard_1": { "colour": "#00C8FF", "label": "Quickbar slot 1" },
     "Keyboard_2": { "colour": "#00C8FF", "label": "Quickbar slot 2" },

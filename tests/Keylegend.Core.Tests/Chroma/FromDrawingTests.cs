@@ -30,11 +30,20 @@ public class FromDrawingTests
 
         foreach (var key in measured)
         {
-            if (Core.Input.ScanCodes.TryGet(key.Id, out var code))
+            if (!Core.Input.ScanCodes.TryGet(key.Id, out var code))
             {
-                var extended = (code & Core.Input.ScanCodes.ExtendedPrefix) != 0;
-                reported.Add(new SdkKey(code & 0xFF, extended, 0, 0));
+                continue;
             }
+
+            if (code == Core.Input.ScanCodes.PauseSequence)
+            {
+                // The E1 sequence, filed whole and unextended — as the reader files it.
+                reported.Add(new SdkKey(code, false, 0, 0));
+                continue;
+            }
+
+            var extended = (code & Core.Input.ScanCodes.ExtendedPrefix) != 0;
+            reported.Add(new SdkKey(code & 0xFF, extended, 0, 0));
         }
 
         return new SdkDeviceDescription(

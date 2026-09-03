@@ -141,13 +141,22 @@
   </data>
 
   <data name="StartupNoDrawing" xml:space="preserve">
-    <value>Razer Synapse zna twoją klawiaturę, ale nie przechowuje jej rysunku, a to z rysunku Keylegend bierze kształt klawiszy i ich opisy. Otwórz Synapse raz z podłączoną klawiaturą, aby pobrał rysunek, a potem uruchom Keylegend ponownie.</value>
+    <value>Razer Synapse zna twoją klawiaturę, ale nie przechowuje jej rysunku, a to z rysunku Keylegend bierze kształt klawiszy i ich opisy. Otwórz Synapse raz z podłączoną klawiaturą, aby pobrał rysunek.</value>
   </data>
 
   <data name="StartupDrawingUnreadable" xml:space="preserve">
     <value>Razer Synapse ma rysunek twojej klawiatury, ale Keylegend nie zdołał go odczytać — być może Razer zmienił format. Zgłoś to na https://github.com/Eistee82/Keylegend/issues, podając model klawiatury.</value>
   </data>
 
+  <data name="WaitingHeading" xml:space="preserve">
+    <value>Oczekiwanie na Razer Synapse</value>
+  </data>
+  <data name="WaitingRetrying" xml:space="preserve">
+    <value>Keylegend szuka dalej i sam zacznie podświetlać, gdy tylko Synapse rozpozna klawiaturę. To okno można zamknąć; Keylegend pozostaje w obszarze powiadomień.</value>
+  </data>
+  <data name="WaitingLastAttempt" xml:space="preserve">
+    <value>Ostatnia próba: {0}</value>
+  </data>
   <data name="StartupAlreadyRunning" xml:space="preserve">
     <value>Inna kopia Keylegend już działa i nie ustąpiła miejsca tej. Zakończ ją w Menedżerze zadań, a potem uruchom Keylegend ponownie.</value>
   </data>
@@ -439,6 +448,39 @@
   <data name="SettingsOpenFolderButton" xml:space="preserve">
     <value>Otwórz folder</value>
   </data>
+  <data name="SettingsEffectHeading" xml:space="preserve">
+    <value>Efekt podczas pisania</value>
+  </data>
+  <data name="SettingsEffectNote" xml:space="preserve">
+    <value>Zawsze tylko jeden. Bez efektu Keylegend nigdy nie sprawdza, które konkretne klawisze są wciśnięte — tylko czy ktoś pisze.</value>
+  </data>
+  <data name="EffectNone" xml:space="preserve">
+    <value>Brak</value>
+  </data>
+  <data name="EffectFade" xml:space="preserve">
+    <value>Wygaszanie</value>
+  </data>
+  <data name="EffectFlash" xml:space="preserve">
+    <value>Błysk</value>
+  </data>
+  <data name="EffectAfterglow" xml:space="preserve">
+    <value>Poświata</value>
+  </data>
+  <data name="EffectImpact" xml:space="preserve">
+    <value>Uderzenie</value>
+  </data>
+  <data name="EffectRipple" xml:space="preserve">
+    <value>Kropla wody</value>
+  </data>
+  <data name="EffectDarkWave" xml:space="preserve">
+    <value>Ciemna fala</value>
+  </data>
+  <data name="EffectSparks" xml:space="preserve">
+    <value>Iskry</value>
+  </data>
+  <data name="EffectHeat" xml:space="preserve">
+    <value>Ciepło</value>
+  </data>
   <data name="SettingsLanguageHeading" xml:space="preserve">
     <value>Język</value>
   </data>
@@ -468,6 +510,9 @@
   </data>
   <data name="TrayTooltipTrouble" xml:space="preserve">
     <value>Keylegend — podświetlenie nie działa</value>
+  </data>
+  <data name="TrayTooltipWaiting" xml:space="preserve">
+    <value>Keylegend — oczekiwanie na Razer Synapse</value>
   </data>
   <data name="TrayTooltipPaused" xml:space="preserve">
     <value>Keylegend — wstrzymany</value>

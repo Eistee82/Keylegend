@@ -16,4 +16,13 @@ public interface IKeyStateSource
 
     /// <summary>Whether any key is held right now, used to wake the lighting.</summary>
     bool AnyKeyDown();
+
+    /// <summary>
+    /// Which keys are held right now, by key id — what the keystroke effects are made of.
+    /// </summary>
+    /// <remarks>
+    /// Asked only while an effect is selected. With none the engine never calls it, so a source
+    /// that reads real hardware never looks at the individual keys at all.
+    /// </remarks>
+    IReadOnlyList<string> PressedKeys();
 }

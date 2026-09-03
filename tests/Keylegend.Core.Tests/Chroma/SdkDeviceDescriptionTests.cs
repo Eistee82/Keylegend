@@ -1,4 +1,5 @@
 using Keylegend.Chroma;
+using Keylegend.Core.Input;
 
 namespace Keylegend.Core.Tests.Chroma;
 
@@ -88,6 +89,9 @@ public class SdkDeviceDescriptionTests
         var device = SdkDeviceDescription.Read(DeathStalker);
 
         Assert.DoesNotContain(device!.Keys, k => k is { Scancode: 29, Row: 0, Column: 17 });
+        Assert.Contains(
+            device.Keys,
+            k => k is { Extended: false, Row: 0, Column: 17 } && k.Scancode == ScanCodes.PauseSequence);
     }
 
     [Fact]

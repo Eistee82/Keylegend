@@ -41,6 +41,15 @@ opgevraagd (`GetAsyncKeyState` voor ingedrukte modificatietoetsen, `GetKeyState`
 vergrendelingen), en wordt er alleen een nieuw beeld samengesteld als er iets veranderd is. Geen
 enkele toetsaanslag wordt ooit onderschept, doorgestuurd, gelogd of bewaard.
 
+Met een gekozen typ-effect wordt dezelfde peiling doorgetrokken tot de toetsen die het aangesloten
+bord meldt, in plaats van bij de modificatietoetsen te stoppen. Het is dezelfde vraag aan meer
+toetsen — is deze op dit moment ingedrukt — en zij wordt alleen gesteld zolang een effect gekozen
+is; zonder effect wordt naar de afzonderlijke toetsen nooit gekeken. Wat ervan blijft is weinig en
+niet blijvend: `KeyActivity` houdt bij wanneer elke toets omlaag en weer omhoog ging, en vergeet een
+toets die niemand sinds seconden heeft aangeraakt. De ene uitzondering is het hitte-effect, dat per
+toets een afnemend getal bijhoudt zolang zij afkoelt — een spoor van het getypte in het geheugen,
+nergens geschreven en met het proces voorbij.
+
 ### Linker- en rechtermodificatietoetsen
 
 Windows meldt **AltGr als Ctrl plus rechter Alt**, en op Duitse indelingen levert Ctrl + linker Alt
@@ -67,6 +76,15 @@ Dat wordt aan Razer Synapse gevraagd, want dat weet het al. Het schrijft een bes
 aangesloten apparaat naar `…\Razer Chroma SDK\Devices\<guid>.json`: het model bij naam, de
 fysieke indeling als getal, de matrixgrootte en de scancode van elke toets die de hardware
 werkelijk heeft. `SdkDeviceDescription` leest dat, en over het toetsenbord wordt niets afgeleid.
+
+Die beschrijving ontstaat wanneer Razers software opkomt en bestaat daarvoor niet, wat bij het
+aanmelden een race is die Keylegend kan verliezen: op de machine waarop dit is ontwikkeld verscheen
+het bestand vijfennegentig seconden na het opstarten van het systeem, en Keylegends eigen
+opstartvermelding ging acht seconden later af. Het zoeken ernaar is daarom geen enkele poging
+waarvan het mislukken het programma beëindigt. `AttachedKeyboardSearch` blijft zoeken — vlot zolang
+er geen apparaat wordt genoemd, met een groeiende pauze zolang alleen de tekening ontbreekt —, het
+pictogram in het systeemvak ontstaat vóór de eerste blik, en de motor wordt gebouwd zodra er een
+toetsenbord opduikt.
 
 Hoe het toetsenbord eruitziet komt uit dezelfde installatie. De interface van Synapse is een
 webtoepassing, en de tekeningen die het voor een apparaat laadt blijven in zijn cache: rechthoeken

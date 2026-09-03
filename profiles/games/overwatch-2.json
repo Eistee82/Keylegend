@@ -17,9 +17,9 @@
     "Keyboard_S": { "colour": "#FF0000", "label": "Back" },
     "Keyboard_D": { "colour": "#FF0000", "label": "Right" },
 
-    "Keyboard_LeftShift": { "colour": "#C864FF", "label": "Ability 1" },
-    "Keyboard_E": { "colour": "#C864FF", "label": "Ability 2" },
-    "Keyboard_Q": { "colour": "#C864FF", "label": "Ultimate" },
+    "Keyboard_LeftShift": { "colour": "#C800FF", "label": "Ability 1" },
+    "Keyboard_E": { "colour": "#C800FF", "label": "Ability 2" },
+    "Keyboard_Q": { "colour": "#C800FF", "label": "Ultimate" },
 
     "Keyboard_F": { "colour": "#FF8C00", "label": "Interact" },
     "Keyboard_R": { "colour": "#FF8C00", "label": "Reload" },

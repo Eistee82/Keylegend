@@ -114,6 +114,32 @@ predefinito e scartato nella migrazione; tutto il resto è una sua scelta e rest
 | Luminosità | Fattore globale da 0 a 100 %, applicato a ogni colore mentre il fotogramma viene composto. |
 | Usa i profili delle applicazioni | Se i profili vengano consultati del tutto. Disattivato, gli insiemi predefiniti valgono ovunque, qualunque cosa ci sia davanti. |
 | Avvia con Windows | Registra l'applicazione nella chiave `Run`, con l'opzione `--minimized`. Avviata così, Keylegend compare nell'area di notifica: nessuna finestra, nessun fumetto. Avviata a mano mostra sempre la finestra. Una voce scritta da una versione precedente viene aggiornata al riavvio successivo. |
+| Effetto durante la digitazione | Come l'illuminazione risponde a una pressione, *nessuno* per impostazione predefinita. Uno alla volta; gli otto sono descritti sotto. Senza effetto, Keylegend non guarda mai quali singoli tasti siano premuti, solo se si sta digitando. |
+
+### Effetti durante la digitazione
+
+Ogni effetto è una curva sul tempo trascorso da quando un tasto è stato premuto o rilasciato,
+sovrapposta all'immagine finita invece di entrare nella decisione su cosa significhi un tasto: i
+colori continuano a dire ciò che dicevano, e la tastiera nella finestra mostra la stessa cosa di
+quella sulla scrivania. Un effetto che schiarisce un tasto lo fa mescolando del bianco, fino al
+bianco puro a piena intensità — ogni colore incluso porta già un canale a 255, quindi non esiste
+un blu più luminoso. Gli effetti che si spostano ricevono la distanza da un angolo della tastiera
+all'altro, così un'onda attraversa l'intera tastiera, qualunque tastiera sia.
+
+| Effetto | Cosa succede |
+|---|---|
+| Dissolvenza | Il tasto premuto si spegne finché è tenuto e torna al suo colore in un secondo una volta rilasciato. |
+| Lampo | Il tasto premuto diventa bianco a piena intensità e ricade subito nel proprio colore, in meno di un quinto di secondo. |
+| Bagliore residuo | Il tasto premuto resta luminoso finché è tenuto e si spegne nell'arco di quasi un secondo dopo il rilascio — la scia che la digitazione lascia dietro di sé. |
+| Impatto | Il tasto premuto si accende, e i tasti intorno, fino a due altezze e mezza di tasto, rispondono un istante dopo, quelli più lontani ancora più tardi — come se la pressione avesse scosso la tastiera. Finisce in un quinto di secondo. |
+| Goccia d'acqua | Un anello di luce stretto parte dal tasto premuto verso l'esterno e svanisce lungo il percorso; attraversa la tastiera in meno di un secondo. |
+| Onda scura | Lo stesso anello, scuro: la tastiera si apre intorno alla pressione invece di accendersi con essa. |
+| Scintille | Una pressione lancia fino a tre scintille sui tasti vicini, mai sul tasto premuto. Brillano calde e si spengono entro mezzo secondo. Dove cadono è questione di caso. |
+| Calore | I tasti si scaldano a ogni pressione e si raffreddano di nuovo, perdendo metà del calore ogni quattro secondi; un tasto usato spesso brilla più caldo di uno premuto una volta. L'unico effetto che conserva qualcosa tra una pressione e l'altra, e lo conserva solo in memoria: un numero per tasto che decade e sparisce non appena il tasto è freddo. |
+
+La scelta è conservata in `settings.json` sotto `Effect`, per nome — `None`, `Fade`, `Flash`,
+`Afterglow`, `Impact`, `Ripple`, `DarkWave`, `Sparks` o `Heat`. Un nome che il programma non
+conosce significa nessun effetto.
 
 ## Lingua
 
@@ -141,6 +167,20 @@ Ciò che è tradotto sono i menu e le spiegazioni. Due cose **non** lo sono, ent
 
 Tutto ciò che non ha traduzione ricade sull'inglese, così un file di lingua incompiuto costa le
 righe che gli mancano e non l'intera interfaccia.
+
+## Se Synapse non è ancora avviato
+
+All'accesso il software di Razer e Keylegend partono insieme, e la descrizione della tastiera
+collegata non esiste finché la parte di Razer non è finita. Keylegend non lo considera un guasto. La
+sua icona è nell'area di notifica prima ancora che guardi, e poi continua a guardare: ogni due
+secondi finché nessuna tastiera è nominata, con una pausa crescente fino a mezzo minuto finché manca
+solo il disegno. L'illuminazione comincia da sola nel momento in cui c'è qualcosa da illuminare.
+
+Un avvio dalla lista di avvio automatico di Windows non apre alcuna finestra per questo: la tastiera
+davanti a te mostra se funziona, e intanto lo dice il suggerimento nell'area di notifica. Un avvio a
+mano mostra una finestrella appena il primo sguardo torna vuoto, dicendo che cosa manca e quando ha
+provato l'ultima volta. Chiudere quella finestra non cambia nulla: la ricerca prosegue e Keylegend
+resta nell'area di notifica.
 
 ## Se l'illuminazione non funziona
 

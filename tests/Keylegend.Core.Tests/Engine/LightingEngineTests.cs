@@ -2,6 +2,7 @@ using Keylegend.Chroma;
 using Keylegend.Core.Devices;
 using Keylegend.Core.Input;
 using Keylegend.Core.Lighting;
+using Keylegend.Core.Lighting.Effects;
 using Keylegend.Core.Session;
 using Keylegend.Engine;
 
@@ -63,6 +64,18 @@ public class LightingEngineTests
         public KeyboardState Read() => State;
 
         public bool AnyKeyDown() => Down;
+
+        /// <summary>Which keys are down, for the tests that drive a keystroke effect.</summary>
+        public IReadOnlyList<string> Pressed { get; set; } = [];
+
+        /// <summary>How often anyone asked which keys are down, rather than merely whether any are.</summary>
+        public int NamedKeysAsked { get; private set; }
+
+        public IReadOnlyList<string> PressedKeys()
+        {
+            NamedKeysAsked++;
+            return Pressed;
+        }
     }
 
     private sealed class FakeResolver : IKeyResolver
@@ -247,5 +260,118 @@ public class LightingEngineTests
 
         // A settings change must not silently resume a paused engine.
         Assert.Equal(LightingState.Paused, engine.State);
+    }
+
+    // ------------------------------------------------------- keystroke effects
+
+    /// <summary>
+    /// The promise the setting carries: with no effect chosen, the individual keys are never
+    /// looked at. Not "looked at and ignored" — never asked for.
+    /// </summary>
+    [Fact]
+    public async Task NeverAsksWhichKeysAreDownWithoutAnEffect()
+    {
+        var chroma = new FakeChroma();
+        var keys = new FakeKeys();
+        var engine = new LightingEngine(Keyboard(), chroma, keys, new FakeResolver());
+
+        await RunUntilAsync(engine, () => chroma.FramesSent > 2, "some frames to be sent",
+            () => { keys.Down = true; keys.Pressed = ["Keyboard_A"]; });
+
+        Assert.Equal(0, keys.NamedKeysAsked);
+    }
+
+    [Fact]
+    public async Task AsksWhichKeysAreDownOnceAnEffectIsChosen()
+    {
+        var chroma = new FakeChroma();
+        var keys = new FakeKeys();
+        var engine = new LightingEngine(Keyboard(), chroma, keys, new FakeResolver())
+        {
+            Settings = new EngineSettings { Effect = KeyEffectKind.Fade }
+        };
+
+        await RunUntilAsync(engine, () => keys.NamedKeysAsked > 0, "the keys to be named",
+            () => { keys.Down = true; keys.Pressed = ["Keyboard_A"]; });
+
+        Assert.True(keys.NamedKeysAsked > 0);
+    }
+
+    /// <summary>
+    /// The whole point, end to end: a held key is dark under the fade, while the composer on its
+    /// own would have lit it.
+    /// </summary>
+    [Fact]
+    public async Task LaysTheChosenEffectOverTheComposedFrame()
+    {
+        var chroma = new FakeChroma();
+        var keys = new FakeKeys();
+        var engine = new LightingEngine(Keyboard(), chroma, keys, new FakeResolver())
+        {
+            Settings = new EngineSettings { Effect = KeyEffectKind.Fade }
+        };
+
+        LedFrame? seen = null;
+        engine.FrameComposed += frame => seen = frame;
+
+        await RunUntilAsync(
+            engine,
+            () => seen is not null && seen[3, 2] == RgbColor.Off,
+            "the held key to be dark",
+            () => { keys.Down = true; keys.Pressed = ["Keyboard_A"]; });
+
+        Assert.NotNull(seen);
+        Assert.Equal(RgbColor.Off, seen[3, 2]);
+    }
+
+    /// <summary>
+    /// Without an effect the same key is lit — otherwise the test above would prove nothing
+    /// about the effect and everything about an unlucky colour scheme.
+    /// </summary>
+    [Fact]
+    public async Task LeavesTheKeyLitWhenNoEffectIsChosen()
+    {
+        var chroma = new FakeChroma();
+        var keys = new FakeKeys();
+        var engine = new LightingEngine(Keyboard(), chroma, keys, new FakeResolver());
+
+        LedFrame? seen = null;
+        engine.FrameComposed += frame => seen = frame;
+
+        await RunUntilAsync(engine, () => seen is not null, "a frame",
+            () => { keys.Down = true; keys.Pressed = ["Keyboard_A"]; });
+
+        Assert.NotNull(seen);
+        Assert.NotEqual(RgbColor.Off, seen[3, 2]);
+    }
+
+    /// <summary>
+    /// A fade is a change nothing else reports: the keyboard state does not move while it runs,
+    /// so without a rate of its own the picture would jump from dark to lit in one step at the
+    /// next insurance frame.
+    /// </summary>
+    [Fact]
+    public async Task KeepsSendingWhileAnEffectIsStillMoving()
+    {
+        var chroma = new FakeChroma();
+        var keys = new FakeKeys();
+        var engine = new LightingEngine(Keyboard(), chroma, keys, new FakeResolver())
+        {
+            Settings = new EngineSettings { Effect = KeyEffectKind.Fade }
+        };
+
+        // Held for a moment, then let go: the fade runs for a second afterwards.
+        await RunUntilAsync(
+            engine,
+            () => chroma.FramesSent > 8,
+            "the fade to be sent as it runs",
+            () =>
+            {
+                keys.Down = true;
+                keys.Pressed = ["Keyboard_A"];
+                Task.Delay(80).ContinueWith(_ => { keys.Down = false; keys.Pressed = []; });
+            });
+
+        Assert.True(chroma.FramesSent > 8, $"only {chroma.FramesSent} frames");
     }
 }

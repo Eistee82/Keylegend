@@ -41,6 +41,14 @@ modificadores mantenidos, `GetKeyState` para los bloqueos) unas sesenta veces po
 se compone un fotograma nuevo cuando algo ha cambiado. Ninguna pulsación se intercepta, se
 reenvía, se registra ni se guarda jamás.
 
+Con un efecto de escritura elegido, el mismo sondeo se lleva hasta las teclas que informa el teclado
+conectado, en vez de detenerse en los modificadores. Es la misma pregunta hecha a más teclas —¿está
+esta pulsada en este momento?— y solo se hace mientras hay un efecto elegido; sin ninguno, las
+teclas concretas nunca se miran. Lo que queda es poco y no dura: `KeyActivity` guarda cuándo bajó y
+subió cada tecla, y olvida una tecla que nadie ha tocado desde hace segundos. La única excepción es
+el efecto de calor, que mantiene por tecla un número que decae mientras tarda en enfriarse: un
+rastro de lo escrito en memoria, no escrito en ningún sitio y perdido con el proceso.
+
 ### Modificadores izquierdo y derecho
 
 Windows informa de **Alt Gr como Ctrl más Alt derecho**, y en las distribuciones alemanas
@@ -67,6 +75,15 @@ Se le pregunta a Razer Synapse, porque ya lo sabe. Escribe una descripción de c
 conectado en `…\Razer Chroma SDK\Devices\<guid>.json`: el modelo por su nombre, la distribución
 física como número, el tamaño de la matriz y el código de escaneo de cada tecla que el hardware
 tiene realmente. `SdkDeviceDescription` lee eso, y del teclado no se deduce nada.
+
+Esa descripción se escribe cuando arranca el software de Razer y antes no existe, lo que al iniciar
+sesión es una carrera que Keylegend puede perder: en la máquina donde se desarrolló esto, el archivo
+apareció noventa y cinco segundos después del arranque del sistema, y la entrada de inicio de
+Keylegend se disparó ocho segundos más tarde. Por eso buscarlo no es un único intento cuyo fracaso
+termine el programa. `AttachedKeyboardSearch` sigue buscando —con brío mientras no se nombra ningún
+dispositivo, con una pausa creciente mientras solo falta el dibujo—, el icono del área de
+notificación se crea antes de la primera mirada, y el motor se construye en cuanto aparece un
+teclado.
 
 El aspecto del teclado viene de la misma instalación. La interfaz de Synapse es una aplicación web,
 y los dibujos que carga para un dispositivo quedan en su caché: rectángulos de teclas con nombre,

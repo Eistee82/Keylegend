@@ -16,12 +16,12 @@
     "Keyboard_Z": { "colour": "#00C8FF", "label": "Magic wand" },
     "Keyboard_Q": { "colour": "#00C8FF", "label": "Lasso" },
 
-    "Keyboard_P": { "colour": "#22CC66", "label": "Pen" },
-    "Keyboard_T": { "colour": "#22CC66", "label": "Type" },
-    "Keyboard_B": { "colour": "#22CC66", "label": "Paintbrush" },
-    "Keyboard_N": { "colour": "#22CC66", "label": "Pencil" },
-    "Keyboard_M": { "colour": "#22CC66", "label": "Rectangle" },
-    "Keyboard_L": { "colour": "#22CC66", "label": "Ellipse" },
+    "Keyboard_P": { "colour": "#00FF64", "label": "Pen" },
+    "Keyboard_T": { "colour": "#00FF64", "label": "Type" },
+    "Keyboard_B": { "colour": "#00FF64", "label": "Paintbrush" },
+    "Keyboard_N": { "colour": "#00FF64", "label": "Pencil" },
+    "Keyboard_M": { "colour": "#00FF64", "label": "Rectangle" },
+    "Keyboard_L": { "colour": "#00FF64", "label": "Ellipse" },
 
     "Keyboard_E": { "colour": "#FFC800", "label": "Free transform" },
     "Keyboard_R": { "colour": "#FFC800", "label": "Rotate" },

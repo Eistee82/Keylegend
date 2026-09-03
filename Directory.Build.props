@@ -6,7 +6,7 @@
     what a local build stamps.
   -->
   <PropertyGroup>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
     <Product>Keylegend</Product>
     <Company>Keylegend contributors</Company>
     <Copyright>Copyright (c) 2026 Keylegend contributors</Copyright>
