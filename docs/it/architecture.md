@@ -41,6 +41,15 @@ modificatori tenuti premuti, `GetKeyState` per i blocchi) circa sessanta volte a
 nuovo fotogramma viene composto solo se qualcosa è cambiato. Nessuna battuta viene mai
 intercettata, inoltrata, registrata o conservata.
 
+Con un effetto di digitazione scelto, lo stesso sondaggio arriva fino ai tasti che la tastiera
+collegata dichiara, invece di fermarsi ai modificatori. È la stessa domanda posta a più tasti —
+questo è premuto in questo momento? — e viene posta solo finché un effetto è scelto; senza, i
+singoli tasti non vengono mai guardati. Quel che ne resta è poco e non dura: `KeyActivity` tiene
+quando ogni tasto è sceso e risalito, e dimentica un tasto che nessuno tocca da qualche secondo.
+L'unica eccezione è l'effetto calore, che tiene per tasto un numero che decade finché non si
+raffredda — una traccia della digitazione in memoria, scritta da nessuna parte e finita con il
+processo.
+
 ### Modificatori sinistro e destro
 
 Windows segnala **Alt Gr come Ctrl più Alt destro**, e sui layout tedeschi Ctrl + Alt sinistro
@@ -68,6 +77,14 @@ Lo si chiede a Razer Synapse, perché lo sa già. Scrive una descrizione di ogni
 in `…\Razer Chroma SDK\Devices\<guid>.json`: il modello per nome, la disposizione fisica come
 numero, la dimensione della matrice e il codice di scansione di ogni tasto che l'hardware ha
 davvero. `SdkDeviceDescription` legge quello, e della tastiera non si deduce nulla.
+
+Questa descrizione viene scritta quando il software di Razer si avvia e prima non esiste, il che
+all'accesso è una corsa che Keylegend può perdere: sulla macchina su cui è stato sviluppato, il file
+è comparso novantacinque secondi dopo l'avvio del sistema e la voce di avvio automatico di Keylegend
+è scattata otto secondi dopo. Cercarla non è quindi un tentativo unico il cui fallimento chiude il
+programma. `AttachedKeyboardSearch` continua a cercare — di frequente finché nessun dispositivo è
+nominato, con una pausa crescente finché manca solo il disegno —, l'icona nell'area di notifica
+nasce prima del primo sguardo, e il motore viene costruito non appena una tastiera compare.
 
 Come è fatta la tastiera viene dalla stessa installazione. L'interfaccia di Synapse è
 un'applicazione web, e i disegni che carica per un dispositivo restano nella sua cache: rettangoli

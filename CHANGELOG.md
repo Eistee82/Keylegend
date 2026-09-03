@@ -9,6 +9,58 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Nothing yet.
 
+## [1.2.0] — 2026-09-03
+
+### Added
+- **The lighting can answer the typing.** A new setting, *Effect while typing*, with eight to
+  choose from and *none* as the default: **Fade** (the struck key goes dark and comes back over a
+  second), **Flash**, **Afterglow**, **Impact** (the stroke shakes the keys around it), **Water
+  drop**, **Dark wave**, **Sparks** and **Heat** (keys warm as they are used and cool down again).
+  One at a time. Each is a curve over the time since a press or a release, laid over the finished
+  frame rather than mixed into the decision about what a key means — so the colours still say what
+  they said, and the keyboard in the window shows the same thing as the one on the desk. An effect
+  that brightens a key does it by mixing white in, up to white at full brightness: the shipped
+  palette already runs a channel at 255 on every colour, so there is no brighter blue to go to.
+  The waves are given the distance from one corner of the board to the other to travel, so a drop
+  sweeps the whole keyboard whatever keyboard it is
+- Choosing an effect is also what makes Keylegend look at the individual keys at all. With *none*
+  chosen — the default — it asks only whether anybody is typing, exactly as before. Still no
+  keyboard hook: it reads whether a key is down at this moment, and never intercepts, forwards or
+  records a keystroke. The heat effect is the one that keeps anything, and keeps it in memory
+  only: a decaying number per key for as long as it takes to cool
+
+### Fixed
+- **Two profile colours read as a tinted white and have been replaced.** The colour for abilities
+  in fourteen games and the one for building in eight sat at 0.61 saturation, and both were used
+  beside the grey that marks menu keys — on a lit keycap that pair reads as pink next to white
+  rather than as two meanings. They are now a saturated violet and a saturated green. The same
+  pass took the last two dim colours out of the application profiles, so every colour a profile
+  can show is fully saturated and drives a channel to 255, with the one grey left to mean grey.
+  Two tests hold the rule, which the existing check could not: it compared a highlight with the
+  colour the key carries anyway, never with the other highlights beside it
+- **The keyboard in the window keeps up with the one on the desk.** Turning a layer on changed the
+  hardware at once and the picture about a third of a second later, which read as the window
+  lagging behind the keyboard — and it was. The printed legends arrive from Razer as one path for
+  the whole board, and every key was handed that whole path under a clip so it could paint its own
+  characters in its own colour. A clip saves the renderer nothing: the path is rasterised in full
+  and the result thrown away outside it, so one frame meant a hundred and five passes over tens of
+  thousands of segments, and twice that for lit keys, whose glow is a second pass with a wide pen.
+  None of it showed in the program's own timings, because that cost falls on the rendering thread
+  after `OnRender` has recorded the instructions and gone home. The path is now cut into one shape
+  per key once, when the drawing is read. Measured: 300 ms to 33 ms, with the first picture after a
+  start arriving sooner as well, and the same pixels on screen
+- **Keylegend now starts before Razer Synapse does.** At logon the two come up together, and
+  Synapse writes its description of the attached keyboard only once it is ready — measured here,
+  ninety-five seconds after the system started, with Keylegend's own startup entry firing eight
+  seconds later. Keylegend used to look once, and a look that came up empty ended it: an error
+  message that nobody could see behind everything else on a fresh desktop, or a process sitting
+  there with nothing in the notification area. It waits now. The icon appears before the first
+  look and stays through the whole wait, the search repeats — every two seconds while no keyboard
+  is named, backing off to half a minute while only the drawing is missing — and the lighting
+  starts by itself the moment there is a keyboard to light. A start from the startup list opens no
+  window for this; a start by hand shows a small one saying what is missing and when it last
+  tried, and closing it changes nothing
+
 ## [1.1.0] — 2026-08-26
 
 Keylegend no longer carries its own description of your keyboard. Razer Synapse already holds one —

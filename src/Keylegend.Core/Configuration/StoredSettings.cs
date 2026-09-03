@@ -47,6 +47,17 @@ public sealed record StoredSettings
     /// </remarks>
     public string Language { get; init; } = "Automatic";
 
+    /// <summary>
+    /// How the lighting answers the typing: <c>None</c>, <c>Fade</c>, <c>Ripple</c> and the rest
+    /// of <see cref="Lighting.Effects.KeyEffectKind"/>. Stored by name for the same reason as the
+    /// language — a hand-edited file stays readable, and adding an effect renumbers nothing.
+    /// </summary>
+    /// <remarks>
+    /// <c>None</c> is the default, and is more than "an effect that does nothing": it is the one
+    /// setting in which the program never asks which individual keys are down.
+    /// </remarks>
+    public string Effect { get; init; } = "None";
+
     /// <summary>Category name → <c>#RRGGBB</c>.</summary>
     public Dictionary<string, string> CategoryColours { get; init; } = [];
 
@@ -101,7 +112,8 @@ public sealed record StoredSettings
         bool useApplicationProfiles,
         ShortcutCatalogue? shortcuts = null,
         string? language = null,
-        bool handBackWhenIdle = true)
+        bool handBackWhenIdle = true,
+        Lighting.Effects.KeyEffectKind effect = Lighting.Effects.KeyEffectKind.None)
     {
         ArgumentNullException.ThrowIfNull(scheme);
         ArgumentNullException.ThrowIfNull(profiles);
@@ -118,6 +130,7 @@ public sealed record StoredSettings
             StartWithWindows = startWithWindows,
             UseApplicationProfiles = useApplicationProfiles,
             Language = language ?? "Automatic",
+            Effect = effect.ToString(),
             CategoryColours = Changed(scheme.Categories, ColourScheme.Default.Categories),
             GroupColours = Changed(scheme.Groups, ColourScheme.Default.Groups),
             LockColours = new Dictionary<string, StoredLockColours>
@@ -365,6 +378,19 @@ public sealed record StoredSettings
     /// </summary>
     public TimeSpan ToIdleTimeout()
         => HandBackWhenIdle ? ToIdlePeriod() : Session.SessionManager.Never;
+
+    /// <summary>
+    /// The keystroke effect this file asks for.
+    /// </summary>
+    /// <remarks>
+    /// An unknown name falls back to no effect rather than refusing to start. That is the safe
+    /// direction: a hand-edited or older file loses the effect, not the lighting — and "None" is
+    /// also the setting that asks least of the machine and of the user's keyboard.
+    /// </remarks>
+    public Lighting.Effects.KeyEffectKind ToKeyEffect()
+        => Enum.TryParse<Lighting.Effects.KeyEffectKind>(Effect, ignoreCase: true, out var kind)
+            ? kind
+            : Lighting.Effects.KeyEffectKind.None;
 
     /// <summary>
     /// The configured period, regardless of whether the hand-back is switched on. The interface

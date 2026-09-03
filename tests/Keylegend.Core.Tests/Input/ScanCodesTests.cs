@@ -37,6 +37,21 @@ public class ScanCodesTests
         Assert.Equal(0x56, code);
     }
 
+    /// <summary>
+    /// Pause is the one key that arrives as an <c>E1</c> sequence. Its code must carry that
+    /// prefix, or it collapses onto Num Lock, whose plain <c>0x45</c> it otherwise shares.
+    /// </summary>
+    [Fact]
+    public void PauseDoesNotShareNumLocksCode()
+    {
+        Assert.True(ScanCodes.TryGet("Keyboard_PauseBreak", out var pause));
+        Assert.True(ScanCodes.TryGet("Keyboard_NumLock", out var numLock));
+
+        Assert.Equal(ScanCodes.PauseSequence, pause);
+        Assert.Equal(0x45, numLock);
+        Assert.NotEqual(pause, numLock);
+    }
+
     [Fact]
     public void UnknownKeysReturnFalseRatherThanThrowing()
     {

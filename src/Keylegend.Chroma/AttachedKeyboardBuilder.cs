@@ -550,9 +550,9 @@ public static class AttachedKeyboardBuilder
     /// <remarks>
     /// The profile's own <c>scanCode</c> wins, because a physical layout can disagree with the
     /// US-based key naming. Asking per key rather than translating the reported codes back into
-    /// names matters: several keys share a code — the ISO <c>#</c> sits where ANSI has the
-    /// backslash, and Pause shares Num Lock's — so the reverse direction is ambiguous and would
-    /// silently drop whichever key it did not pick.
+    /// names matters: keys can share a code — the ISO <c>#</c> sits where ANSI has the
+    /// backslash — so the reverse direction is ambiguous and would silently drop whichever key
+    /// it did not pick.
     /// </remarks>
     internal static ushort? ScanCodeOf(KeyDefinition key)
     {

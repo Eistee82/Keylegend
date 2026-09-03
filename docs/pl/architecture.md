@@ -39,6 +39,15 @@ modyfikatorów, `GetKeyState` dla blokad) około sześćdziesiąt razy na sekund
 powstaje tylko wtedy, gdy coś się zmieniło. Żadne naciśnięcie nigdy nie jest przechwytywane,
 przekazywane, zapisywane w dzienniku ani przechowywane.
 
+Przy wybranym efekcie pisania to samo odpytywanie sięga aż do klawiszy, które zgłasza podłączona
+klawiatura, zamiast kończyć się na modyfikatorach. To to samo pytanie zadane większej liczbie
+klawiszy — czy ten jest w tej chwili wciśnięty — i zadaje się je tylko wtedy, gdy efekt jest
+wybrany; bez efektu na poszczególne klawisze nigdy się nie patrzy. To, co z tego zostaje, jest
+niewielkie i nietrwałe: `KeyActivity` pamięta, kiedy każdy klawisz opadł i wrócił, i zapomina
+klawisz, którego nikt nie tknął od kilku sekund. Jedynym wyjątkiem jest efekt ciepła, który trzyma
+na klawisz gasnącą liczbę, dopóki ten nie ostygnie — ślad pisania w pamięci, nigdzie niezapisany i
+przemijający z procesem.
+
 ### Modyfikatory lewe i prawe
 
 Windows zgłasza **AltGr jako Ctrl plus prawy Alt**, a w układach niemieckich Ctrl + lewy Alt daje
@@ -63,6 +72,14 @@ układ klawiatury działa bez zmian.
 Pyta się o to Razer Synapse, bo już to wie. Zapisuje opis każdego podłączonego urządzenia do
 `…\Razer Chroma SDK\Devices\<guid>.json`: model z nazwy, układ fizyczny jako liczbę, rozmiar
 macierzy i skan-kod każdego klawisza, który sprzęt naprawdę ma. `SdkDeviceDescription` to czyta, a o klawiaturze nic nie jest wywnioskowane.
+
+Ten opis powstaje, gdy podnosi się oprogramowanie Razera, a wcześniej go nie ma — przy logowaniu
+jest to wyścig, który Keylegend może przegrać: na maszynie, na której to powstawało, plik pojawił
+się dziewięćdziesiąt pięć sekund po starcie systemu, a własny wpis autostartu Keylegend zadziałał
+osiem sekund później. Szukanie go nie jest więc pojedynczą próbą, której niepowodzenie kończy
+program. `AttachedKeyboardSearch` szuka dalej — żwawo, dopóki żadne urządzenie nie jest wymienione,
+z rosnącą przerwą, dopóki brakuje tylko rysunku — ikona w obszarze powiadomień powstaje przed
+pierwszym spojrzeniem, a silnik jest budowany, gdy tylko klawiatura się pojawi.
 
 Jak klawiatura wygląda, pochodzi z tej samej instalacji. Interfejs Synapse to aplikacja
 internetowa, a rysunki, które wczytuje dla urządzenia, zostają w jej pamięci podręcznej:

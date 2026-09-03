@@ -141,13 +141,22 @@
   </data>
 
   <data name="StartupNoDrawing" xml:space="preserve">
-    <value>Razer Synapse знает вашу клавиатуру, но не хранит её чертёж, а именно из него Keylegend берёт форму клавиш и нанесённые на них символы. Откройте Synapse один раз с подключённой клавиатурой, чтобы он загрузил чертёж, и запустите Keylegend снова.</value>
+    <value>Razer Synapse знает вашу клавиатуру, но не хранит её чертёж, а именно из него Keylegend берёт форму клавиш и нанесённые на них символы. Откройте Synapse один раз с подключённой клавиатурой, чтобы он загрузил чертёж.</value>
   </data>
 
   <data name="StartupDrawingUnreadable" xml:space="preserve">
     <value>У Razer Synapse есть чертёж вашей клавиатуры, но Keylegend не смог его разобрать — возможно, Razer изменил формат. Сообщите об этом на https://github.com/Eistee82/Keylegend/issues, указав модель клавиатуры.</value>
   </data>
 
+  <data name="WaitingHeading" xml:space="preserve">
+    <value>Ожидание Razer Synapse</value>
+  </data>
+  <data name="WaitingRetrying" xml:space="preserve">
+    <value>Keylegend продолжает искать и сам начнёт подсветку, как только Synapse увидит клавиатуру. Это окно можно закрыть — Keylegend останется в области уведомлений.</value>
+  </data>
+  <data name="WaitingLastAttempt" xml:space="preserve">
+    <value>Последняя попытка: {0}</value>
+  </data>
   <data name="StartupAlreadyRunning" xml:space="preserve">
     <value>Уже работает другая копия Keylegend, и она не уступила место этой. Завершите её в диспетчере задач и запустите Keylegend снова.</value>
   </data>
@@ -439,6 +448,39 @@
   <data name="SettingsOpenFolderButton" xml:space="preserve">
     <value>Открыть папку</value>
   </data>
+  <data name="SettingsEffectHeading" xml:space="preserve">
+    <value>Эффект при наборе</value>
+  </data>
+  <data name="SettingsEffectNote" xml:space="preserve">
+    <value>Только один за раз. Без эффекта Keylegend никогда не смотрит, какие именно клавиши нажаты, — только печатает ли кто-нибудь.</value>
+  </data>
+  <data name="EffectNone" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="EffectFade" xml:space="preserve">
+    <value>Затухание</value>
+  </data>
+  <data name="EffectFlash" xml:space="preserve">
+    <value>Вспышка</value>
+  </data>
+  <data name="EffectAfterglow" xml:space="preserve">
+    <value>Послесвечение</value>
+  </data>
+  <data name="EffectImpact" xml:space="preserve">
+    <value>Удар</value>
+  </data>
+  <data name="EffectRipple" xml:space="preserve">
+    <value>Капля воды</value>
+  </data>
+  <data name="EffectDarkWave" xml:space="preserve">
+    <value>Тёмная волна</value>
+  </data>
+  <data name="EffectSparks" xml:space="preserve">
+    <value>Искры</value>
+  </data>
+  <data name="EffectHeat" xml:space="preserve">
+    <value>Тепло</value>
+  </data>
   <data name="SettingsLanguageHeading" xml:space="preserve">
     <value>Язык</value>
   </data>
@@ -468,6 +510,9 @@
   </data>
   <data name="TrayTooltipTrouble" xml:space="preserve">
     <value>Keylegend — подсветка не работает</value>
+  </data>
+  <data name="TrayTooltipWaiting" xml:space="preserve">
+    <value>Keylegend — ожидание Razer Synapse</value>
   </data>
   <data name="TrayTooltipPaused" xml:space="preserve">
     <value>Keylegend — приостановлено</value>

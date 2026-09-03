@@ -14,7 +14,7 @@
     "Keyboard_F5": { "colour": "#FF8C00", "label": "Copy files" },
     "Keyboard_F6": { "colour": "#FF8C00", "label": "Rename or move files" },
     "Keyboard_F7": { "colour": "#FF8C00", "label": "Create directory" },
-    "Keyboard_F8": { "colour": "#FF3232", "label": "Delete files" },
+    "Keyboard_F8": { "colour": "#FF0000", "label": "Delete files" },
 
     "Keyboard_F2": { "colour": "#B4B4B4", "label": "Reread source panel" },
     "Keyboard_F3": { "colour": "#B4B4B4", "label": "View file" },

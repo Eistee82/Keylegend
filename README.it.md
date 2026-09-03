@@ -5,7 +5,7 @@
 [English](README.md) · [Deutsch](README.de.md) · [Español](README.es.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Nederlands](README.nl.md) ·
 [Polski](README.pl.md) · [Português](README.pt.md) · [Русский](README.ru.md) · [Українська](README.uk.md) · [简体中文](README.zh-cn.md)
 
-> **Versione 1.1.0.** Illuminazione, interfaccia, rilevamento dei giochi e profili delle
+> **Versione 1.2.0.** Illuminazione, interfaccia, rilevamento dei giochi e profili delle
 > applicazioni funzionano. [Scarica l'installatore o la copia portatile](https://github.com/Eistee82/Keylegend/releases/latest),
 > oppure compila dai sorgenti. Vedi [CHANGELOG.md](CHANGELOG.md).
 
@@ -39,6 +39,11 @@ nell'istante in cui cambia il suo significato:
   programma prevale sul profilo di gioco generale. Modificane uno e solo la parte modificata
   smette di seguire la versione inclusa; il resto continua a migliorare con le versioni
   successive.
+- **L'illuminazione può rispondere alla digitazione.** Otto effetti tra cui scegliere, *nessuno*
+  per impostazione predefinita: il tasto premuto si spegne e torna, lampeggia o resta acceso, una
+  goccia d'acqua o un'onda scura attraversa la tastiera, i tasti intorno tremano, volano
+  scintille, oppure i tasti si scaldano con l'uso e si raffreddano di nuovo. Sovrapposto ai
+  colori, non mescolato a essi: ogni tasto continua a dire ciò che significa.
 - **Restituisce l'illuminazione.** Dopo un periodo di inattività configurabile (60 s
   predefiniti), Keylegend rilascia la tastiera e il tuo effetto di Chroma Studio riprende il
   comando.
@@ -57,9 +62,11 @@ Keylegend chiede a Windows quale carattere produrrebbe ogni tasto nello stato at
 tastiera (`ToUnicodeEx`), ne ricava una categoria e invia la mappa di colori risultante all'SDK
 Razer Chroma attraverso la sua interfaccia REST locale.
 
-Deliberatamente **non** installa alcun hook globale della tastiera. Legge soltanto lo *stato* dei
-modificatori e dei blocchi; non intercetta, non inoltra e non registra mai una battuta. Vedi
-[docs/it/architecture.md](docs/it/architecture.md).
+Deliberatamente **non** installa alcun hook globale della tastiera. Legge *stati* — se un tasto è
+premuto in questo momento — e non intercetta, non inoltra e non registra mai una battuta. Senza un
+effetto di digitazione scelto guarda solo lo stato dei modificatori e dei blocchi; un effetto chiede
+in più quali tasti di questa tastiera siano premuti, e nulla oltre.
+Vedi [docs/it/architecture.md](docs/it/architecture.md).
 
 ## Requisiti
 
@@ -81,8 +88,8 @@ resta nulla da installare a mano. Altrimenti, prendi un file:
 
 | File | Che cos'è |
 |---|---|
-| `Keylegend-1.1.0-setup.exe` | Si installa per l'utente corrente — nessun diritto di amministratore. Voce nel menu Start, e una disinstallazione che rimuove anche la voce di avvio automatico. |
-| `Keylegend-1.1.0-portable.zip` | Lo stesso programma, da estrarre. Tieni le cartelle delle lingue (`de`, `fr`, …) accanto all'eseguibile, altrimenti l'interfaccia torna all'inglese. |
+| `Keylegend-1.2.0-setup.exe` | Si installa per l'utente corrente — nessun diritto di amministratore. Voce nel menu Start, e una disinstallazione che rimuove anche la voce di avvio automatico. |
+| `Keylegend-1.2.0-portable.zip` | Lo stesso programma, da estrarre. Tieni le cartelle delle lingue (`de`, `fr`, …) accanto all'eseguibile, altrimenti l'interfaccia torna all'inglese. |
 
 Nessuno dei due è firmato, quindi Windows dichiarerà sconosciuto l'autore: un certificato costa
 all'anno più di quanto questo progetto abbia. Ogni versione porta `SHA256SUMS.txt` per verificare

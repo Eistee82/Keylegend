@@ -5,7 +5,7 @@
 [English](README.md) · [Deutsch](README.de.md) · [Español](README.es.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Nederlands](README.nl.md) ·
 [Polski](README.pl.md) · [Português](README.pt.md) · [Русский](README.ru.md) · [Українська](README.uk.md) · [简体中文](README.zh-cn.md)
 
-> **Versão 1.1.0.** A iluminação, a interface, a deteção de jogos e os perfis de aplicação
+> **Versão 1.2.0.** A iluminação, a interface, a deteção de jogos e os perfis de aplicação
 > funcionam. [Descarrega o instalador ou a cópia portátil](https://github.com/Eistee82/Keylegend/releases/latest),
 > ou compila a partir do código. Ver [CHANGELOG.md](CHANGELOG.md).
 
@@ -38,6 +38,11 @@ que o seu significado muda:
   Elden Ring e os restantes aplicam-se assim que o programa tem o foco, e um perfil que nomeia um
   programa prevalece sobre o perfil de jogo geral. Edita um e só a parte editada deixa de seguir
   a versão incluída; o resto continua a melhorar com as versões seguintes.
+- **A iluminação pode responder à escrita.** Oito efeitos à escolha, *nenhum* por predefinição: a
+  tecla premida apaga-se e volta, dá um clarão ou continua acesa, uma gota de água ou uma onda
+  escura percorre o teclado, as teclas à volta tremem, saltam faíscas, ou as teclas aquecem com o
+  uso e voltam a arrefecer. Sobreposto às cores, não misturado com elas: cada tecla continua a
+  dizer o que significa.
 - **Devolve a iluminação.** Passado um período de inatividade configurável (60 s por
   predefinição), o Keylegend liberta o teclado e o teu efeito do Chroma Studio volta a assumir.
 - **Onze idiomas.** Inglês, alemão, espanhol, francês, italiano, neerlandês, polaco, português,
@@ -55,9 +60,11 @@ O Keylegend pergunta ao Windows que caráter cada tecla produziria no estado atu
 (`ToUnicodeEx`), deriva daí uma categoria e envia o mapa de cores resultante para o SDK Razer
 Chroma através da sua interface REST local.
 
-Deliberadamente **não** instala qualquer hook global de teclado. Lê apenas o *estado* dos
-modificadores e dos bloqueios; nunca interceta, reencaminha ou regista uma tecla premida. Ver
-[docs/pt/architecture.md](docs/pt/architecture.md).
+Deliberadamente **não** instala qualquer hook global de teclado. Lê *estados* — se uma tecla está
+premida neste momento — e nunca interceta, reencaminha ou regista uma tecla premida. Sem efeito de
+escrita escolhido olha apenas para o estado dos modificadores e dos bloqueios; um efeito pergunta
+além disso que teclas deste teclado estão premidas, e nada mais.
+Ver [docs/pt/architecture.md](docs/pt/architecture.md).
 
 ## Requisitos
 
@@ -79,8 +86,8 @@ nada por instalar à mão. Caso contrário, escolhe um ficheiro:
 
 | Ficheiro | O que é |
 |---|---|
-| `Keylegend-1.1.0-setup.exe` | Instala para o utilizador atual — sem direitos de administrador. Entrada no menu Iniciar, e uma desinstalação que remove também a entrada de arranque automático. |
-| `Keylegend-1.1.0-portable.zip` | O mesmo programa, para extrair. Mantém as pastas de idioma (`de`, `fr`, …) ao lado do executável, caso contrário a interface volta ao inglês. |
+| `Keylegend-1.2.0-setup.exe` | Instala para o utilizador atual — sem direitos de administrador. Entrada no menu Iniciar, e uma desinstalação que remove também a entrada de arranque automático. |
+| `Keylegend-1.2.0-portable.zip` | O mesmo programa, para extrair. Mantém as pastas de idioma (`de`, `fr`, …) ao lado do executável, caso contrário a interface volta ao inglês. |
 
 Nenhum está assinado, por isso o Windows dirá que o editor é desconhecido — um certificado custa
 por ano mais do que este projeto tem. Cada versão traz `SHA256SUMS.txt` para verificar a

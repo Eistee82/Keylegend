@@ -141,13 +141,22 @@
   </data>
 
   <data name="StartupNoDrawing" xml:space="preserve">
-    <value>Razer Synapse connaît votre clavier mais n'en conserve aucun dessin, et c'est de ce dessin que Keylegend tire la forme des touches et les caractères imprimés dessus. Ouvrez Synapse une fois avec le clavier branché pour qu'il le récupère, puis relancez Keylegend.</value>
+    <value>Razer Synapse connaît votre clavier mais n'en conserve aucun dessin, et c'est de ce dessin que Keylegend tire la forme des touches et les caractères imprimés dessus. Ouvrez Synapse une fois avec le clavier branché pour qu'il le récupère.</value>
   </data>
 
   <data name="StartupDrawingUnreadable" xml:space="preserve">
     <value>Razer Synapse possède un dessin de votre clavier, mais Keylegend n'a pas su le lire : Razer a peut-être changé le format. Merci de le signaler sur https://github.com/Eistee82/Keylegend/issues en indiquant le modèle de votre clavier.</value>
   </data>
 
+  <data name="WaitingHeading" xml:space="preserve">
+    <value>En attente de Razer Synapse</value>
+  </data>
+  <data name="WaitingRetrying" xml:space="preserve">
+    <value>Keylegend continue de chercher et commence à éclairer de lui-même dès que Synapse a le clavier. Vous pouvez fermer cette fenêtre ; Keylegend reste dans la zone de notification.</value>
+  </data>
+  <data name="WaitingLastAttempt" xml:space="preserve">
+    <value>Dernière tentative : {0}</value>
+  </data>
   <data name="StartupAlreadyRunning" xml:space="preserve">
     <value>Une autre copie de Keylegend est déjà en cours d'exécution et n'a pas laissé la place à celle-ci. Fermez-la dans le Gestionnaire des tâches, puis relancez Keylegend.</value>
   </data>
@@ -439,6 +448,39 @@
   <data name="SettingsOpenFolderButton" xml:space="preserve">
     <value>Ouvrir le dossier</value>
   </data>
+  <data name="SettingsEffectHeading" xml:space="preserve">
+    <value>Effet pendant la frappe</value>
+  </data>
+  <data name="SettingsEffectNote" xml:space="preserve">
+    <value>Un seul à la fois. Sans effet, Keylegend ne regarde jamais quelles touches précises sont enfoncées, seulement si quelqu'un tape.</value>
+  </data>
+  <data name="EffectNone" xml:space="preserve">
+    <value>Aucun</value>
+  </data>
+  <data name="EffectFade" xml:space="preserve">
+    <value>Fondu</value>
+  </data>
+  <data name="EffectFlash" xml:space="preserve">
+    <value>Éclair</value>
+  </data>
+  <data name="EffectAfterglow" xml:space="preserve">
+    <value>Rémanence</value>
+  </data>
+  <data name="EffectImpact" xml:space="preserve">
+    <value>Impact</value>
+  </data>
+  <data name="EffectRipple" xml:space="preserve">
+    <value>Goutte d'eau</value>
+  </data>
+  <data name="EffectDarkWave" xml:space="preserve">
+    <value>Onde sombre</value>
+  </data>
+  <data name="EffectSparks" xml:space="preserve">
+    <value>Étincelles</value>
+  </data>
+  <data name="EffectHeat" xml:space="preserve">
+    <value>Chaleur</value>
+  </data>
   <data name="SettingsLanguageHeading" xml:space="preserve">
     <value>Langue</value>
   </data>
@@ -468,6 +510,9 @@
   </data>
   <data name="TrayTooltipTrouble" xml:space="preserve">
     <value>Keylegend — l'éclairage ne fonctionne pas</value>
+  </data>
+  <data name="TrayTooltipWaiting" xml:space="preserve">
+    <value>Keylegend — en attente de Razer Synapse</value>
   </data>
   <data name="TrayTooltipPaused" xml:space="preserve">
     <value>Keylegend — en pause</value>

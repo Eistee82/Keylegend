@@ -5,7 +5,7 @@
 [English](README.md) · [Deutsch](README.de.md) · [Español](README.es.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Nederlands](README.nl.md) ·
 [Polski](README.pl.md) · [Português](README.pt.md) · [Русский](README.ru.md) · [Українська](README.uk.md) · [简体中文](README.zh-cn.md)
 
-> **Wersja 1.1.0.** Podświetlenie, interfejs, wykrywanie gier i profile aplikacji działają.
+> **Wersja 1.2.0.** Podświetlenie, interfejs, wykrywanie gier i profile aplikacji działają.
 > [Pobierz instalator albo wersję przenośną](https://github.com/Eistee82/Keylegend/releases/latest),
 > albo zbuduj ze źródeł. Zobacz [CHANGELOG.md](CHANGELOG.md).
 
@@ -39,6 +39,11 @@ zmienia się jego znaczenie:
   fokus, a profil wskazujący program ma pierwszeństwo przed ogólnym profilem gry. Zmień jeden, a
   tylko zmieniona część przestanie podążać za wersją dostarczoną — reszta nadal będzie się
   poprawiać z kolejnymi wydaniami.
+- **Podświetlenie może odpowiadać na pisanie.** Osiem efektów do wyboru, domyślnie *brak*:
+  naciśnięty klawisz gaśnie i wraca, błyska lub świeci dalej, kropla wody lub ciemna fala
+  przebiega przez klawiaturę, klawisze wokół drżą, lecą iskry, albo klawisze nagrzewają się od
+  używania i znów stygną. Nałożone na kolory, nie wmieszane w nie — każdy klawisz nadal mówi, co
+  znaczy.
 - **Oddaje podświetlenie.** Po konfigurowalnym czasie bezczynności (domyślnie 60 s) Keylegend
   zwalnia klawiaturę, a Twój efekt z Chroma Studio znów przejmuje ster.
 - **Jedenaście języków.** Angielski, niemiecki, hiszpański, francuski, włoski, niderlandzki,
@@ -56,9 +61,11 @@ Keylegend pyta Windows, jaki znak wytworzyłby każdy klawisz w bieżącym stani
 (`ToUnicodeEx`), wyprowadza z tego kategorię i wysyła powstałą mapę kolorów do Razer Chroma SDK
 przez jego lokalny interfejs REST.
 
-Świadomie **nie** instaluje globalnego haka klawiatury. Odczytuje wyłącznie *stan* modyfikatorów
-i blokad; nigdy nie przechwytuje, nie przekazuje ani nie zapisuje naciśnięć. Zobacz
-[docs/pl/architecture.md](docs/pl/architecture.md).
+Świadomie **nie** instaluje globalnego haka klawiatury. Odczytuje *stany* — czy klawisz jest w tej
+chwili wciśnięty — i nigdy nie przechwytuje, nie przekazuje ani nie zapisuje naciśnięć. Bez
+wybranego efektu pisania patrzy wyłącznie na stan modyfikatorów i blokad; efekt pyta dodatkowo,
+które klawisze tej klawiatury są wciśnięte — i nic ponadto.
+Zobacz [docs/pl/architecture.md](docs/pl/architecture.md).
 
 ## Wymagania
 
@@ -80,8 +87,8 @@ nic do ręcznej instalacji. W przeciwnym razie weź plik:
 
 | Plik | Co to jest |
 |---|---|
-| `Keylegend-1.1.0-setup.exe` | Instaluje dla bieżącego użytkownika — bez uprawnień administratora. Wpis w menu Start i odinstalowanie, które usuwa także wpis autostartu. |
-| `Keylegend-1.1.0-portable.zip` | Ten sam program do rozpakowania. Katalogi językowe (`de`, `fr`, …) muszą zostać obok pliku wykonywalnego, inaczej interfejs wróci do angielskiego. |
+| `Keylegend-1.2.0-setup.exe` | Instaluje dla bieżącego użytkownika — bez uprawnień administratora. Wpis w menu Start i odinstalowanie, które usuwa także wpis autostartu. |
+| `Keylegend-1.2.0-portable.zip` | Ten sam program do rozpakowania. Katalogi językowe (`de`, `fr`, …) muszą zostać obok pliku wykonywalnego, inaczej interfejs wróci do angielskiego. |
 
 Żaden z nich nie jest podpisany, więc Windows uzna wydawcę za nieznanego — certyfikat kosztuje
 rocznie więcej, niż ten projekt ma. Każde wydanie zawiera `SHA256SUMS.txt` do sprawdzenia pobranego

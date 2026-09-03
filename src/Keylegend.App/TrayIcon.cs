@@ -7,8 +7,10 @@ using Keylegend.Engine;
 
 // Aliased rather than imported: these namespaces share type names with WPF (Brush, Size,
 // Application), and mixing them makes every such name ambiguous across the project.
+using ComponentModel = System.ComponentModel;
 using Drawing = System.Drawing;
 using Forms = System.Windows.Forms;
+using Threading = System.Windows.Threading;
 
 namespace Keylegend.App;
 
@@ -16,29 +18,42 @@ namespace Keylegend.App;
 /// Notification-area icon, so the program can run unattended without a window in the way.
 /// </summary>
 /// <remarks>
+/// <para>
 /// Closing the window hides it here rather than exiting, because the lighting is the point of
 /// the program and it should keep working. Quitting goes through the application's shutdown,
 /// which releases the Chroma session — otherwise the keyboard would be left frozen on the last
 /// frame until the session timed out.
+/// </para>
+/// <para>
+/// It is built before there is anything to drive, and told about the engine and the window
+/// afterwards. That order is the point: at logon the vendor's software may not have named the
+/// keyboard yet, and the icon has to be there through the whole wait — an autostart that shows
+/// nothing in the notification area is indistinguishable from one that failed.
+/// </para>
 /// </remarks>
 public sealed class TrayIcon : IDisposable
 {
     private readonly Forms.NotifyIcon _icon;
     private readonly Drawing.Icon _image;
-    private readonly LightingEngine _engine;
-    private readonly Window _window;
+    private readonly Threading.Dispatcher _dispatcher;
     private readonly Forms.ToolStripMenuItem _showItem;
     private readonly Forms.ToolStripMenuItem _pauseItem;
     private readonly Forms.ToolStripMenuItem _quitItem;
 
+    private LightingEngine? _engine;
+    private Window? _window;
+    private ComponentModel.CancelEventHandler? _hideInsteadOfClosing;
+
     private bool _quitting;
     private string? _fault;
 
-    public TrayIcon(LightingEngine engine, Window window, Action quit)
+    public TrayIcon(Action quit)
     {
-        _engine = engine ?? throw new ArgumentNullException(nameof(engine));
-        _window = window ?? throw new ArgumentNullException(nameof(window));
         ArgumentNullException.ThrowIfNull(quit);
+
+        // Built on the interface thread, and everything it touches has to happen there. Held
+        // rather than taken from a window, because for a while there is no window to take it from.
+        _dispatcher = Threading.Dispatcher.CurrentDispatcher;
 
         _showItem = new Forms.ToolStripMenuItem(
             Texts.Get("TrayShow"), image: null, (_, _) => ShowWindow());
@@ -70,19 +85,36 @@ public sealed class TrayIcon : IDisposable
 
         _icon.DoubleClick += (_, _) => ShowWindow();
 
-        engine.StateChanged += OnStateChanged;
-        engine.Fault += OnFault;
-
         // The menu is built once and never rebound, so it has to be written again when the
         // language changes - otherwise it would keep the wording it was created with.
         Texts.Instance.PropertyChanged += OnTextsChanged;
 
-        OnStateChanged(engine.State);
+        Refresh();
+    }
+
+    /// <summary>
+    /// The window the icon shows, and which is hidden here rather than closed.
+    /// </summary>
+    /// <remarks>
+    /// Given again when the wait for the keyboard ends and the real window takes the waiting
+    /// one's place. The one it leaves behind is let go of first, so that it can then be closed
+    /// for real instead of merely hiding itself.
+    /// </remarks>
+    public void Watch(Window window)
+    {
+        ArgumentNullException.ThrowIfNull(window);
+
+        if (_window is not null && _hideInsteadOfClosing is not null)
+        {
+            _window.Closing -= _hideInsteadOfClosing;
+        }
+
+        _window = window;
 
         // Closing the window keeps the lighting running; only Quit really exits. Silently: the
         // icon in the notification area says the program is still there, and a balloon on every
         // close says the same thing again to somebody who already knows.
-        _window.Closing += (_, e) =>
+        _hideInsteadOfClosing = (_, e) =>
         {
             if (_quitting)
             {
@@ -90,52 +122,87 @@ public sealed class TrayIcon : IDisposable
             }
 
             e.Cancel = true;
-            _window.Hide();
+            window.Hide();
         };
+
+        window.Closing += _hideInsteadOfClosing;
+    }
+
+    /// <summary>
+    /// The engine, once there is a keyboard to drive. Until then the icon has a state of its
+    /// own: waiting, with nothing to pause.
+    /// </summary>
+    public void Drive(LightingEngine engine)
+    {
+        ArgumentNullException.ThrowIfNull(engine);
+
+        _engine = engine;
+        engine.StateChanged += OnStateChanged;
+        engine.Fault += OnFault;
+
+        Refresh();
     }
 
     private void ShowWindow()
     {
-        _window.Show();
-        _window.WindowState = WindowState.Normal;
-        _window.Activate();
+        if (_window is not { } window)
+        {
+            return;
+        }
+
+        window.Show();
+        window.WindowState = WindowState.Normal;
+        window.Activate();
     }
 
     private void TogglePause()
     {
-        if (_engine.State == LightingState.Paused)
+        if (_engine is not { } engine)
         {
-            _engine.Resume();
+            return;
+        }
+
+        if (engine.State == LightingState.Paused)
+        {
+            engine.Resume();
         }
         else
         {
-            _engine.Pause();
+            engine.Pause();
         }
 
-        OnStateChanged(_engine.State);
+        Refresh();
     }
 
-    private void OnStateChanged(LightingState state)
+    private void OnStateChanged(LightingState state) => Refresh();
+
+    private void Refresh()
     {
         // Raised from the engine's loop, so hop to the UI thread before touching the icon.
-        if (!_window.Dispatcher.CheckAccess())
+        if (!_dispatcher.CheckAccess())
         {
-            _window.Dispatcher.BeginInvoke(() => OnStateChanged(state));
+            _dispatcher.BeginInvoke(Refresh);
             return;
         }
+
+        var state = _engine?.State;
 
         _showItem.Text = Texts.Get("TrayShow");
         _quitItem.Text = Texts.Get("TrayQuit");
         _pauseItem.Text = Texts.Get(state == LightingState.Paused ? "TrayResume" : "TrayPause");
 
-        _icon.Text = _fault is not null
-            ? Texts.Get("TrayTooltipTrouble")
-            : Texts.Get(state switch
-            {
-                LightingState.Active => "TrayTooltipActive",
-                LightingState.Paused => "TrayTooltipPaused",
-                _ => "TrayTooltipIdle"
-            });
+        // Nothing to pause while there is no keyboard: the entry stays visible so the menu does
+        // not change shape underneath the user, and says by being grey that it is not yet its turn.
+        _pauseItem.Enabled = _engine is not null;
+
+        _icon.Text = state switch
+        {
+            null => Texts.Get("TrayTooltipWaiting"),
+            _ when _fault is not null => Texts.Get("TrayTooltipTrouble"),
+            LightingState.Active => Texts.Get("TrayTooltipActive"),
+            LightingState.Paused => Texts.Get("TrayTooltipPaused"),
+            _ => Texts.Get("TrayTooltipIdle")
+        };
     }
 
     /// <summary>
@@ -150,16 +217,16 @@ public sealed class TrayIcon : IDisposable
     /// </remarks>
     private void OnFault(string? message)
     {
-        if (!_window.Dispatcher.CheckAccess())
+        if (!_dispatcher.CheckAccess())
         {
-            _window.Dispatcher.BeginInvoke(() => OnFault(message));
+            _dispatcher.BeginInvoke(() => OnFault(message));
             return;
         }
 
         var announced = _fault is not null;
         _fault = message;
 
-        OnStateChanged(_engine.State);
+        Refresh();
 
         if (message is not null && !announced)
         {
@@ -168,8 +235,8 @@ public sealed class TrayIcon : IDisposable
     }
 
     /// <summary>Writes the menu again after a language change.</summary>
-    private void OnTextsChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-        => OnStateChanged(_engine.State);
+    private void OnTextsChanged(object? sender, ComponentModel.PropertyChangedEventArgs e)
+        => Refresh();
 
     /// <summary>
     /// Takes the application icon from the resources, at the size the notification area is
@@ -233,8 +300,12 @@ public sealed class TrayIcon : IDisposable
 
     public void Dispose()
     {
-        _engine.StateChanged -= OnStateChanged;
-        _engine.Fault -= OnFault;
+        if (_engine is { } engine)
+        {
+            engine.StateChanged -= OnStateChanged;
+            engine.Fault -= OnFault;
+        }
+
         Texts.Instance.PropertyChanged -= OnTextsChanged;
         _icon.Visible = false;
         _icon.Dispose();

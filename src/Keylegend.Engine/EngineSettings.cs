@@ -1,4 +1,5 @@
 using Keylegend.Core.Lighting;
+using Keylegend.Core.Lighting.Effects;
 using Keylegend.Core.Profiles;
 using Keylegend.Core.Shortcuts;
 
@@ -31,6 +32,16 @@ public sealed record EngineSettings
 
     /// <summary>Whether to watch which application is in front at all.</summary>
     public bool UseApplicationProfiles { get; init; } = true;
+
+    /// <summary>
+    /// How the lighting answers the typing, if at all.
+    /// </summary>
+    /// <remarks>
+    /// <see cref="KeyEffectKind.None"/> is not merely an effect that does nothing: it is the one
+    /// state in which the engine never asks which individual keys are down. Everything a
+    /// keystroke effect needs to know is asked for only while one is chosen.
+    /// </remarks>
+    public KeyEffectKind Effect { get; init; } = KeyEffectKind.None;
 
     /// <summary>
     /// A state to display instead of the live keyboard, or <c>null</c> to follow the keyboard.

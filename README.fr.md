@@ -5,7 +5,7 @@
 [English](README.md) · [Deutsch](README.de.md) · [Español](README.es.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Nederlands](README.nl.md) ·
 [Polski](README.pl.md) · [Português](README.pt.md) · [Русский](README.ru.md) · [Українська](README.uk.md) · [简体中文](README.zh-cn.md)
 
-> **Version 1.1.0.** L'éclairage, l'interface, la détection des jeux et les profils d'application
+> **Version 1.2.0.** L'éclairage, l'interface, la détection des jeux et les profils d'application
 > fonctionnent. [Téléchargez l'installateur ou la version portable](https://github.com/Eistee82/Keylegend/releases/latest),
 > ou compilez depuis les sources. Voir [CHANGELOG.md](CHANGELOG.md).
 
@@ -40,6 +40,11 @@ que sa signification change :
   nomme un programme l'emporte sur le profil de jeu général. Modifiez-en un et seule la partie
   modifiée cesse de suivre la version fournie — le reste continue de s'améliorer avec les
   versions suivantes.
+- **L'éclairage peut répondre à la frappe.** Huit effets au choix, *aucun* par défaut : la touche
+  frappée s'éteint puis revient, s'illumine d'un éclair ou reste allumée, une goutte d'eau ou une
+  onde sombre parcourt le clavier, les touches voisines tremblent, des étincelles jaillissent, ou
+  les touches chauffent à l'usage et refroidissent. Posé sur les couleurs, pas mélangé à elles :
+  chaque touche dit toujours ce qu'elle signifie.
 - **Il rend l'éclairage.** Après une durée d'inactivité configurable (60 s par défaut), Keylegend
   libère le clavier et votre effet Chroma Studio reprend la main.
 - **Onze langues.** Anglais, allemand, espagnol, français, italien, néerlandais, polonais,
@@ -57,9 +62,11 @@ Keylegend demande à Windows quel caractère chaque touche produirait dans l'ét
 (`ToUnicodeEx`), en déduit une catégorie, et envoie la carte de couleurs obtenue au SDK Razer
 Chroma via son interface REST locale.
 
-Il n'installe délibérément **aucun hook clavier global**. Il ne lit que l'*état* des
-modificateurs et des verrouillages ; il n'intercepte, ne transmet ni n'enregistre jamais de
-frappe. Voir [docs/fr/architecture.md](docs/fr/architecture.md).
+Il n'installe délibérément **aucun hook clavier global**. Il lit des *états* — si une touche est
+enfoncée à cet instant — et n'intercepte, ne transmet ni n'enregistre jamais de frappe. Sans effet
+de frappe choisi, il ne regarde que l'état des modificateurs et des verrouillages ; un effet demande
+en plus quelles touches de ce clavier sont enfoncées, et rien de plus.
+Voir [docs/fr/architecture.md](docs/fr/architecture.md).
 
 ## Prérequis
 
@@ -81,8 +88,8 @@ il n'y a donc aucun prérequis à installer soi-même. Sinon, prenez un fichier 
 
 | Fichier | Ce que c'est |
 |---|---|
-| `Keylegend-1.1.0-setup.exe` | S'installe pour l'utilisateur courant — aucun droit d'administrateur. Entrée dans le menu Démarrer, et une désinstallation qui retire aussi l'entrée de démarrage automatique. |
-| `Keylegend-1.1.0-portable.zip` | Le même programme, à décompresser. Gardez les dossiers de langue (`de`, `fr`, …) à côté de l'exécutable, sinon l'interface repasse en anglais. |
+| `Keylegend-1.2.0-setup.exe` | S'installe pour l'utilisateur courant — aucun droit d'administrateur. Entrée dans le menu Démarrer, et une désinstallation qui retire aussi l'entrée de démarrage automatique. |
+| `Keylegend-1.2.0-portable.zip` | Le même programme, à décompresser. Gardez les dossiers de langue (`de`, `fr`, …) à côté de l'exécutable, sinon l'interface repasse en anglais. |
 
 Les deux ne sont pas signés : Windows annoncera donc un éditeur inconnu — un certificat coûte plus
 par an que ce projet ne dispose. Chaque version fournit `SHA256SUMS.txt` pour vérifier le

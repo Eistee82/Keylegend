@@ -17,10 +17,10 @@
     "Keyboard_W": { "colour": "#00C8FF", "label": "Selection brush" },
     "Keyboard_C": { "colour": "#00C8FF", "label": "Crop" },
 
-    "Keyboard_B": { "colour": "#22CC66", "label": "Paint brush" },
-    "Keyboard_E": { "colour": "#22CC66", "label": "Erase brush" },
-    "Keyboard_S": { "colour": "#22CC66", "label": "Clone brush" },
-    "Keyboard_G": { "colour": "#22CC66", "label": "Gradient" },
+    "Keyboard_B": { "colour": "#00FF64", "label": "Paint brush" },
+    "Keyboard_E": { "colour": "#00FF64", "label": "Erase brush" },
+    "Keyboard_S": { "colour": "#00FF64", "label": "Clone brush" },
+    "Keyboard_G": { "colour": "#00FF64", "label": "Gradient" },
 
     "Keyboard_P": { "colour": "#FFC800", "label": "Pen" },
     "Keyboard_T": { "colour": "#FFC800", "label": "Text" },

@@ -27,8 +27,8 @@
     "Keyboard_F": { "colour": "#FF8C00", "label": "Hand scanner" },
     "Keyboard_CapsLock": { "colour": "#FF8C00", "label": "Toggle always run" },
 
-    "Keyboard_Z": { "colour": "#C864FF", "label": "Use power" },
-    "Keyboard_K": { "colour": "#C864FF", "label": "Powers menu" },
+    "Keyboard_Z": { "colour": "#C800FF", "label": "Use power" },
+    "Keyboard_K": { "colour": "#C800FF", "label": "Powers menu" },
 
     "Keyboard_Q": { "colour": "#00C8FF", "label": "Quick keys wheel" },
     "Keyboard_1": { "colour": "#00C8FF", "label": "Quick key 1" },

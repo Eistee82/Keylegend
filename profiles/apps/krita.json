@@ -11,10 +11,10 @@
   },
 
   "highlights": {
-    "Keyboard_B": { "colour": "#22CC66", "label": "Freehand brush" },
-    "Keyboard_E": { "colour": "#22CC66", "label": "Toggle eraser mode" },
-    "Keyboard_F": { "colour": "#22CC66", "label": "Fill" },
-    "Keyboard_V": { "colour": "#22CC66", "label": "Line" },
+    "Keyboard_B": { "colour": "#00FF64", "label": "Freehand brush" },
+    "Keyboard_E": { "colour": "#00FF64", "label": "Toggle eraser mode" },
+    "Keyboard_F": { "colour": "#00FF64", "label": "Fill" },
+    "Keyboard_V": { "colour": "#00FF64", "label": "Line" },
 
     "Keyboard_T": { "colour": "#00C8FF", "label": "Move" },
     "Keyboard_Space": { "colour": "#00C8FF", "label": "Pan canvas" },

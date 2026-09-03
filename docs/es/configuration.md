@@ -113,6 +113,32 @@ todo lo demás es su elección y se conserva.
 | Brillo | Factor global de 0 a 100 %, aplicado a cada color al componer el fotograma. |
 | Usar perfiles de aplicación | Si se consultan los perfiles siquiera. Desactivado, los conjuntos predeterminados valen en todas partes, esté delante lo que esté. |
 | Iniciar con Windows | Registra la aplicación en la clave `Run`, con el modificador `--minimized`. Iniciada así, Keylegend aparece en el área de notificación: sin ventana y sin globo. Iniciada a mano, siempre muestra su ventana. Una entrada escrita por una versión anterior se actualiza en el siguiente inicio. |
+| Efecto al escribir | Cómo responde la iluminación a una pulsación, *ninguno* de forma predeterminada. Solo uno a la vez; los ocho se describen más abajo. Sin efecto, Keylegend nunca mira qué teclas concretas están pulsadas, solo si se está escribiendo. |
+
+### Efectos al escribir
+
+Cada efecto es una curva sobre el tiempo transcurrido desde que se pulsó o se soltó una tecla,
+superpuesta a la imagen terminada en lugar de mezclarse con la decisión de qué significa una
+tecla: los colores siguen diciendo lo que decían, y el teclado de la ventana muestra lo mismo que
+el de la mesa. Un efecto que aclara una tecla lo hace mezclando blanco, hasta el blanco puro a
+plena intensidad; cada color incluido ya lleva un canal a 255, así que no hay un azul más
+brillante al que ir. Los efectos que viajan reciben la distancia de una esquina del teclado a la
+otra, de modo que una onda cruza todo el teclado sea cual sea el teclado.
+
+| Efecto | Qué ocurre |
+|---|---|
+| Desvanecido | La tecla pulsada se apaga mientras se mantiene y recupera su color en un segundo una vez soltada. |
+| Destello | La tecla pulsada se vuelve blanca a plena intensidad y cae de inmediato a su propio color, en menos de una quinta parte de segundo. |
+| Resplandor | La tecla pulsada se mantiene brillante mientras se sostiene y se apaga a lo largo de casi un segundo tras soltarla: el rastro que deja la escritura. |
+| Impacto | La tecla pulsada se enciende, y las teclas de alrededor, hasta dos alturas y media de tecla, responden un instante después, las más lejanas aún más tarde, como si la pulsación hubiera sacudido el teclado. Termina en una quinta parte de segundo. |
+| Gota de agua | Un anillo estrecho de luz sale de la tecla pulsada hacia fuera y se desvanece por el camino; cruza el teclado en menos de un segundo. |
+| Onda oscura | El mismo anillo, oscuro: el teclado se aparta alrededor de la pulsación en lugar de encenderse con ella. |
+| Chispas | Una pulsación lanza hasta tres chispas a teclas cercanas, nunca a la tecla pulsada. Brillan cálidas y se apagan en medio segundo. Dónde caen es azar. |
+| Calor | Las teclas se calientan con cada pulsación y vuelven a enfriarse, perdiendo la mitad de su calor cada cuatro segundos; una tecla usada a menudo brilla más cálida que una pulsada una vez. Es el único efecto que conserva algo entre pulsaciones, y lo conserva solo en memoria: un número por tecla que decae y desaparece en cuanto la tecla está fría. |
+
+La elección se guarda en `settings.json` bajo `Effect`, por nombre: `None`, `Fade`, `Flash`,
+`Afterglow`, `Impact`, `Ripple`, `DarkWave`, `Sparks` o `Heat`. Un nombre que el programa no
+conoce significa ningún efecto.
 
 ## Idioma
 
@@ -140,6 +166,20 @@ propósito:
 
 Todo lo que no tenga traducción recae en el inglés, así que un archivo de idioma sin terminar
 cuesta las líneas que le faltan y no la interfaz entera.
+
+## Si Synapse aún no está en marcha
+
+Al iniciar sesión, el software de Razer y Keylegend arrancan a la vez, y la descripción del teclado
+conectado no existe hasta que la parte de Razer ha terminado. Keylegend no lo toma por un fallo. Su
+icono está en el área de notificación antes incluso de mirar, y después sigue mirando: cada dos
+segundos mientras no se nombra teclado alguno, y con una pausa creciente de hasta medio minuto
+mientras solo falta el dibujo. La iluminación empieza sola en cuanto hay algo que iluminar.
+
+Un arranque desde la lista de inicio de Windows no abre ninguna ventana para esto: el teclado que
+tienes delante muestra si funciona, y mientras tanto lo dice el texto emergente del área de
+notificación. Un arranque a mano muestra una ventana pequeña en cuanto la primera mirada sale vacía,
+diciendo qué falta y cuándo se intentó por última vez. Cerrar esa ventana no cambia nada: la
+búsqueda continúa y Keylegend permanece en el área de notificación.
 
 ## Si la iluminación no funciona
 

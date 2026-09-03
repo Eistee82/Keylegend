@@ -39,6 +39,14 @@ Instead the states of the keys of interest are polled (`GetAsyncKeyState` for he
 `GetKeyState` for lock states) about sixty times per second, and a new frame is composed only
 when something changed. No keystroke is ever intercepted, forwarded, logged or stored.
 
+With a typing effect chosen, the same poll is carried through to the keys the attached board reports
+rather than stopping at the modifiers. It is the same question asked of more keys — is this one down
+at this moment — and it is asked only while an effect is chosen; with none, the individual keys are
+never looked at. What is kept is small and does not last: `KeyActivity` holds when each key went
+down and came up, and forgets a key nothing has touched for a few seconds. The one exception is the
+heat effect, which keeps a decaying number per key for as long as it takes to cool — a trace of the
+typing in memory, written nowhere and gone with the process.
+
 ### Left and right modifiers
 
 Windows reports **AltGr as Ctrl plus right Alt**, and on German layouts Ctrl + left Alt
@@ -67,6 +75,14 @@ into `…\Razer Chroma SDK\Devices\<guid>.json`: the model by name, the physical
 the matrix size, and the scan code of every key the hardware actually has. `SdkDeviceDescription`
 reads that. Nothing about the keyboard is inferred — not the model, not the layout, not
 which keys exist.
+
+That description is written when Razer's software comes up and does not exist before then, which at
+logon is a race Keylegend can lose: on the machine this was developed on, the file appeared
+ninety-five seconds after the system started, and Keylegend's own startup entry fired eight seconds
+later. So looking for it is not one attempt whose failure ends the program. `AttachedKeyboardSearch`
+keeps looking — briskly while no device is named, backing off while only the drawing is missing —
+the notification-area icon is created before the first look, and the engine is built the moment a
+keyboard turns up.
 
 The Chroma SDK's own interfaces cannot answer this. Its REST interface has no query endpoint —
 creating a session returns an id and a URI, and a `GET` against that URI is answered with "Not

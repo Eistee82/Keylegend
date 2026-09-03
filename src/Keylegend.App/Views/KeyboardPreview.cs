@@ -45,6 +45,7 @@ public sealed class KeyboardPreview : FrameworkElement
     private LedFrame? _frame;
     private Geometry? _legend;
     private LegendDrawing? _legendFor;
+    private IReadOnlyDictionary<string, Geometry>? _legendParts;
     private List<(Geometry Shape, ChassisLayer Layer)>? _chassis;
     private LegendDrawing? _chassisFor;
 
@@ -90,6 +91,7 @@ public sealed class KeyboardPreview : FrameworkElement
             _keyboard = value;
             _legend = null;
             _legendFor = null;
+            _legendParts = null;
             _chassis = null;
             _chassisFor = null;
             InvalidateVisual();
@@ -118,6 +120,7 @@ public sealed class KeyboardPreview : FrameworkElement
         }
 
         _legendFor = legend;
+        _legendParts = null;
 
         try
         {
@@ -132,6 +135,14 @@ public sealed class KeyboardPreview : FrameworkElement
             // Someone else's asset, and it may change shape without warning. A path this cannot
             // read costs the printed legends, nothing more: the text labels below still draw.
             _legend = null;
+        }
+
+        // Cut into one shape per key while the outline is being prepared, and for the same
+        // reason: it belongs to the drawing, not to the frame. See LegendParts for why handing
+        // every key the whole board cost three hundred milliseconds a frame.
+        if (_legend is not null && legend.DrawnKeys is { Count: > 0 } drawn)
+        {
+            _legendParts = LegendParts.SplitByKey(_legend, drawn);
         }
 
         return _legend;
@@ -352,8 +363,15 @@ public sealed class KeyboardPreview : FrameworkElement
                 // absolute width hits them hardest.
                 var bloom = unit * 0.03 / Math.Max(0.0001, mapping.ScaleX * scale);
 
+                // This key's own characters where the outline could be cut into them, and the
+                // whole board otherwise — the clips make both draw the same picture, and only
+                // the first is cheap enough to do a hundred and five times a frame.
+                var printed = _legendParts is not null && _legendParts.TryGetValue(key.Id, out var share)
+                    ? share
+                    : legend;
+
                 DrawPrintedLegend(
-                    context, legend, placed.Value.Transform, bloom,
+                    context, printed, placed.Value.Transform, bloom,
                     placed.Value.Clip, geometry, colour);
                 continue;
             }
@@ -529,9 +547,16 @@ public sealed class KeyboardPreview : FrameworkElement
     /// Paints one key's share of the printed legends, in that key's colour.
     /// </summary>
     /// <remarks>
-    /// The whole board's outline is clipped to the key rather than cut up in advance, because the
-    /// path carries no per-key division to cut along. Clipping does the same work and asks nothing
-    /// of the source: whatever falls inside this cap belongs to this cap.
+    /// <para>
+    /// What arrives here is normally this key's share alone, cut out once by <see cref="LegendParts"/>;
+    /// where the drawing does not say where its keys are, it is the whole board's outline instead.
+    /// Either way the clips decide what appears: whatever falls inside this cap belongs to it.
+    /// </para>
+    /// <para>
+    /// The clips stay in both cases, and are not a leftover. They are what cuts a character that
+    /// straddles two caps at the edge of each — the cut-out share deliberately carries such a
+    /// character whole, because dropping it would rub out the half that hangs over.
+    /// </para>
     /// </remarks>
     private static void DrawPrintedLegend(
         DrawingContext context,

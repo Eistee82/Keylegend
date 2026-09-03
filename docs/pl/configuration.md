@@ -112,6 +112,32 @@ Państwa wyborem i zostaje.
 | Jasność | Globalny współczynnik od 0 do 100 %, stosowany do każdego koloru przy składaniu klatki. |
 | Używaj profili aplikacji | Czy profile są w ogóle brane pod uwagę. Wyłączone — zestawy domyślne obowiązują wszędzie, cokolwiek jest na wierzchu. |
 | Uruchamiaj z systemem Windows | Rejestruje aplikację w kluczu `Run`, z przełącznikiem `--minimized`. Uruchomiony w ten sposób Keylegend pojawia się w obszarze powiadomień: bez okna i bez dymka. Uruchomiony ręcznie zawsze pokazuje okno. Wpis zapisany przez wcześniejszą wersję zostaje uaktualniony przy następnym starcie. |
+| Efekt podczas pisania | Jak podświetlenie odpowiada na naciśnięcie, domyślnie *brak*. Zawsze tylko jeden; osiem opisano poniżej. Bez efektu Keylegend nigdy nie sprawdza, które konkretne klawisze są wciśnięte — tylko czy ktoś pisze. |
+
+### Efekty podczas pisania
+
+Każdy efekt jest krzywą w czasie od naciśnięcia lub zwolnienia klawisza, nałożoną na gotowy
+obraz, a nie wmieszaną w decyzję, co klawisz znaczy: kolory nadal mówią to, co mówiły, a
+klawiatura w oknie pokazuje to samo, co ta na biurku. Efekt, który rozjaśnia klawisz, robi to
+domieszką bieli, aż do czystej bieli przy pełnej sile — każdy dostarczony kolor i tak wypycha
+jeden kanał na 255, więc jaśniejszego niebieskiego nie ma. Efekty, które wędrują, dostają
+odległość od jednego rogu klawiatury do drugiego, więc fala przebiega przez całą klawiaturę,
+jakakolwiek by była.
+
+| Efekt | Co się dzieje |
+|---|---|
+| Wygaszanie | Naciśnięty klawisz gaśnie, dopóki jest przytrzymany, i po zwolnieniu wraca do swojego koloru w ciągu sekundy. |
+| Błysk | Naciśnięty klawisz staje się biały z pełną jasnością i natychmiast opada do własnego koloru, w mniej niż jedną piątą sekundy. |
+| Poświata | Naciśnięty klawisz pozostaje jasny, dopóki jest przytrzymany, a po zwolnieniu gaśnie przez blisko sekundę — ślad, jaki zostawia pisanie. |
+| Uderzenie | Naciśnięty klawisz rozbłyska, a klawisze wokół, do dwóch i pół wysokości klawisza, odpowiadają chwilę później, dalsze jeszcze później — jakby uderzenie wstrząsnęło klawiaturą. Koniec po jednej piątej sekundy. |
+| Kropla wody | Wąski jasny pierścień biegnie od naciśniętego klawisza na zewnątrz i po drodze blednie; klawiaturę przemierza w mniej niż sekundę. |
+| Ciemna fala | Ten sam pierścień, ciemny: klawiatura rozstępuje się wokół uderzenia, zamiast rozświetlać się razem z nim. |
+| Iskry | Naciśnięcie rzuca do trzech iskier na pobliskie klawisze, nigdy na naciśnięty klawisz. Żarzą się ciepło i gasną w pół sekundy. Gdzie spadną, decyduje przypadek. |
+| Ciepło | Klawisze nagrzewają się z każdym naciśnięciem i znów stygną, tracąc połowę ciepła co cztery sekundy; klawisz używany często żarzy się cieplej niż naciśnięty raz. Jedyny efekt, który cokolwiek zachowuje między naciśnięciami, i zachowuje to tylko w pamięci: gasnącą liczbę na klawisz, znikającą, gdy klawisz ostygnie. |
+
+Wybór jest zapisany w `settings.json` pod `Effect`, po nazwie — `None`, `Fade`, `Flash`,
+`Afterglow`, `Impact`, `Ripple`, `DarkWave`, `Sparks` lub `Heat`. Nazwa, której program nie zna,
+oznacza brak efektu.
 
 ## Język
 
@@ -140,6 +166,19 @@ Przetłumaczone są menu i objaśnienia. Dwie rzeczy **nie** są, obie celowo:
 
 Wszystko bez tłumaczenia cofa się do angielskiego, więc niedokończony plik językowy kosztuje
 brakujące wiersze, a nie cały interfejs.
+
+## Gdy Synapse jeszcze nie działa
+
+Przy logowaniu oprogramowanie Razera i Keylegend startują naraz, a opis podłączonej klawiatury
+pojawia się dopiero wtedy, gdy część Razera jest gotowa. Keylegend nie uznaje tego za błąd. Jego
+ikona stoi w obszarze powiadomień, zanim w ogóle spojrzy, a potem szuka dalej — co dwie sekundy,
+dopóki nie wymieniono żadnej klawiatury, i z rosnącą przerwą do najwyżej pół minuty, dopóki brakuje
+tylko rysunku. Podświetlenie zaczyna samo, gdy tylko jest co podświetlać.
+
+Start z listy autostartu Windows nie otwiera na to żadnego okna: klawiatura przed tobą pokazuje, czy
+działa, a tymczasem mówi to dymek w obszarze powiadomień. Start ręczny pokazuje małe okno, gdy tylko
+pierwsze spojrzenie wróci puste; nazywa, czego brakuje i kiedy szukano ostatnio. Zamknięcie tego
+okna niczego nie zmienia — szukanie trwa dalej, a Keylegend zostaje w obszarze powiadomień.
 
 ## Gdy podświetlenie nie działa
 

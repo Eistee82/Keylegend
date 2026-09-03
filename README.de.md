@@ -5,7 +5,7 @@
 [English](README.md) · [Deutsch](README.de.md) · [Español](README.es.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Nederlands](README.nl.md) ·
 [Polski](README.pl.md) · [Português](README.pt.md) · [Русский](README.ru.md) · [Українська](README.uk.md) · [简体中文](README.zh-cn.md)
 
-> **Version 1.1.0.** Beleuchtung, Oberfläche, Spielerkennung und Anwendungsprofile funktionieren.
+> **Version 1.2.0.** Beleuchtung, Oberfläche, Spielerkennung und Anwendungsprofile funktionieren.
 > [Installer oder portable Fassung herunterladen](https://github.com/Eistee82/Keylegend/releases/latest),
 > oder selbst übersetzen. Siehe [CHANGELOG.md](CHANGELOG.md).
 
@@ -40,6 +40,11 @@ sich in dem Moment, in dem sich die Bedeutung ändert:
   das ein Programm namentlich nennt, schlägt das allgemeine Spielprofil. Änderst du eines, folgt
   nur der geänderte Teil der mitgelieferten Fassung nicht mehr — der Rest verbessert sich mit
   jeder neuen Fassung von Keylegend weiter.
+- **Die Beleuchtung kann aufs Tippen antworten.** Acht Effekte zur Wahl, Vorgabe *keiner*: Die
+  getippte Taste erlischt und kehrt zurück, blitzt auf oder leuchtet nach, ein Wassertropfen oder
+  eine dunkle Welle läuft über das Brett, die Tasten ringsum zittern, Funken fliegen, oder Tasten
+  werden mit dem Gebrauch warm und kühlen wieder ab. Über die Farben gelegt, nicht hineingemischt
+  — jede Taste sagt weiter, was sie bedeutet.
 - **Gibt die Beleuchtung wieder frei.** Nach einer einstellbaren Ruhezeit (Vorgabe 60 s)
   überlässt Keylegend die Tastatur wieder deinem Chroma-Studio-Effekt.
 - **Elf Sprachen.** Deutsch, Englisch, Spanisch, Französisch, Italienisch, Niederländisch,
@@ -58,9 +63,11 @@ Keylegend fragt bei Windows ab, welches Zeichen eine Taste im aktuellen Tastatur
 erzeugen würde (`ToUnicodeEx`), leitet daraus eine Kategorie ab und schickt das entstehende
 Farbbild über die lokale REST-Schnittstelle an das Razer Chroma SDK.
 
-Bewusst **ohne globalen Tastatur-Hook**: Es werden ausschließlich Modifier- und Lock-*Zustände*
-gelesen. Tastenanschläge werden weder abgefangen noch weitergeleitet oder gespeichert. Siehe
-[docs/de/architecture.md](docs/de/architecture.md).
+Bewusst **ohne globalen Tastatur-Hook**: Gelesen werden *Zustände* — ob eine Taste in diesem
+Augenblick unten ist. Tastenanschläge werden weder abgefangen noch weitergeleitet oder gespeichert.
+Ohne gewählten Tippeffekt werden allein Modifier- und Lock-Zustände gelesen; ein Tippeffekt fragt
+zusätzlich, welche Tasten dieser Tastatur unten sind — mehr nicht.
+Siehe [docs/de/architecture.md](docs/de/architecture.md).
 
 ## Voraussetzungen
 
@@ -82,8 +89,8 @@ also nichts von Hand zu installieren. Sonst eine Datei nehmen:
 
 | Datei | Was es ist |
 |---|---|
-| `Keylegend-1.1.0-setup.exe` | Installiert für den aktuellen Benutzer — keine Administratorrechte nötig. Startmenüeintrag, und eine Deinstallation, die auch den Autostart-Eintrag entfernt. |
-| `Keylegend-1.1.0-portable.zip` | Dasselbe Programm zum Entpacken. Die Sprachordner (`de`, `fr`, …) müssen neben der ausführbaren Datei bleiben, sonst erscheint die Oberfläche auf Englisch. |
+| `Keylegend-1.2.0-setup.exe` | Installiert für den aktuellen Benutzer — keine Administratorrechte nötig. Startmenüeintrag, und eine Deinstallation, die auch den Autostart-Eintrag entfernt. |
+| `Keylegend-1.2.0-portable.zip` | Dasselbe Programm zum Entpacken. Die Sprachordner (`de`, `fr`, …) müssen neben der ausführbaren Datei bleiben, sonst erscheint die Oberfläche auf Englisch. |
 
 Beide sind nicht signiert, Windows meldet daher einen unbekannten Herausgeber — ein Zertifikat
 kostet im Jahr mehr, als dieses Projekt hat. Jede Veröffentlichung enthält `SHA256SUMS.txt` zum

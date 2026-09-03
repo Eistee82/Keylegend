@@ -25,8 +25,8 @@
     "Keyboard_F": { "colour": "#FF8C00", "label": "Toggle first / third person" },
     "Keyboard_CapsLock": { "colour": "#FF8C00", "label": "Toggle walk / run" },
 
-    "Keyboard_Z": { "colour": "#C864FF", "label": "Shout" },
-    "Keyboard_P": { "colour": "#C864FF", "label": "Magic" },
+    "Keyboard_Z": { "colour": "#C800FF", "label": "Shout" },
+    "Keyboard_P": { "colour": "#C800FF", "label": "Magic" },
 
     "Keyboard_Q": { "colour": "#00C8FF", "label": "Favorites" },
     "Keyboard_1": { "colour": "#00C8FF", "label": "Quick slot 1" },

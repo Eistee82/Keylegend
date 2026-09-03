@@ -113,6 +113,32 @@ your choice and is kept.
 | Brightness | Global factor from 0 to 100 %, applied to every colour as the frame is composed. |
 | Use application profiles | Whether profiles are consulted at all. Switched off, the default sets apply everywhere, whatever is in front. |
 | Start with Windows | Registers the application in the `Run` key, with the `--minimized` switch. Started that way, Keylegend comes up in the notification area: no window, no balloon. Started by hand it always shows its window. An entry written by an earlier version is brought up to date at the next start. |
+| Effect while typing | How the lighting answers a keystroke, *none* by default. One at a time; the eight are described below. With *none* chosen, Keylegend never looks at which individual keys are down — only whether anybody is typing at all. |
+
+### Effects while typing
+
+Each effect is a curve over the time since a key was pressed or released, laid over the finished
+frame rather than mixed into the decision about what a key means: the colours still say what they
+said, and the keyboard in the window shows the same thing as the one on the desk. An effect that
+brightens a key does it by mixing white in, up to white at full brightness — every shipped colour
+already drives a channel to 255, so there is no brighter blue to go to. The effects that travel
+are given the distance from one corner of the board to the other, so a wave crosses the whole
+keyboard whatever keyboard it is.
+
+| Effect | What happens |
+|---|---|
+| Fade | The struck key goes dark while it is held and comes back to its colour over a second once it is let go. |
+| Flash | The struck key turns white at full brightness and falls straight back into its own colour, in under a fifth of a second. |
+| Afterglow | The struck key stays bright while it is held and dies away over most of a second after the release — the trail typing leaves behind. |
+| Impact | The struck key flares, and the keys around it, up to two and a half key heights away, answer a moment later, the farther ones later still — as though the stroke shook the board. Over in a fifth of a second. |
+| Water drop | A narrow light ring runs outward from the struck key and fades as it goes, crossing the board in under a second. |
+| Dark wave | The same ring, dark: the board parts around the stroke instead of lighting up with it. |
+| Sparks | A stroke throws up to three sparks onto keys nearby, never onto the struck key itself. They glow warm and go out within half a second. Where they land is chance. |
+| Heat | Keys warm with every stroke and cool down again, losing half their heat every four seconds; a key used often glows warmer than one struck once. The one effect that keeps anything between strokes, and it keeps it in memory only: a decaying number per key, gone once the key is cold. |
+
+The choice is kept in `settings.json` under `Effect`, by name — `None`, `Fade`, `Flash`,
+`Afterglow`, `Impact`, `Ripple`, `DarkWave`, `Sparks` or `Heat`. A name the program does not know
+means no effect.
 
 ## Language
 
@@ -139,6 +165,20 @@ What is translated is the menus and explanations. Two things are **not**, both d
 
 Anything without a translation falls back to English, so an unfinished language file costs the
 lines it is missing rather than the whole interface.
+
+## If Synapse is not running yet
+
+At logon, Razer's software and Keylegend start at the same time, and the description of the attached
+keyboard does not exist until Razer's part of that is finished. Keylegend does not treat that as a
+failure. Its icon is in the notification area before it so much as looks, and then it keeps looking
+— every two seconds while no keyboard is named at all, backing off to at most half a minute while
+only the drawing is missing. The lighting begins by itself the moment there is something to light.
+
+A start from the Windows startup list opens no window for this: the keyboard in front of you shows
+whether it works, and meanwhile the tooltip in the notification area says so. A start by hand shows
+a small window as soon as the first look comes up empty, naming what is missing and when it last
+tried. Closing that window changes nothing — the search goes on, and Keylegend stays in the
+notification area.
 
 ## If the lighting is not working
 

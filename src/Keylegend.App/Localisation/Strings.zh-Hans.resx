@@ -140,13 +140,22 @@
   </data>
 
   <data name="StartupNoDrawing" xml:space="preserve">
-    <value>Razer Synapse 认识你的键盘，但没有保存它的图纸，而 Keylegend 正是从图纸中获取按键的形状和键帽上的字符。请在键盘已连接的情况下打开一次 Synapse，让它下载图纸，然后重新启动 Keylegend。</value>
+    <value>Razer Synapse 认识你的键盘，但没有保存它的图纸，而 Keylegend 正是从图纸中获取按键的形状和键帽上的字符。请在键盘已连接的情况下打开一次 Synapse，让它下载图纸。</value>
   </data>
 
   <data name="StartupDrawingUnreadable" xml:space="preserve">
     <value>Razer Synapse 有你键盘的图纸，但 Keylegend 无法解析——Razer 可能更改了图纸的格式。请在 https://github.com/Eistee82/Keylegend/issues 反馈，并注明你的键盘型号。</value>
   </data>
 
+  <data name="WaitingHeading" xml:space="preserve">
+    <value>正在等待 Razer Synapse</value>
+  </data>
+  <data name="WaitingRetrying" xml:space="preserve">
+    <value>Keylegend 会继续查找，一旦 Synapse 识别到键盘就会自动开始点亮。可以关闭此窗口，Keylegend 会留在通知区域。</value>
+  </data>
+  <data name="WaitingLastAttempt" xml:space="preserve">
+    <value>上次尝试：{0}</value>
+  </data>
   <data name="StartupAlreadyRunning" xml:space="preserve">
     <value>已有另一个 Keylegend 副本在运行，并且没有为这个副本让位。请在任务管理器中结束它，然后重新启动 Keylegend。</value>
   </data>
@@ -438,6 +447,39 @@
   <data name="SettingsOpenFolderButton" xml:space="preserve">
     <value>打开文件夹</value>
   </data>
+  <data name="SettingsEffectHeading" xml:space="preserve">
+    <value>打字时的效果</value>
+  </data>
+  <data name="SettingsEffectNote" xml:space="preserve">
+    <value>一次只有一个。未选效果时，Keylegend 从不查看具体按下了哪些键，只看是否有人在打字。</value>
+  </data>
+  <data name="EffectNone" xml:space="preserve">
+    <value>无</value>
+  </data>
+  <data name="EffectFade" xml:space="preserve">
+    <value>淡入</value>
+  </data>
+  <data name="EffectFlash" xml:space="preserve">
+    <value>闪光</value>
+  </data>
+  <data name="EffectAfterglow" xml:space="preserve">
+    <value>余晖</value>
+  </data>
+  <data name="EffectImpact" xml:space="preserve">
+    <value>冲击</value>
+  </data>
+  <data name="EffectRipple" xml:space="preserve">
+    <value>水滴</value>
+  </data>
+  <data name="EffectDarkWave" xml:space="preserve">
+    <value>暗波</value>
+  </data>
+  <data name="EffectSparks" xml:space="preserve">
+    <value>火花</value>
+  </data>
+  <data name="EffectHeat" xml:space="preserve">
+    <value>热度</value>
+  </data>
   <data name="SettingsLanguageHeading" xml:space="preserve">
     <value>语言</value>
   </data>
@@ -467,6 +509,9 @@
   </data>
   <data name="TrayTooltipTrouble" xml:space="preserve">
     <value>Keylegend — 灯光不工作</value>
+  </data>
+  <data name="TrayTooltipWaiting" xml:space="preserve">
+    <value>Keylegend — 正在等待 Razer Synapse</value>
   </data>
   <data name="TrayTooltipPaused" xml:space="preserve">
     <value>Keylegend — 已暂停</value>

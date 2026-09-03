@@ -12,7 +12,7 @@
 
   "highlights": {
     "Keyboard_F2": { "colour": "#FF8C00", "label": "Rename file" },
-    "Keyboard_Delete": { "colour": "#FF3232", "label": "Delete files" },
+    "Keyboard_Delete": { "colour": "#FF0000", "label": "Delete files" },
     "Keyboard_Enter": { "colour": "#00C8FF", "label": "Open selected item" },
     "Keyboard_Backspace": { "colour": "#00C8FF", "label": "Up one folder" }
   },

@@ -654,6 +654,23 @@
                     <CheckBox x:Name="AutostartBox" Content="{loc:Text SettingsAutostartCheckbox}"
                               Checked="OnAutostartChanged" Unchecked="OnAutostartChanged" />
 
+                    <TextBlock Style="{StaticResource Heading}" Text="{loc:Text SettingsEffectHeading}"
+                               Margin="0,14,0,6" />
+                    <ComboBox x:Name="EffectBox" Width="220" HorizontalAlignment="Left"
+                              SelectionChanged="OnEffectChanged">
+                        <ComboBoxItem Content="{loc:Text EffectNone}" Tag="None" />
+                        <ComboBoxItem Content="{loc:Text EffectFade}" Tag="Fade" />
+                        <ComboBoxItem Content="{loc:Text EffectFlash}" Tag="Flash" />
+                        <ComboBoxItem Content="{loc:Text EffectAfterglow}" Tag="Afterglow" />
+                        <ComboBoxItem Content="{loc:Text EffectImpact}" Tag="Impact" />
+                        <ComboBoxItem Content="{loc:Text EffectRipple}" Tag="Ripple" />
+                        <ComboBoxItem Content="{loc:Text EffectDarkWave}" Tag="DarkWave" />
+                        <ComboBoxItem Content="{loc:Text EffectSparks}" Tag="Sparks" />
+                        <ComboBoxItem Content="{loc:Text EffectHeat}" Tag="Heat" />
+                    </ComboBox>
+                    <TextBlock Style="{StaticResource Muted}" Margin="0,6,0,0"
+                               Text="{loc:Text SettingsEffectNote}" />
+
                     <TextBlock Style="{StaticResource Heading}" Text="{loc:Text SettingsLanguageHeading}"
                                Margin="0,14,0,6" />
                     <ComboBox x:Name="LanguageBox" Width="220" HorizontalAlignment="Left"
