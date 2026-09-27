@@ -64,8 +64,19 @@ else {
 
 Write-Host "SHA256 $hash"
 
-# The date belongs to the release, not to whenever this script happens to run.
-$released = (Get-Date).ToString('yyyy-MM-dd')
+# The date belongs to the release, not to whenever this script happens to run: read it from the
+# release itself. Only a dry run against a local file, before the release exists, falls back to
+# today.
+try {
+    $release = Invoke-RestMethod "https://api.github.com/repos/Eistee82/Keylegend/releases/tags/v$Version"
+    $released = ([datetime]$release.published_at).ToUniversalTime().ToString('yyyy-MM-dd')
+    Write-Host "Released $released"
+}
+catch {
+    if (-not $FromFile) { throw "Could not read the release v$Version from GitHub.`n$($_.Exception.Message)" }
+    $released = (Get-Date).ToString('yyyy-MM-dd')
+    Write-Warning "No published release v$Version found; ReleaseDate set to today."
+}
 
 foreach ($file in Get-ChildItem $folder -Filter *.yaml) {
     $text = Get-Content $file.FullName -Raw
